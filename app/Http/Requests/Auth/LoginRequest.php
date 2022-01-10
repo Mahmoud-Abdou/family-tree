@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -41,7 +42,8 @@ class LoginRequest extends FormRequest
      *
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws BindingResolutionException
+     * @throws ValidationException
      */
     public function authenticate()
     {
@@ -49,7 +51,7 @@ class LoginRequest extends FormRequest
 //        $credentials = $this->getCredentials();
 //        $this->only($this->getCredentials());
 
-        if (! Auth::attempt($this->only($this->getCredentials()), $this->boolean('remember'))) {
+        if (! Auth::attempt($this->getCredentials(), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -57,6 +59,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        Helper::AddUserHistory();
         RateLimiter::clear($this->throttleKey());
     }
 
@@ -64,7 +67,7 @@ class LoginRequest extends FormRequest
      * Get the needed authorization credentials from the request.
      *
      * @return array
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function getCredentials()
     {
@@ -87,7 +90,7 @@ class LoginRequest extends FormRequest
      *
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function ensureIsNotRateLimited()
     {
@@ -122,7 +125,7 @@ class LoginRequest extends FormRequest
      *
      * @param $param
      * @return bool
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     private function isEmail($param)
     {

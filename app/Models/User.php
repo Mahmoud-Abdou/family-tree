@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -55,6 +56,29 @@ class User extends Authenticatable
      */
 //    protected $dateFormat = 'U';
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['full_name'];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status' => 'registered', // 'active'
+        'role_id' => 3,
+        'city_id' => 1,
+    ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->name;
+    }
+
     public function getNameAttribute($value)
     {
         return ucfirst($value);
@@ -72,8 +96,8 @@ class User extends Authenticatable
      */
     public function setPasswordAttribute($password)
     {
-//        $this->attributes['password'] = Hash::make($password);
-        $this->attributes['password'] = bcrypt($password);
+        $this->attributes['password'] = Hash::make($password);
+//        $this->attributes['password'] = bcrypt($password);
     }
 
     public function scopeActive()
@@ -101,5 +125,9 @@ class User extends Authenticatable
         return $this->belongsTo('app\Models\Person','id', 'user_id');
     }
 
+    public function History()
+    {
+        return $this->hasMany('app\Models\History', 'user_id', 'id');
+    }
 
 }

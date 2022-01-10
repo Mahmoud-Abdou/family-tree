@@ -1,17 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasPermissions;
-
-require __DIR__.'/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
+})->middleware(['auth'])->name('home');
+
+Route::get('/test', function () {
+
+    dump(Helper::getBrowser());
+    dump(Helper::getOS());
+    $user = auth()->user();
+    dump($user);
+    dump(request()->ip());
+    dump(request()->header('user-agent'));
+    dd(app()->getLocale());
+
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
