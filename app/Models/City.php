@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class City extends Model
 {
@@ -32,10 +33,19 @@ class City extends Model
         'status' => 'boolean',
     ];
 
+    /**
+     * Always slug the name when it is updated or create.
+     * @param $value
+     */
+    public function setNameEnAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value);
+        $this->attributes['name_en'] = $value;
+    }
+
     public function scopeActive()
     {
         return $this->attributes['status'] == true;
     }
-
 
 }
