@@ -15,8 +15,8 @@ class CreateFamiliesTable extends Migration
     {
         Schema::create('families', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('father_id')->nullable();
+            $table->string('name')->index();
+            $table->foreignId('father_id')->nullable()->index();
             $table->foreignId('mother_id')->nullable();
             $table->integer('children_count')->default(0);
             $table->foreignId('gf_family_id')->nullable();

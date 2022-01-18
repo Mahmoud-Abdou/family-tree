@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    public $photoPath = '/uploads/persons/';
+
+    protected $table = "persons";
 
     /**
      * The attributes that are mass assignable.
@@ -55,16 +60,12 @@ class Person extends Model
      *
      * @var array
      */
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'status'];
 
-    public function getFullNameAttribute()
-    {
-        return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
-    }
-
+    // relations
     public function user()
     {
-        return $this->hasOne('app\Models\User', 'id', 'user_id');
+        return $this->belongsTo('app\Models\User', 'user_id', 'id');
     }
 
     public function belongsToFamily()
@@ -86,5 +87,35 @@ class Person extends Model
     {
         return $this->hasManyThrough('app\Models\Person', 'app\Models\Family', 'mother_id', 'father_id', 'id', 'id');
     }
+
+    // accessories
+    public function getPhotoAttribute($value)
+    {
+        return asset($this->photoPath) . $value;
+    }
+
+    public function getStatusAttribute()
+    {
+        switch ($this->status) {
+            case 1:
+                return '<span class="badge iq-bg-success">مفعل</span>';
+            case 0:
+                return '<span class="badge iq-bg-danger">غير مفعل</span>';
+            default:
+                return '<span class="badge iq-bg-warning">معلق</span>';
+        }
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
+    }
+
+    public function getFullNameLong()
+    {
+        return $this->prefix . ' ' . $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
+    }
+
+
 
 }

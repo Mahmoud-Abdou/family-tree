@@ -19,7 +19,7 @@ class CreatePersonsTable extends Migration
             $table->string('first_name', 100)->index();
             $table->string('father_name', 100)->index();
             $table->string('grand_father_name', 100)->index()->nullable();
-            $table->string('surname', 100)->index();
+            $table->string('surname', 100)->index()->nullable();
             $table->string('prefix', 10)->nullable();
             $table->string('job', 100)->nullable();
             $table->string('bio')->nullable();

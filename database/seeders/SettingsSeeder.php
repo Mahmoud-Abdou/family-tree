@@ -30,7 +30,7 @@ class SettingsSeeder extends Seeder
             'family_tree_image' => 'family.png',
             'family_name_ar' => 'عائلة الصهيل',
             'family_name_en' => 'Al Saheel Family',
-            'app_registration' => true,
+            'app_registration' => false,
         ]);
     }
 }

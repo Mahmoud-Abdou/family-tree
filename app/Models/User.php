@@ -15,6 +15,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
+    public $statusArray = ['registered', 'active', 'blocked', 'deleted'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -28,6 +30,7 @@ class User extends Authenticatable
         'role_id',
         'city_id',
         'status',
+        'accept_terms',
     ];
 
     /**
@@ -74,6 +77,28 @@ class User extends Authenticatable
         'city_id' => 1,
     ];
 
+    // relations
+    public function rolePermissions()
+    {
+        return $this->hasOne('Spatie\Permission\Models\Role','id', 'role_id');
+    }
+
+    public function city()
+    {
+        return $this->hasOne('App\Models\City','id', 'city_id');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Person','user_id', 'id');
+    }
+
+    public function History()
+    {
+        return $this->hasMany('App\Models\History', 'user_id', 'id');
+    }
+
+    // accessories
     public function getFullNameAttribute()
     {
         return $this->name . ' ' . $this->name;
@@ -105,29 +130,38 @@ class User extends Authenticatable
         return $this->attributes['status'] == 'active';
     }
 
-    public function scopeIsActive($query)
+    public function scopeRegistered()
     {
-        return $query->where('status', '=', 'active');
+        return $this->attributes['status'] == 'registered';
     }
 
-    public function role()
+    public function scopeActiveCount($query)
     {
-        return $this->hasOne('Spatie\Permission\Models\Role','id', 'role_id');
+        return $query->where('status', '=', 'active')->count();
     }
 
-    public function city()
+    public function scopeRegisteredCount($query)
     {
-        return $this->hasOne('app\Models\City','id', 'city_id');
+        return $query->where('status', '=', 'registered')->count();
     }
 
-    public function profile()
+    public function scopeBlockedCount($query)
     {
-        return $this->belongsTo('app\Models\Person','id', 'user_id');
+        return $query->where('status', '=', 'blocked')->count();
     }
 
-    public function History()
+    public function statusHtml()
     {
-        return $this->hasMany('app\Models\History', 'user_id', 'id');
+        switch ($this->status) {
+            case 'active':
+                return '<span class="badge iq-bg-success">مفعل</span>';
+            case 'registered':
+                return '<span class="badge iq-bg-warning">غير مفعل</span>';
+            case 'blocked':
+                return '<span class="badge iq-bg-danger">محظور</span>';
+            default:
+                return '<span class="badge iq-bg-info">محذوف</span>';
+        }
     }
 
 }

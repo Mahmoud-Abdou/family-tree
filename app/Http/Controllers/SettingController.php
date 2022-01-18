@@ -3,83 +3,101 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use App\Traits\HasImage;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    use HasImage;
 
     /**
-     * Show the form for creating a new resource.
+     * Instantiate a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function create()
+    public function __construct()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        $this->middleware('auth');
+        $this->middleware('permission:settings.read')->only('show');
+        $this->middleware('permission:settings.update')->only('update');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|Application|Factory|View
      */
-    public function show(Setting $setting)
+    public function show()
     {
-        //
-    }
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'الاعدادات';
+        $pageTitle = 'لوحة التحكم';
+        $settingData = Setting::first();
+        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Setting $setting)
-    {
-        //
+        return view('dashboard.settings', compact(
+            'appMenu', 'pageTitle', 'menuTitle', 'settingData', 'rolesData'
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Setting $setting)
+    public function update(Request $request)
     {
-        //
+        $setting = Setting::find(1)->first();
+
+        $request->validate([
+            'app_title_ar' => ['required'],
+            'family_name_ar' => ['required'],
+            'app_contact_ar' => ['required'],
+            'app_description_ar' => ['required'],
+            'app_about_ar' => ['required'],
+            'app_terms_ar' => ['required'],
+            'app_icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'app_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'family_tree_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+//            'app_registration' => ['required'],
+            'default_user_role' => ['required', 'exists:roles,id'],
+        ]);
+
+//        if (!$validatedData) {
+//            return back()->with('error', 'فشل تحديث البيانات');
+//        }
+
+        $setting->family_name_ar = $request->family_name_ar;
+//        $setting->family_name_en = $request->family_name_en;
+        $setting->app_title_ar = $request->app_title_ar;
+//        $setting->app_title_en = $request->app_title_en;
+        $setting->app_description_ar = $request->app_description_ar;
+//        $setting->app_description_en = $request->app_description_en;
+        $setting->app_about_ar = $request->app_about_ar;
+//        $setting->app_about_en = $request->app_about_en;
+        $setting->app_contact_ar = $request->app_contact_ar;
+//        $setting->app_contact_en = $request->app_contact_en;
+        $setting->app_terms_ar = $request->app_terms_ar;
+//        $setting->app_terms_en = $request->app_terms_en;
+        if ($request->hasfile('app_icon')) {
+            $setting->app_icon = $this->ImageUpload($request->file('app_icon'), $setting->photoPath, 'icon');
+        }
+        if ($request->hasfile('app_logo')) {
+            $setting->app_logo = $this->ImageUpload($request->file('app_logo'), $setting->photoPath, 'logo');
+        }
+        if ($request->hasfile('family_tree_image')) {
+            $setting->family_tree_image = $this->ImageUpload($request->file('family_tree_image'), $setting->photoPath, 'family_tree_image');
+        }
+        $setting->app_registration = $request->app_registration == 'on';
+        $setting->default_user_role = $request->default_user_role;
+        $setting->save();
+
+        return back()->with('success', 'تم تحديث الاعدادت بنجاح.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Setting  $setting
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Setting $setting)
-    {
-        //
-    }
 }

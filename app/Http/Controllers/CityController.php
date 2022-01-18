@@ -8,13 +8,33 @@ use Illuminate\Http\Request;
 class CityController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:cities.read')->only(['index', 'show']);
+        $this->middleware('permission:cities.create')->only(['create', 'store']);
+        $this->middleware('permission:cities.update')->only(['edit', 'update']);
+        $this->middleware('permission:cities.delete')->only('destroy');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'الدول و المدن';
+        $pageTitle = 'لوحة التحكم';
+//        $cities = City::all();
+        $cities = City::paginate(20);
+
+        return view('dashboard.cities.index', compact('appMenu', 'menuTitle', 'pageTitle', 'cities'));
     }
 
     /**

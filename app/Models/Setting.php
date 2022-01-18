@@ -9,6 +9,8 @@ class Setting extends Model
 {
     use HasFactory;
 
+    public $photoPath = '/uploads/settings/';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -31,6 +33,23 @@ class Setting extends Model
         'family_name_ar',
         'family_name_en',
         'app_registration',
+        'default_user_role',
     ];
+
+    // accessories
+    public function getAppLogoAttribute($logo)
+    {
+        return asset($this->photoPath). '/' . $logo;
+    }
+
+    public function getAppIconAttribute($icon)
+    {
+        return asset($this->photoPath) . '/' . $icon;
+    }
+
+    public function getFamilyTreeImageAttribute($image)
+    {
+        return asset($this->photoPath) . '/' . $image;
+    }
 
 }

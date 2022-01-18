@@ -7,7 +7,7 @@
         {
             "name": "Loai N kanou",
             "email": "loaikanou@gmail.com",
-            "homepage": "https://loai.xyz",
+            "homepage": "https://alflk.sa",
             "role": "Full Stack Developer"
         }
     ],
@@ -19,6 +19,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^5.4"
     },
     "require-dev": {
@@ -66,7 +68,8 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform-check": false
     },
     "minimum-stability": "dev",
     "prefer-stable": true

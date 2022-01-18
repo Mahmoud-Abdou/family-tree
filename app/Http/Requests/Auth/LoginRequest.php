@@ -59,7 +59,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        Helper::AddUserHistory();
+        if(auth()->user()->status != 'active') {
+            auth()->logout();
+            session()->invalidate();
+            session()->regenerateToken();
+
+            redirect()->back()->with(['error' => __('auth.failed')]);
+        } else {
+            \App\Helpers\AppHelper::AddUserHistory();
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

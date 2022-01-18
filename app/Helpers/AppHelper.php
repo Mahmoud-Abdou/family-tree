@@ -5,7 +5,6 @@ namespace App\Helpers;
 use App\Models\Activity;
 use App\Models\History;
 use Carbon\Carbon;
-use phpDocumentor\Reflection\Types\This;
 
 class AppHelper {
 
@@ -43,8 +42,8 @@ class AppHelper {
         $log['user_id'] = auth()->check() ? auth()->id() : null;
         $log['last_login'] = now();
         $log['ip'] = request()->ip();
-        $log['os'] = This::getOS();
-        $log['browser'] = This::getBrowser();
+        $log['os'] = AppHelper::getOS();
+        $log['browser'] = AppHelper::getBrowser();
         History::create($log);
     }
 
@@ -65,10 +64,10 @@ class AppHelper {
 
     static function GeneralSettings($var)
     {
-        $Setting = cache('setting');
-        return $Setting->$var;
-//        $Setting = Setting::find();
+//        $Setting = cache('setting');
 //        return $Setting->$var;
+        $Setting = \App\Models\Setting::first();
+        return $Setting->$var;
     }
 
     // Menu array List
