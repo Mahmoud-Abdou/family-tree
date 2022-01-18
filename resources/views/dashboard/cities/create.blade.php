@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-guide-fill"> </i>'.$menuTitle, 'slots' => [['title' => 'الصلاحيات', 'link' => route('roles.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('cities.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
 @endsection
 
 @section('content')
@@ -15,61 +15,51 @@
                     @include('partials.messages')
                     @include('partials.errors-messages')
 
-                    <form dir="rtl" class="mt-4" method="POST" action="{{ route('roles.store') }}">
+                    <div class="card iq-mb-3">
+                    <div class="card-header">
+                        <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
+                    </div>
+                    <div class="card-body">
+                    <form dir="rtl" method="POST" action="{{ route('cities.store') }}">
                         @csrf
 
                         <div class="row">
                             <div class="form-group col-lg-6">
-                                <label for="name">الاسم (إنجليزي)</label>
-                                <input type="text" name="name" class="form-control mb-0" id="name" tabindex="1" placeholder="الاسم (إنجليزي)" value="{{ old('name') }}" required autofocus>
+                                <label for="country_en">اسم الدولة (إنجليزي)</label>
+                                <input type="text" name="country_en" class="form-control mb-0" id="country_en" tabindex="1" value="{{ old('country_en') }}" required autofocus>
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="name_ar">الاسم (عربي)</label>
-                                <input type="text" name="name_ar" class="form-control mb-0" id="name_ar" tabindex="1" placeholder="الاسم (عربي)" value="{{ old('name_ar') }}" required>
+                                <label for="country_ar">اسم الدولة (عربي)</label>
+                                <input type="text" name="country_ar" class="form-control mb-0" id="country_ar" tabindex="2" value="{{ old('country_ar') }}" required>
                             </div>
-                            <div class="form-group col-lg-6">
-                                <label for="description">وصف قصير</label>
-                                <input type="text" name="description" class="form-control mb-0" id="description" tabindex="1" placeholder="وصف قصير" value="{{ old('description') }}" required>
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label for="cities">المدينة</label>
-                                <select class="form-control" id="cities" name="cities">
-                                    <option disabled="">حدد المدينة</option>
-                                    @foreach($cities as $city)
-                                        <option value="{{ $city->id }}" {{ old('cities') == $city->id ? 'selected=""' : '' }}>{{ $city->name_ar }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <p>الاذونات المرتبطة بالصلاحية</p>
-                                <hr>
+                            <div class="form-group col-lg-6">
+                                <label for="name_en">اسم المدينة (إنجليزي)</label>
+                                <input type="text" name="name_en" class="form-control mb-0" id="name_en" tabindex="3" value="{{ old('name_en') }}" required>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="name_ar">اسم المدينة (عربي)</label>
+                                <input type="text" name="name_ar" class="form-control mb-0" id="name_ar" tabindex="4" value="{{ old('name_ar') }}" required>
+                            </div>
 
-                                <div class="row">
-                                @foreach($roles as $key => $role)
-                                    <div class="col-lg-12">
-                                    <lable><i class="ri-check-double-fill"> </i> {{ $role['name_ar'] }}</lable>
-                                        <br>
-                                    @foreach($permissions[$key] as $keyP => $permission)
-                                        <div class="custom-control custom-checkbox custom-control-inline">
-                                            <input type="checkbox" class="custom-control-input" name="permissions[]" id="{{ $permission['name'] }}" value="{{ $permission['name'] }}">
-                                            <label class="custom-control-label" for="{{ $permission['name'] }}">{{ $permission['name_ar'] }}</label>
-                                        </div>
-                                    @endforeach
-                                        <hr>
-                                    </div>
-                                @endforeach
+                            <div class="form-group col-lg-6">
+                                <div class="row flex inline-flex p-2 mx-2">
+                                    <button type="submit" class="btn px-5 btn-primary rounded-pill " tabindex="5"><i class="ri-save-2-fill"> </i>حفظ </button>
                                 </div>
-
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" name="status" id="status-input" checked>
+                                    <label class="custom-control-label" for="status-input">تفعيل</label>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row flex inline-flex p-2 mx-2">
-                            <button type="submit" class="btn my-4 py-3 btn-primary rounded-pill w-25"><i class="ri-save-2-fill"> </i>حفظ </button>
-                        </div>
                     </form>
+                    </div>
+
+                    <div class="card-footer text-muted"></div>
+                    </div>
 
                 </div>
             </div>

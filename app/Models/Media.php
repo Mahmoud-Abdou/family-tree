@@ -9,6 +9,8 @@ class Media extends Model
 {
     use hasImage;
 
+    public $filePath = '/uploads/media/';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +21,11 @@ class Media extends Model
         'file',
         'category_id'
     ];
+
+    public function getFileAttribute($file)
+    {
+        return asset($this->filePath). '/' . $file;
+    }
 
     public function owner()
     {

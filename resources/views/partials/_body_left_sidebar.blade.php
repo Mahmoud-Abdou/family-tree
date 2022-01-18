@@ -23,7 +23,7 @@
 
                 <li class="iq-menu-title bg-cobalt-blue">
                     <i class="ri-separator"></i>
-                    <span>{{ $menuTitle }}</span>
+                    <span>{{ $pageTitle }}</span>
                 </li>
 
                 @foreach($appMenu as $menu)

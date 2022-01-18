@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-guide-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('roles.index')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-price-tag-2-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('categories.index')],]])
 @endsection
 
 @section('content')
@@ -16,9 +16,9 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-guide-fill"> </i> {{ $menuTitle }}</h5>
-                            @can('roles.create')
-                                <a href="{{ route('roles.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                            <h5 class="float-left my-auto"><i class="ri-price-tag-2-line"> </i> {{ $menuTitle }}</h5>
+                            @can('categories.create')
+                                <a href="{{ route('categories.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
                             @endcan
                         </div>
                         <div class="card-body p-0">
@@ -27,31 +27,35 @@
                                 <table class="table m-0 px-2">
                                     <thead>
                                     <tr>
+                                        <th scope="col">الرابط</th>
                                         <th scope="col">الاسم</th>
-                                        <th scope="col">الوصف</th>
-                                        <th scope="col">المدينة</th>
-                                        <th scope="col">عدد المستخدمين</th>
+                                        <th scope="col">النوع</th>
+                                        <th scope="col">الصورة</th>
                                         <th scope="col">تاريخ الانشاء</th>
                                         <th scope="col">الإجراءات</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if($rolesData->count() > 0)
-                                        @foreach($rolesData as $role)
+                                    @if($categories->count() > 0)
+                                        @foreach($categories as $category)
                                             <tr>
-                                                <td>{{ $role->name_ar }}</td>
-                                                <td>{{ $role->description }}</td>
-                                                <td>@isset($role->cities) {{ $cities->where('id', $role->cities)->first()->name_ar }} @else - @endisset</td>
-                                                <td>{{ $role->usersCount }}</td>
-                                                <td>{{ $role->created_at->format('Y-m-d') }}</td>
+                                                <td>{{ $category->slug }}</td>
+                                                <td>{{ $category->name_ar }}</td>
+                                                <td>{{ $category->type }}</td>
+                                                <td>
+                                                    <div class="media">
+                                                        <img src="{{ $category->image }}" class="align-self-center rounded mr-3" alt="#">
+                                                    </div>
+                                                </td>
+                                                <td>{{ $category->created_at->format('Y-m-d') }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                        @can('roles.read|roles.update')
-                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('roles.show', $role->id) }}"><i class="ri-information-fill"> </i></a>
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('roles.edit', $role->id) }}"><i class="ri-edit-2-fill"> </i></a>
+                                                        @can('categories.read|categories.update')
+                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('categories.show', $category->id) }}"><i class="ri-information-fill"> </i></a>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('categories.edit', $category->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                         @endcan
-                                                        @can('roles.delete')
-                                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                                                        @can('categories.delete')
+                                                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
 
@@ -64,18 +68,19 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
 
+                            <div class="d-flex justify-content-around">{{ $categories->links() }}</div>
                         </div>
 
                         <div class="card-footer text-muted">
                             مجموع عدد السجلات
-                            <span class="badge badge-pill border border-dark text-dark">{{ $rolesData->count() }}</span>
+                            <span class="badge badge-pill border border-dark text-dark">{{ $categories->count() }}</span>
                         </div>
                     </div>
                 </div>

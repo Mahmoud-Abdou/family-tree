@@ -49,15 +49,15 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         @can('cities.read|cities.update')
-                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('cities.show', $city->id) }}"><i class="ri-information-fill"> </i></a>
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('cities.edit', $city->id) }}"><i class="ri-edit-2-fill"> </i></a>
+                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('cities.show', $city) }}"><i class="ri-information-fill"></i></a>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('cities.edit', $city) }}"><i class="ri-edit-2-fill"></i></a>
                                                         @endcan
                                                         @can('cities.delete')
-                                                        <form action="{{ route('cities.destroy', $city->id) }}" method="POST">
+                                                        <form action="{{ route('cities.destroy', $city) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
 
-                                                            <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"> </i></button>
+                                                            <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"></i></button>
                                                         </form>
                                                         @endcan
                                                     </div>
@@ -73,7 +73,6 @@
                                 </table>
                             </div>
 
-{{--                            <br>--}}
                             <div class="d-flex justify-content-around">{{ $cities->links() }}</div>
                         </div>
 

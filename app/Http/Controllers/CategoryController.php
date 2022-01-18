@@ -32,8 +32,9 @@ class CategoryController extends Controller
         $appMenu = config('custom.app_menu');
         $menuTitle = 'التصنيفات';
         $pageTitle = 'لوحة التحكم';
+        $categories = Category::paginate(20);
 
-        return view('dashboard.categories.index', compact('appMenu', 'menuTitle', 'pageTitle'));
+        return view('dashboard.categories.index', compact('appMenu', 'menuTitle', 'pageTitle', 'categories'));
     }
 
     /**
