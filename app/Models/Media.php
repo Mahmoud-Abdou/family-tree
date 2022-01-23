@@ -24,7 +24,8 @@ class Media extends Model
 
     public function getFileAttribute($file)
     {
-        return asset($this->filePath). '/' . $file;
+        return asset($file);
+        // return asset($this->filePath). '/' . $file;
     }
 
     public function owner()

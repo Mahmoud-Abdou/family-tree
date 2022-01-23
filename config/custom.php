@@ -110,7 +110,7 @@ return [
 //        ['id' => 2, 'title' => 'Family', 'title_ar' => 'العائلة', 'link' => 'home', 'icon' => 'ri-group-2-line', 'permission' => '', 'child' => null],
         ['id' => 3, 'title' => 'About Family', 'title_ar' => 'نبذة عن العائلة', 'link' => 'about', 'icon' => 'ri-information-line', 'permission' => null, 'child' => null],
         ['id' => 4, 'title' => 'Family Tree', 'title_ar' => 'شجرة العائلة', 'link' => 'home', 'icon' => 'ri-group-2-line', 'permission' => 'families.read', 'child' => null],
-        ['id' => 5, 'title' => 'Events', 'title_ar' => 'المناسبات', 'link' => 'home', 'icon' => 'ri-calendar-event-line', 'permission' => 'events.read', 'child' => null],
+        ['id' => 5, 'title' => 'Events', 'title_ar' => 'المناسبات', 'link' => 'events.index', 'icon' => 'ri-calendar-event-line', 'permission' => 'events.read', 'child' => null],
         ['id' => 6, 'title' => 'Newborn', 'title_ar' => 'المواليد', 'link' => 'home', 'icon' => 'ri-user-smile-line', 'permission' => 'newborns.read', 'child' => null],
         ['id' => 7, 'title' => 'Death', 'title_ar' => 'الوفيات', 'link' => 'home', 'icon' => 'ri-user-4-line', 'permission' => 'death.read', 'child' => null],
         ['id' => 8, 'title' => 'Media', 'title_ar' => 'المعرض', 'link' => 'home', 'icon' => 'ri-image-2-line', 'permission' => 'media.read', 'child' => null],

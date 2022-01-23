@@ -25,7 +25,7 @@
                     <i class="ri-separator"></i>
                     <span>{{ $pageTitle }}</span>
                 </li>
-
+                
                 @foreach($appMenu as $menu)
                     @can($menu['permission'])
                     @isset($menu['child'])
