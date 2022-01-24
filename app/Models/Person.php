@@ -65,45 +65,49 @@ class Person extends Model
     // relations
     public function user()
     {
-        return $this->belongsTo('app\Models\User', 'user_id', 'id');
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
     public function belongsToFamily()
     {
-        return $this->hasOne('app\Models\Family', 'id', 'family_id');
+        return $this->belongsTo('App\Models\Family', 'family_id', 'id');
+//        return $this->hasOne('App\Models\Family', 'id', 'family_id');
     }
 
-    public function OwnFamily()
+    public function ownFamily()
     {
-        return $this->hasMany('app\Models\Family', 'father_id', 'id');
+        return $this->hasMany('App\Models\Family', 'id', 'family_id');
     }
 
-    public function Husband()
+    public function husband()
     {
-        return $this->hasOneThrough('app\Models\Person', 'app\Models\Family', 'father_id', 'mother_id', 'id', 'id');
+        return $this->hasOneThrough('App\Models\Person', 'app\Models\Family', 'father_id', 'mother_id', 'id', 'id');
     }
 
-    public function Wife()
+    public function wife()
     {
-        return $this->hasManyThrough('app\Models\Person', 'app\Models\Family', 'mother_id', 'father_id', 'id', 'id');
+        return $this->hasManyThrough('App\Models\Person', 'app\Models\Family', 'mother_id', 'father_id', 'id', 'id');
     }
 
     // accessories
     public function getPhotoAttribute($value)
     {
-        return asset($this->photoPath) . $value;
+        return asset($this->photoPath) . '/' . $value;
     }
 
     public function getStatusAttribute()
     {
-        switch ($this->status) {
-            case 1:
-                return '<span class="badge iq-bg-success">مفعل</span>';
-            case 0:
-                return '<span class="badge iq-bg-danger">غير مفعل</span>';
-            default:
-                return '<span class="badge iq-bg-warning">معلق</span>';
+        if (!$this->is_live) {
+            return 'متوفي';
         }
+        else
+        {
+            if ($this->has_family) {
+                return 'متزوج';
+            }
+            return 'غير متزوج';
+        }
+
     }
 
     public function getFullNameAttribute()
@@ -116,6 +120,24 @@ class Person extends Model
         return $this->prefix . ' ' . $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
     }
 
+    public function getGenderAttribute($gender)
+    {
+        return $gender == 'male' ? 'رجل' : 'امرأة';
+    }
 
+    // functions
+    // check if user complete profile data
+    public function completeData()
+    {
+        $missedData = [];
+
+        foreach ($this->getFillable() as $field) {
+            if (!isset($this->$field)){
+                array_push($missedData,$field);
+            }
+        }
+
+        return $missedData;
+    }
 
 }

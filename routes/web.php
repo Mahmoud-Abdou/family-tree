@@ -8,10 +8,12 @@ Route::view('terms', 'terms')->name('terms');
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'home'])->name('home');
-
     Route::get('about', [\App\Http\Controllers\HomeController::class, 'about'])->name('about');
-
-    Route::get('profile', [\App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+    Route::get('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile');
+    Route::get('profile/update', [\App\Http\Controllers\Auth\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile/update', [\App\Http\Controllers\Auth\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('profile/update-user', [\App\Http\Controllers\Auth\ProfileController::class, 'updateUser'])->name('profile.update-user');
+    Route::post('profile/history-delete', [\App\Http\Controllers\Auth\ProfileController::class, 'historyDelete'])->name('history.delete');
 
     Route::resource('events', \App\Http\Controllers\EventController::class);
 
@@ -20,23 +22,3 @@ Route::middleware(['auth'])->group(function () {
 Route::fallback(function () {
     return redirect('/');
 });
-
-
-
-
-//
-//Route::get('/test', function () {
-//
-//    dump(config('custom.permissions'));
-//    $var = Helper::GeneralSettings('family_name_ar');
-//    $va2 = Helper::GeneralSettings('app_logo');
-//    dump($var);
-//    dump($va2);
-//    dump(cache()->get('setting'));
-//    $user = auth()->user();
-//    dump($user);
-//    dump(request()->ip());
-//    dump(request()->header('user-agent'));
-//    dd(app()->getLocale());
-//
-//});

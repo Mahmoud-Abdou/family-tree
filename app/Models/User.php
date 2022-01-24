@@ -15,6 +15,16 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($user) {
+            $user->history->each(function($history){
+                $history->delete();
+            });
+        });
+    }
+
     public $statusArray = ['registered', 'active', 'blocked', 'deleted'];
 
     /**
@@ -93,7 +103,7 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Person','user_id', 'id');
     }
 
-    public function History()
+    public function history()
     {
         return $this->hasMany('App\Models\History', 'user_id', 'id');
     }

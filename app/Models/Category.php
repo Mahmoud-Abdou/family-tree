@@ -20,11 +20,94 @@ class Category extends Model
         'type',
         'icon',
         'image',
+        'color'
     ];
 
     public function getImageAttribute($image)
     {
         return asset($this->photoPath). '/' . $image;
+    }
+
+    public function getIconAttribute($icon)
+    {
+        return asset($this->photoPath). '/' . $icon;
+    }
+
+    public static function getTypeName($type){
+        switch ($type) {
+            case 'general':
+                return 'عام';
+            case 'media':
+                return 'صورة';
+            case 'video':
+                return 'فيديو';
+            case 'event':
+                return 'مناسبة';
+            case 'news':
+                return 'أخبار';
+            case 'newborn':
+                return 'ولادة';
+            case 'marriages':
+                return 'زواج';
+            default:
+                return $type;
+        }
+    }
+
+    public function typeHtml()
+    {
+        switch ($this->type) {
+            case 'general':
+                return '<span class="badge iq-bg-info">عام</span>';
+            case 'media':
+                return '<span class="badge iq-bg-warning">صورة</span>';
+            case 'video':
+                return '<span class="badge iq-bg-danger">فيديو</span>';
+            case 'event':
+                return '<span class="badge iq-bg-primary">مناسبة</span>';
+            case 'news':
+                return '<span class="badge iq-bg-secondary">أخبار</span>';
+            case 'newborn':
+                return '<span class="badge iq-bg-success">ولادة</span>';
+            case 'marriages':
+                return '<span class="badge iq-bg-dark">زواج</span>';
+            default:
+                return $this->type;
+        }
+    }
+
+    public function getByType($type)
+    {
+        return $this::where('type', $type)->get();
+    }
+
+    public function typeRef()
+    {
+        switch ($this->type) {
+            case 'event':
+                return $this->events;
+            case 'news':
+                return $this->news;
+            case 'media':
+                return $this->media;
+            default:
+                return null;
+        }
+    }
+
+    public function events()
+    {
+        return $this->hasMany('App\Models\Event', 'category_id', 'id');
+    }
+
+    public function news()
+    {
+        return $this->hasMany('App\Models\News', 'category_id', 'id');
+    }
+
+    public function media()
+    {
+        return $this->hasMany('App\Models\Media', 'category_id', 'id');
     }
 
 }

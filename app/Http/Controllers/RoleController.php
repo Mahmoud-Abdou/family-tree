@@ -102,7 +102,7 @@ class RoleController extends Controller
         $roles = config('custom.roles');
         $permissions = config('custom.permissions');
         $rolePermissions = $role->permissions->pluck('name')->toArray();
-        $cities = \App\Models\City::all();
+        $cities = \App\Models\City::active();
 
         return view('dashboard.roles.update', compact(
             'appMenu', 'pageTitle', 'menuTitle', 'permissions', 'roles', 'role', 'rolePermissions', 'cities'

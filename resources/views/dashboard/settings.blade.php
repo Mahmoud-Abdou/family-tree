@@ -34,23 +34,17 @@
                                         <label for="app_title_ar">عنوان التطبيق</label>
                                         <input type="text" class="form-control" name="app_title_ar" id="app_title_ar" value="{{ $settingData->app_title_ar }}">
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="family_name_ar">اسم العائلة</label>
                                         <input type="text" class="form-control" name="family_name_ar" id="family_name_ar" value="{{ $settingData->family_name_ar }}">
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="app_contact_ar">البريد الالكتروني للتواصل</label>
                                         <input type="email" class="form-control" name="app_contact_ar" id="app_contact_ar" value="{{ $settingData->app_contact_ar }}">
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-6">
                                         <label for="app-icon">ايقونة التطبيق</label>
                                         <div class="image-upload-wrap d-none">
@@ -82,9 +76,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-6">
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" name="app_registration" id="app_registration" {{ $settingData->app_registration ? 'checked' : '' }}>
@@ -101,30 +93,22 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="app_description_ar">وصف التطبيق</label>
                                         <textarea class="form-control" name="app_description_ar" id="app_description_ar" rows="2">{!! $settingData->app_description_ar !!}</textarea>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="app_about_ar">نبذة عن التطبيق</label>
                                         <textarea class="form-control" name="app_about_ar" id="app_about_ar" rows="2">{!! $settingData->app_about_ar !!}</textarea>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="app_terms_ar">الشروط و الأحكام</label>
                                         <textarea class="form-control" name="app_terms_ar" id="app_terms_ar" rows="2">{!! $settingData->app_terms_ar !!}</textarea>
                                     </div>
-                                </div>
 
-                                <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="family-tree-image">صورة شجرة العائلة</label>
                                         <div id="family-tree-image-wrap" class="image-upload-wrap d-none">
@@ -143,7 +127,7 @@
                                 </div>
 
                                 <div class="row flex inline-flex p-2 mx-2">
-                                    <button type="submit" class="btn my-4 py-3 btn-primary rounded-pill w-25">حفظ التعديلات</button>
+                                    <button type="submit" class="btn px-5 btn-primary rounded-pill w-25"><i class="ri-save-2-fill"> </i>حفظ التعديلات</button>
                                     <p class="my-auto mx-4">ملاحظة: هذه التعديلات ستؤثر بشكل مباشر في اعدادات التطبيق.</p>
                                 </div>
                             </form>

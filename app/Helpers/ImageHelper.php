@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\File;
-use Intervention\Image\ImageManagerStatic as crop;
 
 class ImageHelper{
 
@@ -15,7 +14,7 @@ class ImageHelper{
         //$file->move($path, $getImageName);
         if($file->move($path, $getImageName))
             return $getImageName;
-        else 
+        else
             return $defaultImage;
     }
 
@@ -47,52 +46,16 @@ class ImageHelper{
 
     public static function upload($file, $path)
     {
-//        $directoryPath = public_path('upload/'); // upload path
         $directoryPath = public_path($path); // upload path
         $extension = $file->getClientOriginalExtension();
         $imageName = uniqid('Image', '-') . $extension;
-        $img = $file->move($directoryPath, $imageName);
+        $file->move($directoryPath, $imageName);
 
-//        $img->save(public_path($directoryPath . '/large/' . $imageName));
-//
-//        $width = $img->width();
-//        $height = $img->height();
-//
-//        $thumb_size = 400;
-//
-//        if ($width > $thumb_size || $height > $thumb_size) {
-//            if ($width > $height) {
-//                //$new_size=image_thumb($width,$height,$thumb_size);
-//                $img->resize($thumb_size, (($height * $thumb_size) / $width));
-//                $img->save(public_path($directoryPath . '/thumb/' . $imageName));
-//
-//            } else if ($width < $height) {
-//                //$new_size=image_thumb($height,$width,$thumb_size);
-//                $img->resize((($width * $thumb_size) / $height), $thumb_size);
-//                $img->save(public_path($directoryPath . '/thumb/' . $imageName));
-//
-//            } else {
-//                $img->resize($thumb_size, $thumb_size);
-//                $img->save(public_path($directoryPath . '/thumb/' . $imageName));
-//
-//            }
-//        } else {
-//            $img->save(public_path($directoryPath . '/thumb/' . $imageName));
-//
-//        }
         return public_path($directoryPath . '/large/' . $imageName);
     }
 
     public static function createSvg($name, $path = null)
     {
-        // use svg image -----
-//        $this->attributes['avatar'] = strtoupper(Str::slug($this->first_name)[0].Str::slug($this->last_name)[0]);
-
-        // use png image -----
-//        $url = 'https://k-server.epizy.com/api/?name='.Str::slug($this->first_name).'+'.Str::slug($this->last_name).'&size=128&background=0D8ABC&color=fff&font-size=0.5&bold=true&uppercase=true&rounded=true&format=png';
-//        $imgNmae = Str::slug($this->first_name).'_'.time();
-//        file_put_contents($this->uploadDirectory . $imgNmae, file_get_contents($url));
-//        $this->attributes['avatar'] = $imgNmae.'.png';
 
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128px" height="128px" viewBox="0 0 128 128" version="1.1">
             <defs>

@@ -27,9 +27,10 @@
                                 <table class="table m-0 px-2">
                                     <thead>
                                     <tr>
-                                        <th scope="col">الرابط</th>
+                                        <th scope="col">#</th>
                                         <th scope="col">الاسم</th>
                                         <th scope="col">النوع</th>
+                                        <th scope="col">الايقونة</th>
                                         <th scope="col">الصورة</th>
                                         <th scope="col">تاريخ الانشاء</th>
                                         <th scope="col">الإجراءات</th>
@@ -37,14 +38,19 @@
                                     </thead>
                                     <tbody>
                                     @if($categories->count() > 0)
-                                        @foreach($categories as $category)
+                                        @foreach($categories as $key => $category)
                                             <tr>
-                                                <td>{{ $category->slug }}</td>
+                                                <td>{{ ++$key }}</td>
                                                 <td>{{ $category->name_ar }}</td>
-                                                <td>{{ $category->type }}</td>
-                                                <td>
+                                                <td>{!! $category->typeHtml() !!}</td>
+                                                <td style="max-width: 60px;">
                                                     <div class="media">
-                                                        <img src="{{ $category->image }}" class="align-self-center rounded mr-3" alt="#">
+                                                        <img src="{{ $category->icon }}" class="align-self-center img-thumbnail rounded" alt="{{$category->slug}}">
+                                                    </div>
+                                                </td>
+                                                <td style="max-width: 60px;">
+                                                    <div class="media">
+                                                        <img src="{{ $category->image }}" class="align-self-center img-thumbnail rounded" alt="{{$category->slug}}">
                                                     </div>
                                                 </td>
                                                 <td>{{ $category->created_at->format('Y-m-d') }}</td>

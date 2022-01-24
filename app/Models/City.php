@@ -59,9 +59,9 @@ class City extends Model
         $this->attributes['country_en'] = Str::title($value);
     }
 
-    public function scopeActive()
+    public function scopeActive($query)
     {
-        return $this->attributes['status'] == true;
+        $query->where('status', true);
     }
 
     public function getStatusAttribute($value)

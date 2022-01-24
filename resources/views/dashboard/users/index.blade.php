@@ -20,19 +20,19 @@
                             <form method="GET" action="{{ route('users.index') }}">
                             <div class="row">
                                 <div class="col-md-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-auto">
                                         <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['email']) ? $_GET['email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
                                     </div>
                                 </div>
 
                                 <div class="col-md-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-auto">
                                         <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['mobile']) ? $_GET['mobile'] : '' }}" placeholder="بحث برقم الجوال">
                                     </div>
                                 </div>
 
                                 <div class="col-md-1">
-                                    <div class="form-group">
+                                    <div class="form-group my-auto">
                                     <select class="form-control" name="status" id="status-filter">
                                         <option disabled="">حدد الحالة</option>
                                         <option {{ isset($_GET['status']) && $_GET['status'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
@@ -44,7 +44,7 @@
                                 </div>
 
                                 <div class="col-md-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-auto">
                                     <select class="form-control" name="city" id="city-filter">
                                         <option disabled="">حدد المدينة</option>
                                         <option {{ isset($_GET['city']) && $_GET['city'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
@@ -59,7 +59,7 @@
                                 </div>
 
                                 <div class="col-md-2">
-                                    <div class="form-group">
+                                    <div class="form-group my-auto">
                                     <select class="form-control" name="role" id="role-filter">
                                         <option disabled="">حدد الصلاحية</option>
                                         <option {{ isset($_GET['role']) && $_GET['role'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
@@ -74,7 +74,7 @@
                                 </div>
 
                                 <div class="col-md-1">
-                                    <div class="form-group">
+                                    <div class="form-group my-auto">
                                     <select class="form-control" name="per-page" id="per-page-filter">
                                         <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 10 ? 'selected=""' : '' }} value="10">10</option>
                                         <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 20 ? 'selected=""' : '' }} value="20">20</option>
@@ -89,8 +89,8 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary rounded-pill py-3 w-100">فلتر البيانات</button>
+                                <div class="col-md-2 my-auto">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
                                 </div>
                             </div>
                             </form>
@@ -123,14 +123,16 @@
                                                 </td>
                                                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                                                 <td>
-                                                    <a class="btn btn-outline-info rounded-pill" href="{{ route('users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
+                                                    <div class="d-flex justify-center">
+                                                    <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
                                                     @if($user->status == 'registered')
                                                         <form method="POST" action="{{ route('users.activate') }}">
                                                             @csrf
                                                             <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                                            <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
+                                                            <button type="submit" class="btn btn-outline-success rounded-pill m-1"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                         </form>
                                                     @endif
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach

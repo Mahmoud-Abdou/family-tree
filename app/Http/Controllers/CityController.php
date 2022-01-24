@@ -141,6 +141,5 @@ class CityController extends Controller
         $city->delete();
         \App\Helpers\AppHelper::AddLog('City Delete', class_basename($city), $city->id);
         return redirect()->route('cities.index')->with('success', 'تم حذف بيانات المدينة بنجاح.');
-
     }
 }

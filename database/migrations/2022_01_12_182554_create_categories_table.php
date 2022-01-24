@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->enum('type', config('custom.category-types'))->default('general');
             $table->string('icon')->nullable();
             $table->string('image')->nullable();
+            $table->string('color')->nullable();
             $table->timestamps();
         });
     }

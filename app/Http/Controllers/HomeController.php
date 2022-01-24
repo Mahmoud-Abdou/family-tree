@@ -21,8 +21,8 @@ class HomeController extends Controller
 
     public function home()
     {
-        $menuTitle = 'القائمة الرئيسية';
-        $pageTitle = 'الرئيسية';
+        $pageTitle = 'القائمة الرئيسية';
+        $menuTitle = 'الرئيسية';
         $lastNews = News::latest()->take(5)->get();
 
         return view('home', compact('menuTitle', 'pageTitle', 'lastNews'));
@@ -30,8 +30,8 @@ class HomeController extends Controller
 
     public function about()
     {
-        $menuTitle = 'القائمة الرئيسية';
-        $pageTitle = 'نبذة عن العائلة';
+        $pageTitle = 'القائمة الرئيسية';
+        $menuTitle = 'نبذة عن العائلة';
 
         return view('about', compact('menuTitle', 'pageTitle'));
     }
@@ -52,16 +52,6 @@ class HomeController extends Controller
         $usersData['blockedCount'] = User::blockedCount();
 
         return view('dashboard.index', compact('appMenu', 'menuTitle', 'pageTitle', 'newsData', 'usersData'));
-    }
-
-    public function profile()
-    {
-        $menuTitle = 'القائمة الرئيسية';
-        $pageTitle = 'الملف الشخصي';
-        $user = auth()->user();
-        $person = $user->profile;
-
-        return view('auth.profile', compact('pageTitle', 'menuTitle', 'user', 'person'));
     }
 
 }
