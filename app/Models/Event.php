@@ -21,12 +21,23 @@ class Event extends Model
         'image_id',
         'category_id',
         'approved',
-        'approved_by'
+        'approved_by',
+        'event_date'
+    ];
+
+    protected $casts = [
+        'approved' => 'boolean',
+        'event_date' => 'datetime',
     ];
 
     public function owner()
     {
         return $this->belongsTo('App\Models\User', 'owner_id', 'id');
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo('App\Models\User', 'approved_by', 'id');
     }
 
     public function city()

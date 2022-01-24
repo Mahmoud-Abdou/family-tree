@@ -13,7 +13,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class UpdateCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name_en' => ['required'],
+            'name_ar' => ['required'],
+            'type' => ['required', 'in:general,media,video,event,news,newborn,marriages'],
+            'icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'color' => ['nullable']
         ];
     }
 }

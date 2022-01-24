@@ -36,6 +36,14 @@ class AppHelper {
         return str_random(60);
     }
 
+    static function GeneralSettings($var)
+    {
+//        $Setting = cache('setting');
+//        return $Setting->$var;
+        $Setting = \App\Models\Setting::first();
+        return $Setting->$var;
+    }
+
     static function AddUserHistory()
     {
         $log = [];
@@ -60,14 +68,6 @@ class AppHelper {
         $log['ip_address'] = request()->ip();
         $log['agent'] = request()->header('user-agent');
         Activity::create($log);
-    }
-
-    static function GeneralSettings($var)
-    {
-//        $Setting = cache('setting');
-//        return $Setting->$var;
-        $Setting = \App\Models\Setting::first();
-        return $Setting->$var;
     }
 
     // Menu array List

@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use App\Traits\HasImage;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    use HasImage;
+
     /**
      * Instantiate a new controller instance.
      *
@@ -22,11 +26,6 @@ class CategoryController extends Controller
         $this->middleware('permission:categories.delete')->only('destroy');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
     public function index()
     {
         $appMenu = config('custom.app_menu');
@@ -37,69 +36,70 @@ class CategoryController extends Controller
         return view('dashboard.categories.index', compact('appMenu', 'menuTitle', 'pageTitle', 'categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'اضافة تصنيف';
+        $pageTitle = 'لوحة التحكم';
+        $types = config('custom.category-types');
+
+        return view('dashboard.categories.create', compact('appMenu', 'menuTitle', 'pageTitle', 'types'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCategoryRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = new Category();
+        $category->fill($request->all());
+        $category->slug = Str::slug($request->name_en);
+
+        if ($request->hasfile('icon')) {
+            $category->icon = $this->ImageUpload($request->file('icon'), $category->photoPath, $category->slug.'-icon');
+        }
+        if ($request->hasfile('image')) {
+            $category->image = $this->ImageUpload($request->file('image'), $category->photoPath, $category->slug.'-image');
+        }
+        $category->save();
+
+        \App\Helpers\AppHelper::AddLog('$category Create', class_basename($category), $category->id);
+        return redirect()->route('categories.index')->with('success', 'تم اضافة تصنيف جديد و يمكنك استخدامها.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function show(Category $category)
     {
-        //
+        return redirect()->route('categories.edit', $category);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Category $category)
     {
-        //
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'تعديل تصنيف';
+        $pageTitle = 'لوحة التحكم';
+        $types = config('custom.category-types');
+
+        return view('dashboard.categories.update', compact('appMenu', 'menuTitle', 'pageTitle', 'types', 'category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCategoryRequest  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->fill($request->all());
+        $category->slug = Str::slug($request->name_en);
+
+        if ($request->hasfile('icon')) {
+            $category->icon = $this->ImageUpload($request->file('icon'), $category->photoPath, $category->slug.'-icon');
+        }
+        if ($request->hasfile('image')) {
+            $category->image = $this->ImageUpload($request->file('image'), $category->photoPath, $category->slug.'-image');
+        }
+        $category->save();
+
+        \App\Helpers\AppHelper::AddLog('Category Create', class_basename($category), $category->id);
+        return redirect()->route('categories.index')->with('success', 'تم تعديل التصنيف بنجاح.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        \App\Helpers\AppHelper::AddLog('Category Delete', class_basename($category), $category->id);
+        return redirect()->route('cities.index')->with('success', 'تم حذف بيانات التصنيف بنجاح.');
     }
 }

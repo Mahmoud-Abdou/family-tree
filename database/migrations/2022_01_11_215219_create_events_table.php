@@ -24,6 +24,7 @@ class CreateEventsTable extends Migration
             $table->foreignId('category_id');
             $table->boolean('approved')->default(false);
             $table->foreignId('approved_by')->default(null);
+            $table->dateTime('event_date')->default(now());
             $table->timestamps();
         });
     }

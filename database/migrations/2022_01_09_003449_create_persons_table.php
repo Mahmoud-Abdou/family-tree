@@ -24,13 +24,12 @@ class CreatePersonsTable extends Migration
             $table->string('job', 100)->nullable();
             $table->string('bio')->nullable();
             $table->enum('gender', ['male', 'female']);
-            $table->string('photo', 2048)->nullable();
+            $table->string('photo', 2048)->nullable()->default('default.png');
             $table->boolean('has_family')->default(false);
-//            $table->foreignId('family_id');
             $table->foreignId('family_id')->nullable();
 //            $table->foreignId('relation_id'); // relation type
 //            $table->foreignId('relation_id')->nullable();
-            $table->enum('relation', ['husband', 'wife', 'father', 'mother', 'sister', 'brother', 'son', 'daughter', 'Breastfeeding-Brother'])->nullable();
+            $table->enum('relation', config('custom.relations-types'))->nullable();
             $table->string('address')->nullable();
             $table->boolean('is_live')->default(true);
             $table->dateTime('birth_date')->nullable();

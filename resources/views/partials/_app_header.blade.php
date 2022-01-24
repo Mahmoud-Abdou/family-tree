@@ -102,7 +102,7 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="{{ route('profile') }}" class="iq-sub-card iq-bg-primary-success-hover">
+                                <a href="{{ route('profile.edit') }}" class="iq-sub-card iq-bg-primary-success-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-success">
                                             <i class="ri-profile-line"></i>
@@ -113,7 +113,7 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="{{ route('home') }}" class="iq-sub-card iq-bg-primary-danger-hover">
+                                <a href="{{ route('profile') }}" class="iq-sub-card iq-bg-primary-danger-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-danger">
                                             <i class="ri-account-box-line"></i>
@@ -124,17 +124,7 @@
                                         </div>
                                     </div>
                                 </a>
-{{--                                <a href="{{ route('home') }}" class="iq-sub-card iq-bg-primary-secondary-hover">--}}
-{{--                                    <div class="media align-items-center">--}}
-{{--                                        <div class="rounded iq-card-icon iq-bg-secondary">--}}
-{{--                                            <i class="ri-lock-line"></i>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="media-body ml-3">--}}
-{{--                                            <h6 class="mb-0 ">Privacy Settings</h6>--}}
-{{--                                            <p class="mb-0 font-size-12">Control your privacy parameters.</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </a>--}}
+
                                 <div class="d-inline-block w-100 text-center p-3">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
