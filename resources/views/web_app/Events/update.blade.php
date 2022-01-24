@@ -20,7 +20,7 @@
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-body">
-                            <form dir="rtl" method="POST" action="{{ route('events.update', $event) }}">
+                            <form dir="rtl" method="POST" action="{{ route('events.update', $event) }}" enctype="multipart/form-data" >
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
@@ -46,6 +46,10 @@
                                         <label for="body">الوصف</label>
                                         <input type="text" name="body" class="form-control mb-0" id="body" tabindex="3" value="{{ $event->body }}" required autofocus>
                                     </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="event_date">تاريخ المناسبة</label>
+                                        <input type="date" name="event_date" class="form-control mb-0" id="event_date" tabindex="8" value="{{ date('Y-m-d', $event->event_date) }}"  required autofocus>
+                                    </div>
 
                                     <div class="form-group col-lg-6">
                                         <label for="category_id">النوع</label>
@@ -70,9 +74,6 @@
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
                                             <img class="file-upload-image" src="{{ $event->image->file }}" alt="Image" />
-                                            <div class="image-title-wrap">
-                                                <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
-                                            </div>
                                         </div>
                                     </div>
 

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Models\City;
+use App\Models\Media;
 use App\Models\Category;
 use App\Traits\HasImage;
 use Illuminate\Contracts\Foundation\Application;
@@ -29,8 +30,7 @@ class EventController extends Controller
         $menuTitle = 'الافراح و المناسبات';
         $pageTitle = 'التطبيق';
         $page_limit = 20;
-        $events = Event::where('owner_id', $id)
-                    ->paginate($page_limit);
+        $events = Event::paginate($page_limit);
 
         return view('web_app.events.index', compact('menuTitle', 'pageTitle', 'events'));
     }
@@ -63,12 +63,14 @@ class EventController extends Controller
             'title' => ['required'],
             'body' => ['required'],
             'image' => ['required'],
+            'event_date' => ['required'],
             'category_id' => ['required'],
         ]);
         $request['owner_id'] = auth()->user()->id;
-        $image = 1;
-        // $image = $this->ImageUpload($request->file('image'), (new Event)->photoPath, null, $request['category_id'], auth()->user()->id);
-        $request['image_id'] = $image;
+        $request['event_date'] = strtotime($request['event_date']);
+        $media = new Media;
+        $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->user()->id);
+        $request['image_id'] = $media->id;
 
         $event = Event::create($request->all());
         
@@ -119,15 +121,26 @@ class EventController extends Controller
             'city_id' => ['required'],
             'title' => ['required'],
             'body' => ['required'],
-            'image' => ['required'],
+            'event_date' => ['required'],
             'category_id' => ['required'],
         ]);
-
+        if(auth()->user()->id != $event->owner_id){
+            return redirect()->route('events.index')->with('danger', 'لا يمكنك التعديل');
+        }
         $event->city_id = $request->city_id;
         $event->title = $request->title;
         $event->body = $request->body;
+        $event->event_date = strtotime($request['event_date']);
         $event->category_id = $request->category_id;
-        // $event->image_id = $request->image_id;
+
+        if($request->hasFile('image')){
+            $new_media = new Media;
+            $new_media = $new_media->EditUploadedMedia($request->file('image'), $event->image_id);
+            if($new_media == null){
+                return redirect()->route('events.index')->with('danger', 'حدث خطا');
+            }
+        }
+       
         $event->save();
 
         \App\Helpers\AppHelper::AddLog('Event Update', class_basename($event), $event->id);
@@ -142,7 +155,13 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        if(auth()->user()->id != $event->owner_id){
+            return redirect()->route('events.index')->with('danger', 'لا يمكنك التعديل');
+        }
+        $event->image->delete_file($event->image);
+        $event->image->delete();
         $event->delete();
+
         \App\Helpers\AppHelper::AddLog('Event Delete', class_basename($event), $event->id);
         return redirect()->route('events.index')->with('success', 'تم حذف بيانات المناسبة بنجاح.');
     }

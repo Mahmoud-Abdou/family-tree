@@ -44,6 +44,11 @@
                             </div>
                             
                             <div class="form-group col-lg-6">
+                                <label for="event_date">تاريخ المناسبة</label>
+                                <input type="date" name="event_date" class="form-control mb-0" id="event_date" tabindex="8"  required autofocus>
+                            </div>
+
+                            <div class="form-group col-lg-6">
                                 <label for="category_id">النوع</label>
                                 <select name="category_id" id="category_id" class="form-control mb-0" required autofocus>
                                     <option>اختر النوع</option>

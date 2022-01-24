@@ -30,6 +30,7 @@
                                         <th scope="col">المدينة</th>
                                         <th scope="col">عنوان</th>
                                         <th scope="col">وصف </th>
+                                        <th scope="col">المالك </th>
                                         <th scope="col">الصورة</th>
                                         <th scope="col">التاريخ </th>
                                         <th scope="col">الإجراءات</th>
@@ -42,23 +43,26 @@
                                                 <td>{{ $event->city->name_ar }}</td>
                                                 <td>{{ $event->title }}</td>
                                                 <td>{{ $event->body }}</td>
+                                                <td>{{ $event->owner->name }}</td>
                                                 <td>
-                                                    <img src="{{ $event->image->file }}" alt="">
+                                                    <img src="{{ $event->image->file }}" alt="" style="height: 100px;width: 100px;">
                                                 </td>
-                                                <td>{{ $event->event_date }}</td>
+                                                <td>{{ date("d-m-Y", $event->event_date) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                        @can('events.update')
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('events.edit', $event) }}"><i class="ri-edit-2-fill"></i></a>
-                                                        @endcan
-                                                        @can('events.delete')
-                                                        <form action="{{ route('events.destroy', $event) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
+                                                        @if($event->owner_id == auth()->user()->id)
+                                                            @can('events.update')
+                                                            <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('events.edit', $event) }}"><i class="ri-edit-2-fill"></i></a>
+                                                            @endcan
+                                                            @can('events.delete')
+                                                            <form action="{{ route('events.destroy', $event) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
 
-                                                            <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"></i></button>
-                                                        </form>
-                                                        @endcan
+                                                                <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"></i></button>
+                                                            </form>
+                                                            @endcan
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>
