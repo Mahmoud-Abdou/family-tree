@@ -20,6 +20,7 @@ class Event extends Model
         'body',
         'image_id',
         'category_id',
+        'event_date',
         'approved',
         'approved_by',
         'event_date'
