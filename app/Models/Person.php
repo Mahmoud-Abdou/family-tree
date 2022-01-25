@@ -53,6 +53,8 @@ class Person extends Model
         'has_family' => 'boolean',
         'is_live' => 'boolean',
         'verified' => 'boolean',
+        'birth_date' => 'datetime:Y-m-d',
+        'death_date' => 'datetime:Y-m-d',
     ];
 
     /**
@@ -60,7 +62,7 @@ class Person extends Model
      *
      * @var array
      */
-    protected $appends = ['full_name', 'status'];
+    protected $appends = ['full_name', 'status', 'age'];
 
     // relations
     public function user()
@@ -123,6 +125,21 @@ class Person extends Model
     public function getGenderAttribute($gender)
     {
         return $gender == 'male' ? 'رجل' : 'امرأة';
+    }
+
+    public function getBirthDateAttribute($date)
+    {
+        return date('Y-m-d', strtotime($date));
+    }
+
+    public function getDeathDateAttribute($date)
+    {
+        return date('Y-m-d', strtotime($date));
+    }
+
+    public function getAgeAttribute()
+    {
+        return \Carbon\Carbon::parse($this->birth_date)->diff(\Carbon\Carbon::now())->format('%y سنوات');
     }
 
     // functions
