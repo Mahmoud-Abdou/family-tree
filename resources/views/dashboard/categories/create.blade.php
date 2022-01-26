@@ -82,7 +82,7 @@
                                 </div>
 
                                 <div class="row flex inline-flex p-2 mx-2">
-                                    <button type="submit" class="btn px-5 btn-primary rounded-pill " tabindex="5"><i class="ri-save-2-fill"> </i>حفظ</button>
+                                    <button type="submit" class="btn px-5 btn-primary rounded-pill" tabindex="5"><i class="ri-save-2-fill"> </i>حفظ</button>
                                 </div>
                             </form>
 

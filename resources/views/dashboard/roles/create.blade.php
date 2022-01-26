@@ -19,8 +19,9 @@
                     <div class="card-header">
                         <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                     </div>
-                    <div class="card-body">
+
                     <form dir="rtl" class="mt-4" method="POST" action="{{ route('roles.store') }}">
+                    <div class="card-body">
                         @csrf
 
                         <div class="row">
@@ -70,14 +71,15 @@
 
                             </div>
                         </div>
-
-                        <div class="row flex inline-flex p-2 mx-2">
-                            <button type="submit" class="btn my-4 py-3 btn-primary rounded-pill w-25"><i class="ri-save-2-fill"> </i>حفظ </button>
-                        </div>
-                    </form>
                     </div>
 
-                    <div class="card-footer text-muted"></div>
+                    <div class="card-footer text-muted">
+                        <div class="row flex inline-flex p-2 mx-2">
+                            <button type="submit" class="btn px-5 btn-primary rounded-pill w-25"><i class="ri-save-2-fill"> </i>حفظ</button>
+                        </div>
+                    </div>
+                    </form>
+
                     </div>
 
                 </div>

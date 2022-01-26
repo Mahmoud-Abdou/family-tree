@@ -49,7 +49,7 @@ class RoleController extends Controller
 
         $roles = config('custom.roles');
         $permissions = config('custom.permissions');
-        $cities = \App\Models\City::all();
+        $cities = \App\Models\City::active()->get();
 
         return view('dashboard.roles.create', compact(
             'appMenu', 'pageTitle', 'menuTitle', 'permissions', 'roles', 'cities'
@@ -102,7 +102,7 @@ class RoleController extends Controller
         $roles = config('custom.roles');
         $permissions = config('custom.permissions');
         $rolePermissions = $role->permissions->pluck('name')->toArray();
-        $cities = \App\Models\City::active();
+        $cities = \App\Models\City::active()->get();
 
         return view('dashboard.roles.update', compact(
             'appMenu', 'pageTitle', 'menuTitle', 'permissions', 'roles', 'role', 'rolePermissions', 'cities'
