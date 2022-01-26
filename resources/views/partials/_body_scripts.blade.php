@@ -25,14 +25,14 @@
 {{--<!-- Smooth Scrollbar JavaScript -->--}}
 <script src="{{ secure_asset('assets/js/smooth-scrollbar.js') }} "></script>
 {{--<!-- morris chart JavaScript -->--}}
-<script src="{{ secure_asset('assets/js/morris.js') }} "></script>
-<script src="{{ secure_asset('assets/js/raphael-min.js') }} "></script>
-<script src="{{ secure_asset('assets/js/morris.min.js') }} "></script>
+{{--<script src="{{ secure_asset('assets/js/morris.js') }} "></script>--}}
+{{--<script src="{{ secure_asset('assets/js/raphael-min.js') }} "></script>--}}
+{{--<script src="{{ secure_asset('assets/js/morris.min.js') }} "></script>--}}
 {{--<!-- lottie JavaScript -->--}}
-<script src="{{ secure_asset('assets/js/lottie.js') }} "></script>
-<script src="{{ secure_asset('assets/js/core.js') }}"></script>
-<script src="{{ secure_asset('assets/js/charts.js') }}"></script>
-<script src="{{ secure_asset('assets/js/animated.js') }}"></script>
+{{--<script src="{{ secure_asset('assets/js/lottie.js') }} "></script>--}}
+{{--<script src="{{ secure_asset('assets/js/core.js') }}"></script>--}}
+{{--<script src="{{ secure_asset('assets/js/charts.js') }}"></script>--}}
+{{--<script src="{{ secure_asset('assets/js/animated.js') }}"></script>--}}
 
 {{--<!-- Chart Custom JavaScript -->--}}
 <script src="{{ secure_asset('assets/js/chart-custom.js') }} "></script>

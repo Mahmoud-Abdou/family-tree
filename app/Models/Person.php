@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
 
     public $photoPath = '/uploads/persons/';
 
@@ -122,9 +121,10 @@ class Person extends Model
         return $this->prefix . ' ' . $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
     }
 
-    public function getGenderAttribute($gender)
+//    public function getGenderAttribute($gender)
+    public function genderName()
     {
-        return $gender == 'male' ? 'رجل' : 'امرأة';
+        return $this->gender == 'male' ? 'رجل' : 'امرأة';
     }
 
     public function getBirthDateAttribute($date)

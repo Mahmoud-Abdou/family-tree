@@ -8,17 +8,23 @@ use App\Models\Event;
 use App\Models\City;
 use App\Models\Media;
 use App\Models\Category;
-use App\Traits\HasImage;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-
 
 class EventController extends Controller
 {
-    use HasImage;
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:events.read')->only(['index', 'show']);
+        $this->middleware('permission:events.create')->only(['create', 'store']);
+        $this->middleware('permission:events.update')->only(['edit', 'update']);
+        $this->middleware('permission:events.delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +32,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->id;
-        $menuTitle = 'الافراح و المناسبات';
-        $pageTitle = 'التطبيق';
+        $menuTitle = 'المناسبات';
+        $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $events = Event::paginate($page_limit);
 
@@ -42,8 +47,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'الافراح و المناسبات';
-        $pageTitle = 'التطبيق';
+        $menuTitle = 'إضافة مناسبة';
+        $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
@@ -73,7 +78,7 @@ class EventController extends Controller
         $request['image_id'] = $media->id;
 
         $event = Event::create($request->all());
-        
+
         \App\Helpers\AppHelper::AddLog('Event Create', class_basename($event), $event->id);
         return redirect()->route('events.index')->with('success', 'تم اضافة مناسبة جديدة .');
 
@@ -88,7 +93,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         return redirect()->route('events.edit', $event);
-        
+
     }
 
     /**
@@ -99,11 +104,10 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        $menuTitle = 'الافراح و المناسبات';
-        $pageTitle = 'التطبيق';
+        $menuTitle = 'تعديل مناسبة';
+        $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
-        // dd($event->category->id);
 
         return view('web_app.events.update', compact('menuTitle', 'pageTitle', 'event','cities', 'categories'));
     }
@@ -140,7 +144,7 @@ class EventController extends Controller
                 return redirect()->route('events.index')->with('danger', 'حدث خطا');
             }
         }
-       
+
         $event->save();
 
         \App\Helpers\AppHelper::AddLog('Event Update', class_basename($event), $event->id);

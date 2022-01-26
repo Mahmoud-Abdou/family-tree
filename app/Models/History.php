@@ -28,21 +28,21 @@ class History extends Model
             case 'Windows 8':
             case 'Windows 7':
             case 'Windows 10':
-                return asset($this->imagePath . '/os/windows.png');
+                return asset($this->imagePath . 'os/windows.png');
             case 'Mac OS X':
-                return asset($this->imagePath . '/os/os-x.png');
+                return asset($this->imagePath . 'os/os-x.png');
             case 'Linux':
             case 'Ubuntu':
-                return asset($this->imagePath . '/os/linux.png');
+                return asset($this->imagePath . 'os/linux.png');
             case 'Chrome OS':
-                return asset($this->imagePath . '/os/chromium-os.png');
+                return asset($this->imagePath . 'os/chromium-os.png');
             case 'iPhone':
             case 'iPod':
-                return asset($this->imagePath . '/os/ios.png');
+                return asset($this->imagePath . 'os/ios.png');
             case 'Android':
-                return asset($this->imagePath . '/os/android.png');
+                return asset($this->imagePath . 'os/android.png');
             default:
-                return asset($this->imagePath . '/os/default-os.png');
+                return asset($this->imagePath . 'os/default-os.png');
         }
     }
 
@@ -50,15 +50,15 @@ class History extends Model
     {
         switch ($this->browser) {
             case 'Chrome':
-                return asset($this->imagePath . '/os/chrome.png');
+                return asset($this->imagePath . 'browser/chrome.png');
             case 'Safari':
-                return asset($this->imagePath . '/os/safari.png');
+                return asset($this->imagePath . 'browser/safari.png');
             case 'Firefox':
-                return asset($this->imagePath . '/os/firefox.png');
+                return asset($this->imagePath . 'browser/firefox.png');
             case 'Edg':
-                return asset($this->imagePath . '/os/edge.png');
+                return asset($this->imagePath . 'browser/edge.png');
             default:
-                return asset($this->imagePath . '/os/default.png');
+                return asset($this->imagePath . 'browser/default.png');
         }
     }
 

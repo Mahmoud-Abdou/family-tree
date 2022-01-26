@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
     public function store(RegisterRequest $request)
     {
         if($request->terms != 'on') {
-            return back()->with('error', __('يجب الموافقة على اتفاقية الاستخدام'));
+            return back()->with('error', __('يجب الموافقة على اتفاقية الاستخدام!'));
         }
 
         $user = User::create([

@@ -23,6 +23,13 @@ class Category extends Model
         'color'
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['type_ar'];
+
     public function getImageAttribute($image)
     {
         return asset($this->photoPath). '/' . $image;
@@ -33,7 +40,29 @@ class Category extends Model
         return asset($this->photoPath). '/' . $icon;
     }
 
-    public static function getTypeName($type){
+    public function getTypeArNameAttribute(){
+        switch ($this->type) {
+            case 'general':
+                return 'عام';
+            case 'media':
+                return 'صورة';
+            case 'video':
+                return 'فيديو';
+            case 'event':
+                return 'مناسبة';
+            case 'news':
+                return 'أخبار';
+            case 'newborn':
+                return 'ولادة';
+            case 'marriages':
+                return 'زواج';
+            default:
+                return $this->type;
+        }
+    }
+
+    public static function getTypeName($type)
+    {
         switch ($type) {
             case 'general':
                 return 'عام';
@@ -95,6 +124,7 @@ class Category extends Model
         }
     }
 
+    // relations
     public function events()
     {
         return $this->hasMany('App\Models\Event', 'category_id', 'id');

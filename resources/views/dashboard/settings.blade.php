@@ -146,15 +146,15 @@
 @endsection
 
 @section('add-scripts')
-    <script src="{{ secure_asset('assets/js/jquery-3.6.0.slim.min.js') }}"></script>
+{{--    <script src="{{ secure_asset('assets/js/jquery-3.6.0.slim.min.js') }}"></script>--}}
     <script src="{{ secure_asset('assets/js/tinymce/tinymce.min.js') }}"></script>
 
     <script>
         // TODO: fix error SyntaxError: Unexpected token '<' tinymce
         tinymce.init({
             selector: 'textarea',
-            plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount nonbreaking table',
-            // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount fullscreen nonbreaking table',
+            plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount nonbreaking',
+            // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount fullscreen nonbreaking',
             toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor',
             // toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor | fullscreen',
             toolbar_mode: 'floating',

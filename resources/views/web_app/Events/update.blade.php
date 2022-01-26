@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('events.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-calendar-event-line"> </i>'.$menuTitle, 'slots' => [['title' => 'المناسبات', 'link' => route('events.index')],['title' => $menuTitle, 'link' => route('events.index')],]])
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-body">
                             <form dir="rtl" method="POST" action="{{ route('events.update', $event) }}" enctype="multipart/form-data" >
@@ -36,7 +36,7 @@
                                                     <option value="{{$city->id}}">{{ $city->name_ar }}</option>
                                                 @endif
                                             @endforeach
-                                        </select>    
+                                        </select>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="title">العنوان</label>
@@ -62,18 +62,22 @@
                                                     <option value="{{$category->id}}">{{ $category->name_ar }}</option>
                                                 @endif
                                             @endforeach
-                                        </select> 
+                                        </select>
                                     </div>
+
                                     <div class="form-group col-lg-6">
                                         <label for="image">الصورة</label>
-                                        <div class="image-upload-wrap">
-                                            <input id="image" class="file-upload-input" type="file" name="image"  accept="image/png,image/jpeg,image/jpg,image/icon" />
+                                        <div class="image-upload-wrap d-none">
+                                            <input id="image" class="file-upload-input" type="file" name="image" value="{{ old('image') }}" onchange="readURL(this);" accept="image/png,image/jpeg,image/jpg,image/icon" />
                                             <div class="drag-text">
                                                 <h3 class="m-4"><i class="ri-upload-2-line"> </i>اضغط أو اسحب صورة لرفعها</h3>
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ $event->image->file }}" alt="Image" />
+                                            <img class="file-upload-image" src="{{ $event->image->file }}" alt="Evvent Image" />
+                                            <div class="image-title-wrap">
+                                                <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -84,7 +88,7 @@
                                     </div>
                                     </div>
 
-                                
+
 
                             </form>
                         </div>
