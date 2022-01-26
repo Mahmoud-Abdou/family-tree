@@ -32,4 +32,8 @@ class Death extends Model
         return $this->hasOne('App\Models\Media', 'id', 'image_id');
     }
 
+    public function family()
+    {
+        return $this->belongsTo('App\Models\Family', 'family_id', 'id');
+    }
 }

@@ -37,7 +37,7 @@ class EventController extends Controller
         $page_limit = 20;
         $events = Event::paginate($page_limit);
 
-        return view('web_app.events.index', compact('menuTitle', 'pageTitle', 'events'));
+        return view('web_app.Events.index', compact('menuTitle', 'pageTitle', 'events'));
     }
 
     /**
@@ -52,7 +52,7 @@ class EventController extends Controller
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
-        return view('web_app.events.create', compact('menuTitle', 'pageTitle', 'cities', 'categories'));
+        return view('web_app.Events.create', compact('menuTitle', 'pageTitle', 'cities', 'categories'));
     }
 
     /**
@@ -109,7 +109,7 @@ class EventController extends Controller
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
-        return view('web_app.events.update', compact('menuTitle', 'pageTitle', 'event','cities', 'categories'));
+        return view('web_app.Events.update', compact('menuTitle', 'pageTitle', 'event','cities', 'categories'));
     }
 
     /**

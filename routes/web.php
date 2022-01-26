@@ -16,6 +16,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('profile/history-delete', [\App\Http\Controllers\Auth\ProfileController::class, 'historyDelete'])->name('history.delete');
 
     Route::resource('events', \App\Http\Controllers\EventController::class);
+    Route::resource('news', \App\Http\Controllers\NewsController::class);
 
 });
 
