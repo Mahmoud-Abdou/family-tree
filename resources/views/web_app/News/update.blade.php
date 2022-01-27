@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('news.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('news.index')],['title' => $menuTitle, 'link' => route('news.create')],]])
 @endsection
 
 @section('content')

@@ -36,7 +36,7 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="btn iq-waves-effect" href="{{ route('dashboard') }}"> لوحة التحكم <i class="ri-dashboard-fill"></i></a>
+                                <a class="btn iq-waves-effect" href="{{ route('admin.dashboard') }}"> لوحة التحكم <i class="ri-dashboard-fill"></i></a>
                             </li>
                         @endif
                     @endcan

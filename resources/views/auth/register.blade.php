@@ -27,45 +27,45 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="name">{{ __('Name') }}</label>
-                            <input type="text" name="name" class="form-control mb-0" id="name" tabindex="1" placeholder="{{ __('Your Name') }}" value="{{ old('name') }}" required autofocus>
+                            <label for="name">{{ __('الاسم') }}</label>
+                            <input type="text" name="name" class="form-control mb-0" id="name" tabindex="1" placeholder="{{ __('الاسم') }}" value="{{ old('name') }}" required autofocus>
                         </div>
                         <div class="form-group">
-                            <label for="father_name">{{ __('Father Name') }}</label>
-                            <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="2" placeholder="{{ __('Father Name') }}" value="{{ old('father_name') }}" required autofocus>
+                            <label for="father_name">{{ __('اسم الأب') }}</label>
+                            <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="2" placeholder="{{ __('اسم الأب') }}" value="{{ old('father_name') }}" required autofocus>
                         </div>
                         <div class="form-group">
-                            <label for="gender">{{ __('Gender') }}</label>
+                            <label for="gender">{{ __('نوع الجنس') }}</label>
                             <select id="gender" name="gender" tabindex="3" class="form-control mb-0" value="{{ old('gender') }}" required autofocus>
-                                <option value="male">{{ __('Male') }}</option>
-                                <option value="female">{{ __('Female') }}</option>
+                                <option value="male">{{ __('ذكر') }}</option>
+                                <option value="female">{{ __('أنثى') }}</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="mobile">{{ __('Mobile') }}</label>
-                            <input type="text" name="mobile" class="form-control mb-0" id="mobile" tabindex="4" placeholder="Enter Mobile Number" value="{{ old('mobile') }}" required>
+                            <label for="mobile">{{ __('رقم الجوال') }}</label>
+                            <input type="text" name="mobile" class="form-control mb-0" id="mobile" tabindex="4" placeholder="أدخل رقم الجوال" value="{{ old('mobile') }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">{{ __('Email') }}</label>
-                            <input type="email" name="email" class="form-control mb-0" id="email" tabindex="5" placeholder="Enter Email" value="{{ old('email') }}" required>
+                            <label for="email">{{ __('البريد الإلكتروني') }}</label>
+                            <input type="email" name="email" class="form-control mb-0" id="email" tabindex="5" placeholder="أدخل البريد الإلكتروني" value="{{ old('email') }}" required>
                         </div>
                         <div class="form-group">
-                            <label for="password">{{ __('Password') }}</label>
-                            <input type="password" name="password" class="form-control mb-0" id="password" tabindex="6" placeholder="{{ __('Password') }}" required autocomplete="new-password">
+                            <label for="password">{{ __('كلمة المرور') }}</label>
+                            <input type="password" name="password" class="form-control mb-0" id="password" tabindex="6" placeholder="{{ __('كلمة المرور') }}" required autocomplete="new-password">
                         </div>
                         <div class="form-group">
-                            <label for="password_confirmation">{{ __('Confirm Password') }}</label>
-                            <input type="password" name="password_confirmation" class="form-control mb-0" id="password_confirmation" tabindex="7" placeholder="{{ __('Confirm Password') }}" required>
+                            <label for="password_confirmation">{{ __('تأكيد كلمة المرور') }}</label>
+                            <input type="password" name="password_confirmation" class="form-control mb-0" id="password_confirmation" tabindex="7" placeholder="{{ __('تأكيد كلمة المرور') }}" required>
                         </div>
                         <div class="d-inline-block w-100">
                             <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1 float-right">
                                 <input type="checkbox" name="terms" class="custom-control-input" id="terms" required {{ old('terms') == 'on' ? 'checked' : '' }} >
-                                <label class="custom-control-label" for="terms">I accept <a href="{{ route('terms') }}">Terms and Conditions</a></label>
+                                <label class="custom-control-label" for="terms"> عند الاشتراك فانت توافق على <a href="{{ route('terms') }}">شروط الاستخدام</a></label>
                             </div>
-                            <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="9">Sign Up</button>
+                            <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="9">اشتراك</button>
                         </div>
                         <div class="sign-info">
-                            <span class="dark-color d-inline-block line-height-2">Already Have Account ? <a href="{{ route('login') }}">Log In</a></span>
+                            <span class="dark-color d-inline-block line-height-2">لديك حساب بالفعل؟ <a href="{{ route('login') }}">دخول</a></span>
                         </div>
                     </form>
                 </div>

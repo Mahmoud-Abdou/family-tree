@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-guide-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('roles.index')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-guide-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.roles.index')],]])
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-guide-fill"> </i> {{ $menuTitle }}</h5>
                             @can('roles.create')
-                                <a href="{{ route('roles.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                                <a href="{{ route('admin.roles.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
                             @endcan
                         </div>
                         <div class="card-body p-0">
@@ -47,11 +47,11 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         @can('roles.read|roles.update')
-                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('roles.show', $role->id) }}"><i class="ri-information-fill"> </i></a>
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('roles.edit', $role->id) }}"><i class="ri-edit-2-fill"> </i></a>
+                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('admin.roles.show', $role->id) }}"><i class="ri-information-fill"> </i></a>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.roles.edit', $role->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                         @endcan
                                                         @can('roles.delete')
-                                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                                                        <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
 

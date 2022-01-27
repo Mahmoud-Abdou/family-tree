@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('users.index')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.users.index')],]])
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
 
-                            <form method="GET" action="{{ route('users.index') }}">
+                            <form method="GET" action="{{ route('admin.users.index') }}">
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
@@ -124,9 +124,9 @@
                                                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                    <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
+                                                    <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('admin.users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
                                                     @if($user->status == 'registered')
-                                                        <form method="POST" action="{{ route('users.activate') }}">
+                                                        <form method="POST" action="{{ route('admin.users.activate') }}">
                                                             @csrf
                                                             <input type="hidden" name="user_id" value="{{ $user->id }}">
                                                             <button type="submit" class="btn btn-outline-success rounded-pill m-1"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>

@@ -8,6 +8,8 @@ use App\Models\Newborn;
 use App\Models\Family;
 use App\Models\Category;
 use App\Models\Media;
+use Carbon\Carbon;
+
 
 class NewbornController extends Controller
 {
@@ -66,13 +68,18 @@ class NewbornController extends Controller
             'date' => ['required'],
         ]);
         $request['owner_id'] = auth()->user()->id;
-        $request['date'] = strtotime($request['date']);
+        $request['date'] = Carbon::parse($request['date']);
         $media = new Media;
         $category_id = Category::where('type', 'newborn')->first();
         $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
         $request['image_id'] = $media->id;
 
         $newborn = Newborn::create($request->all());
+        
+        $request['city_id'] = 1;
+        $request['category_id'] = $category_id->id;
+        $request['approved'] = 0;
+        $news = news::create($request->all());
         
         \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
         return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');
@@ -101,6 +108,7 @@ class NewbornController extends Controller
         $menuTitle = 'المواليد';
         $pageTitle = 'التطبيق';
         $families = Family::get();
+        // Carbon::createFromFormat('Y-m-d', $newborn->date);
         
         return view('web_app.Newborns.update', compact('menuTitle', 'pageTitle', 'newborn', 'families'));
     }
@@ -126,7 +134,7 @@ class NewbornController extends Controller
         $newborn->family_id = $request->family_id;
         $newborn->title = $request->title;
         $newborn->body = $request->body;
-        $newborn->date = strtotime($request['date']);
+        $newborn->date = Carbon::parse($request['date']);
 
         if($request->hasFile('image')){
             $new_media = new Media;

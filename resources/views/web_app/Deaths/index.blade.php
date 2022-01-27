@@ -47,7 +47,7 @@
                                                 <td>
                                                     <img src="{{ $death->image->file }}" alt="" style="height: 100px;width: 100px;">
                                                 </td>
-                                                <td>{{ date("d-m-Y", $death->date) }}</td>
+                                                <td>{{ $death->date }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         @if($death->owner_id == auth()->user()->id)

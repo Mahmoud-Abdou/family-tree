@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-settings-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('settings.show')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-settings-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.settings.show')],]])
 @endsection
 
 @section('content')
@@ -25,7 +25,7 @@
                             @include('partials.messages')
                             @include('partials.errors-messages')
 
-                            <form method="POST" action="{{ route('settings.update') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 

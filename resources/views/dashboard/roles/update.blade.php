@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-guide-fill"> </i>'.$menuTitle, 'slots' => [['title' => 'الصلاحيات', 'link' => route('roles.index')],['title' => $menuTitle, 'link' => null],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-guide-fill"> </i>'.$menuTitle, 'slots' => [['title' => 'الصلاحيات', 'link' => route('admin.roles.index')],['title' => $menuTitle, 'link' => null],]])
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
                         <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                     </div>
 
-                    <form dir="rtl" class="mt-4" method="POST" action="{{ route('roles.update', $role->id) }}">
+                    <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.roles.update', $role->id) }}">
                     <div class="card-body">
                         @csrf
                         @method('PUT')

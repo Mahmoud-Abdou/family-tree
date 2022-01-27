@@ -121,13 +121,14 @@ return [
     ],
 
     'app_menu' => [
-        ['id' => 1, 'title' => 'Dashboard', 'title_ar' => 'لوحة التحكم', 'link' => 'dashboard', 'icon' => 'ri-dashboard-line', 'permission' => 'dashboard.read', 'child' => null],
-        ['id' => 2, 'title' => 'Users', 'title_ar' => 'المستخدمين', 'link' => 'users.index', 'icon' => 'ri-user-2-line', 'permission' => 'users.read', 'child' => null],
-        ['id' => 3, 'title' => 'Roles', 'title_ar' => 'الصلاحيات', 'link' => 'roles.index', 'icon' => 'ri-guide-line', 'permission' => 'roles.read', 'child' => null],
-        ['id' => 4, 'title' => 'Cities', 'title_ar' => 'المدن', 'link' => 'cities.index', 'icon' => 'ri-map-2-line', 'permission' => 'cities.read', 'child' => null],
-        ['id' => 5, 'title' => 'Categories', 'title_ar' => 'التصنيفات', 'link' => 'categories.index', 'icon' => 'ri-price-tag-2-line', 'permission' => 'categories.read', 'child' => null],
-        ['id' => 6, 'title' => 'Settings', 'title_ar' => 'الاعدادات', 'link' => 'settings.show', 'icon' => 'ri-settings-4-line', 'permission' => 'settings.read', 'child' => null],
-        ['id' => 7, 'title' => 'Log', 'title_ar' => 'السجل', 'link' => 'log.index', 'icon' => 'ri-archive-line', 'permission' => 'activities.read', 'child' => null],
+        ['id' => 1, 'title' => 'Dashboard', 'title_ar' => 'لوحة التحكم', 'link' => 'admin.dashboard', 'icon' => 'ri-dashboard-line', 'permission' => 'dashboard.read', 'child' => null],
+        ['id' => 2, 'title' => 'Users', 'title_ar' => 'المستخدمين', 'link' => 'admin.users.index', 'icon' => 'ri-user-2-line', 'permission' => 'users.read', 'child' => null],
+        ['id' => 3, 'title' => 'Roles', 'title_ar' => 'الصلاحيات', 'link' => 'admin.roles.index', 'icon' => 'ri-guide-line', 'permission' => 'roles.read', 'child' => null],
+        ['id' => 4, 'title' => 'Cities', 'title_ar' => 'المدن', 'link' => 'admin.cities.index', 'icon' => 'ri-map-2-line', 'permission' => 'cities.read', 'child' => null],
+        ['id' => 5, 'title' => 'Categories', 'title_ar' => 'التصنيفات', 'link' => 'admin.categories.index', 'icon' => 'ri-price-tag-2-line', 'permission' => 'categories.read', 'child' => null],
+        ['id' => 6, 'title' => 'Events', 'title_ar' => 'المناسبات', 'link' => 'admin.events.index', 'icon' => 'ri-calendar-event-line', 'permission' => 'events.read', 'child' => null],
+        ['id' => 7, 'title' => 'Settings', 'title_ar' => 'الاعدادات', 'link' => 'admin.settings.show', 'icon' => 'ri-settings-4-line', 'permission' => 'settings.read', 'child' => null],
+        ['id' => 8, 'title' => 'Log', 'title_ar' => 'السجل', 'link' => 'admin.log.index', 'icon' => 'ri-archive-line', 'permission' => 'activities.read', 'child' => null],
     ],
 
 ];

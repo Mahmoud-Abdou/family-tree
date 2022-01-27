@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('deaths.create')],]])
 @endsection
 
 @section('content')
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="date">تاريخ الوفاة</label>
-                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ date('Y-m-d', $death->death_date) }}"  required autofocus>
+                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ $death->date }}"  required autofocus>
                                     </div>
 
                                     

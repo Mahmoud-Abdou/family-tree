@@ -47,7 +47,7 @@
                                                 <td>
                                                     <img src="{{ $newborn->image->file }}" alt="" style="height: 100px;width: 100px;">
                                                 </td>
-                                                <td>{{ date("d-m-Y", $newborn->date) }}</td>
+                                                <td>{{ $newborn->date }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         @if($newborn->owner_id == auth()->user()->id)

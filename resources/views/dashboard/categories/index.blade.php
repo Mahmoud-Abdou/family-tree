@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-price-tag-2-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('categories.index')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-price-tag-2-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.categories.index')],]])
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-price-tag-2-line"> </i> {{ $menuTitle }}</h5>
                             @can('categories.create')
-                                <a href="{{ route('categories.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                                <a href="{{ route('admin.categories.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
                             @endcan
                         </div>
                         <div class="card-body p-0">
@@ -57,11 +57,11 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         @can('categories.read|categories.update')
-                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('categories.show', $category->id) }}"><i class="ri-information-fill"> </i></a>
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('categories.edit', $category->id) }}"><i class="ri-edit-2-fill"> </i></a>
+                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('admin.categories.show', $category->id) }}"><i class="ri-information-fill"> </i></a>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.categories.edit', $category->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                         @endcan
                                                         @can('categories.delete')
-                                                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST">
+                                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
 

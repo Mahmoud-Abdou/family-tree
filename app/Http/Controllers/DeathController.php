@@ -9,6 +9,7 @@ use App\Models\City;
 use App\Models\Media;
 use App\Models\Category;
 use App\Models\Family;
+use Carbon\Carbon;
 
 class DeathController extends Controller
 {
@@ -68,12 +69,19 @@ class DeathController extends Controller
             'date' => ['required'],
         ]);
         $request['owner_id'] = auth()->user()->id;
-        $request['date'] = strtotime($request['date']);
+        $request['date'] = Carbon::parse($request['date']);
+
+        $category_id = Category::where('type', 'death')->first();
         $media = new Media;
-        $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->user()->id);
+        $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
         $request['image_id'] = $media->id;
 
         $death = Death::create($request->all());
+        
+        $request['city_id'] = 1;
+        $request['category_id'] = $category_id->id;
+        $request['approved'] = 0;
+        $news = news::create($request->all());
         
         \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
@@ -126,7 +134,7 @@ class DeathController extends Controller
         $death->family_id = $request->family_id;
         $death->title = $request->title;
         $death->body = $request->body;
-        $death->date = strtotime($request['date']);
+        $death->date = Carbon::parse($request['date']);
 
         if($request->hasFile('image')){
             $new_media = new Media;
