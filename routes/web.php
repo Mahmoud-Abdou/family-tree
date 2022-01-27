@@ -17,6 +17,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('events', \App\Http\Controllers\EventController::class);
     Route::resource('news', \App\Http\Controllers\NewsController::class);
+    Route::resource('deaths', \App\Http\Controllers\DeathController::class);
+    Route::resource('newborns', \App\Http\Controllers\NewbornController::class);
 
 });
 

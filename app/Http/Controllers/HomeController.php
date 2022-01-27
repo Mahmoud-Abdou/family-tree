@@ -15,12 +15,14 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('permission:dashboard.read')->only(['dashboard']);
+        // $this->middleware('auth');
+        // $this->middleware('permission:dashboard.read')->only(['dashboard']);
+        // dd("sda");
     }
 
     public function home()
     {
+        // dd("Sda");
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'الرئيسية';
         $lastNews = News::latest()->take(5)->get();

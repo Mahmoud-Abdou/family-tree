@@ -5,18 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDeathRequest;
 use App\Http\Requests\UpdateDeathRequest;
 use App\Models\Death;
+use App\Models\City;
+use App\Models\Media;
+use App\Models\Category;
+use App\Models\Family;
 
 class DeathController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     // $this->middleware('auth');
-    //     // $this->middleware('permission:deaths.read')->only(['index', 'show']);
-    //     // $this->middleware('permission:deaths.create')->only(['create', 'store']);
-    //     // $this->middleware('permission:deaths.update')->only(['edit', 'update']);
-    //     // $this->middleware('permission:deaths.delete')->only('destroy');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:deaths.read')->only(['index', 'show']);
+        $this->middleware('permission:deaths.create')->only(['create', 'store']);
+        $this->middleware('permission:deaths.update')->only(['edit', 'update']);
+        $this->middleware('permission:deaths.delete')->only('destroy');
+    }
 
     /**
      * Display a listing of the resource.
@@ -43,8 +47,9 @@ class DeathController extends Controller
     {
         $menuTitle = 'الوفيات';
         $pageTitle = 'التطبيق';
+        $families = Family::get();
 
-        return view('web_app.Deaths.create', compact('menuTitle', 'pageTitle', 'cities', 'categories'));
+        return view('web_app.Deaths.create', compact('menuTitle', 'pageTitle', 'families'));
     }
 
     /**
@@ -95,8 +100,9 @@ class DeathController extends Controller
     {
         $menuTitle = 'الوفيات';
         $pageTitle = 'التطبيق';
-
-        return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
+        $families = Family::get();
+        
+        return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death', 'families'));
     }
 
     /**
@@ -109,20 +115,18 @@ class DeathController extends Controller
     public function update(UpdateDeathRequest $request, Death $death)
     {
         $request->validate([
-            'city_id' => ['required'],
+            'family_id' => ['required'],
             'title' => ['required'],
             'body' => ['required'],
             'date' => ['required'],
-            'category_id' => ['required'],
         ]);
         if(auth()->user()->id != $death->owner_id){
             return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
         }
-        $death->city_id = $request->city_id;
+        $death->family_id = $request->family_id;
         $death->title = $request->title;
         $death->body = $request->body;
         $death->date = strtotime($request['date']);
-        $death->category_id = $request->category_id;
 
         if($request->hasFile('image')){
             $new_media = new Media;

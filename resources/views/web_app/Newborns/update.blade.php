@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('newborns.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-body">
-                            <form dir="rtl" method="POST" action="{{ route('deaths.update', $death) }}" enctype="multipart/form-data" >
+                            <form dir="rtl" method="POST" action="{{ route('newborns.update', $newborn) }}" enctype="multipart/form-data" >
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
@@ -30,7 +30,7 @@
                                         <select name="family_id" id="family_id" class="form-control mb-0" required autofocus>
                                             <option disabled>اختر العائلة</option>
                                             @foreach($families as $family)
-                                                @if($family->id == $death->family->id)
+                                                @if($family->id == $newborn->family->id)
                                                     <option value="{{$family->id}}" selected>{{ $family->name }}</option>
                                                 @else
                                                     <option value="{{$family->id}}">{{ $family->name }}</option>
@@ -40,15 +40,15 @@
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="title">العنوان</label>
-                                        <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" value="{{ $death->title }}" required autofocus>
+                                        <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" value="{{ $newborn->title }}" required autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="body">الوصف</label>
-                                        <input type="text" name="body" class="form-control mb-0" id="body" tabindex="3" value="{{ $death->body }}" required autofocus>
+                                        <input type="text" name="body" class="form-control mb-0" id="body" tabindex="3" value="{{ $newborn->body }}" required autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="date">تاريخ الوفاة</label>
-                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ date('Y-m-d', $death->death_date) }}"  required autofocus>
+                                        <label for="date">تاريخ الولادات</label>
+                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ date('Y-m-d', $newborn->newborn_date) }}"  required autofocus>
                                     </div>
 
                                     
@@ -61,7 +61,7 @@
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ $death->image->file }}" alt="Image" />
+                                            <img class="file-upload-image" src="{{ $newborn->image->file }}" alt="Image" />
                                         </div>
                                     </div>
 

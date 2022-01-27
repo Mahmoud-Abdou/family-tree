@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNewbornRequest;
 use App\Http\Requests\UpdateNewbornRequest;
 use App\Models\Newborn;
+use App\Models\Family;
+use App\Models\Category;
+use App\Models\Media;
 
 class NewbornController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:newborns.read')->only(['index', 'show']);
+        $this->middleware('permission:newborns.create')->only(['create', 'store']);
+        $this->middleware('permission:newborns.update')->only(['edit', 'update']);
+        $this->middleware('permission:newborns.delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +27,13 @@ class NewbornController extends Controller
      */
     public function index()
     {
-        //
+        $id = auth()->user()->id;
+        $menuTitle = 'المواليد';
+        $pageTitle = 'التطبيق';
+        $page_limit = 20;
+        $newborns = Newborn::paginate($page_limit);
+
+        return view('web_app.Newborns.index', compact('menuTitle', 'pageTitle', 'newborns'));
     }
 
     /**
@@ -25,7 +43,11 @@ class NewbornController extends Controller
      */
     public function create()
     {
-        //
+        $menuTitle = 'المواليد';
+        $pageTitle = 'التطبيق';
+        $families = Family::get();
+
+        return view('web_app.Newborns.create', compact('menuTitle', 'pageTitle', 'families'));
     }
 
     /**
@@ -36,7 +58,24 @@ class NewbornController extends Controller
      */
     public function store(StoreNewbornRequest $request)
     {
-        //
+        $request->validate([
+            'title' => ['required'],
+            'family_id' => ['required'],
+            'body' => ['required'],
+            'image' => ['required'],
+            'date' => ['required'],
+        ]);
+        $request['owner_id'] = auth()->user()->id;
+        $request['date'] = strtotime($request['date']);
+        $media = new Media;
+        $category_id = Category::where('type', 'newborn')->first();
+        $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
+        $request['image_id'] = $media->id;
+
+        $newborn = Newborn::create($request->all());
+        
+        \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
+        return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');
     }
 
     /**
@@ -47,7 +86,8 @@ class NewbornController extends Controller
      */
     public function show(Newborn $newborn)
     {
-        //
+        return redirect()->route('newborns.edit', $newborn);
+        
     }
 
     /**
@@ -58,7 +98,11 @@ class NewbornController extends Controller
      */
     public function edit(Newborn $newborn)
     {
-        //
+        $menuTitle = 'المواليد';
+        $pageTitle = 'التطبيق';
+        $families = Family::get();
+        
+        return view('web_app.Newborns.update', compact('menuTitle', 'pageTitle', 'newborn', 'families'));
     }
 
     /**
@@ -70,7 +114,32 @@ class NewbornController extends Controller
      */
     public function update(UpdateNewbornRequest $request, Newborn $newborn)
     {
-        //
+        $request->validate([
+            'family_id' => ['required'],
+            'title' => ['required'],
+            'body' => ['required'],
+            'date' => ['required'],
+        ]);
+        if(auth()->user()->id != $newborn->owner_id){
+            return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
+        }
+        $newborn->family_id = $request->family_id;
+        $newborn->title = $request->title;
+        $newborn->body = $request->body;
+        $newborn->date = strtotime($request['date']);
+
+        if($request->hasFile('image')){
+            $new_media = new Media;
+            $new_media = $new_media->EditUploadedMedia($request->file('image'), $newborn->image_id);
+            if($new_media == null){
+                return redirect()->route('newborns.index')->with('danger', 'حدث خطا');
+            }
+        }
+       
+        $newborn->save();
+
+        \App\Helpers\AppHelper::AddLog('Newborn Update', class_basename($newborn), $newborn->id);
+        return redirect()->route('newborns.index')->with('success', 'تم تعديل بيانات مولود بنجاح.');
     }
 
     /**
@@ -81,6 +150,14 @@ class NewbornController extends Controller
      */
     public function destroy(Newborn $newborn)
     {
-        //
+        if(auth()->user()->id != $newborn->owner_id){
+            return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
+        }
+        $newborn->image->delete_file($newborn->image);
+        $newborn->image->delete();
+        $newborn->delete();
+
+        \App\Helpers\AppHelper::AddLog('Newborn Delete', class_basename($newborn), $newborn->id);
+        return redirect()->route('newborns.index')->with('success', 'تم حذف بيانات مولود بنجاح.');
     }
 }

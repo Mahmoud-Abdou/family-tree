@@ -18,6 +18,7 @@ class EventController extends Controller
      */
     public function __construct()
     {
+        // dd("Asd");
         $this->middleware('auth');
         $this->middleware('permission:events.read')->only(['index', 'show']);
         $this->middleware('permission:events.create')->only(['create', 'store']);
@@ -36,7 +37,7 @@ class EventController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $events = Event::paginate($page_limit);
-
+        // dd($events);
         return view('web_app.Events.index', compact('menuTitle', 'pageTitle', 'events'));
     }
 

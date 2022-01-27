@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('newborns.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
                         <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                     </div>
                     <div class="card-body">
-                    <form dir="rtl" method="POST" action="{{ route('deaths.store') }}" enctype="multipart/form-data">
+                    <form dir="rtl" method="POST" action="{{ route('newborns.store') }}" enctype="multipart/form-data">
                         @csrf
                             
                         <div class="row">
@@ -45,7 +45,7 @@
                             </div>
                             
                             <div class="form-group col-lg-6">
-                                <label for="date">تاريخ الوفاة</label>
+                                <label for="date">تاريخ الولادات</label>
                                 <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8"  required autofocus>
                             </div>
 
