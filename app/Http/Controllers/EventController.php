@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\City;
 use App\Models\Media;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
@@ -32,12 +33,13 @@ class EventController extends Controller
      */
     public function index()
     {
+        $appMenu = config('custom.app_menu');
         $menuTitle = 'المناسبات';
-        $pageTitle = 'القائمة الرئيسية';
+        $pageTitle = 'لوحة التحكم';
         $page_limit = 20;
         $events = Event::paginate($page_limit);
 
-        return view('web_app.events.index', compact('menuTitle', 'pageTitle', 'events'));
+        return view('dashboard.events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events'));
     }
 
     /**
@@ -47,12 +49,13 @@ class EventController extends Controller
      */
     public function create()
     {
+        $appMenu = config('custom.app_menu');
         $menuTitle = 'إضافة مناسبة';
-        $pageTitle = 'القائمة الرئيسية';
+        $pageTitle = 'لوحة التحكم';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
-        return view('web_app.events.create', compact('menuTitle', 'pageTitle', 'cities', 'categories'));
+        return view('dashboard.events.create', compact('menuTitle', 'appMenu', 'pageTitle', 'cities', 'categories'));
     }
 
     /**
@@ -63,25 +66,18 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        $request->validate([
-            'city_id' => ['required'],
-            'title' => ['required'],
-            'body' => ['required'],
-            'image' => ['required'],
-            'event_date' => ['required'],
-            'category_id' => ['required'],
-        ]);
-        $request['owner_id'] = auth()->user()->id;
-        $request['event_date'] = strtotime($request['event_date']);
-        $media = new Media;
-        $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->user()->id);
-        $request['image_id'] = $media->id;
+        $request['owner_id'] = auth()->id();
+//        $request['event_date'] = strtotime($request['event_date']);
+        if ($request->hasfile('image')) {
+            $media = new Media;
+            $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->user()->id);
+            $request['image_id'] = $media->id;
+        }
 
         $event = Event::create($request->all());
 
         \App\Helpers\AppHelper::AddLog('Event Create', class_basename($event), $event->id);
-        return redirect()->route('events.index')->with('success', 'تم اضافة مناسبة جديدة .');
-
+        return redirect()->route('admin.events.index')->with('success', 'تم اضافة مناسبة جديدة .');
     }
 
     /**
@@ -92,8 +88,10 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return redirect()->route('events.edit', $event);
+        $menuTitle = $event->title;
+        $pageTitle = 'القائمة الرئيسية';
 
+        return view('web_app.events.show', compact('menuTitle', 'pageTitle', 'event'));
     }
 
     /**
@@ -104,12 +102,13 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        $appMenu = config('custom.app_menu');
         $menuTitle = 'تعديل مناسبة';
-        $pageTitle = 'القائمة الرئيسية';
+        $pageTitle = 'لوحة التحكم';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
-        return view('web_app.events.update', compact('menuTitle', 'pageTitle', 'event','cities', 'categories'));
+        return view('dashboard.events.update', compact('menuTitle', 'appMenu', 'pageTitle', 'event', 'cities', 'categories'));
     }
 
     /**
@@ -121,15 +120,8 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        $request->validate([
-            'city_id' => ['required'],
-            'title' => ['required'],
-            'body' => ['required'],
-            'event_date' => ['required'],
-            'category_id' => ['required'],
-        ]);
         if(auth()->user()->id != $event->owner_id){
-            return redirect()->route('events.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('events.index')->with('danger', 'لا تملك صلاحية للتعديل!');
         }
         $event->city_id = $request->city_id;
         $event->title = $request->title;
@@ -145,10 +137,13 @@ class EventController extends Controller
             }
         }
 
-        $event->save();
+        if ($event->isDirty()) {
+            $event->save();
+            \App\Helpers\AppHelper::AddLog('Event Update', class_basename($event), $event->id);
+            return redirect()->route('events.index')->with('success', 'تم تعديل بيانات المناسبة بنجاح.');
+        }
 
-        \App\Helpers\AppHelper::AddLog('Event Update', class_basename($event), $event->id);
-        return redirect()->route('events.index')->with('success', 'تم تعديل بيانات المناسبة بنجاح.');
+        return redirect()->route('admin.events.index');
     }
 
     /**
@@ -169,4 +164,30 @@ class EventController extends Controller
         \App\Helpers\AppHelper::AddLog('Event Delete', class_basename($event), $event->id);
         return redirect()->route('events.index')->with('success', 'تم حذف بيانات المناسبة بنجاح.');
     }
+
+    public function activate(Request $request)
+    {
+        $event = Event::find($request->event_id);
+
+        if (is_null($event)) {
+            return back()->with('error', '');
+        }
+
+        $event->approved = true;
+        $event->approved_by = auth()->id();
+        $event->save();
+
+        return back()->with('success', 'تم تنشيط المناسبة بنجاح');
+    }
+
+    public function indexUser()
+    {
+        $menuTitle = 'المناسبات';
+        $pageTitle = 'القائمة الرئيسية';
+        $page_limit = 10;
+        $events = Event::active()->paginate($page_limit);
+
+        return view('web_app.events.index', compact('menuTitle', 'pageTitle', 'events'));
+    }
+
 }

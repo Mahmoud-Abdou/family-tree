@@ -15,7 +15,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('profile/update-user', [\App\Http\Controllers\Auth\ProfileController::class, 'updateUser'])->name('profile.update-user');
     Route::post('profile/history-delete', [\App\Http\Controllers\Auth\ProfileController::class, 'historyDelete'])->name('history.delete');
 
-    Route::resource('events', \App\Http\Controllers\EventController::class);
+    Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');
+    Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 
 });
 

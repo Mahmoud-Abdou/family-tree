@@ -23,12 +23,11 @@ class Event extends Model
         'event_date',
         'approved',
         'approved_by',
-        'event_date'
     ];
 
     protected $casts = [
         'approved' => 'boolean',
-        'event_date' => 'datetime',
+        'event_date' => 'datetime:Y-m-d HH:mm:ss',
     ];
 
     public function owner()
@@ -56,5 +55,9 @@ class Event extends Model
         return $this->belongsTo('App\Models\Category', 'category_id', 'id');
     }
 
+    public function scopeActive($query)
+    {
+        $query->where('approved', true);
+    }
 
 }

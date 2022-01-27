@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-dashboard-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('home')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-dashboard-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
 @endsection
 
 @section('content')
@@ -119,7 +119,7 @@
                                                     </td>
                                                     <td>{{ $user->created_at->format('Y-m-d') }}</td>
                                                     <td>
-                                                        <form method="POST" action="{{ route('users.activate') }}">
+                                                        <form method="POST" action="{{ route('admin.users.activate') }}">
                                                             @csrf
                                                             <input type="hidden" name="user_id" value="{{ $user->id }}">
                                                             <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>

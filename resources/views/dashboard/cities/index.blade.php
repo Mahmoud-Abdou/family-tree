@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('cities.index')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.cities.index')],]])
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                             @can('cities.create')
-                                <a href="{{ route('cities.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                                <a href="{{ route('admin.cities.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
                             @endcan
                         </div>
                         <div class="card-body p-0">
@@ -49,11 +49,11 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         @can('cities.read|cities.update')
-                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('cities.show', $city) }}"><i class="ri-information-fill"></i></a>
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('cities.edit', $city) }}"><i class="ri-edit-2-fill"></i></a>
+                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('admin.cities.show', $city) }}"><i class="ri-information-fill"></i></a>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.cities.edit', $city) }}"><i class="ri-edit-2-fill"></i></a>
                                                         @endcan
                                                         @can('cities.delete')
-                                                        <form action="{{ route('cities.destroy', $city) }}" method="POST">
+                                                        <form action="{{ route('admin.cities.destroy', $city) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
 

@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('cities.index')],['title' => $menuTitle, 'link' => route('roles.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('admin.cities.index')],['title' => $menuTitle, 'link' => route('admin.cities.create')],]])
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-body">
-                            <form dir="rtl" method="POST" action="{{ route('cities.store') }}">
+                            <form dir="rtl" method="POST" action="{{ route('admin.cities.store') }}">
                                 @csrf
 
                                 <div class="row">

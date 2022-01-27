@@ -53,6 +53,7 @@ class Media extends Model
             return null;
         }
     }
+
     public function EditUploadedMedia($file, $media_id)
     {
         try{
@@ -62,7 +63,7 @@ class Media extends Model
                 return null;
             }
             $name = explode('/', $media->file);
-            $name = $this->filePath . $name[sizeof($name) - 1]; 
+            $name = $this->filePath . $name[sizeof($name) - 1];
             $name = substr($name, 1);
 
             unlink($name);
@@ -78,7 +79,7 @@ class Media extends Model
     {
         try{
             $name = explode('/', $file->file);
-            $name = $this->filePath . $name[sizeof($name) - 1]; 
+            $name = $this->filePath . $name[sizeof($name) - 1];
             $name = substr($name, 1);
             return unlink($name);
         }catch(Exception $ex){

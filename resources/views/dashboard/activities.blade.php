@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-archive-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('roles.index')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-archive-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.roles.index')],]])
 @endsection
 
 @section('content')
@@ -15,7 +15,7 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-archive-line"> </i> {{ $menuTitle }}</h5>
-                            <a href="{{ route('log.destroy') }}" class="btn btn-danger rounded-pill float-right"><i class="ri-delete-back-2-fill"> </i>حذف كامل السجل</a>
+                            <a href="{{ route('admin.log.destroy') }}" class="btn btn-danger rounded-pill float-right"><i class="ri-delete-back-2-fill"> </i>حذف كامل السجل</a>
                         </div>
                         <div class="card-body p-0">
 

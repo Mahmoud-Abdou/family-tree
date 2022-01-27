@@ -10,7 +10,7 @@
 
             @if(isset(request()->segments()[0]) && request()->segments()[0] == env('APP_ADMIN_URI'))
                 <li class="breadcrumb-item m-1">
-                    <a class="" href="{{ route('dashboard') }}">
+                    <a class="" href="{{ route('admin.dashboard') }}">
                         <i class="ri-dashboard-fill"> </i>&nbsp; لوحة التحكم
                     </a>
                 </li>

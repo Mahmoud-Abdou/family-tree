@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-price-tag-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'التصنيفات', 'link' => route('categories.index')],['title' => $menuTitle, 'link' => route('categories.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-price-tag-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'التصنيفات', 'link' => route('admin.categories.index')],['title' => $menuTitle, 'link' => route('admin.categories.create')],]])
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
                             <h5 class="float-left my-auto"><i class="ri-price-tag-2-lines"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-body">
-                            <form dir="rtl" class="mt-4" method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
+                            <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
