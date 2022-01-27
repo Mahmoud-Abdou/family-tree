@@ -84,12 +84,12 @@ class RoleController extends Controller
 
         \App\Helpers\AppHelper::AddLog('ٍRole Create', class_basename($role), $role->id);
 
-        return redirect()->route('roles.index')->with('success', 'تم انشاء صلاحية جديدة و يمكنك استخدامها.');
+        return redirect()->route('admin.roles.index')->with('success', 'تم انشاء صلاحية جديدة و يمكنك استخدامها.');
     }
 
     public function show($id)
     {
-        return redirect()->route('roles.edit', $id);
+        return redirect()->route('admin.roles.edit', $id);
     }
 
     public function edit($id)
@@ -125,7 +125,7 @@ class RoleController extends Controller
 
         \App\Helpers\AppHelper::AddLog('ٍRole Updateْ', class_basename($role), $role->id);
 
-        return redirect()->route('roles.index')->with('success', 'تم تعديل الصلاحية المحددة بنجاح.');
+        return redirect()->route('admin.roles.index')->with('success', 'تم تعديل الصلاحية المحددة بنجاح.');
     }
 
     public function destroy($id)
@@ -137,7 +137,7 @@ class RoleController extends Controller
 
         \App\Helpers\AppHelper::AddLog('ٍRole Delete', class_basename($role), $role->id);
 
-        return redirect()->route('roles.index')->with('success', 'تم حذف الصلاحية المحددة بنجاح.');
+        return redirect()->route('admin.roles.index')->with('success', 'تم حذف الصلاحية المحددة بنجاح.');
 
     }
 }

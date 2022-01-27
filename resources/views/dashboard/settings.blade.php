@@ -62,7 +62,7 @@
                                     </div>
 
                                     <div class="form-group col-lg-6">
-                                        <label for="app-logo">ايقونة التطبيق</label>
+                                        <label for="app-logo">شعار التطبيق</label>
                                         <div class="image-upload-wrap d-none">
                                             <input id="app-logo" class="file-upload-input" type="file" name="app_logo" value="{{ old('app_logo') }}" onchange="readURL(this);" accept="image/png,image/jpeg,image/jpg" />
                                             <div class="drag-text">

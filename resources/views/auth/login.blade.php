@@ -3,16 +3,16 @@
 <section class="sign-in-page bg-white">
     <div class="container-fluid p-0">
         <div class="row no-gutters bg-white">
-            <div class="col-sm-6 text-center d-none d-md-block" style="height: 100vh;">
+            <div class="col-sm-6 text-center d-none d-md-block">
                 @include('partials._app_auth_info')
             </div>
 
             <div class="col-sm-6 align-self-center">
                 <div class="text-center d-block d-md-none">
-                    <a class="sign-in-logo mb-5" href="#">
+                    <a class="sign-in-logo mt-5" href="#">
                         <img src="{{ Helper::GeneralSettings('app_logo') }}" class="img-fluid" alt="{{ Helper::GeneralSettings('app_title_ar') }}">
+                        <h4 class="mb-1 text-dark">{{ Helper::GeneralSettings('app_title_ar') }}</h4>
                     </a>
-                    <h4 class="mb-1 text-dark">{{ Helper::GeneralSettings('app_title_ar') }}</h4>
                 </div>
 
                 <div class="sign-in-from">
@@ -45,7 +45,9 @@
                             <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="4">@lang('auth.enter')</button>
                         </div>
                         <div class="sign-info">
-                            <span class="dark-color d-inline-block line-height-2">@lang('auth.no_have_account') <a href="{{ route('register') }}">@lang('auth.sign_up')</a></span>
+                            <span class="dark-color d-inline-block line-height-2">@lang('auth.no_have_account')
+                                <a href="{{ route('register') }}" class="float-right mx-3 btn btn-outline-primary">@lang('auth.sign_up')</a>
+                            </span>
                         </div>
                     </form>
                 </div>

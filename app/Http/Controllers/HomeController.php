@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('terms');
         $this->middleware('permission:dashboard.read')->only(['dashboard']);
     }
 
@@ -32,8 +32,18 @@ class HomeController extends Controller
     {
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'نبذة عن العائلة';
+        $content = \App\Helpers\AppHelper::GeneralSettings('app_about_ar');
 
-        return view('about', compact('menuTitle', 'pageTitle'));
+        return view('about', compact('menuTitle', 'pageTitle', 'content'));
+    }
+
+    public function terms()
+    {
+        $pageTitle = 'القائمة الرئيسية';
+        $menuTitle = 'شروط الاستخدام';
+        $content = \App\Helpers\AppHelper::GeneralSettings('app_terms_ar');
+
+        return view('terms', compact('menuTitle', 'pageTitle', 'content'));
     }
 
     public function dashboard()

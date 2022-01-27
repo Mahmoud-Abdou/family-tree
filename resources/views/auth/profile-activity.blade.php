@@ -5,7 +5,7 @@
                 <h4 class="card-title"><i class="ri-shield-star-fill"> </i>سجل الدخول</h4>
             </div>
             <div class="iq-card-header-toolbar d-flex align-items-center">
-                <a href="{{ route('log.destroy') }}" class="btn btn-danger rounded-pill float-right"><i class="ri-delete-back-2-fill"> </i>حذف السجل</a>
+                <a href="{{ route('admin.log.destroy') }}" class="btn btn-danger rounded-pill float-right"><i class="ri-delete-back-2-fill"> </i>حذف السجل</a>
             </div>
         </div>
         <div class="iq-card-body">

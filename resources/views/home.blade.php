@@ -11,7 +11,7 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col">
+                <div class="col-lg-12">
                     <h1>Home</h1>
                     <x-message type="success" message="Hello"/>
                     <x-message type="warning" message="Hello"/>
