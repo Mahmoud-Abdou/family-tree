@@ -22,7 +22,7 @@ class CreatePersonsTable extends Migration
             $table->string('surname', 100)->index()->nullable();
             $table->string('prefix', 10)->nullable();
             $table->string('job', 100)->nullable();
-            $table->string('bio')->nullable();
+            $table->text('bio')->nullable();
             $table->enum('gender', ['male', 'female']);
             $table->string('photo', 2048)->nullable()->default('default.png');
             $table->boolean('has_family')->default(false);

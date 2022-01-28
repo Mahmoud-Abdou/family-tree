@@ -61,12 +61,12 @@ class CategoryController extends Controller
         $category->save();
 
         \App\Helpers\AppHelper::AddLog('$category Create', class_basename($category), $category->id);
-        return redirect()->route('categories.index')->with('success', 'تم اضافة تصنيف جديد و يمكنك استخدامها.');
+        return redirect()->route('admin.categories.index')->with('success', 'تم اضافة تصنيف جديد و يمكنك استخدامها.');
     }
 
     public function show(Category $category)
     {
-        return redirect()->route('categories.edit', $category);
+        return redirect()->route('admin.categories.edit', $category);
     }
 
     public function edit(Category $category)
@@ -90,16 +90,21 @@ class CategoryController extends Controller
         if ($request->hasfile('image')) {
             $category->image = $this->ImageUpload($request->file('image'), $category->photoPath, $category->slug.'-image');
         }
-        $category->save();
 
-        \App\Helpers\AppHelper::AddLog('Category Create', class_basename($category), $category->id);
-        return redirect()->route('categories.index')->with('success', 'تم تعديل التصنيف بنجاح.');
+        if($category->isDirty()) {
+            $category->save();
+
+            \App\Helpers\AppHelper::AddLog('Category Create', class_basename($category), $category->id);
+            return redirect()->route('admin.categories.index')->with('success', 'تم تعديل التصنيف بنجاح.');
+        }
+
+        return redirect()->route('admin.categories.index');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
         \App\Helpers\AppHelper::AddLog('Category Delete', class_basename($category), $category->id);
-        return redirect()->route('cities.index')->with('success', 'تم حذف بيانات التصنيف بنجاح.');
+        return redirect()->route('admin.cities.index')->with('success', 'تم حذف بيانات التصنيف بنجاح.');
     }
 }

@@ -25,6 +25,16 @@
 
                             <div class="table-responsive">
                                 <table class="table m-0 px-2">
+                                    <colgroup>
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 30%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 15%;">
+                                        <col span="1" style="width: 15%;">
+                                    </colgroup>
+
                                     <thead>
                                     <tr>
                                         <th scope="col">المدينة</th>
@@ -45,12 +55,12 @@
                                                 <td>{!! $event->body !!}</td>
                                                 <td>{{ $event->owner->name }}</td>
                                                 <td>
-                                                    <img src="{{ $event->image->file }}" alt="" style="height: 100px;width: 100px;">
+                                                    <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" alt="{{ $event->title }}" style="height: 100px;width: 100px;">
                                                 </td>
                                                 <td>{{ $event->event_date }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                        @if($event->owner_id == auth()->user()->id)
+{{--                                                        @if($event->owner_id == auth()->user()->id)--}}
                                                             @can('events.update')
                                                             <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.events.edit', $event) }}"><i class="ri-edit-2-fill"></i></a>
                                                             @endcan
@@ -69,7 +79,7 @@
                                                                 <button type="submit" class="btn btn-outline-success rounded-pill m-1 px-3"><i class="ri-arrow-up-circle-line"></i></button>
                                                             </form>
                                                             @endif
-                                                        @endif
+{{--                                                        @endif--}}
                                                     </div>
                                                 </td>
                                             </tr>

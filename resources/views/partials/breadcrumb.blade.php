@@ -1,8 +1,3 @@
-{{--@php--}}
-{{--    $urlArr = explode("//", url()->current());--}}
-{{--    $urlArr2 = explode("/", $urlArr[1]);--}}
-{{--@endphp--}}
-
 <div class="navbar-breadcrumb">
     <h5 class="mb-0">{!! $pageTitle !!}</h5>
     <nav aria-label="breadcrumb">
@@ -26,9 +21,9 @@
                 @foreach($slots as $keySlot => $slot)
                     <i class="ri-arrow-left-s-line m-1"></i>
                 @if(count($slots) -1 == $keySlot)
-                        <li class="breadcrumb-item m-1 active" aria-current="page"> {{ $slot['title'] }}</li>
+                    <li class="breadcrumb-item m-1 active" aria-current="page"> {{ $slot['title'] }}</li>
                 @else
-                        <li class="breadcrumb-item m-1"><a href="{{ $slot['link'] }}"> {{ $slot['title'] }}</a></li>
+                    <li class="breadcrumb-item m-1"><a href="{{ $slot['link'] }}"> {{ $slot['title'] }}</a></li>
                 @endif
                 @endforeach
             @endif

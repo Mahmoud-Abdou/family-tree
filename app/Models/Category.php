@@ -56,6 +56,8 @@ class Category extends Model
                 return 'ولادة';
             case 'marriages':
                 return 'زواج';
+            case 'deaths':
+                return 'الوفيات';
             default:
                 return $this->type;
         }
@@ -78,6 +80,8 @@ class Category extends Model
                 return 'ولادة';
             case 'marriages':
                 return 'زواج';
+            case 'deaths':
+                return 'الوفيات';
             default:
                 return $type;
         }
@@ -100,6 +104,8 @@ class Category extends Model
                 return '<span class="badge iq-bg-success">ولادة</span>';
             case 'marriages':
                 return '<span class="badge iq-bg-dark">زواج</span>';
+            case 'deaths':
+                return '<span class="badge iq-bg-warning">الوفيات</span>';
             default:
                 return $this->type;
         }

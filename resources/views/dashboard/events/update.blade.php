@@ -82,7 +82,7 @@
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ $event->image->file }}" alt="Event Image" />
+                                            <img class="file-upload-image" src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" alt="Event Image" />
                                             <div class="image-title-wrap">
                                                 <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
                                             </div>

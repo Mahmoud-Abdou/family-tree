@@ -6,7 +6,7 @@ return [
     'relations-types' => ['general', 'media', 'video', 'event', 'news', 'newborn', 'marriages'],
 
     // Categories types
-    'category-types' => ['general', 'media', 'video', 'event', 'news', 'newborn', 'marriages'],
+    'category-types' => ['general', 'media', 'video', 'event', 'news', 'newborn', 'marriages', 'deaths'],
 
     //all roles
     'roles' => [

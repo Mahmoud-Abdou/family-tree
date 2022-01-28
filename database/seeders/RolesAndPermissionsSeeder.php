@@ -35,10 +35,11 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // or may be done by chaining
         Role::create(['name' => 'Moderator', 'name_ar' => 'مسؤول', 'description' => 'مسؤول عن بعض العمليات'])
-            ->givePermissionTo(['users.read', 'users.update', 'users.activate', 'cities.read', 'cities.create', 'cities.update', 'cities.delete']);
+            ->givePermissionTo(['users.read', 'users.update', 'users.activate', 'cities.read', 'cities.create', 'cities.update', 'cities.delete', 'categories.read', 'categories.create', 'categories.update', 'categories.delete']);
 
         // this can be done as separate statements
-        Role::create(['name' => 'Viewer', 'name_ar' => 'مستخدم', 'description' => 'مستخدم بصلاحيات شخصية']);
+        Role::create(['name' => 'Viewer', 'name_ar' => 'مستخدم', 'description' => 'مستخدم بصلاحيات شخصية'])
+            ->givePermissionTo(['events.read', 'events.update', 'news.read', 'news.update', 'newborns.read', 'newborns.update', 'death.read', 'death.update', 'media.read', 'media.update']);
 
         // create super admin user
         $user = User::create([
@@ -46,7 +47,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'email' => 'loai@alflk.sa',
             'mobile' => '0501673338',
             'role_id' => $roleAdmin->id,
-            'city_id' => null,
+            'city_id' => 1,
             'password' => 'Pass@1234',
             'status' => 'active',
             'accept_terms' => true
