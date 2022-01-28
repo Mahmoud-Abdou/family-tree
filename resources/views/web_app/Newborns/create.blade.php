@@ -26,15 +26,7 @@
                         <div class="row">
 
                             
-                            <div class="form-group col-lg-6">
-                                <label for="family_id">العائلة</label>
-                                <select name="family_id" id="family_id" class="form-control mb-0" required autofocus>
-                                    <option>اخترالعائلة </option>
-                                    @foreach($families as $family)
-                                        <option value="{{$family->id}}">{{ $family->name }}</option>
-                                    @endforeach
-                                </select>    
-                            </div>
+                            
                             <div class="form-group col-lg-6">
                                 <label for="title">العنوان</label>
                                 <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" required autofocus>
@@ -49,6 +41,21 @@
                                 <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8"  required autofocus>
                             </div>
 
+                            <div class="form-group col-lg-6">
+                                <label for="first_name">الاسم</label>
+                                <input type="text" name="first_name" class="form-control mb-0" id="first_name" tabindex="2" required autofocus>
+                            </div>
+                            
+                            <div class="form-group col-lg-6">
+                                <label for="father_name">اسم الاب</label>
+                                <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="2" required autofocus>
+                            </div>
+                            
+                            <div class="form-group col-lg-6">
+                                <label for="gender">النوع</label>
+                                <input type="text" name="gender" class="form-control mb-0" id="gender" tabindex="2" required autofocus>
+                            </div>
+                            
                             
                             <div class="form-group col-lg-6">
                                 <label for="app-icon">الصورة</label>

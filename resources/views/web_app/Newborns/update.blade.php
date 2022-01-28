@@ -25,19 +25,7 @@
                                 @method('PUT')
                                 <div class="row">
 
-                                    <div class="form-group col-lg-6">
-                                        <label for="family_id">العائلة</label>
-                                        <select name="family_id" id="family_id" class="form-control mb-0" required autofocus>
-                                            <option disabled>اختر العائلة</option>
-                                            @foreach($families as $family)
-                                                @if($family->id == $newborn->family->id)
-                                                    <option value="{{$family->id}}" selected>{{ $family->name }}</option>
-                                                @else
-                                                    <option value="{{$family->id}}">{{ $family->name }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>    
-                                    </div>
+                                    
                                     <div class="form-group col-lg-6">
                                         <label for="title">العنوان</label>
                                         <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" value="{{ $newborn->title }}" required autofocus>
@@ -48,7 +36,7 @@
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="date">تاريخ الولادات</label>
-                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ $newborn->date }}"  required autofocus>
+                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ Carbon\Carbon::parse($newborn->date)->format('Y-m-d') }}"  required autofocus>
                                     </div>
 
                                     

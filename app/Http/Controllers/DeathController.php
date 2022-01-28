@@ -6,9 +6,11 @@ use App\Http\Requests\StoreDeathRequest;
 use App\Http\Requests\UpdateDeathRequest;
 use App\Models\Death;
 use App\Models\City;
+use App\Models\Person;
 use App\Models\Media;
 use App\Models\Category;
 use App\Models\Family;
+use App\Models\News;
 use Carbon\Carbon;
 
 class DeathController extends Controller
@@ -48,9 +50,10 @@ class DeathController extends Controller
     {
         $menuTitle = 'الوفيات';
         $pageTitle = 'التطبيق';
-        $families = Family::get();
+        $family_id = auth()->user()->profile->family_id;
+        $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
 
-        return view('web_app.Deaths.create', compact('menuTitle', 'pageTitle', 'families'));
+        return view('web_app.Deaths.create', compact('menuTitle', 'pageTitle', 'persons'));
     }
 
     /**
@@ -63,25 +66,34 @@ class DeathController extends Controller
     {
         $request->validate([
             'title' => ['required'],
-            'family_id' => ['required'],
             'body' => ['required'],
             'image' => ['required'],
             'date' => ['required'],
+            'person_id' => ['required'],
         ]);
         $request['owner_id'] = auth()->user()->id;
         $request['date'] = Carbon::parse($request['date']);
+        $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
 
         $category_id = Category::where('type', 'death')->first();
         $media = new Media;
+        // dd($category_id);
         $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
         $request['image_id'] = $media->id;
-
+        // dd($request->all());
         $death = Death::create($request->all());
         
+        $person = Person::where('id', $request['person_id'])->first();
+        if($person != null){
+            $person->is_live = 0;
+            $person->save();
+        }
+        
+
         $request['city_id'] = 1;
         $request['category_id'] = $category_id->id;
         $request['approved'] = 0;
-        $news = news::create($request->all());
+        $news = News::create($request->all());
         
         \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
@@ -108,9 +120,8 @@ class DeathController extends Controller
     {
         $menuTitle = 'الوفيات';
         $pageTitle = 'التطبيق';
-        $families = Family::get();
         
-        return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death', 'families'));
+        return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
     }
 
     /**
@@ -123,7 +134,6 @@ class DeathController extends Controller
     public function update(UpdateDeathRequest $request, Death $death)
     {
         $request->validate([
-            'family_id' => ['required'],
             'title' => ['required'],
             'body' => ['required'],
             'date' => ['required'],
@@ -131,7 +141,6 @@ class DeathController extends Controller
         if(auth()->user()->id != $death->owner_id){
             return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
         }
-        $death->family_id = $request->family_id;
         $death->title = $request->title;
         $death->body = $request->body;
         $death->date = Carbon::parse($request['date']);
@@ -168,4 +177,6 @@ class DeathController extends Controller
         \App\Helpers\AppHelper::AddLog('Death Delete', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
+
+    
 }

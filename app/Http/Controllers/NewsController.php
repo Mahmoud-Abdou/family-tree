@@ -148,4 +148,19 @@ class NewsController extends Controller
         \App\Helpers\AppHelper::AddLog('News Delete', class_basename($news), $news->id);
         return redirect()->route('news.index')->with('success', 'تم حذف بيانات الخبر بنجاح.');
     }
+
+    public function activate(Request $request)
+    {
+        $news = News::find($request->news_id);
+
+        if (is_null($news)) {
+            return back()->with('error', '');
+        }
+
+        $news->approved = true;
+        $news->approved_by = auth()->id();
+        $news->save();
+
+        return back()->with('success', 'تم تنشيط الخبر بنجاح');
+    }
 }

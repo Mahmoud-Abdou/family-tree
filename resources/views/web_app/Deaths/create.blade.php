@@ -27,13 +27,13 @@
 
                             
                             <div class="form-group col-lg-6">
-                                <label for="family_id">العائلة</label>
-                                <select name="family_id" id="family_id" class="form-control mb-0" required autofocus>
-                                    <option>اخترالعائلة </option>
-                                    @foreach($families as $family)
-                                        <option value="{{$family->id}}">{{ $family->name }}</option>
+                                <label for="person_id">المتوفي</label>
+                                <select name="person_id" id="person_id" class="form-control mb-0" required>
+                                    <option disabled>اختر الشخص</option>
+                                    @foreach($persons as $person)
+                                        <option value="{{$person->id}}" >{{ $person->first_name }}</option>
                                     @endforeach
-                                </select>    
+                                </select>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="title">العنوان</label>
