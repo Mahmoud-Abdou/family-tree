@@ -24,7 +24,7 @@
                             <div class="col-3"><i class="ri-phone-fill"> </i>:</div>
                             <div class="col-9"><a href="tel:{{ $profile->user->mobile }}">{{ $profile->user->mobile }}</a></div>
                             <div class="col-3"><i class="ri-map-pin-2-fill"> </i>:</div>
-                            <div class="col-9">{{ $profile->user->city->name_ar }}</div>
+                            <div class="col-9">{{ isset($profile->user->city) ? $profile->user->city->name_ar : '-' }}</div>
                         </div>
                     </div>
                 </div>

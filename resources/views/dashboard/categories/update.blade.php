@@ -19,11 +19,12 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-price-tag-2-lines"> </i> {{ $menuTitle }}</h5>
                         </div>
-                        <div class="card-body">
-                            <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
 
+                        <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-lg-6">
                                         <label for="name_en">الاسم (إنجليزي)</label>
@@ -80,14 +81,13 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="row flex inline-flex p-2 mx-2">
-                                    <button type="submit" class="btn px-5 btn-primary rounded-pill" tabindex="5"><i class="ri-save-2-fill"> </i>حفظ</button>
-                                </div>
-                            </form>
+                            <div class="card-footer text-muted">
+                                <button type="submit" class="btn px-5 btn-primary rounded-pill" tabindex="5"><i class="ri-save-2-fill"> </i>حفظ</button>
+                            </div>
+                        </form>
 
-                        </div>
-                        <div class="card-footer text-muted"></div>
                     </div>
                 </div>
             </div>

@@ -73,7 +73,7 @@ class CityController extends Controller
         $city = City::create($request->all());
 
         \App\Helpers\AppHelper::AddLog('City Create', class_basename($city), $city->id);
-        return redirect()->route('cities.index')->with('success', 'تم اضافة مدينة جديدة و يمكنك استخدامها.');
+        return redirect()->route('admin.cities.index')->with('success', 'تم اضافة مدينة جديدة و يمكنك استخدامها.');
     }
 
     /**
@@ -84,7 +84,7 @@ class CityController extends Controller
      */
     public function show(City $city)
     {
-        return redirect()->route('cities.edit', $city);
+        return redirect()->route('admin.cities.edit', $city);
     }
 
     /**
@@ -127,7 +127,7 @@ class CityController extends Controller
         $city->save();
 
         \App\Helpers\AppHelper::AddLog('City Update', class_basename($city), $city->id);
-        return redirect()->route('cities.index')->with('success', 'تم تعديل بيانات المدينة بنجاح.');
+        return redirect()->route('admin.cities.index')->with('success', 'تم تعديل بيانات المدينة بنجاح.');
     }
 
     /**
@@ -140,6 +140,6 @@ class CityController extends Controller
     {
         $city->delete();
         \App\Helpers\AppHelper::AddLog('City Delete', class_basename($city), $city->id);
-        return redirect()->route('cities.index')->with('success', 'تم حذف بيانات المدينة بنجاح.');
+        return redirect()->route('admin.cities.index')->with('success', 'تم حذف بيانات المدينة بنجاح.');
     }
 }

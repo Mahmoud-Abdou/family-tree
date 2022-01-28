@@ -19,10 +19,9 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                         </div>
-                        <div class="card-body">
-                            <form dir="rtl" method="POST" action="{{ route('admin.cities.store') }}">
-                                @csrf
-
+                        <form dir="rtl" method="POST" action="{{ route('admin.cities.store') }}">
+                            @csrf
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-lg-6">
                                         <label for="country_en">اسم الدولة (إنجليزي)</label>
@@ -47,13 +46,6 @@
                                     </div>
 
                                     <div class="form-group col-lg-6">
-                                        <div class="row flex inline-flex p-2 mx-2">
-                                            <button type="submit" class="btn px-5 btn-primary rounded-pill "
-                                                    tabindex="5"><i class="ri-save-2-fill"> </i>حفظ
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-6">
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" name="status"
                                                    id="status-input" checked>
@@ -61,13 +53,16 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                            </form>
-                        </div>
+                            <div class="card-footer text-muted">
+                                <button type="submit" class="btn px-5 btn-primary rounded-pill "
+                                        tabindex="5"><i class="ri-save-2-fill"> </i>حفظ
+                                </button>
+                            </div>
+                        </form>
 
-                        <div class="card-footer text-muted"></div>
                     </div>
-
                 </div>
             </div>
         </div>

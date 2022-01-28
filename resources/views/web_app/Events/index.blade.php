@@ -15,15 +15,15 @@
                     <div class="col-sm-4">
                     <a href="{{ route('events.show', $event->id) }}">
                         <div class="card iq-mb-3">
-                            <img src="{{ $event->image->file }}" class="card-img-top img-fluid w-auto" alt="{{ $event->title }}">
+                            <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $event->title }}">
                             <div class="card-body">
                                 <h4 class="card-title">{{ $event->title }}</h4>
                                 <p class="card-text">{!! $event->body !!}</p>
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex justify-content-between">
-                                    <p class="card-text"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ $event->event_date }}</small></p>
-                                    <p class="card-text"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $event->city->name_ar }}</small></p>
+                                    <p class="card-text  m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ $event->event_date }}</small></p>
+                                    <p class="card-text  m-0"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $event->city->name_ar }}</small></p>
                                 </div>
                             </div>
                         </div>

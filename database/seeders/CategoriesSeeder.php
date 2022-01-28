@@ -17,6 +17,7 @@ class CategoriesSeeder extends Seeder
         $categories = [
             ['slug' => 'general', 'name_ar' => 'عام', 'name_en' => 'General', 'type' => 'general'],
             ['slug' => 'newborn', 'name_ar' => 'المواليد', 'name_en' => 'Newborn', 'type' => 'newborn'],
+            ['slug' => 'death', 'name_ar' => 'الوفيات', 'name_en' => 'Deaths', 'type' => 'deaths'],
             ['slug' => 'marriages', 'name_ar' => 'الزواجات', 'name_en' => 'Newborn', 'type' => 'marriages'],
             ['slug' => 'event', 'name_ar' => 'المناسبات', 'name_en' => 'Event', 'type' => 'event'],
             ['slug' => 'meetings', 'name_ar' => 'الاجتماعات', 'name_en' => 'Meetings', 'type' => 'event'],

@@ -8,8 +8,8 @@
 
             <div class="col-sm-6 align-self-center">
                 <div class="sign-in-from">
-                    <h1 class="mb-0">Reset Password</h1>
-                    <p>Enter your email address and we'll send you an email with instructions to reset your password.</p>
+                    <h1 class="mb-0">إعادة تعيين كلمة المرور</h1>
+                    <p>أدخل عنوان بريدك الإلكتروني وسنرسل إليك بريدًا إلكترونيًا يحتوي على تعليمات لإعادة تعيين كلمة المرور الخاصة بك.</p>
 
 {{--                    <!-- Session Status -->--}}
                     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -22,13 +22,15 @@
 
 {{--                        <!-- Email Address -->--}}
                         <div class="form-group">
-                            <label for="email">{{ __('Email') }}</label>
-                            <input type="email" name="email" class="form-control mb-0" id="email" placeholder="Enter email" value="{{ old('email') }}" required autofocus >
+                            <label for="email">{{ __('البريد الإلكتروني') }}</label>
+                            <input type="email" name="email" class="form-control mb-0" id="email" placeholder="أدخل البريد الإلكتروني" value="{{ old('email') }}" required autofocus >
                         </div>
 
                         <div class="d-inline-block w-100">
-                            <button type="submit" class="btn btn-primary float-left py-2 px-4">{{ __('Email Password Reset Link') }}</button>
+                            <button type="submit" class="btn btn-primary float-left py-2 px-4">{{ __('ارسال') }}</button>
+                            <a href="{{ route('login') }}" class="float-right my-auto py-2 btn btn-outline-primary">عودة لتسجيل الدخول </a>
                         </div>
+
                     </form>
                 </div>
             </div>

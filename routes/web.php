@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('terms', 'terms')->name('terms');
+//Route::view('terms', 'terms')->name('terms');
+Route::get('terms', [\App\Http\Controllers\HomeController::class, 'terms'])->name('terms');
 
 //Route::group(['middleware' => ['auth']], function () {
 Route::middleware(['auth'])->group(function () {

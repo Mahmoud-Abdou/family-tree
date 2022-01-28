@@ -122,7 +122,7 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         if(auth()->user()->id != $event->owner_id){
-            return redirect()->route('events.index')->with('danger', 'لا تملك صلاحية للتعديل!');
+            return redirect()->route('admin.events.index')->with('danger', 'لا تملك صلاحية للتعديل!');
         }
         $event->city_id = $request->city_id;
         $event->title = $request->title;
@@ -134,14 +134,14 @@ class EventController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $event->image_id);
             if($new_media == null){
-                return redirect()->route('events.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.events.index')->with('danger', 'حدث خطا');
             }
         }
 
         if ($event->isDirty()) {
             $event->save();
             \App\Helpers\AppHelper::AddLog('Event Update', class_basename($event), $event->id);
-            return redirect()->route('events.index')->with('success', 'تم تعديل بيانات المناسبة بنجاح.');
+            return redirect()->route('admin.events.index')->with('success', 'تم تعديل بيانات المناسبة بنجاح.');
         }
 
         return redirect()->route('admin.events.index');
@@ -156,14 +156,14 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         if(auth()->user()->id != $event->owner_id){
-            return redirect()->route('events.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('admin.events.index')->with('danger', 'لا يمكنك الحذف');
         }
         $event->image->delete_file($event->image);
         $event->image->delete();
         $event->delete();
 
         \App\Helpers\AppHelper::AddLog('Event Delete', class_basename($event), $event->id);
-        return redirect()->route('events.index')->with('success', 'تم حذف بيانات المناسبة بنجاح.');
+        return redirect()->route('admin.events.index')->with('success', 'تم حذف بيانات المناسبة بنجاح.');
     }
 
     public function activate(Request $request)

@@ -7,7 +7,7 @@
                 @include('partials._app_auth_info')
             </div>
 
-            <div class="col-sm-6 align-self-center">
+            <div class="col-sm-6 align-self-center register-scroll">
                 <div class="text-center d-block d-md-none">
                     <a class="sign-in-logo mb-5" href="#">
                         <img src="{{ Helper::GeneralSettings('app_logo') }}" class="img-fluid" alt="{{ Helper::GeneralSettings('app_title_ar') }}">
@@ -60,12 +60,15 @@
                         <div class="d-inline-block w-100">
                             <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1 float-right">
                                 <input type="checkbox" name="terms" class="custom-control-input" id="terms" required {{ old('terms') == 'on' ? 'checked' : '' }} >
-                                <label class="custom-control-label" for="terms"> عند الاشتراك فانت توافق على <a href="{{ route('terms') }}">شروط الاستخدام</a></label>
+                                <label class="custom-control-label" for="terms"> عند الاشتراك فانت توافق على </label>
+                                <a href="{{ route('terms') }}" class="mx-1">شروط الاستخدام </a>
                             </div>
                             <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="9">اشتراك</button>
                         </div>
                         <div class="sign-info">
-                            <span class="dark-color d-inline-block line-height-2">لديك حساب بالفعل؟ <a href="{{ route('login') }}">دخول</a></span>
+                            <span class="dark-color d-inline-block line-height-2">لديك حساب بالفعل؟
+                                <a href="{{ route('login') }}" class="float-right mx-3 btn btn-outline-primary">دخول</a>
+                            </span>
                         </div>
                     </form>
                 </div>

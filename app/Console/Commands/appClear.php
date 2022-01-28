@@ -40,24 +40,24 @@ class appClear extends Command
     {
         Artisan::call('view:clear');
         Artisan::call('view:cache');
-        $this->comment('Views have been cleared!');
+        $this->info('Views have been cleared!');
 
         Artisan::call('route:clear');
         Artisan::call('route:cache');
-        $this->comment('Routes have been cleared!');
+        $this->info('Routes have been cleared!');
 
         Artisan::call('config:clear');
         Artisan::call('config:cache');
-        $this->comment('Config have been cleared!');
+        $this->info('Config have been cleared!');
 
         Artisan::call('cache:clear');
-        $this->comment('Cache have been cleared!');
+        $this->info('Cache have been cleared!');
 
         Artisan::call('clear-compiled');
-        $this->comment('Compiled classes have been cleared!');
+        $this->info('Compiled classes have been cleared!');
 
         Artisan::call('optimize:clear');
-        $this->comment('Optimize have been cleared!');
+        $this->info('Optimize have been cleared!');
 
         $this->comment('App have been cleared!');
         return 1;

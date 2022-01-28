@@ -14,13 +14,27 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $city = \App\Models\City::all();
+        $cities = $city->map(function ($item) {
+            return $item['id'];
+        });
+        $citiesIdes = $cities->all();
+
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->firstName(),
             'email' => $this->faker->unique()->safeEmail(),
+            'mobile' => $this->faker->phoneNumber(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => 'password', // password
             'remember_token' => Str::random(10),
+            'role_id' => 3,
+//            'city_id' => $this->faker->randomElement($citiesIdes),
+            'city_id' => $this->faker->numberBetween(1, 5),
+            'status' => $this->faker->randomElement(['registered', 'active']),
+            'accept_terms' => true,
         ];
+
+
     }
 
     /**

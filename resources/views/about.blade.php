@@ -11,8 +11,18 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col">
-                    <h1>نبذة عن العائلة</h1>
+                <div class="col-lg-12">
+                    <div class="card iq-mb-3">
+                        <div class="card-header">
+                            {{ $menuTitle }}
+                        </div>
+                        <div class="card-body">
+                            {!! $content !!}
+                        </div>
+                        <div class="card-footer text-muted">
+
+                        </div>
+                    </div>
                 </div>
             </div>
 

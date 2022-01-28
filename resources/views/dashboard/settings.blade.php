@@ -62,7 +62,7 @@
                                     </div>
 
                                     <div class="form-group col-lg-6">
-                                        <label for="app-logo">ايقونة التطبيق</label>
+                                        <label for="app-logo">شعار التطبيق</label>
                                         <div class="image-upload-wrap d-none">
                                             <input id="app-logo" class="file-upload-input" type="file" name="app_logo" value="{{ old('app_logo') }}" onchange="readURL(this);" accept="image/png,image/jpeg,image/jpg" />
                                             <div class="drag-text">
@@ -126,17 +126,20 @@
                                     </div>
                                 </div>
 
-                                <div class="row flex inline-flex p-2 mx-2">
-                                    <button type="submit" class="btn px-5 btn-primary rounded-pill w-25"><i class="ri-save-2-fill"> </i>حفظ التعديلات</button>
-                                    <p class="my-auto mx-4">ملاحظة: هذه التعديلات ستؤثر بشكل مباشر في اعدادات التطبيق.</p>
-                                </div>
                             </form>
 
                         </div>
-                        <div class="card-footer text-muted">
-                            <i class="ri-time-fill mx-2"></i>
-                            آخر تعديل تم في
-                            <span class="mx-2">{{ $settingData->updated_at }}</span>
+                        <div class="card-footer text-muted d-flex inline-flex justify-content-between">
+                            <div class="d-flex">
+                                <button type="submit" class="btn px-4 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ التعديلات</button>
+                                <p class="my-auto mx-4">ملاحظة: هذه التعديلات ستؤثر بشكل مباشر في اعدادات التطبيق.</p>
+                            </div>
+
+                            <div class="d-flex">
+                                <i class="ri-time-fill"></i>
+                                آخر تعديل تم في
+                                <span class="mx-2">{{ $settingData->updated_at }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

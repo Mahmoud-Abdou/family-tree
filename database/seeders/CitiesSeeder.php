@@ -18,6 +18,8 @@ class CitiesSeeder extends Seeder
             ['slug' => '', 'name_ar' => 'الرياض', 'name_en' => 'Riyadh', 'country_ar' => 'المملكة العربية السعودية', 'country_en' => 'Saudi Arabia'],
             ['slug' => '', 'name_ar' => 'جدة', 'name_en' => 'Jeddah', 'country_ar' => 'المملكة العربية السعودية', 'country_en' => 'Saudi Arabia'],
             ['slug' => '', 'name_ar' => 'حائل', 'name_en' => 'Haiel', 'country_ar' => 'المملكة العربية السعودية', 'country_en' => 'Saudi Arabia'],
+            ['slug' => '', 'name_ar' => 'القصيم', 'name_en' => 'Qaseem', 'country_ar' => 'المملكة العربية السعودية', 'country_en' => 'Saudi Arabia'],
+            ['slug' => '', 'name_ar' => 'الدمام', 'name_en' => 'Dammam', 'country_ar' => 'المملكة العربية السعودية', 'country_en' => 'Saudi Arabia'],
         ];
 
         foreach ($cities as $city) {
