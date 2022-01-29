@@ -18,6 +18,7 @@
                             <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $event->title }}">
                             <div class="card-body">
                                 <h4 class="card-title">{{ $event->title }}</h4>
+                                <hr />
                                 <p class="card-text">{!! $event->body !!}</p>
                             </div>
                             <div class="card-footer">

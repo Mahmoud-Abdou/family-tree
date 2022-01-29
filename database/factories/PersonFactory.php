@@ -14,24 +14,25 @@ class PersonFactory extends Factory
      */
     public function definition()
     {
+        $user = \App\Models\User::all()->unique()->random();
+        $gender = $this->faker->randomElement(['male', 'female']);
         $isLive = $this->faker->boolean(75);
+
+        $user->name = $this->faker->firstName($gender);
+        $user->save();
 
         return [
 //            'user_id' => factory(\App\Models\User::class)->create()->id,
-            'user_id' => function () {
-                return \App\Models\User::all()->unique()->random()->id;
-            },
-            'first_name' => function () {
-                return \App\Models\User::all()->unique()->random()->name;
-            },
-            'father_name' => $this->faker->name(),
+            'user_id' => $user->id,
+            'first_name' => $user->name,
+            'father_name' => $this->faker->firstNameMale(),
             'grand_father_name' => $this->faker->firstNameMale(),
 //            'surname' => null,
-            'prefix' => $this->faker->title,
-            'job' => $this->faker->jobTitle,
+            'prefix' => $this->faker->title($gender),
+            'job' => $this->faker->jobTitle(),
             'bio' => $this->faker->realText(300),
-            'gender' => $this->faker->randomElement(['male', 'female']),
-            'photo' => $this->faker->randomElement(['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png']),
+            'gender' => $gender,
+//            'photo' => $this->faker->randomElement(['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png']),
             'has_family' => $this->faker->boolean(40),
             'family_id' => $this->faker->numberBetween(1, 50),
             'relation' => $this->faker->randomElement(config('custom.relations-types')),
