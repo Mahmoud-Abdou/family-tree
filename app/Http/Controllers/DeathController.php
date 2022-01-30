@@ -71,8 +71,13 @@ class DeathController extends Controller
         $category_id = Category::where('type', 'death')->first();
         $media = new Media;
 
-        $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
-        $request['image_id'] = $media->id;
+        if($request->hasFile('image')){
+            $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
+            $request['image_id'] = $media->id;
+        }
+        else{
+            $request['image_id'] = null;
+        }
 
         $death = Death::create($request->all());
         
