@@ -20,6 +20,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('news', \App\Http\Controllers\NewsController::class);
     Route::resource('deaths', \App\Http\Controllers\DeathController::class);
     Route::resource('newborns', \App\Http\Controllers\NewbornController::class);
+    Route::resource('media', \App\Http\Controllers\MediaController::class);
+
+    Route::get('get_media/{category_id}', [\App\Http\Controllers\MediaController::class, 'get_media']);
 
     Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');
     Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');

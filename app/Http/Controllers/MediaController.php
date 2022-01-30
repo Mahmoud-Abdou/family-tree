@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMediaRequest;
 use App\Http\Requests\UpdateMediaRequest;
 use App\Models\Media;
+use App\Models\Category;
+
 use Exception;
 
 class MediaController extends Controller
@@ -17,12 +19,13 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $appMenu = config('custom.app_menu');
-        $menuTitle = 'الصور';
+        $appMenu = config('custom.main_menu');
+        $menuTitle = 'المعرض';
         $pageTitle = 'لوحة التحكم';
-        $media = Media::paginate(20);
+        $media = Media::where('owner_id', auth()->user()->id)->paginate(20);
+        $categories = Category::get();
 
-        return view('dashboard.media.index', compact('appMenu', 'menuTitle', 'pageTitle', 'media'));
+        return view('web_app.Media.index', compact('appMenu', 'menuTitle', 'pageTitle', 'media', 'categories'));
 
     }
 
@@ -33,11 +36,11 @@ class MediaController extends Controller
      */
     public function create()
     {
-        $appMenu = config('custom.app_menu');
+        $appMenu = config('custom.main_menu');
         $menuTitle = 'اضافة صورة';
         $pageTitle = 'لوحة التحكم';
 
-        return view('dashboard.media.create', compact('appMenu', 'menuTitle', 'pageTitle'));
+        return view('web_app.Media.create', compact('appMenu', 'menuTitle', 'pageTitle'));
 
     }
 
@@ -49,10 +52,6 @@ class MediaController extends Controller
      */
     public function store(StoreMediaRequest $request)
     {
-        $request->validate([
-            'file' => ['required'],
-            'category_id' => ['required'],
-        ]);
         $request['owner_id'] = auth()->user()->id;
         $media = new Media;
         $media = $media->UploadMedia($request->file('file'), $request['category_id'], $request['owner_id']);
@@ -83,11 +82,11 @@ class MediaController extends Controller
      */
     public function edit(Media $media)
     {
-        $appMenu = config('custom.app_menu');
+        $appMenu = config('custom.main_menu');
         $menuTitle = 'تعديل الصور';
         $pageTitle = 'لوحة التحكم';
 
-        return view('dashboard.media.update', compact('appMenu', 'menuTitle', 'pageTitle', 'media'));
+        return view('web_app.Media.update', compact('appMenu', 'menuTitle', 'pageTitle', 'media'));
     }
 
     /**
@@ -99,9 +98,6 @@ class MediaController extends Controller
      */
     public function update(UpdateMediaRequest $request, Media $media)
     {
-        $request->validate([
-            'category_id' => ['required'],
-        ]);
         if($request->hasFile('file')){
             $request['owner_id'] = auth()->user()->id;
             
@@ -131,6 +127,24 @@ class MediaController extends Controller
         \App\Helpers\AppHelper::AddLog('Media Delete', class_basename($media), $media->id);
         return redirect()->route('media.index')->with('success', 'تم حذف بيانات الصور بنجاح.');
 
+    }
+
+
+    public function get_media($category_id)
+    {
+        $response = [];
+        if($category_id == null || $category_id == 1){
+            $media = Media::get();
+        }
+        else{
+            $media = Media::where('category_id', $category_id)->get();
+        }
+        foreach($media as $row){
+            $row_response['category'] = $row->category->name_ar;
+            $row_response['file'] = $row->file;
+            $response [] = $row_response;
+        }
+        return response()->json($response, 200, [], JSON_UNESCAPED_UNICODE);
     }
 
 

@@ -116,7 +116,7 @@ return [
         ['id' => 5, 'title' => 'Events', 'title_ar' => 'المناسبات', 'link' => 'events.index', 'icon' => 'ri-calendar-event-line', 'permission' => 'events.read', 'child' => null],
         ['id' => 6, 'title' => 'Newborn', 'title_ar' => 'المواليد', 'link' => 'newborns.index', 'icon' => 'ri-user-smile-line', 'permission' => 'newborns.read', 'child' => null],
         ['id' => 7, 'title' => 'Death', 'title_ar' => 'الوفيات', 'link' => 'deaths.index', 'icon' => 'ri-user-4-line', 'permission' => 'death.read', 'child' => null],
-        ['id' => 8, 'title' => 'Media', 'title_ar' => 'المعرض', 'link' => 'home', 'icon' => 'ri-image-2-line', 'permission' => 'media.read', 'child' => null],
+        ['id' => 8, 'title' => 'Media', 'title_ar' => 'المعرض', 'link' => 'media.index', 'icon' => 'ri-image-2-line', 'permission' => 'media.read', 'child' => null],
         ['id' => 9, 'title' => 'News', 'title_ar' => 'الأخبار', 'link' => 'news.index', 'icon' => 'ri-newspaper-line', 'permission' => 'news.read', 'child' => null],
     ],
 

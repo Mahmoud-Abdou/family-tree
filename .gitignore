@@ -2,6 +2,8 @@
 /public/hot
 /public/storage
 /public/uploads
+/resources/views/partials/_body_scripts.blade.php
+/resources/views/partials/_body_style.blade.php
 /storage/*.key
 /vendor
 .gitignore

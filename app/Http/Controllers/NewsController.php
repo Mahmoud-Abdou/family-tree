@@ -163,4 +163,22 @@ class NewsController extends Controller
 
         return back()->with('success', 'تم تنشيط الخبر بنجاح');
     }
+
+    public function get_news($category_id)
+    {
+        $response = [];
+        if($category_id == null || $category_id == 1){
+            $media = News::get();
+        }
+        else{
+            $media = News::where('category_id', $category_id)->get();
+        }
+        foreach($media as $row){
+            $row_response['category'] = $row->category->name_ar;
+            $row_response['file'] = $row->file;
+            $response [] = $row_response;
+        }
+        return response()->json($response, 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
 }

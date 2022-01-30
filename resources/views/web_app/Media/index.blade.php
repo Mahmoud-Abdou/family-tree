@@ -17,48 +17,34 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
-                            @can('news.create')
-                                <a href="{{ route('news.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
-                            @endcan
+                            <select name="category_id" id="category_id" onchange="ChangeCategory(this.value)" class=" rounded-pill float-right" >
+                                <option selected="selected" disabled>اختر النوع</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{ $category->name_ar }}</option>
+                                @endforeach
+                            </select>
+                            
+                            
                         </div>
                         <div class="card-body p-0">
 
                             <div class="table-responsive">
-                                <table class="table m-0 px-2" id="news_table">
+                                <table class="table m-0 px-2" id="media_table">
                                     <thead>
                                     <tr>
-                                        <th scope="col">المدينة</th>
-                                        <th scope="col">عنوان</th>
-                                        <th scope="col">وصف </th>
-                                        <th scope="col">المالك </th>
-                                        <th scope="col">الإجراءات</th>
+                                        <th scope="col">الصورة</th>
+                                        <th scope="col">النوع</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if($news->count() > 0)
-                                        @foreach($news as $row_news)
+                                    @if($media->count() > 0)
+                                        @foreach($media as $row_media)
                                             <tr>
-                                                <td>{{ $row_news->city->name_ar }}</td>
-                                                <td>{{ $row_news->title }}</td>
-                                                <td>{{ $row_news->body }}</td>
-                                                <td>{{ $row_news->owner->name }}</td>
                                                 <td>
-                                                    <div class="d-flex justify-center">
-                                                        @if($row_news->owner_id == auth()->user()->id)
-                                                            @can('news.update')
-                                                            <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('news.edit', $row_news) }}"><i class="ri-edit-2-fill"></i></a>
-                                                            @endcan
-                                                            @can('news.delete')
-                                                            <form action="{{ route('news.destroy', $row_news) }}" method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-
-                                                                <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"></i></button>
-                                                            </form>
-                                                            @endcan
-                                                        @endif
-                                                    </div>
+                                                    <img src="{{ $row_media->file }}" alt="" style="height: 100px;width: 100px;">
                                                 </td>
+                                                <td>{{ $row_media->category->name_ar }}</td>
+                                                
                                             </tr>
                                         @endforeach
                                     @else
@@ -70,12 +56,12 @@
                                 </table>
                             </div>
 
-                            <div class="d-flex justify-content-around">{{ $news->links() }}</div>
+                            <div class="d-flex justify-content-around">{{ $media->links() }}</div>
                         </div>
 
                         <div class="card-footer text-muted">
                             مجموع عدد السجلات
-                            <span class="badge badge-pill border border-dark text-dark" id="total_count">{{ $news->count() }}</span>
+                            <span class="badge badge-pill border border-dark text-dark" id = "total_count">{{ $media->count() }}</span>
                         </div>
                     </div>
                 </div>
@@ -88,15 +74,15 @@
 <script>
     function ChangeCategory(value){
         $.ajax({
-            url: 'get_news/' + value,
+            url: 'get_media/' + value,
             contentType: "application/json",
             dataType: 'json',
             success: function(result){
                 console.log(result);
-                $('#news_table tbody').empty();
+                $('#media_table tbody').empty();
                 $('#total_count').html(result.length)
                 if(result.length == 0){
-                    $('#news_table tbody').append(`
+                    $('#media_table tbody').append(`
                         <tr>
                             <td colspan="7" class="text-center"> لا توجد بيانات </td>
                         </tr>
@@ -104,7 +90,7 @@
                 }
                 else{
                     result.forEach(function(row) {
-                        $('#news_table tbody').append(`
+                        $('#media_table tbody').append(`
                             <tr>
                                 <td>
                                     <img src="${row.file}" alt="" style="height: 100px;width: 100px;">
