@@ -40,19 +40,19 @@ class Family extends Model
 //        $this->attributes['family_tree'] = serialize($value);
 //    }
 
-    public function ParentFamily()
+    public function parentFamily()
     {
-        return $this->hasOne('app\Models\Family', 'id', 'gf_family_id');
+        return $this->hasOne('App\Models\Family', 'id', 'gf_family_id');
     }
 
-    public function Father()
+    public function father()
     {
-        return $this->hasOne('app\Models\Person', 'id', 'father_id');
+        return $this->hasOne('App\Models\Person', 'id', 'father_id');
     }
 
-    public function Mother()
+    public function mother()
     {
-        return $this->hasOne('app\Models\Person', 'id', 'mother_id');
+        return $this->hasOne('App\Models\Person', 'id', 'mother_id');
     }
 
     public function statusHtml()

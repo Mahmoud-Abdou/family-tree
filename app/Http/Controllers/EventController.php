@@ -68,7 +68,7 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $request['owner_id'] = auth()->id();
-//        $request['event_date'] = strtotime($request['event_date']);
+
         if ($request->hasfile('image')) {
             $media = new Media;
             $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->user()->id);

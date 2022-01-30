@@ -13,18 +13,16 @@ class FamilyFactory extends Factory
      */
     public function definition()
     {
+        $father = \App\Models\Person::where('gender', 'male')->get()->random();
+
         return [
-            'name' => function() {
-             return  'عائلة ' . \App\Models\User::all()->unique()->random()->name;
-            },
-            'father_id' => function() {
-            return \App\Models\Person::all()->unique()->random()->id;
-            },
+            'name' => 'عائلة ' . $father->first_name,
+            'father_id' => $father->id,
             'mother_id' => function() {
-                return \App\Models\Person::all()->unique()->random()->id;
+                return \App\Models\Person::where('gender', '=', 'female')->get()->unique()->random()->id || null;
             },
             'children_count' => $this->faker->numberBetween(0, 8),
-            'gf_family_id' => $this->faker->numberBetween(1, 30),
+            'gf_family_id' => $this->faker->numberBetween(1, 30) || null,
             'status' => $this->faker->numberBetween(1, 5),
 //            'family_tree' => null
         ];
