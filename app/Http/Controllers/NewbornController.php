@@ -61,15 +61,6 @@ class NewbornController extends Controller
      */
     public function store(StoreNewbornRequest $request)
     {
-        $request->validate([
-            'title' => ['required'],
-            'body' => ['required'],
-            'image' => ['required'],
-            'date' => ['required'],
-            'first_name' => ['required'],
-            'father_name' => ['required'],
-            'gender' => ['required'],
-        ]);
         $request['owner_id'] = auth()->user()->id;
         $request['date'] = Carbon::parse($request['date']);
         $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
@@ -78,7 +69,6 @@ class NewbornController extends Controller
         $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
         $request['image_id'] = $media->id;
         
-        // dd($request['family_id']);
         $newborn = Newborn::create($request->all());
         
         $request['city_id'] = 1;
@@ -134,11 +124,6 @@ class NewbornController extends Controller
      */
     public function update(UpdateNewbornRequest $request, Newborn $newborn)
     {
-        $request->validate([
-            'title' => ['required'],
-            'body' => ['required'],
-            'date' => ['required'],
-        ]);
         if(auth()->user()->id != $newborn->owner_id){
             return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
         }

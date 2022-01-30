@@ -10,14 +10,14 @@ use Illuminate\Http\Request;
 class NewsController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    //     $this->middleware('permission:news.read')->only(['index', 'show']);
-    //     $this->middleware('permission:news.create')->only(['create', 'store']);
-    //     $this->middleware('permission:news.update')->only(['edit', 'update']);
-    //     $this->middleware('permission:news.delete')->only('destroy');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:news.read')->only(['index', 'show']);
+        $this->middleware('permission:news.create')->only(['create', 'store']);
+        $this->middleware('permission:news.update')->only(['edit', 'update']);
+        $this->middleware('permission:news.delete')->only('destroy');
+    }
 
     /**
      * Display a listing of the resource.

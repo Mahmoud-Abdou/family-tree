@@ -64,23 +64,16 @@ class DeathController extends Controller
      */
     public function store(StoreDeathRequest $request)
     {
-        $request->validate([
-            'title' => ['required'],
-            'body' => ['required'],
-            'image' => ['required'],
-            'date' => ['required'],
-            'person_id' => ['required'],
-        ]);
         $request['owner_id'] = auth()->user()->id;
         $request['date'] = Carbon::parse($request['date']);
         $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
 
         $category_id = Category::where('type', 'death')->first();
         $media = new Media;
-        // dd($category_id);
+
         $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
         $request['image_id'] = $media->id;
-        // dd($request->all());
+
         $death = Death::create($request->all());
         
         $person = Person::where('id', $request['person_id'])->first();
@@ -133,11 +126,6 @@ class DeathController extends Controller
      */
     public function update(UpdateDeathRequest $request, Death $death)
     {
-        $request->validate([
-            'title' => ['required'],
-            'body' => ['required'],
-            'date' => ['required'],
-        ]);
         if(auth()->user()->id != $death->owner_id){
             return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
         }

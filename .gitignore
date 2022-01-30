@@ -4,6 +4,9 @@
 /public/uploads
 /storage/*.key
 /vendor
+/resources/views/partials/_body_style.blade.php
+/resources/views/partials/_body_scripts.blade.php
+.gitignore
 .env
 .env.backup
 .phpunit.result.cache

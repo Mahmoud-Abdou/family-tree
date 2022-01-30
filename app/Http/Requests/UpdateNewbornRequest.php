@@ -24,7 +24,9 @@ class UpdateNewbornRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required'],
+            'body' => ['required'],
+            'date' => ['required', 'date', 'date_format:Y-m-d H:i'],
         ];
     }
 }

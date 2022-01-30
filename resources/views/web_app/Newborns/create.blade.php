@@ -29,31 +29,31 @@
                             
                             <div class="form-group col-lg-6">
                                 <label for="title">العنوان</label>
-                                <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" required autofocus>
+                                <input type="text" name="title" class="form-control mb-0" id="title" tabindex="1" required autofocus>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="body">الوصف</label>
-                                <input type="text" name="body" class="form-control mb-0" id="body" tabindex="3"  required autofocus>
+                                <input type="text" name="body" class="form-control mb-0" id="body" tabindex="2"  required >
                             </div>
                             
                             <div class="form-group col-lg-6">
                                 <label for="date">تاريخ الولادات</label>
-                                <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8"  required autofocus>
+                                <input type="date" name="date" class="form-control mb-0" id="date" tabindex="3"  required >
                             </div>
 
                             <div class="form-group col-lg-6">
                                 <label for="first_name">الاسم</label>
-                                <input type="text" name="first_name" class="form-control mb-0" id="first_name" tabindex="2" required autofocus>
+                                <input type="text" name="first_name" class="form-control mb-0" id="first_name" tabindex="4" required >
                             </div>
                             
                             <div class="form-group col-lg-6">
                                 <label for="father_name">اسم الاب</label>
-                                <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="2" required autofocus>
+                                <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="5" required >
                             </div>
                             
                             <div class="form-group col-lg-6">
                                 <label for="gender">النوع</label>
-                                <input type="text" name="gender" class="form-control mb-0" id="gender" tabindex="2" required autofocus>
+                                <input type="text" name="gender" class="form-control mb-0" id="gender" tabindex="6" required >
                             </div>
                             
                             

@@ -28,15 +28,15 @@
                                     
                                     <div class="form-group col-lg-6">
                                         <label for="title">العنوان</label>
-                                        <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" value="{{ $newborn->title }}" required autofocus>
+                                        <input type="text" name="title" class="form-control mb-0" id="title" tabindex="1" value="{{ $newborn->title }}" required autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="body">الوصف</label>
-                                        <input type="text" name="body" class="form-control mb-0" id="body" tabindex="3" value="{{ $newborn->body }}" required autofocus>
+                                        <input type="text" name="body" class="form-control mb-0" id="body" tabindex="2" value="{{ $newborn->body }}" required >
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="date">تاريخ الولادات</label>
-                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ Carbon\Carbon::parse($newborn->date)->format('Y-m-d') }}"  required autofocus>
+                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="3" value="{{ Carbon\Carbon::parse($newborn->date)->format('Y-m-d') }}"  required >
                                     </div>
 
                                     
@@ -55,7 +55,7 @@
 
                                     <div class="form-group col-lg-6">
                                         <div class="row flex inline-flex p-2 mx-2">
-                                            <button type="submit" class="btn px-5 btn-primary rounded-pill " tabindex="6"><i class="ri-save-2-fill"> </i>حفظ </button>
+                                            <button type="submit" class="btn px-5 btn-primary rounded-pill " tabindex="4"><i class="ri-save-2-fill"> </i>حفظ </button>
                                         </div>
                                     </div>
                                     </div>

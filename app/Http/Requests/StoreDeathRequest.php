@@ -24,7 +24,11 @@ class StoreDeathRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required'],
+            'body' => ['required'],
+            'image' => ['required'],
+            'date' => ['required', 'date', 'date_format:Y-m-d H:i'],
+            'person_id' => ['required', 'exists:persons,id'],
         ];
     }
 }
