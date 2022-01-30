@@ -182,7 +182,7 @@
                                                 <tr>
                                                     <td>{{ $news->title }}</td>
                                                     <td>{{ $news->short_body }}</td>
-                                                    <td>{{ $news->gategory->name }}</td>
+                                                    <td>{{ $news->category->name }}</td>
                                                     <td>
                                                         {!! $news->statusHtml() !!}
                                                     </td>

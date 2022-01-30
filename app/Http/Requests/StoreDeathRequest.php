@@ -13,7 +13,7 @@ class StoreDeathRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreDeathRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required'],
+            'body' => ['required'],
+            'date' => ['required', 'date', 'date_format:Y-m-d'],
+            'person_id' => ['required', 'exists:persons,id'],
         ];
     }
 }

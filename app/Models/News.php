@@ -31,7 +31,8 @@ class News extends Model
     // accessories
     public function getShortBodyAttribute($value)
     {
-        return str_limit($value, 20);
+        return $value;
+        // return str_limit($value, 20);
 //        return str_limit($value, 20, '&raquo');
     }
 

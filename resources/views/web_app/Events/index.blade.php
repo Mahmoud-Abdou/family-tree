@@ -10,7 +10,7 @@
     <div id="content-page" class="content-page">
         <div class="container-fluid">
             <div class="row">
-
+                
                 @foreach($events as $event)
                     <div class="col-sm-4">
                     <a href="{{ route('events.show', $event->id) }}">

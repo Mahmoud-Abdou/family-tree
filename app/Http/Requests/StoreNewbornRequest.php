@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreNewbornRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreNewbornRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,13 @@ class StoreNewbornRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => ['required'],
+            'body' => ['required'],
+            'image' => ['required'],
+            'date' => ['required', 'date', 'date_format:Y-m-d'],
+            'first_name' => ['required'],
+            'father_name' => ['required'],
+            'gender' => ['required', Rule::in(['Male', 'Female'])],
         ];
     }
 }

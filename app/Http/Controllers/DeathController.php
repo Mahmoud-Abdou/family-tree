@@ -5,9 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDeathRequest;
 use App\Http\Requests\UpdateDeathRequest;
 use App\Models\Death;
+use App\Models\City;
+use App\Models\Person;
+use App\Models\Media;
+use App\Models\Category;
+use App\Models\Family;
+use App\Models\News;
+use Carbon\Carbon;
 
 class DeathController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:deaths.read')->only(['index', 'show']);
+        $this->middleware('permission:deaths.create')->only(['create', 'store']);
+        $this->middleware('permission:deaths.update')->only(['edit', 'update']);
+        $this->middleware('permission:deaths.delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +32,13 @@ class DeathController extends Controller
      */
     public function index()
     {
-        //
+        $id = auth()->user()->id;
+        $menuTitle = 'الوفيات';
+        $pageTitle = 'التطبيق';
+        $page_limit = 20;
+        $deaths = Death::paginate($page_limit);
+
+        return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }
 
     /**
@@ -25,7 +48,12 @@ class DeathController extends Controller
      */
     public function create()
     {
-        //
+        $menuTitle = 'الوفيات';
+        $pageTitle = 'التطبيق';
+        $family_id = auth()->user()->profile->family_id;
+        $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
+
+        return view('web_app.Deaths.create', compact('menuTitle', 'pageTitle', 'persons'));
     }
 
     /**
@@ -36,7 +64,37 @@ class DeathController extends Controller
      */
     public function store(StoreDeathRequest $request)
     {
-        //
+        $request['owner_id'] = auth()->user()->id;
+        $request['date'] = Carbon::parse($request['date']);
+        $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+
+        $category_id = Category::where('type', 'death')->first();
+        $media = new Media;
+
+        if($request->hasFile('image')){
+            $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
+            $request['image_id'] = $media->id;
+        }
+        else{
+            $request['image_id'] = null;
+        }
+
+        $death = Death::create($request->all());
+        
+        $person = Person::where('id', $request['person_id'])->first();
+        if($person != null){
+            $person->is_live = 0;
+            $person->save();
+        }
+        
+
+        $request['city_id'] = 1;
+        $request['category_id'] = $category_id->id;
+        $request['approved'] = 0;
+        $news = News::create($request->all());
+        
+        \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
+        return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
     }
 
     /**
@@ -47,7 +105,7 @@ class DeathController extends Controller
      */
     public function show(Death $death)
     {
-        //
+        return redirect()->route('deaths.edit', $death);
     }
 
     /**
@@ -58,7 +116,10 @@ class DeathController extends Controller
      */
     public function edit(Death $death)
     {
-        //
+        $menuTitle = 'الوفيات';
+        $pageTitle = 'التطبيق';
+        
+        return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
     }
 
     /**
@@ -70,7 +131,25 @@ class DeathController extends Controller
      */
     public function update(UpdateDeathRequest $request, Death $death)
     {
-        //
+        if(auth()->user()->id != $death->owner_id){
+            return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
+        }
+        $death->title = $request->title;
+        $death->body = $request->body;
+        $death->date = Carbon::parse($request['date']);
+
+        if($request->hasFile('image')){
+            $new_media = new Media;
+            $new_media = $new_media->EditUploadedMedia($request->file('image'), $death->image_id);
+            if($new_media == null){
+                return redirect()->route('deaths.index')->with('danger', 'حدث خطا');
+            }
+        }
+       
+        $death->save();
+
+        \App\Helpers\AppHelper::AddLog('Death Update', class_basename($death), $death->id);
+        return redirect()->route('deaths.index')->with('success', 'تم تعديل بيانات وفاة بنجاح.');
     }
 
     /**
@@ -81,6 +160,16 @@ class DeathController extends Controller
      */
     public function destroy(Death $death)
     {
-        //
+        if(auth()->user()->id != $death->owner_id){
+            return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
+        }
+        $death->image->delete_file($death->image);
+        $death->image->delete();
+        $death->delete();
+
+        \App\Helpers\AppHelper::AddLog('Death Delete', class_basename($death), $death->id);
+        return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
+
+    
 }
