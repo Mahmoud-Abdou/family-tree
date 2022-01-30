@@ -15,9 +15,9 @@ class CreateDeathsTable extends Migration
     {
         Schema::create('deaths', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id');
-            $table->foreignId('family_id');
-            $table->string('title');
+            $table->foreignId('owner_id')->nullable();
+            $table->foreignId('family_id')->nullable();
+            $table->string('title')->index();
             $table->text('body');
             $table->foreignId('image_id')->nullable();
             $table->dateTime('date');

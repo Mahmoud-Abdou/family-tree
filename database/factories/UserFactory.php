@@ -28,8 +28,8 @@ class UserFactory extends Factory
             'password' => 'password', // password
             'remember_token' => Str::random(10),
             'role_id' => 3,
-//            'city_id' => $this->faker->randomElement($citiesIdes),
-            'city_id' => $this->faker->numberBetween(1, 5),
+            'city_id' => $this->faker->randomElement($citiesIdes),
+//            'city_id' => $this->faker->numberBetween(1, 5),
             'status' => $this->faker->randomElement(['registered', 'active']),
             'accept_terms' => true,
         ];

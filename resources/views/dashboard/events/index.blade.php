@@ -57,7 +57,7 @@
                                                 <td>
                                                     <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" alt="{{ $event->title }}" style="height: 100px;width: 100px;">
                                                 </td>
-                                                <td>{{ $event->event_date }}</td>
+                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
 {{--                                                        @if($event->owner_id == auth()->user()->id)--}}

@@ -17,7 +17,7 @@ class CreateNewbornsTable extends Migration
             $table->id();
             $table->foreignId('owner_id');
             $table->foreignId('family_id');
-            $table->string('title');
+            $table->string('title')->index();
             $table->text('body');
             $table->foreignId('image_id')->nullable();
             $table->dateTime('date');

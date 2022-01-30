@@ -63,7 +63,7 @@
                                 <div class="row">
                                     <div class="form-group col-lg-6">
                                         <div>
-                                            <label>نوع الجنس</label>
+                                            <label>النوع</label>
                                             <br>
                                             <div class="d-inline-flex">
                                                 <div class="custom-control custom-radio mx-4">

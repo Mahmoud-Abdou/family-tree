@@ -29,7 +29,7 @@ class Event extends Model
 
     protected $casts = [
         'approved' => 'boolean',
-        'event_date' => 'datetime:Y-m-d HH:mm:ss',
+        'event_date' => 'datetime:Y-m-d H:i:s',
     ];
 
     public function owner()

@@ -28,7 +28,7 @@ class NewsController extends Controller
     {
         $id = auth()->user()->id;
         $menuTitle = 'الاخبار';
-        $pageTitle = 'التطبيق';
+        $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $news = News::paginate($page_limit);
 
@@ -43,7 +43,7 @@ class NewsController extends Controller
     public function create()
     {
         $menuTitle = 'الاخبار';
-        $pageTitle = 'التطبيق';
+        $pageTitle = 'القائمة الرئيسية';
 
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'news')->get();
@@ -69,7 +69,7 @@ class NewsController extends Controller
 
         $news = new News;
         $news = News::create($request->all());
-        
+
         \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
         return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');
 
@@ -84,7 +84,7 @@ class NewsController extends Controller
     public function show(News $news)
     {
         return redirect()->route('news.edit', $news);
-        
+
     }
 
     /**
@@ -96,7 +96,7 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $menuTitle = 'الاخبار';
-        $pageTitle = 'التطبيق';
+        $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'news')->get();
 
@@ -125,7 +125,7 @@ class NewsController extends Controller
         $news->title = $request->title;
         $news->body = $request->body;
         $news->category_id = $request->category_id;
-       
+
         $news->save();
 
         \App\Helpers\AppHelper::AddLog('News Update', class_basename($news), $news->id);

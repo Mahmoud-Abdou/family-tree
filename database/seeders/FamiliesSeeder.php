@@ -13,6 +13,6 @@ class FamiliesSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Family::factory(100)->create();
+        \App\Models\Family::factory(120)->create();
     }
 }

@@ -132,7 +132,7 @@
                 locale: '{{ app()->getLocale() }}',
                 format: 'YYYY-MM-DD HH:mm',
                 defaultDate: moment(new Date()),
-                minDate: moment().subtract(1, 'seconds'),
+                minDate: moment().subtract(12, 'hour'),
                 tooltips: {
                     today: 'Go to today',
                     clear: 'Clear selection',

@@ -34,7 +34,7 @@ class DeathController extends Controller
     {
         $id = auth()->user()->id;
         $menuTitle = 'الوفيات';
-        $pageTitle = 'التطبيق';
+        $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $deaths = Death::paginate($page_limit);
 
@@ -49,7 +49,7 @@ class DeathController extends Controller
     public function create()
     {
         $menuTitle = 'الوفيات';
-        $pageTitle = 'التطبيق';
+        $pageTitle = 'القائمة الرئيسية';
         $family_id = auth()->user()->profile->family_id;
         $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
 
@@ -80,19 +80,19 @@ class DeathController extends Controller
         }
 
         $death = Death::create($request->all());
-        
+
         $person = Person::where('id', $request['person_id'])->first();
         if($person != null){
             $person->is_live = 0;
             $person->save();
         }
-        
+
 
         $request['city_id'] = 1;
         $request['category_id'] = $category_id->id;
         $request['approved'] = 0;
         $news = News::create($request->all());
-        
+
         \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
     }
@@ -117,8 +117,8 @@ class DeathController extends Controller
     public function edit(Death $death)
     {
         $menuTitle = 'الوفيات';
-        $pageTitle = 'التطبيق';
-        
+        $pageTitle = 'القائمة الرئيسية';
+
         return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
     }
 
@@ -145,7 +145,7 @@ class DeathController extends Controller
                 return redirect()->route('deaths.index')->with('danger', 'حدث خطا');
             }
         }
-       
+
         $death->save();
 
         \App\Helpers\AppHelper::AddLog('Death Update', class_basename($death), $death->id);
@@ -171,5 +171,5 @@ class DeathController extends Controller
         return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
 
-    
+
 }

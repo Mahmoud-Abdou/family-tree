@@ -22,6 +22,15 @@ class Newborn extends Model
         'date',
     ];
 
+    protected $casts = [
+        'date' => 'datetime:Y-m-d',
+    ];
+
+    public function getDateAttribute($date)
+    {
+        return date('Y-m-d', strtotime($date));
+    }
+
     public function owner()
     {
         return $this->belongsTo('App\Models\User', 'owner_id', 'id');

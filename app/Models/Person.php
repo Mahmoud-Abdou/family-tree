@@ -101,9 +101,7 @@ class Person extends Model
     {
         if (!$this->is_live) {
             return 'متوفي';
-        }
-        else
-        {
+        } else {
             if ($this->has_family) {
                 return 'متزوج';
             }
