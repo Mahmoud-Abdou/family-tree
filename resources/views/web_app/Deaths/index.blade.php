@@ -45,7 +45,11 @@
                                                 <td>{{ $death->body }}</td>
                                                 <td>{{ $death->owner->name }}</td>
                                                 <td>
-                                                    <img src="{{ $death->image->file }}" alt="" style="height: 100px;width: 100px;">
+                                                    @if(isset($death->image->file))
+                                                        <img src="{{ $death->image->file }}" alt="" style="height: 100px;width: 100px;">
+                                                    @else
+                                                        <img src="" alt="" style="height: 100px;width: 100px;">
+                                                    @endif
                                                 </td>
                                                 <td>{{ $death->date }}</td>
                                                 <td>

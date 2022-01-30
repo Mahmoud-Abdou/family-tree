@@ -16,7 +16,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('profile/update-user', [\App\Http\Controllers\Auth\ProfileController::class, 'updateUser'])->name('profile.update-user');
     Route::post('profile/history-delete', [\App\Http\Controllers\Auth\ProfileController::class, 'historyDelete'])->name('history.delete');
 
-    // Route::resource('events', \App\Http\Controllers\EventController::class);
+    Route::resource('events', \App\Http\Controllers\EventController::class);
     Route::resource('news', \App\Http\Controllers\NewsController::class);
     Route::resource('deaths', \App\Http\Controllers\DeathController::class);
     Route::resource('newborns', \App\Http\Controllers\NewbornController::class);
