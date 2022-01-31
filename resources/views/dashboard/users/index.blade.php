@@ -16,7 +16,9 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-
+                            <h5><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
+                        </div>
+                        <div class="card-header">
                             <form method="GET" action="{{ route('admin.users.index') }}">
                             <div class="row">
                                 <div class="col-md-2">

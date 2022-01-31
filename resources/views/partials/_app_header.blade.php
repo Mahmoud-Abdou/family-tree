@@ -45,8 +45,12 @@
                         <a class="search-toggle iq-waves-effect" href="#">
                             <i class="ri-search-line"></i>
                         </a>
-                        <form action="#" class="search-box">
-                            <input id="searchForm" type="text" name="search" class="text search-input" placeholder="اكتب هنا للبحث..." />
+                        <form method="POST" action="{{ route('search') }}" class="search-box">
+                            @csrf
+
+                            <div class="inline-flex">
+                            <input id="searchForm" type="text" name="search" class="text search-input" value="{{ old('search') }}" placeholder="اكتب هنا للبحث..." />
+                            </div>
                         </form>
                     </li>
 
