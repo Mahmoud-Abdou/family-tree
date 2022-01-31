@@ -31,7 +31,7 @@ class StoreNewbornRequest extends FormRequest
             'date' => ['required', 'date', 'date_format:Y-m-d'],
             'first_name' => ['required'],
             'father_name' => ['required'],
-            'gender' => ['required', Rule::in(['Male', 'Female'])],
+            'gender' => ['required', Rule::in(['male', 'female'])],
         ];
     }
 }

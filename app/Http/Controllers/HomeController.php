@@ -37,6 +37,16 @@ class HomeController extends Controller
         return view('about', compact('menuTitle', 'pageTitle', 'content'));
     }
 
+    public function familyTree()
+    {
+        $pageTitle = 'القائمة الرئيسية';
+        $menuTitle = 'شجرة العائلة';
+        $content = \App\Helpers\AppHelper::GeneralSettings('family_tree_image');
+        $time = \App\Helpers\AppHelper::GeneralSettings('updated_at');
+
+        return view('family-tree', compact('menuTitle', 'pageTitle', 'content', 'time'));
+    }
+
     public function terms()
     {
         $pageTitle = 'القائمة الرئيسية';

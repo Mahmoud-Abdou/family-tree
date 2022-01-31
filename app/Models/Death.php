@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Death extends Model
 {
+    use HasFactory;
+
     public $photoPath = '/uploads/death/';
 
     /**
@@ -20,6 +23,10 @@ class Death extends Model
         'body',
         'image_id',
         'date'
+    ];
+
+    protected $casts = [
+        'date' => 'datetime:Y-m-d',
     ];
 
     public function owner()

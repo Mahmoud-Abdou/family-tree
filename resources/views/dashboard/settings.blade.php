@@ -20,15 +20,15 @@
                             <i class="ri-settings-2-fill mx-2"></i>
                             اعدادات التطبيق
                         </div>
-                        <div class="card-body">
 
-                            @include('partials.messages')
-                            @include('partials.errors-messages')
+                        @include('partials.messages')
+                        @include('partials.errors-messages')
 
-                            <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
+                        <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
 
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="app_title_ar">عنوان التطبيق</label>
@@ -125,22 +125,23 @@
                                         </div>
                                     </div>
                                 </div>
-
-                            </form>
-
-                        </div>
-                        <div class="card-footer text-muted d-flex inline-flex justify-content-between">
-                            <div class="d-flex">
-                                <button type="submit" class="btn px-4 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ التعديلات</button>
-                                <p class="my-auto mx-4">ملاحظة: هذه التعديلات ستؤثر بشكل مباشر في اعدادات التطبيق.</p>
                             </div>
 
-                            <div class="d-flex">
-                                <i class="ri-time-fill"></i>
-                                آخر تعديل تم في
-                                <span class="mx-2">{{ $settingData->updated_at }}</span>
+                            <div class="card-footer text-muted d-flex inline-flex justify-content-between">
+                                <div class="d-flex">
+                                    <button type="submit" class="btn px-4 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ التعديلات</button>
+                                    <p class="my-auto mx-4">ملاحظة: هذه التعديلات ستؤثر بشكل مباشر في اعدادات التطبيق.</p>
+                                </div>
+
+                                <div class="d-flex">
+                                    <i class="ri-time-fill"></i>
+                                    آخر تعديل تم في
+                                    <span class="mx-2">{{ $settingData->updated_at }}</span>
+                                </div>
                             </div>
-                        </div>
+
+                        </form>
+
                     </div>
                 </div>
             </div>

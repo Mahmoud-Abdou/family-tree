@@ -44,7 +44,7 @@
 
                                     <div class="form-group col-lg-6">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" name="status" id="status-input" {{ $city->status ? 'checked' : '' }}>
+                                            <input type="checkbox" class="custom-control-input" name="status" id="status-input" {{ $city->getRawOriginal('status') ? 'checked' : '' }}>
                                             <label class="custom-control-label" for="status-input">تفعيل</label>
                                         </div>
                                     </div>

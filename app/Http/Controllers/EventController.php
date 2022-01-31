@@ -23,7 +23,7 @@ class EventController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:events.read')->only(['index', 'show']);
         $this->middleware('permission:events.create')->only(['create', 'store']);
-        $this->middleware('permission:events.update')->only(['edit', 'update']);
+        $this->middleware('permission:events.update')->only(['edit', 'update', 'activate']);
         $this->middleware('permission:events.delete')->only('destroy');
     }
 
@@ -39,7 +39,7 @@ class EventController extends Controller
         $pageTitle = 'لوحة التحكم';
         $page_limit = 20;
         $events = Event::paginate($page_limit);
-        // dd($events);
+
         return view('dashboard.events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events'));
     }
 
@@ -121,14 +121,9 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        if(auth()->user()->id != $event->owner_id){
-            return redirect()->route('admin.events.index')->with('danger', 'لا تملك صلاحية للتعديل!');
-        }
-        $event->city_id = $request->city_id;
-        $event->title = $request->title;
-        $event->body = $request->body;
-        $event->event_date = strtotime($request['event_date']);
-        $event->category_id = $request->category_id;
+//        if(auth()->user()->id != $event->owner_id){
+//            return redirect()->route('admin.events.index')->with('danger', 'لا تملك صلاحية للتعديل!');
+//        }
 
         if($request->hasFile('image')){
             $new_media = new Media;
@@ -137,6 +132,8 @@ class EventController extends Controller
                 return redirect()->route('admin.events.index')->with('danger', 'حدث خطا');
             }
         }
+
+        $event->fill($request->all());
 
         if ($event->isDirty()) {
             $event->save();
@@ -155,9 +152,9 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        if(auth()->user()->id != $event->owner_id){
-            return redirect()->route('admin.events.index')->with('danger', 'لا يمكنك الحذف');
-        }
+//        if(auth()->user()->id != $event->owner_id){
+//            return redirect()->route('admin.events.index')->with('danger', 'لا يمكنك الحذف');
+//        }
         $event->image->delete_file($event->image);
         $event->image->delete();
         $event->delete();
@@ -171,7 +168,7 @@ class EventController extends Controller
         $event = Event::find($request->event_id);
 
         if (is_null($event)) {
-            return back()->with('error', '');
+            return back()->with('error', 'حدث خطأ.');
         }
 
         $event->approved = true;
@@ -187,7 +184,7 @@ class EventController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 10;
         $events = Event::active()->paginate($page_limit);
-        // dd($events);
+
         return view('web_app.events.index', compact('menuTitle', 'pageTitle', 'events'));
     }
 

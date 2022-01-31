@@ -31,9 +31,9 @@ class NewbornController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->id;
+//        $id = auth()->user()->id;
         $menuTitle = 'المواليد';
-        $pageTitle = 'التطبيق';
+        $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $newborns = Newborn::paginate($page_limit);
 
@@ -47,8 +47,8 @@ class NewbornController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'المواليد';
-        $pageTitle = 'التطبيق';
+        $menuTitle = 'اضافة مولود';
+        $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.Newborns.create', compact('menuTitle', 'pageTitle'));
     }
@@ -61,30 +61,30 @@ class NewbornController extends Controller
      */
     public function store(StoreNewbornRequest $request)
     {
-        $request['owner_id'] = auth()->user()->id;
-        $request['date'] = Carbon::parse($request['date']);
+        $request['owner_id'] = auth()->id();
+//        $request['date'] = Carbon::parse($request['date']);
         $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+
         $media = new Media;
         $category_id = Category::where('type', 'newborn')->first();
-        $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
+        $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id());
         $request['image_id'] = $media->id;
-        
+
         $newborn = Newborn::create($request->all());
-        
-        $request['city_id'] = 1;
-        $request['category_id'] = $category_id->id;
-        $request['approved'] = 0;
-        $news = News::create($request->all());
-        
+
+//        $request['city_id'] = 1;
+//        $request['category_id'] = $category_id->id;
+//        $request['approved'] = 0;
+//        $news = News::create($request->all());
+
         $person = [];
+        $person['user_id'] = 1;
         $person['first_name'] = $request['first_name'];
         $person['father_name'] = $request['father_name'];
         $person['family_id'] = $request['family_id'];
         $person['gender'] = $request['gender'];
         $person = Person::create($person);
-        
 
-        
         \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
         return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');
     }
@@ -98,7 +98,6 @@ class NewbornController extends Controller
     public function show(Newborn $newborn)
     {
         return redirect()->route('newborns.edit', $newborn);
-        
     }
 
     /**
@@ -109,8 +108,8 @@ class NewbornController extends Controller
      */
     public function edit(Newborn $newborn)
     {
-        $menuTitle = 'المواليد';
-        $pageTitle = 'التطبيق';
+        $menuTitle = 'تعديل مولود';
+        $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.Newborns.update', compact('menuTitle', 'pageTitle', 'newborn'));
     }
@@ -138,7 +137,7 @@ class NewbornController extends Controller
                 return redirect()->route('newborns.index')->with('danger', 'حدث خطا');
             }
         }
-       
+
         $newborn->save();
 
         \App\Helpers\AppHelper::AddLog('Newborn Update', class_basename($newborn), $newborn->id);
