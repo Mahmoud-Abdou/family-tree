@@ -40,7 +40,7 @@ class EventController extends Controller
         $page_limit = 20;
         $events = Event::paginate($page_limit);
 
-        return view('dashboard.events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events'));
+        return view('dashboard.Events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events'));
     }
 
     /**
@@ -56,7 +56,7 @@ class EventController extends Controller
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
-        return view('dashboard.events.create', compact('menuTitle', 'appMenu', 'pageTitle', 'cities', 'categories'));
+        return view('dashboard.Events.create', compact('menuTitle', 'appMenu', 'pageTitle', 'cities', 'categories'));
     }
 
     /**
@@ -92,7 +92,7 @@ class EventController extends Controller
         $menuTitle = $event->title;
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.events.show', compact('menuTitle', 'pageTitle', 'event'));
+        return view('web_app.Events.show', compact('menuTitle', 'pageTitle', 'event'));
     }
 
     /**
@@ -185,7 +185,7 @@ class EventController extends Controller
         $page_limit = 10;
         $events = Event::active()->paginate($page_limit);
 
-        return view('web_app.events.index', compact('menuTitle', 'pageTitle', 'events'));
+        return view('web_app.Events.index', compact('menuTitle', 'pageTitle', 'events'));
     }
 
 }

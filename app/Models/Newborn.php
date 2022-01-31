@@ -16,6 +16,7 @@ class Newborn extends Model
     protected $fillable = [
         'owner_id',
         'family_id',
+        'person_id',
         'title',
         'body',
         'image_id',

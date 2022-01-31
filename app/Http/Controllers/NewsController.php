@@ -30,9 +30,10 @@ class NewsController extends Controller
         $menuTitle = 'الاخبار';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
-        $news = News::paginate($page_limit);
+        $news = News::where('approved', 1)->paginate($page_limit);
+        $categories = Category::paginate($page_limit);
 
-        return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news'));
+        return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news', 'categories'));
     }
 
     /**
@@ -42,7 +43,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'الاخبار';
+        $menuTitle = 'اضافة الاخبار';
         $pageTitle = 'القائمة الرئيسية';
 
         $cities = City::where('status', 1)->get();
@@ -81,9 +82,20 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show(News $news)
+    public function show($category_id)
     {
-        return redirect()->route('news.edit', $news);
+        $appMenu = config('custom.main_menu');
+        $menuTitle = '  اظهار الاخبار';
+        $pageTitle = 'لوحة التحكم';
+
+        if($category_id == 0){
+            $news = News::where('approved', 1)->get();
+        }
+        else{
+            $news = News::where('approved', 1)->where('category_id', $category_id)->get();
+        }
+        // dd($news);
+        return view('web_app.News.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
 
     }
 
@@ -95,7 +107,7 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        $menuTitle = 'الاخبار';
+        $menuTitle = 'تعديل الاخبار';
         $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'news')->get();
@@ -166,19 +178,13 @@ class NewsController extends Controller
 
     public function get_news($category_id)
     {
-        $response = [];
         if($category_id == null || $category_id == 1){
-            $media = News::get();
+            $news = News::with('category')->with('city')->with('owner')->where('approved', 1)->get();
         }
         else{
-            $media = News::where('category_id', $category_id)->get();
+            $news = News::with('category')->with('city')->with('owner')->where('approved', 1)->where('category_id', $category_id)->get();
         }
-        foreach($media as $row){
-            $row_response['category'] = $row->category->name_ar;
-            $row_response['file'] = $row->file;
-            $response [] = $row_response;
-        }
-        return response()->json($response, 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json($news, 200, [], JSON_UNESCAPED_UNICODE);
     }
 
 }

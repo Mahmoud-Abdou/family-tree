@@ -56,13 +56,11 @@
                             </div>
                             
                             
-                            <div class="form-group col-lg-6">
-                                <div class="row flex inline-flex p-2 mx-2">
-                                    <button type="submit" class="btn px-5 btn-primary rounded-pill " tabindex="6"><i class="ri-save-2-fill"> </i>حفظ </button>
-                                </div>
-                            </div>
+                            
                         </div>
-
+                        <div class="card-footer text-muted">
+                            <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
+                        </div>
                     </form>
                     </div>
 

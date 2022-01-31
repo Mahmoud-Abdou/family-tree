@@ -48,7 +48,7 @@ class DeathController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'الوفيات';
+        $menuTitle = 'اضافة الوفيات';
         $pageTitle = 'القائمة الرئيسية';
         $family_id = auth()->user()->profile->family_id;
         $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
@@ -79,15 +79,17 @@ class DeathController extends Controller
             $request['image_id'] = null;
         }
 
-        $death = Death::create($request->all());
-
+        
         $person = Person::where('id', $request['person_id'])->first();
         if($person != null){
             $person->is_live = 0;
             $person->save();
+            
+            $request['person_id'] = $person->id;
         }
-
-
+        
+        $death = Death::create($request->all());
+        
         $request['city_id'] = 1;
         $request['category_id'] = $category_id->id;
         $request['approved'] = 0;
@@ -116,7 +118,7 @@ class DeathController extends Controller
      */
     public function edit(Death $death)
     {
-        $menuTitle = 'الوفيات';
+        $menuTitle = ' تعديل الوفيات ';
         $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));

@@ -69,9 +69,20 @@ class MediaController extends Controller
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function show(Media $media)
+    public function show($category_id)
     {
-        return redirect()->route('media.edit', $media);
+        $appMenu = config('custom.main_menu');
+        $menuTitle = ' الصور';
+        $pageTitle = 'لوحة التحكم';
+
+        if($category_id == 0){
+            $media = Media::get();
+        }
+        else{
+            $media = Media::where('category_id', $category_id)->get();
+        }
+        return view('web_app.Media.show', compact('appMenu', 'menuTitle', 'pageTitle', 'media'));
+
     }
 
     /**
@@ -132,19 +143,18 @@ class MediaController extends Controller
 
     public function get_media($category_id)
     {
-        $response = [];
         if($category_id == null || $category_id == 1){
-            $media = Media::get();
+            $media = Media::with('category')->get();
         }
         else{
-            $media = Media::where('category_id', $category_id)->get();
+            $media = Media::with('category')->where('category_id', $category_id)->get();
         }
-        foreach($media as $row){
-            $row_response['category'] = $row->category->name_ar;
-            $row_response['file'] = $row->file;
-            $response [] = $row_response;
-        }
-        return response()->json($response, 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json($media, 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
+    public function media_category(Request $request)
+    {
+        return null;
     }
 
 

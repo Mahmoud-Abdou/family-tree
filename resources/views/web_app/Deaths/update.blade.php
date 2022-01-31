@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('deaths.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => ' الوفيات', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('deaths.create')],]])
 @endsection
 
 @section('content')
@@ -36,32 +36,33 @@
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="date">تاريخ الوفاة</label>
-                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ Carbon\Carbon::parse($deaths->date)->format('Y-m-d') }}"  required autofocus>
+                                        <input type="date" name="date" class="form-control mb-0" id="date" tabindex="8" value="{{ Carbon\Carbon::parse($death->date)->format('Y-m-d') }}"  required autofocus>
                                     </div>
 
                                     
                                     <div class="form-group col-lg-6">
                                         <label for="image">الصورة</label>
-                                        <div class="image-upload-wrap">
-                                            <input id="image" class="file-upload-input" type="file" name="image"  accept="image/png,image/jpeg,image/jpg,image/icon" />
+                                        <div class="image-upload-wrap d-none">
+                                            <input id="image" class="file-upload-input" type="file" name="image" onchange="readURL(this);" accept="image/png,image/jpeg,image/jpg,image/icon">
                                             <div class="drag-text">
                                                 <h3 class="m-4"><i class="ri-upload-2-line"> </i>اضغط أو اسحب صورة لرفعها</h3>
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ $death->image->file }}" alt="Image" />
+                                            <img class="file-upload-image" src="{{ $death->image->file }}" alt="Death Image" />
+                                            <div class="image-title-wrap">
+                                                <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-lg-6">
-                                        <div class="row flex inline-flex p-2 mx-2">
-                                            <button type="submit" class="btn px-5 btn-primary rounded-pill " tabindex="6"><i class="ri-save-2-fill"> </i>حفظ </button>
-                                        </div>
-                                    </div>
+                                    
                                     </div>
 
                                 
-
+                                    <div class="card-footer text-muted">
+                                        <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
+                                    </div>
                             </form>
                         </div>
 

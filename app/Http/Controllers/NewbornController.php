@@ -70,7 +70,6 @@ class NewbornController extends Controller
         $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id());
         $request['image_id'] = $media->id;
 
-        $newborn = Newborn::create($request->all());
 
 //        $request['city_id'] = 1;
 //        $request['category_id'] = $category_id->id;
@@ -84,6 +83,11 @@ class NewbornController extends Controller
         $person['family_id'] = $request['family_id'];
         $person['gender'] = $request['gender'];
         $person = Person::create($person);
+
+        $request['person_id'] = $person->id;
+        
+        $newborn = Newborn::create($request->all());
+
 
         \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
         return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');

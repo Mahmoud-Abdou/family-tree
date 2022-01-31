@@ -63,6 +63,29 @@ class Category extends Model
         }
     }
 
+    public function getTypeArAttribute(){
+        switch ($this->type) {
+            case 'general':
+                return 'عام';
+            case 'media':
+                return 'صورة';
+            case 'video':
+                return 'فيديو';
+            case 'event':
+                return 'مناسبة';
+            case 'news':
+                return 'أخبار';
+            case 'newborn':
+                return 'ولادة';
+            case 'marriages':
+                return 'زواج';
+            case 'deaths':
+                return 'الوفيات';
+            default:
+                return $this->type;
+        }
+    }
+
     public static function getTypeName($type)
     {
         switch ($type) {
