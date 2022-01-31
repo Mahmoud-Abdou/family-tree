@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\HomeController;
 
-//Route::view('terms', 'terms')->name('terms');
-Route::get('terms', [\App\Http\Controllers\HomeController::class, 'terms'])->name('terms');
+Route::get('terms', [HomeController::class, 'terms'])->name('terms');
 
-//Route::group(['middleware' => ['auth']], function () {
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'home'])->name('home');
-    Route::get('about', [\App\Http\Controllers\HomeController::class, 'about'])->name('about');
+    Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::get('about', [HomeController::class, 'about'])->name('about');
+    Route::get('family-tree', [HomeController::class, 'familyTree'])->name('family.tree');
     Route::get('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile');
     Route::get('profile/update', [\App\Http\Controllers\Auth\ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile/update', [\App\Http\Controllers\Auth\ProfileController::class, 'update'])->name('profile.update');
