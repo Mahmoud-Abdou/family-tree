@@ -11,6 +11,15 @@ class Family extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::created(function($model){
+            $model->children_count++;
+        });
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -53,6 +62,11 @@ class Family extends Model
     public function mother()
     {
         return $this->hasOne('App\Models\Person', 'id', 'mother_id');
+    }
+
+    public function members()
+    {
+        return $this->hasMany('App\Models\Person', 'family_id', 'id');
     }
 
     public function statusHtml()

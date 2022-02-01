@@ -117,7 +117,7 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="{{ route('profile') }}" class="iq-sub-card iq-bg-primary-danger-hover">
+                                <a href="{{ route('profile').'?tab=family' }}" class="iq-sub-card iq-bg-primary-danger-hover">
                                     <div class="media align-items-center">
                                         <div class="rounded iq-card-icon iq-bg-danger">
                                             <i class="ri-account-box-line"></i>

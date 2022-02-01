@@ -170,7 +170,7 @@ class User extends Authenticatable
             case 'blocked':
                 return '<span class="badge iq-bg-danger">محظور</span>';
             default:
-                return '<span class="badge iq-bg-info">محذوف</span>';
+                return '<span class="badge iq-bg-dark">محذوف</span>';
         }
     }
 

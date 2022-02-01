@@ -3,7 +3,7 @@
 return [
 
     // relations types
-    'relations-types' => ['general', 'media', 'video', 'event', 'news', 'newborn', 'marriages'],
+    'relations-types' => ['son', 'daughter', 'father', 'mother'],
 
     // Categories types
     'category-types' => ['general', 'media', 'video', 'event', 'news', 'newborn', 'marriages', 'deaths'],

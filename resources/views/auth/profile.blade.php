@@ -42,10 +42,10 @@
                                                     <a class="nav-link" data-toggle="pill" href="#profile-activity">سجل الدخول</a>
                                                 </li>
                                                 <li>
-                                                    <a class="nav-link" data-toggle="pill" href="#profile-family">العائلة</a>
+                                                    <a class="nav-link {{ $_GET['tab'] == 'family' ? 'active' : '' }}" data-toggle="pill" href="#profile-family">العائلة</a>
                                                 </li>
                                                 <li>
-                                                    <a class="nav-link active" data-toggle="pill" href="#profile-profile">الملف الشخصي</a>
+                                                    <a class="nav-link {{ $_GET['tab'] != 'family' ? 'active' : '' }}" data-toggle="pill" href="#profile-profile">الملف الشخصي</a>
                                                 </li>
                                             </ul>
                                         </div>

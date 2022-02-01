@@ -78,7 +78,7 @@ class Person extends Model
 
     public function ownFamily()
     {
-        return $this->hasMany('App\Models\Family', 'id', 'family_id');
+        return $this->hasMany('App\Models\Family', 'father_id', 'id');
     }
 
     public function husband()

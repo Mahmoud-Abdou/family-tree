@@ -52,6 +52,62 @@ class HomeController extends Controller
         return view('family-tree', compact('menuTitle', 'pageTitle', 'content', 'time'));
     }
 
+    public function familyTreeRender(Request $request)
+    {
+        if($request->ajax()){
+            $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+            $firstNode = ['id' => $FirstOne->id, 'familyId' => $FirstOne->family_id, 'name' => $FirstOne->full_name, 'photo' => $FirstOne->photo, 'gender' => $FirstOne->gender,  'symbol' => $FirstOne->symbol,  'color' => $FirstOne->color, ];
+//            $families = \App\Models\Family::all();
+            $families = \App\Models\Family::all()->take(5);
+            $data = [];
+
+            array_push($data, $firstNode);
+
+            foreach ($families as $family) {
+                $famPer = \App\Models\Person::where('family_id', $family->id)->get();
+                foreach ($famPer as $p) {
+                    array_push($data, ['id' => $p->id, 'father' => $family->father->full_name, 'name' => $p->full_name, 'photo' => $p->photo, 'gender' => $p->gender,  'symbol' => $p->symbol,  'color' => $p->color, ]);
+                }
+            }
+
+            return response()->json(array(
+                'success' => true,
+                'data' => $data
+            ));
+        }
+
+        $pageTitle = 'القائمة الرئيسية';
+        $menuTitle = 'شجرة العائلة';
+        $personsCount = \App\Models\Person::all()->count();
+        $familiesCount = \App\Models\Family::all()->count();
+
+        return view('family-tree-render', compact('menuTitle', 'pageTitle', 'personsCount', 'familiesCount'));
+    }
+
+    public function familyTreeData()
+    {
+        dd('family data');
+        $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+        $firstNode = ['id' => $FirstOne->id, 'familyId' => $FirstOne->family_id, 'name' => $FirstOne->full_name, 'photo' => $FirstOne->photo, 'gender' => $FirstOne->gender,  'symbol' => $FirstOne->symbol,  'color' => $FirstOne->color, ];
+//            $families = \App\Models\Family::all();
+        $families = \App\Models\Family::all()->take(5);
+        $data = [];
+
+        array_push($data, $firstNode);
+
+        foreach ($families as $family) {
+            $famPer = \App\Models\Person::where('family_id', $family->id)->get();
+            foreach ($famPer as $p) {
+                array_push($data, ['id' => $p->id, 'father' => $family->father->full_name, 'name' => $p->full_name, 'photo' => $p->photo, 'gender' => $p->gender,  'symbol' => $p->symbol,  'color' => $p->color, ]);
+            }
+        }
+
+        return response()->json(array(
+            'success' => true,
+            'data' => $data
+        ));
+    }
+
     public function terms()
     {
         $pageTitle = 'القائمة الرئيسية';

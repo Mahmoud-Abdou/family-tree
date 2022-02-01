@@ -29,26 +29,41 @@
                         </div>
                         <div class="card-body">
 
-                        @foreach($searchResult as $data)
-                            <div class="d-flex inline-flex justify-content-between">
-                                <a href=""><img src="{{ $data->photo }}" width="50" class="rounded-circle ml-3" alt="{{ $data->full_name }}"></a>
-                                <a href="">{{ $data->full_name }}</a>
-                                <p>{{ $data->genderName() }}</p>
-                                <p>{{ $data->status }}</p>
-                                <p>{{ $data->job }}</p>
-                                <p>{{ $data->birth_date }}</p>
-                                <p>{{ $data->color }}</p>
+                            <div class="list-group">
+                                @if($searchResult->count() > 0)
+                                @foreach($searchResult as $data)
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <img src="{{ $data->photo }}" width="40" class="rounded-circle ml-3" alt="{{ $data->full_name }}">
+                                            </div>
+                                            <div class="col-lg-3">
+                                            <p>{{ $data->full_name }}</p>
+                                            </div>
+                                            <div class="col-lg-1">
+                                            <p>{{ $data->genderName() }}</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                            <p>{{ $data->status }}</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                            <p>{{ $data->job }}</p>
+                                            </div>
+                                            <div class="col-lg-2">
+                                            <p>{{ $data->birth_date }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                                @else
+                                    <p class="list-group-item list-group-item-action text-center">
+                                        لا توجد بيانات في نتائج البحث
+                                    </p>
+                                @endif
                             </div>
-
-                            @if(!$loop->last)
-                                <hr class="px-0 mx-0">
-                            @endif
-
-                        @endforeach
 
                         </div>
                         <div class="card-footer text-muted">
-
                             <p class="m-0 my-auto"> عدد نتائج البحث:  <span class="badge badge-pill border border-dark text-dark">{{ $searchResult->count() }}</span></p>
                         </div>
                     </div>
