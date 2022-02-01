@@ -14,7 +14,10 @@
                 <div class="col-lg-12">
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            {{ $menuTitle }}
+                            <h5>
+                                <i class="ri-information-line"> </i>
+                                {{ $menuTitle }}
+                            </h5>
                         </div>
                         <div class="card-body">
                             {!! $content !!}

@@ -17,8 +17,10 @@
                 <div class="col-lg-12">
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <i class="ri-settings-2-fill mx-2"></i>
-                            اعدادات التطبيق
+                            <h5>
+                                <i class="ri-settings-2-fill mx-2"></i>
+                                اعدادات التطبيق
+                            </h5>
                         </div>
 
                         @include('partials.messages')

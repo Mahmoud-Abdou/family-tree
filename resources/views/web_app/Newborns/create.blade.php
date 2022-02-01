@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="custom-control custom-radio mx-4">
                                             <input type="radio" id="female" name="gender" value="female" class="custom-control-input">
-                                            <label class="custom-control-label" for="female"> امرأة </label>
+                                            <label class="custom-control-label" for="female"> أنثى </label>
                                         </div>
                                     </div>
                                 </div>

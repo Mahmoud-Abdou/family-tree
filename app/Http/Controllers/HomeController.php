@@ -41,8 +41,13 @@ class HomeController extends Controller
     {
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'شجرة العائلة';
-        $content = \App\Helpers\AppHelper::GeneralSettings('family_tree_image');
-        $time = \App\Helpers\AppHelper::GeneralSettings('updated_at');
+        $setting = \App\Models\Setting::first();
+        $content = $setting->family_tree_image;
+        if (file_exists(public_path('uploads/settings/') . $setting->getRawOriginal('family_tree_image'))) {
+            $time = date ("Y-m-d H:i:s.", filemtime(public_path('uploads/settings/') . $setting->getRawOriginal('family_tree_image')));
+        } else {
+            $time = $setting->updated_at;
+        }
 
         return view('family-tree', compact('menuTitle', 'pageTitle', 'content', 'time'));
     }
@@ -54,6 +59,16 @@ class HomeController extends Controller
         $content = \App\Helpers\AppHelper::GeneralSettings('app_terms_ar');
 
         return view('terms', compact('menuTitle', 'pageTitle', 'content'));
+    }
+
+    public function search(Request $request)
+    {
+        $pageTitle = 'القائمة الرئيسية';
+        $menuTitle = 'البحث';
+        $searchWord = $request->search;
+        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->get();
+
+        return view('search', compact('menuTitle', 'pageTitle', 'searchResult', 'searchWord'));
     }
 
     public function dashboard()

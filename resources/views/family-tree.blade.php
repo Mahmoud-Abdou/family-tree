@@ -14,7 +14,10 @@
                 <div class="col-lg-12">
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            {{ $menuTitle }}
+                            <h5>
+                                <i class="ri-group-2-line"> </i>
+                                {{ $menuTitle }}
+                            </h5>
                         </div>
                         <div class="card-body p-0 m-0">
                             <img src="{{ $content }}" class="img-fluid max-width" alt="family tree">

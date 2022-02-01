@@ -8,6 +8,7 @@ Route::get('terms', [HomeController::class, 'terms'])->name('terms');
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::post('search', [HomeController::class, 'search'])->name('search');
     Route::get('about', [HomeController::class, 'about'])->name('about');
     Route::get('family-tree', [HomeController::class, 'familyTree'])->name('family.tree');
     Route::get('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile');
