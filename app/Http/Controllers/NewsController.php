@@ -24,15 +24,27 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $id = auth()->user()->id;
         $menuTitle = 'الاخبار';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
-        $news = News::where('approved', 1)->paginate($page_limit);
-        $categories = Category::paginate($page_limit);
-
+        $categories = Category::get();
+        
+        if(isset($request['category_id'])){
+            $news = News::where('category_id', $request['category_id'])
+                    ->where('approved', 1)
+                    ->orderBy('updated_at', 'DESC')
+                    ->paginate($page_limit);
+        }
+        else{
+            $news = News::where('approved', 1)
+                    ->orderBy('updated_at', 'DESC')
+                    ->paginate($page_limit);
+        }
+        
+        
         return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news', 'categories'));
     }
 
