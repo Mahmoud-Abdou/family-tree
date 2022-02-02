@@ -47,4 +47,9 @@ class Newborn extends Model
         return $this->hasOne('App\Models\Media', 'id', 'image_id');
     }
 
+    public function person()
+    {
+        return $this->hasOne('App\Models\Person', 'id', 'person_id');
+    }
+
 }

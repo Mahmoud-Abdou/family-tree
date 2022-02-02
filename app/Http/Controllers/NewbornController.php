@@ -161,6 +161,7 @@ class NewbornController extends Controller
         }
         $newborn->image->delete_file($newborn->image);
         $newborn->image->delete();
+        $newborn->person->delete();
         $newborn->delete();
 
         \App\Helpers\AppHelper::AddLog('Newborn Delete', class_basename($newborn), $newborn->id);

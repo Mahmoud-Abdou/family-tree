@@ -68,7 +68,7 @@ class DeathController extends Controller
         $request['date'] = Carbon::parse($request['date']);
         $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
 
-        $category_id = Category::where('type', 'death')->first();
+        $category_id = Category::where('type', 'deaths')->first();
         $media = new Media;
 
         if($request->hasFile('image')){
