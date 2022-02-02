@@ -45,7 +45,11 @@
                                                 <td>{!! $newborn->body !!}</td>
                                                 <td>{{ $newborn->owner->name }}</td>
                                                 <td>
-                                                    <img src="{{ $newborn->image->file }}" alt="" style="height: 100px;width: 100px;">
+                                                    @if(isset($newborn->image->file))
+                                                        <img src="{{ $newborn->image->file }}" alt="" style="height: 100px;width: 100px;">
+                                                    @else
+                                                        <img src="" alt="" style="height: 100px;width: 100px;">
+                                                    @endif
                                                 </td>
                                                 <td>{{ $newborn->date }}</td>
                                                 <td>

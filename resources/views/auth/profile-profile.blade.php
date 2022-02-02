@@ -1,4 +1,4 @@
-<div class="tab-pane fade active show" id="profile-profile" role="tabpanel">
+<div class="tab-pane fade {{ $_GET['tab'] != 'family' ? 'active show' : '' }}" id="profile-profile" role="tabpanel">
     <div class="row">
         <div class="col-lg-3">
             <div class="iq-card iq-card-block iq-card-stretch">

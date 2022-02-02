@@ -17,11 +17,14 @@ class PersonFactory extends Factory
      */
     public function definition()
     {
-        $user = \App\Models\User::all()->unique()->random();
+        $userId = $this->faker->unique()->numberBetween(1,301);
+        $user = \App\Models\User::find($userId);
         $gender = $this->faker->randomElement(['male', 'female']);
         $isLive = $this->faker->boolean(75);
+        $hasFamily = $this->faker->boolean(40);
 
         $user->name = $this->faker->firstName($gender);
+        $user->status = $isLive ? $user->status : 'deleted';
         $user->save();
 
         return [
@@ -30,14 +33,14 @@ class PersonFactory extends Factory
             'first_name' => $user->name,
             'father_name' => $this->faker->firstNameMale(),
             'grand_father_name' => $this->faker->firstNameMale(),
-//            'surname' => null,
+            'surname' => null,
             'prefix' => $this->faker->title($gender),
             'job' => $this->faker->jobTitle(),
             'bio' => $this->faker->realText(300),
             'gender' => $gender,
-//            'photo' => $this->faker->randomElement(['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png']),
-            'has_family' => $this->faker->boolean(40),
-            'family_id' => $this->faker->numberBetween(1, 50),
+            'photo' => $this->faker->randomElement(['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png']),
+            'has_family' => $hasFamily,
+            'family_id' => $this->faker->numberBetween(1, 120),
             'relation' => $this->faker->randomElement(config('custom.relations-types')),
             'address' => $this->faker->address(),
             'is_live' => $isLive,
@@ -46,7 +49,7 @@ class PersonFactory extends Factory
             'death_date' => $isLive ? null : $this->faker->date('Y-m-d', 'now'),
             'death_place' => $isLive ? null : $this->faker->city(),
             'verified' => $this->faker->boolean(90),
-//            'symbol' => null,
+            'symbol' => $this->faker->mimeType(),
             'color' => $this->faker->hexColor,
         ];
     }

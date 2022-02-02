@@ -40,7 +40,7 @@ class Category extends Model
         return asset($this->photoPath). '/' . $icon;
     }
 
-    public function getTypeArNameAttribute(){
+    public function getTypeArAttribute(){
         switch ($this->type) {
             case 'general':
                 return 'عام';

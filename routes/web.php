@@ -11,6 +11,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('search', [HomeController::class, 'search'])->name('search');
     Route::get('about', [HomeController::class, 'about'])->name('about');
     Route::get('family-tree', [HomeController::class, 'familyTree'])->name('family.tree');
+    Route::get('family-tree/data', [HomeController::class, 'familyTreeData'])->name('family.tree.data');
+    Route::get('family-tree/render', [HomeController::class, 'familyTreeRender'])->name('family.tree.render');
     Route::get('profile', [\App\Http\Controllers\Auth\ProfileController::class, 'show'])->name('profile');
     Route::get('profile/update', [\App\Http\Controllers\Auth\ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile/update', [\App\Http\Controllers\Auth\ProfileController::class, 'update'])->name('profile.update');
@@ -37,4 +39,3 @@ Route::middleware(['auth'])->group(function () {
 Route::fallback(function () {
     return redirect('/');
 });
-
