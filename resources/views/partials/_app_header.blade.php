@@ -63,18 +63,19 @@
                             <div class="iq-card shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-danger p-3">
-                                        <h5 class="mb-0 text-white">الاشعارات<small class="badge badge-light float-right pt-1">1</small></h5>
+                                        <h5 class="mb-0 text-white">الاشعارات<small class="badge badge-light float-right pt-1">{{ count(auth()->user()->notifications) }}</small></h5>
                                     </div>
-
-                                    <a href="#" class="iq-sub-card" >
-                                        <div class="media align-items-center">
-                                            <div class="media-body ml-3">
-                                                <h6 class="mb-0 ">New Order Recieved</h6>
-                                                <small class="float-right font-size-12">23 hrs ago</small>
-                                                <p class="mb-0">Lorem is simply</p>
+                                    @foreach(auth()->user()->notifications as $notification)
+                                        <a href="#" class="iq-sub-card" >
+                                            <div class="media align-items-center">
+                                                <div class="media-body ml-3">
+                                                    <h6 class="mb-0 ">{{ $notification->data['title'] }}</h6>
+                                                    <small class="float-right font-size-12">{{ $notification->created_at }}</small>
+                                                    <p class="mb-0">{{ $notification->data['body'] }}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    @endforeach
 
                                 </div>
                             </div>

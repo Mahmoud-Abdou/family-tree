@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
-use App\Listeners\SendNewUserNotification;
+use App\Listeners\SendNewsNotification;
+use App\Listeners\SendDeathNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\NewsEvent;
+use App\Events\DeathEvent;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,6 +24,12 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
             SendNewUserNotification::class,
         ],
+        NewsEvent::class =>[
+            SendNewsNotification::class,
+        ],
+        DeathEvent::class =>[
+            SendDeathNotification::class,
+        ]
     ];
 
     /**

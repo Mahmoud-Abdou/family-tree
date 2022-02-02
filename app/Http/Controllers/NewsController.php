@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\News;
 use App\Models\City;
 use App\Models\Category;
+use App\Events\NewsEvent;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -26,6 +28,8 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
+        
+
         $id = auth()->user()->id;
         $menuTitle = 'الاخبار';
         $pageTitle = 'القائمة الرئيسية';
@@ -82,6 +86,10 @@ class NewsController extends Controller
 
         $news = new News;
         $news = News::create($request->all());
+
+        $news['operation_type'] = 'store';
+        $users = User::permission('users.activate')->get();
+        event(new NewsEvent($news, $users));
 
         \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
         return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');

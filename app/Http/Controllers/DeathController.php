@@ -11,7 +11,11 @@ use App\Models\Media;
 use App\Models\Category;
 use App\Models\Family;
 use App\Models\News;
+use App\Models\User;
+use Illuminate\Notifications\Notification;
 use Carbon\Carbon;
+use App\Events\DeathEvent;
+
 
 class DeathController extends Controller
 {
@@ -37,7 +41,9 @@ class DeathController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $deaths = Death::paginate($page_limit);
-
+        // dd(auth()->user()->notifications[0]->created_at);
+        // dd();
+        // $notifications = Notification::get(); 
         return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }
 
@@ -94,6 +100,11 @@ class DeathController extends Controller
         $request['category_id'] = $category_id->id;
         $request['approved'] = 0;
         $news = News::create($request->all());
+
+        $death['operation_type'] = 'store';
+        $users = User::where('status', 'active')->get();
+        event(new DeathEvent($death, $users));
+
 
         \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');

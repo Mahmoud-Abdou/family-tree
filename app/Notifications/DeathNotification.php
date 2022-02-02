@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewsNotification extends Notification
+class DeathNotification extends Notification
 {
     use Queueable;
 
@@ -16,9 +16,9 @@ class NewsNotification extends Notification
      *
      * @return void
      */
-    public function __construct($news)
+    public function __construct($death)
     {
-        $this->news = $news;
+        $this->death = $death;
     }
 
     /**
@@ -30,7 +30,6 @@ class NewsNotification extends Notification
     public function via($notifiable)
     {
         return ['database'];
-        // return ['mail'];
     }
 
     /**
@@ -55,6 +54,6 @@ class NewsNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->news;
+        return $this->death;
     }
 }
