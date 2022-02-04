@@ -145,4 +145,16 @@ class HomeController extends Controller
         return view('dashboard.index', compact('appMenu', 'menuTitle', 'pageTitle', 'newsData', 'usersData'));
     }
 
+
+    public function read_notification(Request $request)
+    {
+        $notification = auth()->user()->unreadNotifications()->where('id', $request['id'])->first();
+        if($notification == null){
+            return "0";
+        }
+        else{
+            $notification->markAsRead();
+        }
+        return "1";
+    }
 }

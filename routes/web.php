@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');
     Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 
+    Route::get('read-notification', [\App\Http\Controllers\HomeController::class, 'read_notification']);
+
 });
 
 Route::fallback(function () {

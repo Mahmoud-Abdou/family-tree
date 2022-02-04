@@ -63,20 +63,30 @@
                             <div class="iq-card shadow-none m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-danger p-3">
-                                        <h5 class="mb-0 text-white">الاشعارات<small class="badge badge-light float-right pt-1">{{ count(auth()->user()->notifications) }}</small></h5>
+                                        <h5 class="mb-0 text-white">الاشعارات<small class="badge badge-light float-right pt-1">{{ count(auth()->user()->unreadNotifications) }}</small></h5>
                                     </div>
-                                    @foreach(auth()->user()->notifications as $notification)
+                                    
+                                    @if(count(auth()->user()->unreadNotifications) > 0)
+                                        @foreach(auth()->user()->unreadNotifications as $notification)
+                                            <a onclick="markNotificationRead('{{ $notification->id }}', `{{ isset($notification->data['url']) ? $notification->data['url'] : '#' }}`)"  class="iq-sub-card" >
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ml-3">
+                                                        <h6 class="mb-0 ">{{ isset($notification->data['title']) ? $notification->data['title'] : 'Title' }}</h6>
+                                                        <small class="float-right font-size-12">{{ $notification->created_at }}</small>
+                                                        <p class="mb-0">{{ isset($notification->data['body']) ? $notification->data['body'] : 'Body' }}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @else
                                         <a href="#" class="iq-sub-card" >
                                             <div class="media align-items-center">
                                                 <div class="media-body ml-3">
-                                                    <h6 class="mb-0 ">{{ $notification->data['title'] }}</h6>
-                                                    <small class="float-right font-size-12">{{ $notification->created_at }}</small>
-                                                    <p class="mb-0">{{ $notification->data['body'] }}</p>
+                                                    لا توجد اشعارات
                                                 </div>
                                             </div>
                                         </a>
-                                    @endforeach
-
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -145,3 +155,20 @@
     </div>
 </div>
 {{--<!-- TOP Nav Bar END -->--}}
+
+<script>
+    function markNotificationRead(id, url){
+        $.ajax({
+            url: 'read-notification?id=' + id,
+            contentType: "application/json",
+            success: function(result){
+                if(result == "1"){
+                    window.location = url;
+                }
+                else{
+                    window.location = "";
+                }
+            }
+        })
+    }
+</script>

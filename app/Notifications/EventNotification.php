@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class DeathNotification extends Notification
+class EventNotification extends Notification
 {
     use Queueable;
 
@@ -16,9 +16,9 @@ class DeathNotification extends Notification
      *
      * @return void
      */
-    public function __construct($death)
+    public function __construct($event)
     {
-        $this->death = $death;
+        $this->event = $event;
     }
 
     /**
@@ -40,7 +40,6 @@ class DeathNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $death = $this->death;
         return (new MailMessage)
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/'))
@@ -55,6 +54,11 @@ class DeathNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->death;
+        return [
+            'title' => $this->event['title'],
+            'body' => $this->event['body'],
+            'url' => $this->event['url'],
+            'content' => $this->event['content'] 
+        ];
     }
 }

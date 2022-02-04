@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Event;
 use App\Events\NewsEvent;
 use App\Events\DeathEvent;
 
+use App\Listeners\SendNotification;
+use App\Events\NotificationEvent;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -29,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         DeathEvent::class =>[
             SendDeathNotification::class,
+        ],
+        NotificationEvent::class =>[
+            SendNotification::class,
         ]
     ];
 
