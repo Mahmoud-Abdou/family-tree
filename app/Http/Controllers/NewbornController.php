@@ -88,6 +88,16 @@ class NewbornController extends Controller
         
         $newborn = Newborn::create($request->all());
 
+        $newborn_notification = [];
+        $newborn_notification['title'] = 'تم اضافة مولود';
+        $newborn_notification['body'] = $newborn->body;
+        $newborn_notification['content'] = $newborn;
+        $newborn_notification['url'] = 'newborns/' . $newborn->id;
+        $newborn_notification['operation'] = 'store';
+
+        $users = User::where('status', 'active')->get();
+        event(new NotificationEvent($newborn_notification, $users));
+
 
         \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
         return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');
