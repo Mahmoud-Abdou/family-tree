@@ -16,7 +16,7 @@ class CreateMarriagesTable extends Migration
         Schema::create('marriages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('owner_id');
-            $table->foreignId('family_id');
+            $table->foreignId('family_id')->nullable();
             $table->foreignId('husband_id');
             $table->foreignId('wife_id')->nullable();
             $table->string('title');

@@ -17,6 +17,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth')->except('terms');
         $this->middleware('permission:dashboard.read')->only(['dashboard']);
+        $this->middleware('permission:searching.public')->only(['search']);
     }
 
     public function home()
@@ -55,20 +56,34 @@ class HomeController extends Controller
     public function familyTreeRender(Request $request)
     {
         if($request->ajax()){
+            $data = [];
             $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
             $firstNode = ['id' => $FirstOne->id, 'familyId' => $FirstOne->family_id, 'name' => $FirstOne->full_name, 'photo' => $FirstOne->photo, 'gender' => $FirstOne->gender,  'symbol' => $FirstOne->symbol,  'color' => $FirstOne->color, ];
-//            $families = \App\Models\Family::all();
-            $families = \App\Models\Family::all()->take(5);
-            $data = [];
-
             array_push($data, $firstNode);
+            $families = \App\Models\Family::all();
+//            $families = \App\Models\Family::all()->take(5);
+//            $FirstFam = $FirstOne->ownFamily;
 
             foreach ($families as $family) {
                 $famPer = \App\Models\Person::where('family_id', $family->id)->get();
                 foreach ($famPer as $p) {
-                    array_push($data, ['id' => $p->id, 'father' => $family->father->full_name, 'name' => $p->full_name, 'photo' => $p->photo, 'gender' => $p->gender,  'symbol' => $p->symbol,  'color' => $p->color, ]);
+                    if ($family->father->id == $p->id || $family->mother->id == $p->id) {
+
+                    }
+                    else {
+                        array_push($data, ['id' => $p->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'name' => $p->full_name, 'photo' => $p->photo, 'gender' => $p->gender,  'symbol' => $p->symbol,  'color' => $p->color, 'born' => $p->birth_date ]);
+                    }
                 }
             }
+
+//            foreach ($FirstFam->members as $member) {
+//                array_push($data, ['id' => $member->id, 'familyId' => $member->family_id, 'father' => $member->father_name, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, ]);
+//                if ($member->has_family) {
+//                    foreach ($member->ownFamily->members as $mem) {
+//                        array_push($data, ['id' => $mem->id, 'familyId' => $mem->family_id, 'father' => $mem->father_name, 'name' => $mem->full_name, 'photo' => $mem->photo, 'gender' => $mem->gender,  'symbol' => $mem->symbol,  'color' => $mem->color, ]);
+//                    }
+//                }
+//            }
 
             return response()->json(array(
                 'success' => true,
@@ -86,19 +101,57 @@ class HomeController extends Controller
 
     public function familyTreeData()
     {
-        dd('family data');
-        $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
-        $firstNode = ['id' => $FirstOne->id, 'familyId' => $FirstOne->family_id, 'name' => $FirstOne->full_name, 'photo' => $FirstOne->photo, 'gender' => $FirstOne->gender,  'symbol' => $FirstOne->symbol,  'color' => $FirstOne->color, ];
-//            $families = \App\Models\Family::all();
-        $families = \App\Models\Family::all()->take(5);
+        $families = \App\Models\Family::all();
         $data = [];
 
-        array_push($data, $firstNode);
+//        array_push($data, $firstNode);
+
+//        foreach ($families as $family) {
+//            foreach ($family->members as $member) {
+//                if ($family->father->id == $member->id || $family->mother->id == $member->id) {
+//                    $mothers = $member->ownFamily->map(function ($fam) {
+//                        return $fam['id'];
+//                    });
+//                    $mothersIdes = $mothers->all();
+//
+//                    if (isset($family->parentFamily)) {
+//                        array_push($data, ['id' => $member->id, 'mid' => $family->parentFamily->mother->id, 'fid' => $family->parentFamily->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
+//                    } else {
+//                        if ($member->has_family) {
+//                            array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender, 'symbol' => $member->symbol, 'color' => $member->color, 'born' => $member->birth_date]);
+//                        } else {
+//                            array_push($data, ['id' => $member->id, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
+//                        }
+//                    }
+//                }
+//                else {
+//                    if ($member->has_family) {
+//                        $mothers = $member->ownFamily->map(function ($fam) {
+//                            return $fam['id'];
+//                        });
+//                        $mothersIdes = $mothers->all();
+//
+//                        array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
+//                    } else {
+//                        array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
+//                    }
+//                }
+//            }
+//        }
 
         foreach ($families as $family) {
-            $famPer = \App\Models\Person::where('family_id', $family->id)->get();
-            foreach ($famPer as $p) {
-                array_push($data, ['id' => $p->id, 'father' => $family->father->full_name, 'name' => $p->full_name, 'photo' => $p->photo, 'gender' => $p->gender,  'symbol' => $p->symbol,  'color' => $p->color, ]);
+            foreach ($family->members as $member) {
+                if ($member->has_family) {
+                    $mothers = $member->ownFamily->map(function ($fam) {
+                        return $fam['id'];
+                    });
+                    $mothersIdes = $mothers->all();
+
+                    array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender, 'symbol' => $member->symbol, 'color' => $member->color, 'born' => $member->birth_date]);
+
+                } else {
+                    array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender, 'symbol' => $member->symbol, 'color' => $member->color, 'born' => $member->birth_date]);
+                }
             }
         }
 

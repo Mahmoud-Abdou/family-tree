@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('news.index')],['title' => $menuTitle, 'link' => route('news.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-newspaper-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الأخبار', 'link' => route('news.index')],['title' => $menuTitle, 'link' => route('news.create')],]])
 @endsection
 
 @section('content')
@@ -17,14 +17,13 @@
 
                     <div class="card iq-mb-3">
                     <div class="card-header">
-                        <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
+                        <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                     </div>
-                    <div class="card-body">
-                    <form dir="rtl" method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data">
-                        @csrf
-                            
-                        <div class="row">
 
+                    <form dir="rtl" method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+                        <div class="row">
                             <div class="form-group col-lg-6">
                                 <label for="city_id">المدينة</label>
                                 <select name="city_id" id="city_id" class="form-control mb-0" required autofocus>
@@ -32,39 +31,37 @@
                                     @foreach($cities as $city)
                                         <option value="{{$city->id}}">{{ $city->name_ar }}</option>
                                     @endforeach
-                                </select>    
+                                </select>
                             </div>
-                            <div class="form-group col-lg-6">
-                                <label for="title">العنوان</label>
-                                <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" required autofocus>
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label for="body">الوصف</label>
-                                <input type="text" name="body" class="form-control mb-0" id="body" tabindex="3"  required autofocus>
-                            </div>
-                            
-                            
 
                             <div class="form-group col-lg-6">
                                 <label for="category_id">النوع</label>
-                                <select name="category_id" id="category_id" class="form-control mb-0" required autofocus>
+                                <select name="category_id" id="category_id" class="form-control mb-0" required>
                                     <option>اختر النوع</option>
                                     @foreach($categories as $category)
                                         <option value="{{$category->id}}">{{ $category->name_ar }}</option>
                                     @endforeach
-                                </select> 
+                                </select>
                             </div>
-                            
-                            
-                            
+
+                            <div class="form-group col-lg-12">
+                                <label for="title">العنوان</label>
+                                <input type="text" name="title" class="form-control mb-0" id="title" required>
+                            </div>
+
+                            <div class="form-group col-lg-12">
+                                <label for="body">الوصف</label>
+                                <textarea class="form-control" name="body" id="body">{!! old('body') !!}</textarea>
+                            </div>
+
                         </div>
-                        <div class="card-footer text-muted">
-                            <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
-                        </div>
-                    </form>
                     </div>
 
-                    <div class="card-footer text-muted"></div>
+                    <div class="card-footer text-muted">
+                        <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
+                    </div>
+                    </form>
+
                     </div>
 
                 </div>

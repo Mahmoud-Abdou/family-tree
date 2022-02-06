@@ -1,4 +1,4 @@
-<div class="tab-pane fade {{ $_GET['tab'] == 'family' ? 'active show' : '' }}" id="profile-family" role="tabpanel">
+<div class="tab-pane fade {{ isset($_GET['tab']) && $_GET['tab'] == 'family' ? 'active show' : '' }}" id="profile-family" role="tabpanel">
     @isset($person->belongsToFamily)
     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
         <div class="iq-card-header d-flex justify-content-between">

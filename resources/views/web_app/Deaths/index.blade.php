@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-home-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('home')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-4-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('deaths.index')],]])
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="float-left my-auto"><i class="ri-user-4-line"> </i> {{ $menuTitle }}</h5>
                             @can('deaths.create')
                                 <a href="{{ route('deaths.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
                             @endcan
@@ -54,7 +54,10 @@
                                                 <td>{{ $death->date }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                        @if($death->owner_id == auth()->user()->id)
+{{--                                                        @if($death->owner_id == auth()->user()->id)--}}
+                                                            @can('deaths.show')
+                                                                <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('deaths.show', $death) }}"><i class="ri-information-fill"></i></a>
+                                                            @endcan
                                                             @can('deaths.update')
                                                             <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('deaths.edit', $death) }}"><i class="ri-edit-2-fill"></i></a>
                                                             @endcan
@@ -66,7 +69,7 @@
                                                                 <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"></i></button>
                                                             </form>
                                                             @endcan
-                                                        @endif
+{{--                                                        @endif--}}
                                                     </div>
                                                 </td>
                                             </tr>

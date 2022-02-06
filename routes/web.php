@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('media_category', [\App\Http\Controllers\MediaController::class, 'media_category'])->name('media_category');
     
+    Route::resource('marriages', \App\Http\Controllers\MarriageController::class);
+
 
     Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');
     Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');

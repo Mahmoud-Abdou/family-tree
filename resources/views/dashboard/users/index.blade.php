@@ -147,7 +147,7 @@
                                 </table>
                             </div>
 
-{{--                            <br>--}}
+                            <hr class="pt-0 mt-0" />
                             <div class="d-flex justify-content-around">{{ $usersData->links() }}</div>
 
                         </div>

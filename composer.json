@@ -19,7 +19,6 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5",
         "mobiledetect/mobiledetectlib": "^2.8",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^5.4"
@@ -32,7 +31,8 @@
         "laravel/ui": "^3.4",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "laravel/tinker": "^2.5"
     },
     "autoload": {
         "psr-4": {
@@ -70,10 +70,7 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "platform-check": false,
-	"platform": {
-        	"php": "7.4.0"
-	 }
+        "platform-check": false
     },
     "minimum-stability": "dev",
     "prefer-stable": true

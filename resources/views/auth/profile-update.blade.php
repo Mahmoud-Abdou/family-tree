@@ -11,12 +11,38 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+
+                    <div class="iq-card">
+                        <div class="iq-card-body p-0">
+                            <div class="iq-edit-list">
+                                <ul class="iq-edit-profile d-flex nav nav-pills">
+                                    <li class="col-md-6 p-0">
+                                        <a class="nav-link active" data-toggle="pill" href="#personal-information">
+                                            تعديل الملف الشخصي
+                                        </a>
+                                    </li>
+
+                                    <li class="col-md-6 p-0">
+                                        <a class="nav-link" data-toggle="pill" href="#manage-secret">
+                                            تعديل بيانات الدخول
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
                     @include('partials.messages')
                     @include('partials.errors-messages')
+                </div>
 
+            <div class="tab-content col-lg-12">
+                <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
                         </div>
 
                         <form dir="rtl" class="mt-4" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
@@ -141,16 +167,13 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
 
-                <div class="col-lg-12">
-                    @include('partials.messages')
-                    @include('partials.errors-messages')
+                <div class="tab-pane fade" id="manage-secret" role="tabpanel">
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-shield-user-fill"> </i> تعديل بيانات الدخول </h5>
+                            <h5 class="my-auto"><i class="ri-shield-user-fill"> </i> تعديل بيانات الدخول </h5>
                         </div>
 
                         <form dir="rtl" class="mt-4" method="POST" action="{{ route('profile.update-user') }}">
@@ -194,8 +217,8 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
+            </div>
             </div>
         </div>
     </div>

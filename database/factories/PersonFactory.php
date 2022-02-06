@@ -35,7 +35,7 @@ class PersonFactory extends Factory
             'grand_father_name' => $this->faker->firstNameMale(),
             'surname' => null,
             'prefix' => $this->faker->title($gender),
-            'job' => $this->faker->jobTitle(),
+            'job' => $this->faker->jobTitle,
             'bio' => $this->faker->realText(300),
             'gender' => $gender,
             'photo' => $this->faker->randomElement(['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png', '10.png']),

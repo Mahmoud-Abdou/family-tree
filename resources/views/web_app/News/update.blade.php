@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-map-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الدول و المدن', 'link' => route('news.index')],['title' => $menuTitle, 'link' => route('news.create')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-newspaper-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الأخبار', 'link' => route('news.index')],['title' => $menuTitle, 'link' => route('news.create')],]])
 @endsection
 
 @section('content')
@@ -17,12 +17,12 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                         </div>
-                        <div class="card-body">
-                            <form dir="rtl" method="POST" action="{{ route('news.update', $news) }}" enctype="multipart/form-data" >
-                                @csrf
-                                @method('PUT')
+                        <form dir="rtl" method="POST" action="{{ route('news.update', $news) }}" enctype="multipart/form-data" >
+                            @csrf
+                            @method('PUT')
+                            <div class="card-body">
                                 <div class="row">
 
                                     <div class="form-group col-lg-6">
@@ -36,17 +36,8 @@
                                                     <option value="{{$city->id}}">{{ $city->name_ar }}</option>
                                                 @endif
                                             @endforeach
-                                        </select>    
+                                        </select>
                                     </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="title">العنوان</label>
-                                        <input type="text" name="title" class="form-control mb-0" id="title" tabindex="2" value="{{ $news->title }}" required autofocus>
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="body">الوصف</label>
-                                        <input type="text" name="body" class="form-control mb-0" id="body" tabindex="3" value="{{ $news->body }}" required autofocus>
-                                    </div>
-                                   
 
                                     <div class="form-group col-lg-6">
                                         <label for="category_id">النوع</label>
@@ -59,21 +50,25 @@
                                                     <option value="{{$category->id}}">{{ $category->name_ar }}</option>
                                                 @endif
                                             @endforeach
-                                        </select> 
-                                    </div>
-                                    
-
-                                    
+                                        </select>
                                     </div>
 
-                                
-                                    <div class="card-footer text-muted">
-                                        <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
+                                    <div class="form-group col-lg-12">
+                                        <label for="title">العنوان</label>
+                                        <input type="text" name="title" class="form-control mb-0" id="title" value="{{ $news->title }}" required>
                                     </div>
-                            </form>
-                        </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="body">الوصف</label>
+                                        <textarea class="form-control" name="body" id="body">{!! $news->body !!}</textarea>
+                                    </div>
 
-                        <div class="card-footer text-muted"></div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer text-muted">
+                                <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
+                            </div>
+                        </form>
                     </div>
 
                 </div>

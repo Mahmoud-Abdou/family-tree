@@ -19,6 +19,14 @@ class FamiliesSeeder extends Seeder
         foreach ($families as $family) {
             $family->children_count = \App\Models\Person::where('family_id', $family->id)->count();
             $family->save();
+
+            foreach ($family->members as $member) {
+                if ($member->id != $family->mother->id && $member->id != $family->father->id) {
+                    $member->father_name = $family->father->first_name;
+                    $member->grand_father_name = $family->parentFamily->father->first_name;
+                }
+                $member->save();
+            }
         }
     }
 }

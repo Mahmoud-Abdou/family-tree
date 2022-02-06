@@ -19,10 +19,12 @@ return [
         'activities' => ['slug' => 'activities', 'name' => 'Activities', 'name_ar' => 'سجل العمليات'],
         'news' => ['slug' => 'news', 'name' => 'News', 'name_ar' => 'الأخبار'],
         'families' => ['slug' => 'families', 'name' => 'Families', 'name_ar' => 'العائلات'],
+        'marriages' => ['slug' => 'marriages', 'name' => 'Marriages', 'name_ar' => 'الزواجات'],
         'newborns' => ['slug' => 'newborns', 'name' => 'Newborns', 'name_ar' => 'المواليد'],
         'death' => ['slug' => 'death', 'name' => 'Death', 'name_ar' => 'الوفيات'],
         'media' => ['slug' => 'media', 'name' => 'Media', 'name_ar' => 'معرض الصور'],
         'events' => ['slug' => 'events', 'name' => 'Events', 'name_ar' => 'المناسبات'],
+        'searching' => ['slug' => 'searching', 'name' => 'Searching', 'name_ar' => 'عملية البحث'],
     ],
 
     //all permissions
@@ -61,6 +63,12 @@ return [
             ['name' => 'families.create', 'name_ar' => 'اضافة عائلة', 'description' => 'اضافة عائلة'],
             ['name' => 'families.update', 'name_ar' => 'تعديل عائلة', 'description' => 'تعديل عائلة'],
             ['name' => 'families.delete', 'name_ar' => 'حذف عائلة', 'description' => 'حذف عائلة'],
+        ],
+        'marriages' => [
+            ['name' => 'marriages.read', 'name_ar' => 'مشاهدة الزواجات', 'description' => 'مشاهدة الزواجات'],
+            ['name' => 'marriages.create', 'name_ar' => 'اضافة زواج', 'description' => 'اضافة زواج'],
+            ['name' => 'marriages.update', 'name_ar' => 'تعديل زواج', 'description' => 'تعديل زواج'],
+            ['name' => 'marriages.delete', 'name_ar' => 'حذف زواج', 'description' => 'حذف زواج'],
         ],
         'newborns' => [
             ['name' => 'newborns.read', 'name_ar' => 'مشاهدة الولادات', 'description' => 'مشاهدة الولادات'],
@@ -104,7 +112,10 @@ return [
             ['name' => 'dashboard.read', 'name_ar' => 'مشاهدة لوحة التحكم', 'description' => 'مشاهدة لوحة التحكم'],
             ['name' => 'dashboard.update', 'name_ar' => 'تعديل لوحة التحكم', 'description' => 'تعديل لوحة التحكم'],
         ],
-
+        'searching' => [
+            ['name' => 'searching.public', 'name_ar' => 'البحث في العام', 'description' => 'البحث في العام'],
+            ['name' => 'searching.private', 'name_ar' => 'البحث في العائلة', 'description' => 'البحث في العائلة'],
+        ]
     ],
 
     // main menu
@@ -114,10 +125,11 @@ return [
         ['id' => 3, 'title' => 'About Family', 'title_ar' => 'نبذة عن العائلة', 'link' => 'about', 'icon' => 'ri-information-line', 'permission' => null, 'child' => null],
         ['id' => 4, 'title' => 'Family Tree', 'title_ar' => 'شجرة العائلة', 'link' => 'family.tree', 'icon' => 'ri-group-2-line', 'permission' => 'families.read', 'child' => null],
         ['id' => 5, 'title' => 'Events', 'title_ar' => 'المناسبات', 'link' => 'events.index', 'icon' => 'ri-calendar-event-line', 'permission' => 'events.read', 'child' => null],
-        ['id' => 6, 'title' => 'Newborn', 'title_ar' => 'المواليد', 'link' => 'newborns.index', 'icon' => 'ri-user-smile-line', 'permission' => 'newborns.read', 'child' => null],
-        ['id' => 7, 'title' => 'Death', 'title_ar' => 'الوفيات', 'link' => 'deaths.index', 'icon' => 'ri-user-4-line', 'permission' => 'death.read', 'child' => null],
-        ['id' => 8, 'title' => 'Media', 'title_ar' => 'المعرض', 'link' => 'media.index', 'icon' => 'ri-image-2-line', 'permission' => 'media.read', 'child' => null],
-        ['id' => 9, 'title' => 'News', 'title_ar' => 'الأخبار', 'link' => 'news.index', 'icon' => 'ri-newspaper-line', 'permission' => 'news.read', 'child' => null],
+        ['id' => 6, 'title' => 'Marriages', 'title_ar' => 'الزواجات', 'link' => 'marriages.index', 'icon' => 'ri-parent-line', 'permission' => 'marriages.read', 'child' => null],
+        ['id' => 7, 'title' => 'Newborn', 'title_ar' => 'المواليد', 'link' => 'newborns.index', 'icon' => 'ri-user-smile-line', 'permission' => 'newborns.read', 'child' => null],
+        ['id' => 8, 'title' => 'Death', 'title_ar' => 'الوفيات', 'link' => 'deaths.index', 'icon' => 'ri-user-4-line', 'permission' => 'death.read', 'child' => null],
+        ['id' => 9, 'title' => 'Media', 'title_ar' => 'المعرض', 'link' => 'home', 'icon' => 'ri-image-2-line', 'permission' => 'media.read', 'child' => null],
+        ['id' => 10, 'title' => 'News', 'title_ar' => 'الأخبار', 'link' => 'news.index', 'icon' => 'ri-newspaper-line', 'permission' => 'news.read', 'child' => null],
     ],
 
     'app_menu' => [

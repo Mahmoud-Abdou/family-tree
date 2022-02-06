@@ -27,7 +27,7 @@ class Death extends Model
     ];
 
     protected $casts = [
-        'date' => 'datetime:Y-m-d',
+        'date' => 'datetime:Y-m-d H:i',
     ];
 
     public function owner()
