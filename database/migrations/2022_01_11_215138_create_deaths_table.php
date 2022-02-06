@@ -21,6 +21,8 @@ class CreateDeathsTable extends Migration
             $table->text('body');
             $table->foreignId('image_id')->nullable();
             $table->dateTime('date');
+            $table->boolean('approved')->default(false);
+            $table->foreignId('approved_by')->nullable();
             $table->timestamps();
         });
     }

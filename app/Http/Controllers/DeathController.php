@@ -48,7 +48,7 @@ class DeathController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'الوفيات';
+        $menuTitle = 'اضافة حالة وفاة';
         $pageTitle = 'القائمة الرئيسية';
         $family_id = auth()->user()->profile->family_id;
         $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
@@ -116,7 +116,7 @@ class DeathController extends Controller
      */
     public function edit(Death $death)
     {
-        $menuTitle = 'الوفيات';
+        $menuTitle = 'تعديل حالة وفاة';
         $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
@@ -146,10 +146,14 @@ class DeathController extends Controller
             }
         }
 
-        $death->save();
+        if ($death->isDirty()){
+            $death->save();
 
-        \App\Helpers\AppHelper::AddLog('Death Update', class_basename($death), $death->id);
-        return redirect()->route('deaths.index')->with('success', 'تم تعديل بيانات وفاة بنجاح.');
+            \App\Helpers\AppHelper::AddLog('Death Update', class_basename($death), $death->id);
+            return redirect()->route('deaths.index')->with('success', 'تم تعديل بيانات وفاة بنجاح.');
+        }
+
+        return redirect()->route('deaths.index');
     }
 
     /**
@@ -170,6 +174,4 @@ class DeathController extends Controller
         \App\Helpers\AppHelper::AddLog('Death Delete', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
-
-
 }

@@ -23,6 +23,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('news', \App\Http\Controllers\NewsController::class);
     Route::resource('deaths', \App\Http\Controllers\DeathController::class);
     Route::resource('newborns', \App\Http\Controllers\NewbornController::class);
+    Route::resource('marriages', \App\Http\Controllers\MarriageController::class);
+
 
     Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');
     Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');

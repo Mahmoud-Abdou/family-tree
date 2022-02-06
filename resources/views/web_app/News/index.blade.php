@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-home-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('home')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-newspaper-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('news.index')],]])
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                             @can('news.create')
                                 <a href="{{ route('news.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
                             @endcan
@@ -44,7 +44,8 @@
                                                 <td>{{ $row_news->owner->name }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                        @if($row_news->owner_id == auth()->user()->id)
+{{--                                                        @if($row_news->owner_id == auth()->user()->id)--}}
+                                                            <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('news.show', $row_news) }}"><i class="ri-information-fill"></i></a>
                                                             @can('news.update')
                                                             <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('news.edit', $row_news) }}"><i class="ri-edit-2-fill"></i></a>
                                                             @endcan
@@ -56,14 +57,14 @@
                                                                 <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"></i></button>
                                                             </form>
                                                             @endcan
-                                                        @endif
+{{--                                                        @endif--}}
                                                     </div>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="5" class="text-center"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>

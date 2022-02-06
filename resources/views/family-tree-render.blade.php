@@ -3,10 +3,37 @@
 @section('page-title', $pageTitle)
 
 @section('add-styles')
-    <style>
-        table {
-            border-collapse: inherit !important;
+    <link rel="stylesheet" href="{{ secure_asset('css/jquery.orgchart.min.css') }}">
+    <style type="text/css">
+        .orgchart .linkNode {
+            box-sizing: border-box;
+            display: inline-block;
+            position: relative;
+            margin: 0;
+            text-align: center;
+            width: 130px;
         }
+
+        .orgchart .linkNode .linkLine {
+            background-color: rgba(38, 38, 38, 0.8);
+            height: 50px;
+            width: 2px;
+            margin: 0 auto;
+        }
+
+        .orgchart { background: #fff; }
+        .orgchart td.left, .orgchart td.right, .orgchart td.top { border-color: #aaa; }
+        .orgchart td>.down { background-color: #aaa; }
+        .orgchart .middle-level .title { background-color: #006699; }
+        .orgchart .middle-level .content { border-color: #006699; }
+        .orgchart .product-dept .title { background-color: #009933; }
+        .orgchart .product-dept .content { border-color: #009933; }
+        .orgchart .rd-dept .title { background-color: #993366; }
+        .orgchart .rd-dept .content { border-color: #993366; }
+        .orgchart .pipeline1 .title { background-color: #996633; }
+        .orgchart .pipeline1 .content { border-color: #996633; }
+        .orgchart .frontend1 .title { background-color: #cc0066; }
+        .orgchart .frontend1 .content { border-color: #cc0066; }
     </style>
 @endsection
 
@@ -31,7 +58,7 @@
                         </div>
                         <div class="card-body text-center">
 
-                            <div id="family-tree_div"></div>
+                            <div dir="ltr" style="width:100%; min-height:600px;" id="family-tree-div"></div>
 
                         </div>
                         <div class="card-footer text-muted">
@@ -49,55 +76,103 @@
 @endsection
 
 @section('add-scripts')
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="{{ secure_asset('js/jquery.orgchart.min.js') }}"></script>
 
     <script type="text/javascript">
-        let familyData;
-        $.ajax({
-            type    :"GET",
-            url     :"{{ route('family.tree.render') }}",
-            dataType:"json",
-            success : function (response) {
-                familyData = response.data;
-                google.charts.load('current', {packages:["orgchart"]});
-                google.charts.setOnLoadCallback(drawChart);
-            },
+        $(function() {
+
+            var datascource = {
+                'name': 'Lao Lao',
+                'title': 'general manager',
+                'children': [
+                    { 'name': 'Bo Miao', 'title': 'department manager', 'className': 'middle-level',
+                        'children': [
+                            { 'name': 'Li Xin', 'title': 'senior engineer',
+                                'children': [
+                                    { 'name': 'Fei Fei', 'title': 'engineer' },
+                                    { 'name': 'Xuan Xuan', 'title': 'engineer' }
+                                ]
+                            }
+                        ]
+                    },
+                    { 'name': 'Su Miao', 'title': 'department manager', 'linkNode': true, 'collapsed': true,
+                        'children': [
+                            { 'name': 'Hei Hei', 'title': 'senior engineer',
+                                'children': [
+                                    { 'name': 'Dan Dan', 'title': 'engineer' },
+                                    { 'name': 'Zai Zai', 'title': 'engineer' }
+                                ]
+                            }
+                        ]
+                    },
+                    { 'name': 'Su Miao', 'title': 'department manager', 'linkNode': true, 'office': 'test',
+                        'children': [
+                            { 'name': 'Hei Hei', 'title': 'senior engineer',
+                                'children': [
+                                    { 'name': 'Dan Dan', 'title': 'engineer' },
+                                    { 'name': 'Zai Zai', 'title': 'engineer' },
+                                    { 'name': 'Su Miao', 'title': 'department manager', 'linkNode': true,
+                                        'children': [
+                                            { 'name': 'Hei Hei', 'title': 'senior engineer',
+                                                'children': [
+                                                    { 'name': 'Dan Dan', 'title': 'engineer' },
+                                                    { 'name': 'Zai Zai', 'title': 'engineer' },
+                                                    { 'name': 'Su Miao', 'title': 'department manager',
+                                                        'children': [
+                                                            { 'name': 'Pang Pang', 'title': 'senior engineer' },
+                                                            { 'name': 'Hei Hei', 'title': 'senior engineer', 'linkNode': true, 'collapsed': true,
+                                                                'children': [
+                                                                    { 'name': 'Xiang Xiang', 'title': 'UE engineer', 'className': 'slide-up' },
+                                                                    { 'name': 'Dan Dan', 'title': 'engineer', 'className': 'slide-up' },
+                                                                    { 'name': 'Zai Zai', 'title': 'engineer', 'className': 'slide-up' }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            var nodeTemplate = function(data) {
+                return `
+<!--                    <span class="office">${data.office}</span>-->
+                    <div class="title">${data.name}</div>
+                    <div class="content">${data.title}</div>
+                `;
+            };
+
+            var oc = $('#family-tree-div').orgchart({
+                // 'data' : datascource,
+                'nodeContent': 'title',
+                'visibleLevel': 4,
+                'nodeTemplate': nodeTemplate,
+                'pan': true,
+                'zoom': true,
+                'exportButton': true,
+                'exportFileextension': 'pdf',
+                'exportFilename': 'MyOrgChart'
+            });
+
+            oc.$chartContainer.on('touchmove', function(event) {
+                event.preventDefault();
+            });
+
+            $(window).resize(function() {
+                var width = $(window).width();
+                if(width > 576) {
+                    oc.init({'verticalLevel': undefined});
+                } else {
+                    oc.init({'verticalLevel': 2});
+                }
+            });
+
         });
-
-        function drawChart() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Name');
-            data.addColumn('string', 'Date');
-            data.addColumn('string', 'ToolTip');
-
-            var renderData = [];
-            familyData.forEach(element => {
-                renderData.push([element.name, element.father, element.color]);
-                // renderData.push([element.familyId.toString(), element.name, element.color]);
-            })
-
-            // For each orgchart box, provide the name, manager, and tooltip to show.
-            data.addRows(renderData);
-
-            // data.addRows([
-            //     ['Alice', 'Alice', 'Alice'],
-            //     ['Loai', 'Loai', 'Loai'],
-            //     ['Rabie', 'Loai', 'Rabie'],
-            //     ['Sirag', 'Loai', 'Sirag'],
-            //     ['Youmna', 'Rabie', 'Youmna'],
-            //
-            // ]);
-
-            data.setRowProperty(2, 'selectedStyle', 'background-color:#999');
-
-            data.setRowProperty(0, 'style', 'border: 1px solid green');
-
-            // Create the chart.
-            var chart = new google.visualization.OrgChart(document.getElementById('family-tree_div'));
-            // Draw the chart, setting the allowHtml option to true for the tooltips.
-            chart.draw(data,
-                {'allowHtml': true, allowCollapse: true, size: 'medium', nodeClass: 'text-secondary border'}
-            );
-        }
     </script>
 @endsection

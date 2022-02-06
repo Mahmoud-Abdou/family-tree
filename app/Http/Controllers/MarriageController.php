@@ -8,6 +8,15 @@ use App\Models\Marriage;
 
 class MarriageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:marriages.read')->only(['index', 'show']);
+        $this->middleware('permission:marriages.create')->only(['create', 'store']);
+        $this->middleware('permission:marriages.update')->only(['edit', 'update']);
+        $this->middleware('permission:marriages.delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *

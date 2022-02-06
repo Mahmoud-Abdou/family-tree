@@ -43,7 +43,6 @@ class ProfileController extends Controller
         $person = $user->profile;
 
         return view('auth.profile-update', compact('menuTitle', 'pageTitle', 'user', 'person'));
-
     }
 
     public function update(UpdatePersonRequest $request)
@@ -99,7 +98,7 @@ class ProfileController extends Controller
             return redirect()->route('home');
         }
 
-        return back();
+        return redirect()->route('profile');
     }
 
     public function historyDelete()

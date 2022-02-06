@@ -42,7 +42,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'الاخبار';
+        $menuTitle = 'اضافة خبر';
         $pageTitle = 'القائمة الرئيسية';
 
         $cities = City::where('status', 1)->get();
@@ -67,12 +67,10 @@ class NewsController extends Controller
         ]);
         $request['owner_id'] = auth()->user()->id;
 
-        $news = new News;
         $news = News::create($request->all());
 
         \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
         return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');
-
     }
 
     /**
@@ -84,7 +82,6 @@ class NewsController extends Controller
     public function show(News $news)
     {
         return redirect()->route('news.edit', $news);
-
     }
 
     /**
@@ -95,7 +92,7 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
-        $menuTitle = 'الاخبار';
+        $menuTitle = 'تعديل خبر';
         $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'news')->get();
@@ -118,18 +115,24 @@ class NewsController extends Controller
             'body' => ['required'],
             'category_id' => ['required'],
         ]);
+
         if(auth()->user()->id != $news->owner_id){
             return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
         }
+
         $news->city_id = $request->city_id;
         $news->title = $request->title;
         $news->body = $request->body;
         $news->category_id = $request->category_id;
 
-        $news->save();
+        if ($news->isDirty()){
+            $news->save();
 
-        \App\Helpers\AppHelper::AddLog('News Update', class_basename($news), $news->id);
-        return redirect()->route('news.index')->with('success', 'تم تعديل بيانات الخبر بنجاح.');
+            \App\Helpers\AppHelper::AddLog('News Update', class_basename($news), $news->id);
+            return redirect()->route('news.index')->with('success', 'تم تعديل بيانات الخبر بنجاح.');
+        }
+
+        return redirect()->route('news.index');
     }
 
     /**
