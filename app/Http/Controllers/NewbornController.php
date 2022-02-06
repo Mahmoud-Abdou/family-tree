@@ -109,9 +109,14 @@ class NewbornController extends Controller
      * @param  \App\Models\Newborn  $newborn
      * @return \Illuminate\Http\Response
      */
-    public function show(Newborn $newborn)
+    public function show($newborn_id)
     {
-        return redirect()->route('newborns.edit', $newborn);
+        $appMenu = config('custom.main_menu');
+        $menuTitle = '  اظهار المتوفي';
+        $pageTitle = 'لوحة التحكم';        
+        $newborn = Newborn::where('id', $newborn_id)->first();
+        
+        return view('web_app.Newborns.show', compact('appMenu', 'menuTitle', 'pageTitle', 'newborn'));
     }
 
     /**
