@@ -159,14 +159,22 @@ class HomeController extends Controller
 
     public function read_notification(Request $request)
     {
-        $notification = auth()->user()->unreadNotifications()->where('id', $request['id'])->first();
-        if($notification == null){
-            return "0";
+        if(!isset($request['id'])){
+            return null;
+        }
+        if($request['id'] == '-1'){
+            auth()->user()->unreadNotifications->markAsRead();
         }
         else{
-            $notification->markAsRead();
+            $notification = auth()->user()->unreadNotifications()->where('id', $request['id'])->first();
+            if($notification == null){
+                return "0";
+            }
+            else{
+                $notification->markAsRead();
+            }
+            return "1";
         }
-        return "1";
     }
 
     public function get_family_tree()

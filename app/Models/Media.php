@@ -20,6 +20,7 @@ class Media extends Model
      */
     protected $fillable = [
         'owner_id',
+        'title',
         'file',
         'category_id'
     ];
@@ -39,9 +40,10 @@ class Media extends Model
         return $this->belongsTo('App\Models\Category', 'category_id', 'id');
     }
 
-    public function UploadMedia($file, $category_id, $owner_id)
+    public function UploadMedia($file, $category_id, $owner_id, $title = 'Title')
     {
         try{
+            $media_data['title'] = $title;
             $media_data['owner_id'] = $owner_id;
             $media_data['category_id'] = $category_id;
             $image = $this->ImageUpload($file, (new Media)->filePath);
