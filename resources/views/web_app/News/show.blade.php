@@ -15,31 +15,28 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
-                            @can('news.create')
-                                <a href="{{ route('news.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
-                            @endcan
+                            
                         </div>
                         <div class="card-body p-0">
                             <div class="row text-center">
-                                @foreach($news as $row)
                                     <div class="col-sm-4">
                                         <div class="card iq-mb-3">
                                             <div class="card-body">
-                                                <h4 class="card-title">{{ $row->title }}</h4>
+                                                <h4 class="card-title">{{ $news->title }}</h4>
                                                 <hr />
-                                                <p class="card-text">{!! $row->body !!}</p>
+                                                <p class="card-text">{!! $news->body !!}</p>
                                             </div>
                                             <div class="card-footer">
                                                 <div class="d-flex justify-content-between" dir="ltr">
-                                                    <p class="card-text m-0"><i class="ri-user-2-fill"> </i><small class="text-muted">{{ $row->owner->name }}</small></p>
-                                                    <p class="card-text m-0"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $row->city->name_ar }}</small></p>
-                                                    @if($row->owner_id == auth()->user()->id)
+                                                    <p class="card-text m-0"><i class="ri-user-2-fill"> </i><small class="text-muted">{{ $news->owner->name }}</small></p>
+                                                    <p class="card-text m-0"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $news->city->name_ar }}</small></p>
+                                                    @if($news->owner_id == auth()->user()->id)
                                                         @can('news.update')
                                                         
-                                                            <a href="{{ route('news.edit', $row) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
+                                                            <a href="{{ route('news.edit', $news) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
                                                         @endcan
                                                         @can('news.delete')
-                                                        <form action="{{ route('news.destroy', $row) }}" method="POST">
+                                                        <form action="{{ route('news.destroy', $news) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
 
@@ -52,7 +49,6 @@
                                         </div>
                                     </div>
                                     
-                                @endforeach
                                 
                             </div>
                         </div>
