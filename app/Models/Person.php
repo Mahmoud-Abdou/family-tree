@@ -138,7 +138,11 @@ class Person extends Model
 
     public function getAgeAttribute()
     {
-        return \Carbon\Carbon::parse($this->birth_date)->diff(\Carbon\Carbon::now())->format('%y سنوات');
+        if ($this->is_live){
+            return \Carbon\Carbon::parse($this->birth_date)->diff(\Carbon\Carbon::now())->format('%y سنوات');
+        }
+
+        return \Carbon\Carbon::parse($this->birth_date)->diff($this->death_date)->format('%y سنوات');
     }
 
     // functions

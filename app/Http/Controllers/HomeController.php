@@ -95,14 +95,17 @@ class HomeController extends Controller
 
     public function familyTreeData()
     {
-        $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+        $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
 
-        $familyTree = new \App\Models\Family;
-        $data = $familyTree->TreeRender($FirstOne->id);
+//        $familyTree = new \App\Models\Family;
+//        $data = $familyTree->TreeRender($FirstOne->id);
+
+//        $data = $FirstOne->ownFamily->membersFamilies;
+        $data = \App\Models\Family::with('membersFamilies')->first();
 
         return response()->json(array(
             'success' => true,
-            'data' => $data
+            'data' => $data->membersFamilies
         ));
     }
 
@@ -165,7 +168,7 @@ class HomeController extends Controller
 
     public function get_family_tree()
     {
-        $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+        $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
         $main_families = $FirstOne->ownFamily;
 //        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
         $families = [];
@@ -173,7 +176,6 @@ class HomeController extends Controller
             $families[] = $this->get_family_data($main_family->id);
         }
         return response()->json($families, 200, [], JSON_UNESCAPED_UNICODE);
-
     }
 
     public function get_family_data($main_family_id)
@@ -190,7 +192,9 @@ class HomeController extends Controller
 
         $family_data_array['name'] = $father_name;
         $family_data_array['wife'] = $mother_name;
-        $family_data_array['relation'] = $father->relation;
+        $family_data_array['status'] = $father->is_live;
+        $family_data_array['status2'] = $father->has_family;
+        $family_data_array['className'] = $father->is_live ? ($father->gender == 'male' ? 'man-father' : 'wife-out') : 'dead';
         $family_data_array['gender'] = $father->gender;
 
         $families = Family::where('gf_family_id', $main_family->id)
@@ -204,8 +208,10 @@ class HomeController extends Controller
         foreach($family_noFamily_children as $child){
             $no_family_child['name'] = $child->first_name;
             $no_family_child['wife'] = "";
-            $no_family_child['relation'] = $child->relation;
+            $no_family_child['status'] = $child->is_live;
+            $no_family_child['status2'] = $child->has_family;
             $no_family_child['gender'] = $child->gender;
+            $no_family_child['className'] = $child->is_live ? ($child->gender == 'male' ? 'boy' : 'girl') : 'dead';
             $no_family_child['children'] = [];
             $no_family_children[] = $no_family_child;
         }

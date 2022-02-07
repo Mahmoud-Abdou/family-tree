@@ -19,7 +19,7 @@ class PersonsSeeder extends Seeder
         \App\Models\Person::factory(301)->create()->each(function($person) {
             if (!$person->is_live) {
                 \App\Models\Death::factory()->create([
-//                    'person_id' => $person->id,
+                    'person_id' => $person->id,
                     'family_id' => $person->family_id,
                     'title' => 'وفاة '. $person->first_name,
                     'body' => 'انتقل الى رحمة الله '. $person->first_name . $person->gender == 'male' ? ' ابن ' : ' ابنة ' . $person->father_name ,
@@ -27,7 +27,7 @@ class PersonsSeeder extends Seeder
             }
             else {
                 \App\Models\Newborn::factory()->create([
-//                    'person_id' => $person->id,
+                    'person_id' => $person->id,
                     'date' => $person->birth_date,
                     'family_id' => $person->family_id,
                     'title' => 'ولادة '. $person->first_name,

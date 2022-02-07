@@ -13,7 +13,12 @@ class FamilyFactory extends Factory
      */
     public function definition()
     {
-        $father = \App\Models\Person::where('gender', 'male')->where('has_family', true)->get()->random();
+        $fatherAll = \App\Models\Person::where('gender', '=', 'male')->where('has_family', true)->get();
+        $fathers = $fatherAll->map(function ($item) {
+            return $item['id'];
+        });
+        $fatherIdes = $fathers->all();
+        $father = \App\Models\Person::find($this->faker->randomElement($fatherIdes));
         $mothersAll = \App\Models\Person::where('gender', '=', 'female')->get();
         $mothers = $mothersAll->map(function ($item) {
             return $item['id'];
@@ -25,7 +30,7 @@ class FamilyFactory extends Factory
             'father_id' => $father->id,
             'mother_id' => $this->faker->unique()->randomElement($mothersIdes),
 //            'children_count' => $this->faker->numberBetween(0, 8),
-            'gf_family_id' => $this->faker->numberBetween(1, 50),
+            'gf_family_id' => $this->faker->numberBetween(10, 70),
             'status' => $this->faker->numberBetween(1, 5),
 //            'family_tree' => null
         ];

@@ -21,7 +21,7 @@ class CreateNewsTable extends Migration
             $table->text('body');
             $table->foreignId('category_id');
             $table->boolean('approved')->default(false);
-            $table->foreignId('approved_by')->default(null);
+            $table->foreignId('approved_by')->nullable()->default(null);
             $table->timestamps();
         });
     }

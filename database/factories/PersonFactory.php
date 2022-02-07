@@ -21,7 +21,7 @@ class PersonFactory extends Factory
         $user = \App\Models\User::find($userId);
         $gender = $this->faker->randomElement(['male', 'female']);
         $isLive = $this->faker->boolean(75);
-        $hasFamily = $this->faker->boolean(40);
+        $hasFamily = $this->faker->boolean(60);
 
         $user->name = $this->faker->firstName($gender);
         $user->status = $isLive ? $user->status : 'deleted';

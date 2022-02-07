@@ -13,14 +13,15 @@
             text-align: center;
             width: 130px;
         }
-
         .orgchart .linkNode .linkLine {
-            background-color: rgba(38, 38, 38, 0.8);
+            background-color: rgba(38, 38, 38, 0.8) !important;
             height: 50px;
             width: 2px;
             margin: 0 auto;
         }
-
+        .orgchart .hierarchy::before { border-color: rgba(38, 38, 38, 0.8) !important;}
+        .orgchart .node::after { background-color: rgba(38, 38, 38, 0.8) !important;}
+        .orgchart .node::before { background-color: rgba(38, 38, 38, 0.8) !important;}
         .orgchart { background: #fff; }
         .orgchart td.left, .orgchart td.right, .orgchart td.top { border-color: #aaa; }
         .orgchart td>.down { background-color: #aaa; }
@@ -93,67 +94,55 @@
     <script type="text/javascript">
         $(function() {
 
-            var datascource = {
-                'name': 'father 1', 'wife': ['wife 1'], 'children': [
-                    { 'name': 'child 1', 'wife': [], 'children': []},
-                    { 'name': 'child 2', 'wife': ['wife', 'aaa'], 'className': 'middle-level',
-                        'children': [
-                            { 'name': 'child f', 'wife': [],
-                                'children': [
-                                    { 'name': 'child', 'wife': [], 'children': [] },
-                                    { 'name': 'child', 'wife': [], 'children': [] },
-                                    { 'name': 'child', 'wife': [], 'linkNode': true, 'collapsed': true,
-                                        'children': [
-                                            { 'name': 'child a', 'wife': ['sarah'],
-                                                'children': [
-                                                    { 'name': 'child', 'wife': [], 'children': [] },
-                                                    { 'name': 'child', 'wife': [], 'children': [] }
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                ]
-                            }
-                        ]
-                    }
-
-                ]
-            };
-
-            var nodeTemplate = function(data) {
-                return `
-                    <div class="wife-node">
-                        <span class="office">${data.wife}</span>
-                    </div>
-                    <div class="title">${data.name}</div>
-                    <div class="content">${data.title}</div>
-                `;
-            };
-
-            var oc = $('#family-tree-div').orgchart({
-                'data' : datascource,
-                'nodeContent': 'title',
-                'visibleLevel': 4,
-                'nodeTemplate': nodeTemplate,
-                'pan': true,
-                'zoom': true,
-                'exportButton': true,
-                'exportFileextension': 'pdf',
-                'exportFilename': 'MyOrgChart'
-            });
-
-            oc.$chartContainer.on('touchmove', function(event) {
-                event.preventDefault();
-            });
-
-            $(window).resize(function() {
-                var width = $(window).width();
-                if(width > 576) {
-                    oc.init({'verticalLevel': undefined});
-                } else {
-                    oc.init({'verticalLevel': 2});
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('get-family-tree') }}",
+                dataType: 'json',
+                success: function (response) {
+                    renderData(response[0]);
                 }
             });
+
+            function renderData(data) {
+                console.log(data);
+                var datascource = data;
+
+                var nodeTemplate = function(data) {
+                    return `
+{{--                        <div class="wife-node">
+                            <span class="office">${data.wife}</span>
+                        </div>--}}
+                        <div class="title">${data.name}</div>
+                        <div class="content">${data.wife}</div>
+                    `;
+                };
+
+                var oc = $('#family-tree-div').orgchart({
+                    'data' : datascource,
+                    'nodeContent': 'title',
+                    'visibleLevel': 5,
+                    'nodeTemplate': nodeTemplate,
+                    'pan': true,
+                    'zoom': true,
+                    // 'exportButton': true,
+                    // 'exportFileextension': 'pdf',
+                    // 'exportFilename': 'MyOrgChart'
+                });
+
+                oc.$chartContainer.on('touchmove', function(event) {
+                    event.preventDefault();
+                });
+
+                $(window).resize(function() {
+                    var width = $(window).width();
+                    if(width > 576) {
+                        oc.init({'verticalLevel': undefined});
+                    } else {
+                        oc.init({'verticalLevel': 2});
+                    }
+                });
+
+            }
 
         });
     </script>

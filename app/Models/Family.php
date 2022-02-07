@@ -44,10 +44,15 @@ class Family extends Model
         'family_tree' => Json::class,
     ];
 
-//    public function setFamilyTreeAttribute($value)
-//    {
-//        $this->attributes['family_tree'] = serialize($value);
-//    }
+    public function scopeChildless($q)
+    {
+        $q->has('children_count', '=', 0);
+    }
+
+    public function setFamilyTreeAttribute($value)
+    {
+        $this->attributes['family_tree'] = serialize($value);
+    }
 
     public function parentFamily()
     {
@@ -71,13 +76,14 @@ class Family extends Model
 
     public function gfFamilies()
     {
-        return $this->hasOne('App\Models\Family', 'gf_family_id', 'id');
+        return $this->hasMany('App\Models\Family', 'gf_family_id', 'id');
     }
 
     // recursive relationship
     public function membersFamilies()
     {
-        return $this->hasMany('App\Models\Family', 'gf_family_id', 'id')->with('gfFamilies');
+//        return $this->hasMany('App\Models\Family', 'gf_family_id', 'id')->with('gfFamilies');
+        return $this->members();
     }
 
     public function statusHtml()

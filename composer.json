@@ -14,11 +14,9 @@
     "license": "Authors",
     "require": {
         "php": "^7.4|^8.0",
-        "doctrine/dbal": "^3.3",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
-        "laravel/sanctum": "^2.11",
         "mobiledetect/mobiledetectlib": "^2.8",
         "silviolleite/laravelpwa": "^2.0",
         "spatie/laravel-permission": "^5.4"
