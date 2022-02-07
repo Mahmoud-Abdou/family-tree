@@ -88,8 +88,12 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
-        dd($user);
+        $appMenu = config('custom.app_menu');
+        $pageTitle = 'لوحة التحكم';
+        $menuTitle = $user->name;
+        $person = $user->profile;
+
+        return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person'));
     }
 
     /**
