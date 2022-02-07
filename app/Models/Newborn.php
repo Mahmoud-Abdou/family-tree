@@ -19,6 +19,7 @@ class Newborn extends Model
     protected $fillable = [
         'owner_id',
         'family_id',
+        'person_id',
         'title',
         'body',
         'image_id',
@@ -47,6 +48,11 @@ class Newborn extends Model
     public function image()
     {
         return $this->hasOne('App\Models\Media', 'id', 'image_id');
+    }
+
+    public function person()
+    {
+        return $this->hasOne('App\Models\Person', 'id', 'person_id');
     }
 
 }

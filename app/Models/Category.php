@@ -63,6 +63,8 @@ class Category extends Model
         }
     }
 
+  
+
     public static function getTypeName($type)
     {
         switch ($type) {

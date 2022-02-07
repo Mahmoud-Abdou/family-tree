@@ -23,11 +23,22 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('news', \App\Http\Controllers\NewsController::class);
     Route::resource('deaths', \App\Http\Controllers\DeathController::class);
     Route::resource('newborns', \App\Http\Controllers\NewbornController::class);
+    Route::resource('media', \App\Http\Controllers\MediaController::class);
+
+    Route::get('get_media/{category_id}', [\App\Http\Controllers\MediaController::class, 'get_media']);
+    Route::get('get_news/{category_id}', [\App\Http\Controllers\NewsController::class, 'get_news']);
+    
+    Route::get('media_category', [\App\Http\Controllers\MediaController::class, 'media_category'])->name('media_category');
+    
     Route::resource('marriages', \App\Http\Controllers\MarriageController::class);
 
 
     Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');
     Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
+
+    Route::get('read-notification', [\App\Http\Controllers\HomeController::class, 'read_notification']);
+    
+    Route::get('get_family_tree', [\App\Http\Controllers\HomeController::class, 'get_family_tree']);
 
 });
 

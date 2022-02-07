@@ -70,7 +70,6 @@ class NewbornController extends Controller
         $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id());
         $request['image_id'] = $media->id;
 
-        $newborn = Newborn::create($request->all());
 
 //        $request['city_id'] = 1;
 //        $request['category_id'] = $category_id->id;
@@ -85,6 +84,21 @@ class NewbornController extends Controller
         $person['gender'] = $request['gender'];
         $person = Person::create($person);
 
+        $request['person_id'] = $person->id;
+        
+        $newborn = Newborn::create($request->all());
+
+        $newborn_notification = [];
+        $newborn_notification['title'] = 'تم اضافة مولود';
+        $newborn_notification['body'] = $newborn->body;
+        $newborn_notification['content'] = $newborn;
+        $newborn_notification['url'] = 'newborns/' . $newborn->id;
+        $newborn_notification['operation'] = 'store';
+
+        $users = User::where('status', 'active')->get();
+        event(new NotificationEvent($newborn_notification, $users));
+
+
         \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
         return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');
     }
@@ -95,9 +109,14 @@ class NewbornController extends Controller
      * @param  \App\Models\Newborn  $newborn
      * @return \Illuminate\Http\Response
      */
-    public function show(Newborn $newborn)
+    public function show($newborn_id)
     {
-        return redirect()->route('newborns.edit', $newborn);
+        $appMenu = config('custom.main_menu');
+        $menuTitle = '  اظهار المتوفي';
+        $pageTitle = 'لوحة التحكم';        
+        $newborn = Newborn::where('id', $newborn_id)->first();
+        
+        return view('web_app.Newborns.show', compact('appMenu', 'menuTitle', 'pageTitle', 'newborn'));
     }
 
     /**
@@ -157,6 +176,7 @@ class NewbornController extends Controller
         }
         $newborn->image->DeleteFile($newborn->image);
         $newborn->image->delete();
+        $newborn->person->delete();
         $newborn->delete();
 
         \App\Helpers\AppHelper::AddLog('Newborn Delete', class_basename($newborn), $newborn->id);

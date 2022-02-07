@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewsNotification extends Notification
+class EventNotification extends Notification
 {
     use Queueable;
 
@@ -16,9 +16,9 @@ class NewsNotification extends Notification
      *
      * @return void
      */
-    public function __construct($news)
+    public function __construct($event)
     {
-        $this->news = $news;
+        $this->event = $event;
     }
 
     /**
@@ -30,7 +30,7 @@ class NewsNotification extends Notification
     public function via($notifiable)
     {
         return ['database'];
-        // return ['mail'];
+        // return ['database', 'mail'];
     }
 
     /**
@@ -42,9 +42,11 @@ class NewsNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    // ->line('The introduction to the notification.')
+                    // ->action('Notification Action', url('/'))
+                    // ->line('Thank you for using our application!')
+                    ->subject('Family Tree')
+                    ->view('components.app-mail', $this->event);
     }
 
     /**
@@ -55,6 +57,11 @@ class NewsNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->news;
+        return [
+            'title' => $this->event['title'],
+            'body' => $this->event['body'],
+            'url' => $this->event['url'],
+            'content' => $this->event['content'] 
+        ];
     }
 }

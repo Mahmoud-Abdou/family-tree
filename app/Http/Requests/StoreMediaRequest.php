@@ -13,7 +13,7 @@ class StoreMediaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreMediaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'file' => ['required'],
+            'category_id' => ['required', 'exists:categories,id'],
         ];
     }
 }

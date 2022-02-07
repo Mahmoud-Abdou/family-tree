@@ -22,6 +22,7 @@ class EventFactory extends Factory
 
         $media = \App\Models\Media::create([
             'owner_id' => $user_id,
+            'title' => $this->faker->realText(20),
             'file' => $this->faker->image('public/uploads/media',600,300, 2, false),
             'category_id' => $category_id
         ]);

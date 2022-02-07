@@ -11,7 +11,12 @@ use App\Models\Media;
 use App\Models\Category;
 use App\Models\Family;
 use App\Models\News;
+use App\Models\User;
+use Illuminate\Notifications\Notification;
 use Carbon\Carbon;
+use App\Events\DeathEvent;
+use App\Events\NotificationEvent;
+
 
 class DeathController extends Controller
 {
@@ -37,6 +42,16 @@ class DeathController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $deaths = Death::paginate($page_limit);
+        $death = Death::first();
+        $death_notification = [];
+            $death_notification['title'] = 'تم اضافة متوفي';
+            $death_notification['body'] = $death->body;
+            $death_notification['content'] = $death;
+            $death_notification['url'] = 'deaths/' . $death->id;
+            $death_notification['operation'] = 'store';
+    
+            $users = User::where('id', 2)->get();
+            event(new NotificationEvent($death_notification, $users));
 
         return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }
@@ -64,37 +79,53 @@ class DeathController extends Controller
      */
     public function store(StoreDeathRequest $request)
     {
-        $request['owner_id'] = auth()->user()->id;
-        $request['date'] = Carbon::parse($request['date']);
-        $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+        try{
+            $request['owner_id'] = auth()->user()->id;
+            $request['date'] = Carbon::parse($request['date']);
+            $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
 
-        $category_id = Category::where('type', 'death')->first();
-        $media = new Media;
+            $category_id = Category::where('type', 'deaths')->first();
+            $media = new Media;
 
-        if($request->hasFile('image')){
-            $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
-            $request['image_id'] = $media->id;
+            if($request->hasFile('image')){
+                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
+                $request['image_id'] = $media->id;
+            }
+            else{
+                $request['image_id'] = null;
+            }
+
+            
+            $person = Person::where('id', $request['person_id'])->first();
+            if($person != null){
+                $person->is_live = 0;
+                $person->save();
+                
+                $request['person_id'] = $person->id;
+            }
+
+            $death = Death::create($request->all());
+            
+            $request['city_id'] = 1;
+            $request['category_id'] = $category_id->id;
+            $request['approved'] = 0;
+            $news = News::create($request->all());
+    
+            $death_notification = [];
+            $death_notification['title'] = 'تم اضافة متوفي';
+            $death_notification['body'] = $death->body;
+            $death_notification['content'] = $death;
+            $death_notification['url'] = 'deaths/' . $death->id;
+            $death_notification['operation'] = 'store';
+    
+            $users = User::where('status', 'active')->get();
+            event(new NotificationEvent($death_notification, $users));
+
+            \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
+            return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
+        }catch(Exception $ex){
+            return redirect()->route('deaths.index')->with('danger', 'حدثت مشكلة');
         }
-        else{
-            $request['image_id'] = null;
-        }
-
-        $death = Death::create($request->all());
-
-        $person = Person::where('id', $request['person_id'])->first();
-        if($person != null){
-            $person->is_live = 0;
-            $person->save();
-        }
-
-
-        $request['city_id'] = 1;
-        $request['category_id'] = $category_id->id;
-        $request['approved'] = 0;
-        $news = News::create($request->all());
-
-        \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
-        return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
     }
 
     /**
@@ -103,9 +134,14 @@ class DeathController extends Controller
      * @param  \App\Models\Death  $death
      * @return \Illuminate\Http\Response
      */
-    public function show(Death $death)
+    public function show($death_id)
     {
-        return redirect()->route('deaths.edit', $death);
+        $appMenu = config('custom.main_menu');
+        $menuTitle = '  اظهار المتوفي';
+        $pageTitle = 'لوحة التحكم';        
+        $death = Death::where('id', $death_id)->first();
+        
+        return view('web_app.Deaths.show', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
     }
 
     /**

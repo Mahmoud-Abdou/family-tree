@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Models\User;
+use App\Models\Family;
+use App\Models\Person;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -153,4 +156,68 @@ class HomeController extends Controller
         return view('dashboard.index', compact('appMenu', 'menuTitle', 'pageTitle', 'newsData', 'usersData'));
     }
 
+
+    public function read_notification(Request $request)
+    {
+        $notification = auth()->user()->unreadNotifications()->where('id', $request['id'])->first();
+        if($notification == null){
+            return "0";
+        }
+        else{
+            $notification->markAsRead();
+        }
+        return "1";
+    }
+
+    public function get_family_tree()
+    {
+        $families = [];
+        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
+        foreach($main_families as $main_family){
+            $families[] = $this->get_family_data($main_family->id);
+        }
+        return response()->json($families, 200, [], JSON_UNESCAPED_UNICODE);
+
+    }
+
+    public function get_family_data($main_family_id)
+    {
+        $family_data_array = [];
+        $main_family = Family::where('id', $main_family_id)->first();
+        if($main_family == null){
+            return null;
+        }
+        $father = Person::where('id', $main_family->father_id)->first();
+        $mother = Person::where('id', $main_family->mother_id)->first();
+        $father_name = $father == null ?  'غير مسجل' : $father->first_name;
+        $mother_name = $mother == null ?  'غير مسجل' : $mother->first_name;
+
+        $family_data_array['name'] = $father_name;
+        $family_data_array['wife'] = $mother_name;
+        $family_data_array['relation'] = $father->relation;
+        $family_data_array['gender'] = $father->gender;
+
+        $families = Family::where('gf_family_id', $main_family->id)
+                            ->whereColumn('id', '!=', 'gf_family_id')
+                            ->get();
+
+        $family_noFamily_children = Person::where('family_id', $main_family_id)
+                                        ->where('has_family', 0)
+                                        ->get();
+        $no_family_children = [];
+        foreach($family_noFamily_children as $child){
+            $no_family_child['name'] = $child->first_name;
+            $no_family_child['wife'] = "";
+            $no_family_child['relation'] = $child->relation;
+            $no_family_child['gender'] = $child->gender;
+            $no_family_child['children'] = [];
+            $no_family_children[] = $no_family_child;
+        }
+        $family_data_array['children'] = $no_family_children;
+        foreach($families as $family){
+            $family_data_array['children'][] = $this->get_family_data($family->id);
+        }
+        return $family_data_array;
+
+    }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\News;
 use App\Models\City;
 use App\Models\Category;
+use App\Events\NewsEvent;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -24,15 +26,30 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        
+
         $id = auth()->user()->id;
         $menuTitle = 'الاخبار';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
-        $news = News::paginate($page_limit);
-
-        return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news'));
+        $categories = Category::get();
+        
+        if(isset($request['category_id'])){
+            $news = News::where('category_id', $request['category_id'])
+                    ->where('approved', 1)
+                    ->orderBy('updated_at', 'DESC')
+                    ->paginate($page_limit);
+        }
+        else{
+            $news = News::where('approved', 1)
+                    ->orderBy('updated_at', 'DESC')
+                    ->paginate($page_limit);
+        }
+        
+        
+        return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news', 'categories'));
     }
 
     /**
@@ -69,6 +86,10 @@ class NewsController extends Controller
 
         $news = News::create($request->all());
 
+        $news['operation_type'] = 'store';
+        $users = User::permission('users.activate')->get();
+        event(new NewsEvent($news, $users));
+
         \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
         return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');
     }
@@ -79,9 +100,21 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show(News $news)
+    public function show($category_id)
     {
-        return redirect()->route('news.edit', $news);
+        $appMenu = config('custom.main_menu');
+        $menuTitle = '  اظهار الاخبار';
+        $pageTitle = 'لوحة التحكم';
+
+        if($category_id == 0){
+            $news = News::where('approved', 1)->get();
+        }
+        else{
+            $news = News::where('approved', 1)->where('category_id', $category_id)->get();
+        }
+        // dd($news);
+        return view('web_app.News.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
+
     }
 
     /**
@@ -166,4 +199,16 @@ class NewsController extends Controller
 
         return back()->with('success', 'تم تنشيط الخبر بنجاح');
     }
+
+    public function get_news($category_id)
+    {
+        if($category_id == null || $category_id == 1){
+            $news = News::with('category')->with('city')->with('owner')->where('approved', 1)->get();
+        }
+        else{
+            $news = News::with('category')->with('city')->with('owner')->where('approved', 1)->where('category_id', $category_id)->get();
+        }
+        return response()->json($news, 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
 }
