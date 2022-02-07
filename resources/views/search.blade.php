@@ -32,7 +32,7 @@
                             <div class="list-group">
                                 @if($searchResult->count() > 0)
                                 @foreach($searchResult as $data)
-                                    <a href="#" class="list-group-item list-group-item-action">
+                                    <a href="#" class="list-group-item list-group-item-action {{ $data->gender == 'male' ? ($data->has_family ? 'iq-bg-primary' : 'iq-bg-info') : ($data->has_family ? 'iq-bg-purple' : 'iq-bg-pink') }}">
                                         <div class="row">
                                             <div class="col-lg-2">
                                                 <img src="{{ $data->photo }}" width="40" class="rounded-circle ml-3" alt="{{ $data->full_name }}">

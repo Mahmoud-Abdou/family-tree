@@ -214,7 +214,8 @@ Custom Background Color
 .bg-cobalt-blue, .badge-cobalt-blue { background-color: #3f79f1 !important;  color: #ffffff !important;}
 .bg-spring-green, .badge-spring-green { background-color: #1be1b3 !important;  color: #ffffff !important;}
 .bg-amber, .badge-amber { background-color: #f4b72a !important;  color: #ffffff !important;}
-.bg-pink, .badge-pink{background-color: #FD6C9E !important; color: #ffffff !important;}
+.bg-pink, .badge-pink { background-color: #FD6C9E !important; color: #ffffff !important;}
+.bg-purple, .badge-purple { background-color: #4c00ff !important; color: #ffffff !important;}
 
 /*----------------------------------------------
 Background Color Opacity
@@ -226,6 +227,8 @@ Background Color Opacity
 .iq-bg-warning { background: #fffbe5 !important; color: #ffd400 !important; }
 .iq-bg-info { background: #e5faff !important; color: #00d0ff !important; }
 .iq-bg-dark { background: #ebecec !important; color: #374948 !important; }
+.iq-bg-purple { background: rgba(76, 0, 255, 0.2) !important; color: #4c00ff !important; }
+.iq-bg-pink { background: rgba(200, 0, 255, 0.2) !important; color: #c800ff !important; }
 
 /*--------------*/
 .iq-bg-primary-hover:hover { background: #e5f2ff !important; }
@@ -248,7 +251,8 @@ Text Color
 .text-light { color: #E9EDF4 !important; }
 .text-dark { color: #374948 !important; }
 .text-white { color: #ffffff !important; }
-
+.text-purple { color: #4c00ff !important; }
+.text-pink { color: #c800ff !important; }
 
 /*----------------------------------------------
 Custom Text Color

@@ -77,7 +77,8 @@ class Media extends Model
             return null;
         }
     }
-    public function delete_file($file)
+
+    public function DeleteFile($file)
     {
         try{
             $name = explode('/', $file->file);
@@ -91,7 +92,7 @@ class Media extends Model
 
     public function ImageUpload($query, $path, $name = null)
     {
-        $ext = strtolower($query->getClientOriginalExtension()); // You can use also getClientOriginalName()
+        $ext = strtolower($query->getClientOriginalExtension());
 
         if (isset($name)) {
             $image_full_name = $name.'.'.$ext;
@@ -108,4 +109,5 @@ class Media extends Model
 
         return $image_full_name;
     }
+
 }
