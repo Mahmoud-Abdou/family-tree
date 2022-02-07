@@ -37,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 
     Route::get('read-notification', [\App\Http\Controllers\HomeController::class, 'read_notification']);
+    
+    Route::get('get_family_tree', [\App\Http\Controllers\HomeController::class, 'get_family_tree']);
 
 });
 
