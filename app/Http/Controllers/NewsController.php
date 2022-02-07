@@ -87,8 +87,15 @@ class NewsController extends Controller
         $news = News::create($request->all());
 
         $news['operation_type'] = 'store';
-        $users = User::permission('users.activate')->get();
-        event(new NewsEvent($news, $users));
+        $news_notification = [];
+        $news_notification['title'] = 'تم اضافة خبر';
+        $news_notification['body'] = $news->body;
+        $news_notification['content'] = $news;
+        $news_notification['url'] = 'news/' . $news->id;
+        $news_notification['operation'] = 'store';
+
+        $users = User::where('status', 'active')->get();
+        event(new NotificationEvent($news_notification, $users));
 
         \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
         return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');
@@ -100,19 +107,15 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show($category_id)
+    public function show($news_id)
     {
         $appMenu = config('custom.main_menu');
-        $menuTitle = '  اظهار الاخبار';
+        $menuTitle = '  اظهار الخبر';
         $pageTitle = 'لوحة التحكم';
 
-        if($category_id == 0){
-            $news = News::where('approved', 1)->get();
-        }
-        else{
-            $news = News::where('approved', 1)->where('category_id', $category_id)->get();
-        }
-        // dd($news);
+        $news = News::where('id', $news_id)->first();
+
+       
         return view('web_app.News.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
 
     }
