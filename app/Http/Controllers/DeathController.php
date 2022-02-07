@@ -88,7 +88,7 @@ class DeathController extends Controller
             $media = new Media;
 
             if($request->hasFile('image')){
-                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id);
+                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id, $request['title']);
                 $request['image_id'] = $media->id;
             }
             else{
