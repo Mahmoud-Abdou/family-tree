@@ -79,15 +79,6 @@ class HomeController extends Controller
                 }
             }
 
-//            foreach ($FirstFam->members as $member) {
-//                array_push($data, ['id' => $member->id, 'familyId' => $member->family_id, 'father' => $member->father_name, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, ]);
-//                if ($member->has_family) {
-//                    foreach ($member->ownFamily->members as $mem) {
-//                        array_push($data, ['id' => $mem->id, 'familyId' => $mem->family_id, 'father' => $mem->father_name, 'name' => $mem->full_name, 'photo' => $mem->photo, 'gender' => $mem->gender,  'symbol' => $mem->symbol,  'color' => $mem->color, ]);
-//                    }
-//                }
-//            }
-
             return response()->json(array(
                 'success' => true,
                 'data' => $data
@@ -113,10 +104,6 @@ class HomeController extends Controller
             'success' => true,
             'data' => $data
         ));
-    }
-
-    private function FamilyNodes($family){
-
     }
 
     public function terms()
@@ -156,7 +143,6 @@ class HomeController extends Controller
         return view('dashboard.index', compact('appMenu', 'menuTitle', 'pageTitle', 'newsData', 'usersData'));
     }
 
-
     public function read_notification(Request $request)
     {
         if(!isset($request['id'])){
@@ -179,8 +165,10 @@ class HomeController extends Controller
 
     public function get_family_tree()
     {
+        $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+        $main_families = $FirstOne->ownFamily;
+//        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
         $families = [];
-        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
         foreach($main_families as $main_family){
             $families[] = $this->get_family_data($main_family->id);
         }
