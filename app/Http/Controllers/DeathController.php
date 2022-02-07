@@ -167,7 +167,7 @@ class DeathController extends Controller
         if(auth()->user()->id != $death->owner_id){
             return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
         }
-        $death->image->delete_file($death->image);
+        $death->image->DeleteFile($death->image);
         $death->image->delete();
         $death->delete();
 

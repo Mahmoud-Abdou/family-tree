@@ -83,12 +83,12 @@ class Person extends Model
 
     public function husband()
     {
-        return $this->hasOneThrough('App\Models\Person', 'app\Models\Family', 'father_id', 'mother_id', 'id', 'id');
+        return $this->hasOneThrough('App\Models\Person', 'App\Models\Family', 'mother_id', 'id', 'id', 'father_id');
     }
 
-    public function wife()
+    public function wives() // wife
     {
-        return $this->hasManyThrough('App\Models\Person', 'app\Models\Family', 'mother_id', 'father_id', 'id', 'id');
+        return $this->hasManyThrough('App\Models\Person', 'App\Models\Family', 'father_id', 'id', 'id', 'mother_id');
     }
 
     // accessories
@@ -123,7 +123,7 @@ class Person extends Model
 //    public function getGenderAttribute($gender)
     public function genderName()
     {
-        return $this->gender == 'male' ? 'رجل' : 'امرأة';
+        return $this->gender == 'male' ? 'رجل' : 'انثى';
     }
 
     public function getBirthDateAttribute($date)

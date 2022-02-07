@@ -155,7 +155,7 @@ class EventController extends Controller
 //        if(auth()->user()->id != $event->owner_id){
 //            return redirect()->route('admin.events.index')->with('danger', 'لا يمكنك الحذف');
 //        }
-        $event->image->delete_file($event->image);
+        $event->image->DeleteFile($event->image);
         $event->image->delete();
         $event->delete();
 

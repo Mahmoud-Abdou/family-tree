@@ -69,6 +69,17 @@ class Family extends Model
         return $this->hasMany('App\Models\Person', 'family_id', 'id');
     }
 
+    public function gfFamilies()
+    {
+        return $this->hasOne('App\Models\Family', 'gf_family_id', 'id');
+    }
+
+    // recursive relationship
+    public function membersFamilies()
+    {
+        return $this->hasMany('App\Models\Family', 'gf_family_id', 'id')->with('gfFamilies');
+    }
+
     public function statusHtml()
     {
         switch ($this->status) {
@@ -78,6 +89,24 @@ class Family extends Model
                 return '<span class="badge iq-bg-danger">Not Active</span>';
             default:
                 return '<span class="badge iq-bg-warning">Pending</span>';
+        }
+    }
+
+    public function TreeRender($fid)
+    {
+        $families = self::where('father_id', $fid)->get();
+
+        if ($fid === 0 || !isset($families))
+        {
+            return [];
+        }
+        else {
+            foreach ($families as $f) {
+                foreach ($f->members as $child) {
+                    return ['id' => $fid, 'name' => $f->father->full_name, 'wife' => $f->mother->full_name, 'children' => [self::TreeRender($child->id)]];
+                }
+            }
+
         }
     }
 

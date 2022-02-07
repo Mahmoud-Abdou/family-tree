@@ -155,7 +155,7 @@ class NewbornController extends Controller
         if(auth()->user()->id != $newborn->owner_id){
             return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
         }
-        $newborn->image->delete_file($newborn->image);
+        $newborn->image->DeleteFile($newborn->image);
         $newborn->image->delete();
         $newborn->delete();
 

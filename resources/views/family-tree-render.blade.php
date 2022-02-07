@@ -34,6 +34,18 @@
         .orgchart .pipeline1 .content { border-color: #996633; }
         .orgchart .frontend1 .title { background-color: #cc0066; }
         .orgchart .frontend1 .content { border-color: #cc0066; }
+        .orgchart .boy .title { background-color: #006699; }
+        .orgchart .boy .content { border-color: #006699; }
+        .orgchart .girl .title { background-color: #cc0066; }
+        .orgchart .girl .content { border-color: #cc0066; }
+        .orgchart .dead .title { background-color: #ffab00; }
+        .orgchart .dead .content { border-color: #ffab00; }
+        .orgchart .wife-in .title { background-color: #993366; }
+        .orgchart .wife-in .content { border-color: #993366; }
+        .orgchart .wife-out .title { background-color: #7c0553; }
+        .orgchart .wife-out .content { border-color: #7c0553; }
+        .orgchart .man-father .title { background-color: #154175; }
+        .orgchart .man-father .content { border-color: #154175; }
     </style>
 @endsection
 
@@ -82,74 +94,44 @@
         $(function() {
 
             var datascource = {
-                'name': 'Lao Lao',
-                'title': 'general manager',
-                'children': [
-                    { 'name': 'Bo Miao', 'title': 'department manager', 'className': 'middle-level',
+                'name': 'father 1', 'wife': ['wife 1'], 'children': [
+                    { 'name': 'child 1', 'wife': [], 'children': []},
+                    { 'name': 'child 2', 'wife': ['wife', 'aaa'], 'className': 'middle-level',
                         'children': [
-                            { 'name': 'Li Xin', 'title': 'senior engineer',
+                            { 'name': 'child f', 'wife': [],
                                 'children': [
-                                    { 'name': 'Fei Fei', 'title': 'engineer' },
-                                    { 'name': 'Xuan Xuan', 'title': 'engineer' }
-                                ]
-                            }
-                        ]
-                    },
-                    { 'name': 'Su Miao', 'title': 'department manager', 'linkNode': true, 'collapsed': true,
-                        'children': [
-                            { 'name': 'Hei Hei', 'title': 'senior engineer',
-                                'children': [
-                                    { 'name': 'Dan Dan', 'title': 'engineer' },
-                                    { 'name': 'Zai Zai', 'title': 'engineer' }
-                                ]
-                            }
-                        ]
-                    },
-                    { 'name': 'Su Miao', 'title': 'department manager', 'linkNode': true, 'office': 'test',
-                        'children': [
-                            { 'name': 'Hei Hei', 'title': 'senior engineer',
-                                'children': [
-                                    { 'name': 'Dan Dan', 'title': 'engineer' },
-                                    { 'name': 'Zai Zai', 'title': 'engineer' },
-                                    { 'name': 'Su Miao', 'title': 'department manager', 'linkNode': true,
+                                    { 'name': 'child', 'wife': [], 'children': [] },
+                                    { 'name': 'child', 'wife': [], 'children': [] },
+                                    { 'name': 'child', 'wife': [], 'linkNode': true, 'collapsed': true,
                                         'children': [
-                                            { 'name': 'Hei Hei', 'title': 'senior engineer',
+                                            { 'name': 'child a', 'wife': ['sarah'],
                                                 'children': [
-                                                    { 'name': 'Dan Dan', 'title': 'engineer' },
-                                                    { 'name': 'Zai Zai', 'title': 'engineer' },
-                                                    { 'name': 'Su Miao', 'title': 'department manager',
-                                                        'children': [
-                                                            { 'name': 'Pang Pang', 'title': 'senior engineer' },
-                                                            { 'name': 'Hei Hei', 'title': 'senior engineer', 'linkNode': true, 'collapsed': true,
-                                                                'children': [
-                                                                    { 'name': 'Xiang Xiang', 'title': 'UE engineer', 'className': 'slide-up' },
-                                                                    { 'name': 'Dan Dan', 'title': 'engineer', 'className': 'slide-up' },
-                                                                    { 'name': 'Zai Zai', 'title': 'engineer', 'className': 'slide-up' }
-                                                                ]
-                                                            }
-                                                        ]
-                                                    }
+                                                    { 'name': 'child', 'wife': [], 'children': [] },
+                                                    { 'name': 'child', 'wife': [], 'children': [] }
                                                 ]
                                             }
                                         ]
-                                    }
+                                    },
                                 ]
                             }
                         ]
                     }
+
                 ]
             };
 
             var nodeTemplate = function(data) {
                 return `
-<!--                    <span class="office">${data.office}</span>-->
+                    <div class="wife-node">
+                        <span class="office">${data.wife}</span>
+                    </div>
                     <div class="title">${data.name}</div>
                     <div class="content">${data.title}</div>
                 `;
             };
 
             var oc = $('#family-tree-div').orgchart({
-                // 'data' : datascource,
+                'data' : datascource,
                 'nodeContent': 'title',
                 'visibleLevel': 4,
                 'nodeTemplate': nodeTemplate,

@@ -101,64 +101,19 @@ class HomeController extends Controller
 
     public function familyTreeData()
     {
-        $families = \App\Models\Family::all();
-        $data = [];
+        $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
 
-//        array_push($data, $firstNode);
-
-//        foreach ($families as $family) {
-//            foreach ($family->members as $member) {
-//                if ($family->father->id == $member->id || $family->mother->id == $member->id) {
-//                    $mothers = $member->ownFamily->map(function ($fam) {
-//                        return $fam['id'];
-//                    });
-//                    $mothersIdes = $mothers->all();
-//
-//                    if (isset($family->parentFamily)) {
-//                        array_push($data, ['id' => $member->id, 'mid' => $family->parentFamily->mother->id, 'fid' => $family->parentFamily->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
-//                    } else {
-//                        if ($member->has_family) {
-//                            array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender, 'symbol' => $member->symbol, 'color' => $member->color, 'born' => $member->birth_date]);
-//                        } else {
-//                            array_push($data, ['id' => $member->id, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
-//                        }
-//                    }
-//                }
-//                else {
-//                    if ($member->has_family) {
-//                        $mothers = $member->ownFamily->map(function ($fam) {
-//                            return $fam['id'];
-//                        });
-//                        $mothersIdes = $mothers->all();
-//
-//                        array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
-//                    } else {
-//                        array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender,  'symbol' => $member->symbol,  'color' => $member->color, 'born' => $member->birth_date]);
-//                    }
-//                }
-//            }
-//        }
-
-        foreach ($families as $family) {
-            foreach ($family->members as $member) {
-                if ($member->has_family) {
-                    $mothers = $member->ownFamily->map(function ($fam) {
-                        return $fam['id'];
-                    });
-                    $mothersIdes = $mothers->all();
-
-                    array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'pids' => $mothersIdes, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender, 'symbol' => $member->symbol, 'color' => $member->color, 'born' => $member->birth_date]);
-
-                } else {
-                    array_push($data, ['id' => $member->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'name' => $member->full_name, 'photo' => $member->photo, 'gender' => $member->gender, 'symbol' => $member->symbol, 'color' => $member->color, 'born' => $member->birth_date]);
-                }
-            }
-        }
+        $familyTree = new \App\Models\Family;
+        $data = $familyTree->TreeRender($FirstOne->id);
 
         return response()->json(array(
             'success' => true,
             'data' => $data
         ));
+    }
+
+    private function FamilyNodes($family){
+
     }
 
     public function terms()

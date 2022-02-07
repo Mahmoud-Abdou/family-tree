@@ -25,7 +25,7 @@ class FamilyFactory extends Factory
             'father_id' => $father->id,
             'mother_id' => $this->faker->unique()->randomElement($mothersIdes),
 //            'children_count' => $this->faker->numberBetween(0, 8),
-            'gf_family_id' => $this->faker->numberBetween(1, 40) || null,
+            'gf_family_id' => $this->faker->numberBetween(1, 50),
             'status' => $this->faker->numberBetween(1, 5),
 //            'family_tree' => null
         ];
