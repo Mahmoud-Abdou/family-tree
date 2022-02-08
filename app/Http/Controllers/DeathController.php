@@ -42,7 +42,7 @@ class DeathController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $deaths = Death::paginate($page_limit);
-
+        
         return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }
 

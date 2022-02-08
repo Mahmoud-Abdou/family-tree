@@ -27,6 +27,8 @@ class Event extends Model
         'approved_by',
     ];
 
+    protected $appends = ['short_body'];
+
     protected $casts = [
         'approved' => 'boolean',
         'event_date' => 'datetime:Y-m-d H:i:s',
@@ -60,6 +62,12 @@ class Event extends Model
     public function scopeActive($query)
     {
         $query->where('approved', true);
+    }
+
+    public function getShortBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 160) . ' ....';
     }
 
 }

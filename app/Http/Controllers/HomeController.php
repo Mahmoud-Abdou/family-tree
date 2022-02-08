@@ -59,30 +59,14 @@ class HomeController extends Controller
     public function familyTreeRender(Request $request)
     {
         if($request->ajax()){
-            $data = [];
-            $FirstOne = \App\Models\Person::where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
-            $firstNode = ['id' => $FirstOne->id, 'familyId' => $FirstOne->family_id, 'name' => $FirstOne->full_name, 'photo' => $FirstOne->photo, 'gender' => $FirstOne->gender,  'symbol' => $FirstOne->symbol,  'color' => $FirstOne->color, ];
-            array_push($data, $firstNode);
-            $families = \App\Models\Family::all();
-//            $families = \App\Models\Family::all()->take(5);
-//            $FirstFam = $FirstOne->ownFamily;
-
-            foreach ($families as $family) {
-                $famPer = \App\Models\Person::where('family_id', $family->id)->get();
-                foreach ($famPer as $p) {
-                    if ($family->father->id == $p->id || $family->mother->id == $p->id) {
-
-                    }
-                    else {
-                        array_push($data, ['id' => $p->id, 'mid' => $family->mother->id, 'fid' => $family->father->id, 'name' => $p->full_name, 'photo' => $p->photo, 'gender' => $p->gender,  'symbol' => $p->symbol,  'color' => $p->color, 'born' => $p->birth_date ]);
-                    }
-                }
+            $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+            $main_families = $FirstOne->ownFamily;
+//        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
+            $families = [];
+            foreach($main_families as $main_family){
+                $families[] = $this->familyTreeData($main_family->id);
             }
-
-            return response()->json(array(
-                'success' => true,
-                'data' => $data
-            ));
+            return response()->json($families, 200, [], JSON_UNESCAPED_UNICODE);
         }
 
         $pageTitle = 'القائمة الرئيسية';
@@ -93,20 +77,48 @@ class HomeController extends Controller
         return view('family-tree-render', compact('menuTitle', 'pageTitle', 'personsCount', 'familiesCount'));
     }
 
-    public function familyTreeData()
+    private function familyTreeData($main_family_id)
     {
-        $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+        $family_data_array = [];
+        $main_family = Family::where('id', $main_family_id)->first();
+        if($main_family == null){
+            return null;
+        }
+        $father = Person::where('id', $main_family->father_id)->first();
+        $mother = Person::where('id', $main_family->mother_id)->first();
+        $father_name = $father == null ?  'غير مسجل' : $father->first_name;
+        $mother_name = $mother == null ?  'غير مسجل' : $mother->first_name;
 
-//        $familyTree = new \App\Models\Family;
-//        $data = $familyTree->TreeRender($FirstOne->id);
+        $family_data_array['name'] = $father_name;
+        $family_data_array['wife'] = $mother_name;
+        $family_data_array['status'] = $father->is_live;
+        $family_data_array['status2'] = $father->has_family;
+        $family_data_array['className'] = $father->is_live ? ($father->gender == 'male' ? 'man-father' : 'wife-out') : 'dead';
+        $family_data_array['gender'] = $father->gender;
 
-//        $data = $FirstOne->ownFamily->membersFamilies;
-        $data = \App\Models\Family::with('membersFamilies')->first();
+        $families = Family::where('gf_family_id', $main_family->id)
+            ->whereColumn('id', '!=', 'gf_family_id')
+            ->get();
 
-        return response()->json(array(
-            'success' => true,
-            'data' => $data->membersFamilies
-        ));
+        $family_noFamily_children = Person::where('family_id', $main_family_id)
+            ->where('has_family', 0)
+            ->get();
+        $no_family_children = [];
+        foreach($family_noFamily_children as $child){
+            $no_family_child['name'] = $child->first_name;
+            $no_family_child['wife'] = "";
+            $no_family_child['status'] = $child->is_live;
+            $no_family_child['status2'] = $child->has_family;
+            $no_family_child['gender'] = $child->gender;
+            $no_family_child['className'] = $child->is_live ? ($child->gender == 'male' ? 'boy' : 'girl') : 'dead';
+            $no_family_child['children'] = [];
+            $no_family_children[] = $no_family_child;
+        }
+        $family_data_array['children'] = $no_family_children;
+        foreach($families as $family){
+            $family_data_array['children'][] = $this->familyTreeData($family->id);
+        }
+        return $family_data_array;
     }
 
     public function terms()
@@ -166,60 +178,4 @@ class HomeController extends Controller
         }
     }
 
-    public function get_family_tree()
-    {
-        $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
-        $main_families = $FirstOne->ownFamily;
-//        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
-        $families = [];
-        foreach($main_families as $main_family){
-            $families[] = $this->get_family_data($main_family->id);
-        }
-        return response()->json($families, 200, [], JSON_UNESCAPED_UNICODE);
-    }
-
-    public function get_family_data($main_family_id)
-    {
-        $family_data_array = [];
-        $main_family = Family::where('id', $main_family_id)->first();
-        if($main_family == null){
-            return null;
-        }
-        $father = Person::where('id', $main_family->father_id)->first();
-        $mother = Person::where('id', $main_family->mother_id)->first();
-        $father_name = $father == null ?  'غير مسجل' : $father->first_name;
-        $mother_name = $mother == null ?  'غير مسجل' : $mother->first_name;
-
-        $family_data_array['name'] = $father_name;
-        $family_data_array['wife'] = $mother_name;
-        $family_data_array['status'] = $father->is_live;
-        $family_data_array['status2'] = $father->has_family;
-        $family_data_array['className'] = $father->is_live ? ($father->gender == 'male' ? 'man-father' : 'wife-out') : 'dead';
-        $family_data_array['gender'] = $father->gender;
-
-        $families = Family::where('gf_family_id', $main_family->id)
-                            ->whereColumn('id', '!=', 'gf_family_id')
-                            ->get();
-
-        $family_noFamily_children = Person::where('family_id', $main_family_id)
-                                        ->where('has_family', 0)
-                                        ->get();
-        $no_family_children = [];
-        foreach($family_noFamily_children as $child){
-            $no_family_child['name'] = $child->first_name;
-            $no_family_child['wife'] = "";
-            $no_family_child['status'] = $child->is_live;
-            $no_family_child['status2'] = $child->has_family;
-            $no_family_child['gender'] = $child->gender;
-            $no_family_child['className'] = $child->is_live ? ($child->gender == 'male' ? 'boy' : 'girl') : 'dead';
-            $no_family_child['children'] = [];
-            $no_family_children[] = $no_family_child;
-        }
-        $family_data_array['children'] = $no_family_children;
-        foreach($families as $family){
-            $family_data_array['children'][] = $this->get_family_data($family->id);
-        }
-        return $family_data_array;
-
-    }
 }

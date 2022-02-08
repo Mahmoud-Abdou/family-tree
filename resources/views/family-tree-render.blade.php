@@ -69,9 +69,9 @@
 
                             <a href="{{ route('family.tree') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-group-2-line"> </i>النسخة المطبوعة</a>
                         </div>
-                        <div class="card-body text-center">
+                        <div class="card-body text-center p-0">
 
-                            <div dir="ltr" style="width:100%; min-height:600px;" id="family-tree-div"></div>
+                            <div dir="ltr" style="width:100%;" id="family-tree-div"></div>
 
                         </div>
                         <div class="card-footer text-muted">
@@ -89,6 +89,7 @@
 @endsection
 
 @section('add-scripts')
+    <script type="text/javascript" src="{{ secure_asset('js/html2canvas.min.js') }}"></script>
     <script type="text/javascript" src="{{ secure_asset('js/jquery.orgchart.min.js') }}"></script>
 
     <script type="text/javascript">
@@ -96,7 +97,7 @@
 
             $.ajax({
                 type: 'GET',
-                url: "{{ url('get-family-tree') }}",
+                url: "{{ route('family.tree.render') }}",
                 dataType: 'json',
                 success: function (response) {
                     renderData(response[0]);
@@ -104,7 +105,6 @@
             });
 
             function renderData(data) {
-                console.log(data);
                 var datascource = data;
 
                 var nodeTemplate = function(data) {
@@ -118,15 +118,27 @@
                 };
 
                 var oc = $('#family-tree-div').orgchart({
+                    {{--'data' : "{{ url('get-family-tree') }}",--}}
                     'data' : datascource,
+                    'direction': 't2b',
                     'nodeContent': 'title',
-                    'visibleLevel': 5,
+                    'visibleLevel': 1, // 999
+                    'nodeTitle': 'name',
+                    'nodeId': 'id',
                     'nodeTemplate': nodeTemplate,
+                    'toggleSiblingsResp': false,
+                    'draggable': false,
+                    'collapsed': true,
                     'pan': true,
                     'zoom': true,
+                    'zoominLimit': 7,
+                    'zoomoutLimit': 0.3,
+                    'chartClass': '',
+                    'className': 'top-level',
+                    'parentNodeSymbol': 'oci-leader',
                     // 'exportButton': true,
-                    // 'exportFileextension': 'pdf',
-                    // 'exportFilename': 'MyOrgChart'
+                    // 'exportFileextension': 'png',
+                    // 'exportFilename': 'Export PDF'
                 });
 
                 oc.$chartContainer.on('touchmove', function(event) {
