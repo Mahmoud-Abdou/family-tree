@@ -36,12 +36,12 @@ class Marriage extends Model
 
     public function father()
     {
-        return $this->belongsTo('App\Models\Person', 'wife_id', 'id');
+        return $this->belongsTo('App\Models\Person', 'husband_id', 'id');
     }
 
     public function mother()
     {
-        return $this->belongsTo('App\Models\Person', 'husband_id', 'id');
+        return $this->belongsTo('App\Models\Person', 'wife_id', 'id');
     }
 
     public function image()
