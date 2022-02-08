@@ -42,16 +42,6 @@ class DeathController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $deaths = Death::paginate($page_limit);
-        $death = Death::first();
-        $death_notification = [];
-            $death_notification['title'] = 'تم اضافة متوفي';
-            $death_notification['body'] = $death->body;
-            $death_notification['content'] = $death;
-            $death_notification['url'] = 'deaths/' . $death->id;
-            $death_notification['operation'] = 'store';
-    
-            $users = User::where('id', 2)->get();
-            event(new NotificationEvent($death_notification, $users));
 
         return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }

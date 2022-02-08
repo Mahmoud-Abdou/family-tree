@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Pricecurrent\LaravelEloquentFilters\Filterable;
 
 class Death extends Model
 {
     use HasFactory;
+    use Filterable;
 
     public $photoPath = '/uploads/death/';
 

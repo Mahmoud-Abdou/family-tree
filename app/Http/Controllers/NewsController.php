@@ -9,6 +9,10 @@ use App\Models\Category;
 use App\Events\NewsEvent;
 use Illuminate\Http\Request;
 
+
+use App\Filters\OwnerFilter;
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
+
 class NewsController extends Controller
 {
 
@@ -28,26 +32,41 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        
-
-        $id = auth()->user()->id;
         $menuTitle = 'الاخبار';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
         $categories = Category::get();
-        
+
+        $news = new News;
+        $filters_data = [];
+        //text filter
+        $filters_data['title'] = 'e';
+        $filters_data['body'] = 'e';
+        //id filter
+        $filters_data['city_id'] = 1;
+        $filters_data['category_id'] = 3;
+        //owner filter
+        $filters_data['owner_name'] = '1';
+        $filters_data['owner_phone'] = '3';
+        $filters_data['owner_email'] = 'sa';
+        //between filter
+        // $filters_data['date'] = 'd';
+
+        $filters_array = $news->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $news = $news->filter($filters);
+
         if(isset($request['category_id'])){
-            $news = News::where('category_id', $request['category_id'])
+            $news = $news->where('category_id', $request['category_id'])
                     ->where('approved', 1)
                     ->orderBy('updated_at', 'DESC')
                     ->paginate($page_limit);
         }
         else{
-            $news = News::where('approved', 1)
+            $news = $news->where('approved', 1)
                     ->orderBy('updated_at', 'DESC')
                     ->paginate($page_limit);
         }
-        
         
         return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news', 'categories'));
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9501d4e07a52b9b8ba59bc5dcd4a8480",
+    "content-hash": "ea7554ef315457b957fb7dd8da1249cc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2068,6 +2068,77 @@
             "time": "2021-12-04T23:24:31+00:00"
         },
         {
+            "name": "pricecurrent/laravel-eloquent-filters",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pricecurrent/laravel-eloquent-filters.git",
+                "reference": "a1ae454b8be821627531bc451e7d15778c944545"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pricecurrent/laravel-eloquent-filters/zipball/a1ae454b8be821627531bc451e7d15778c944545",
+                "reference": "a1ae454b8be821627531bc451e7d15778c944545",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0",
+                "php": "^7.4|^8.0",
+                "spatie/laravel-package-tools": "^1.4.3"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.2",
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "nunomaduro/collision": "^5.3",
+                "orchestra/testbench": "^6.0",
+                "spatie/laravel-ray": "^1.23"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pricecurrent\\LaravelEloquentFilters\\EloquentFiltersServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pricecurrent\\LaravelEloquentFilters\\": "src",
+                    "Pricecurrent\\LaravelEloquentFilters\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Malinnikov",
+                    "email": "code.bright.anywhere@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Advanced Laravel models filtering capabilities",
+            "homepage": "https://github.com/pricecurrent/laravel-eloquent-filters",
+            "keywords": [
+                "laravel",
+                "laravel-eloquent-filters",
+                "pricecurrent"
+            ],
+            "support": {
+                "issues": "https://github.com/pricecurrent/laravel-eloquent-filters/issues",
+                "source": "https://github.com/pricecurrent/laravel-eloquent-filters/tree/0.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pricecurrent",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-01-03T10:47:39+00:00"
+        },
+        {
             "name": "psr/container",
             "version": "1.1.2",
             "source": {
@@ -2696,6 +2767,65 @@
                 "source": "https://github.com/silviolleite/laravel-pwa/tree/2.0.3"
             },
             "time": "2020-08-20T12:19:16+00:00"
+        },
+        {
+            "name": "spatie/laravel-package-tools",
+            "version": "1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-package-tools.git",
+                "reference": "fd75af77d0bbf221f33369186df16da704bebebd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/fd75af77d0bbf221f33369186df16da704bebebd",
+                "reference": "fd75af77d0bbf221f33369186df16da704bebebd",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^7.0|^8.0|^9.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^5.0|^6.23|^7.0",
+                "phpunit/phpunit": "^9.4",
+                "spatie/test-time": "^1.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelPackageTools\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tools for creating Laravel packages",
+            "homepage": "https://github.com/spatie/laravel-package-tools",
+            "keywords": [
+                "laravel-package-tools",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-package-tools/issues",
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.11.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-01-11T16:14:23+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -8143,5 +8273,5 @@
         "php": "^7.4|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

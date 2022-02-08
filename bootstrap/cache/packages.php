@@ -59,6 +59,16 @@
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
+  'pricecurrent/laravel-eloquent-filters' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Pricecurrent\\LaravelEloquentFilters\\EloquentFiltersServiceProvider',
+    ),
+    'aliases' => 
+    array (
+    ),
+  ),
   'silviolleite/laravelpwa' => 
   array (
     'providers' => 
