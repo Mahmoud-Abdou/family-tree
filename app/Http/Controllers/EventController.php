@@ -91,8 +91,9 @@ class EventController extends Controller
     {
         $menuTitle = $event->title;
         $pageTitle = 'القائمة الرئيسية';
+        $lastEvents = Event::latest()->take(5)->get();
 
-        return view('web_app.Events.show', compact('menuTitle', 'pageTitle', 'event'));
+        return view('web_app.Events.show', compact('menuTitle', 'pageTitle', 'event', 'lastEvents'));
     }
 
     /**
@@ -178,6 +179,7 @@ class EventController extends Controller
         return back()->with('success', 'تم تنشيط المناسبة بنجاح');
     }
 
+    // index for users frontend
     public function indexUser()
     {
         $menuTitle = 'المناسبات';
