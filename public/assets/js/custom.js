@@ -316,14 +316,17 @@ Index Of Script
         -----------------------------------------------------------------------*/
         jQuery('.slick-slider').slick({
             centerMode: true,
+            mobileFirst: false,
+            pauseOnHover: true,
+            rtl: true,
             centerPadding: '60px',
-            slidesToShow: 9,
+            slidesToShow: 3,
             slidesToScroll: 1,
             focusOnSelect: true,
             responsive: [{
                 breakpoint: 992,
                 settings: {
-                    arrows: false,
+                    arrows: true,
                     centerMode: true,
                     centerPadding: '30',
                     slidesToShow: 3
@@ -337,8 +340,8 @@ Index Of Script
                     slidesToShow: 1
                 }
             }],
-            nextArrow: '<a href="#" class="ri-arrow-left-s-line left"></a>',
-            prevArrow: '<a href="#" class="ri-arrow-right-s-line right"></a>',
+            nextArrow: '<a href="#" class="ri-arrow-left-s-line my-5 right"></a>',
+            prevArrow: '<a href="#" class="ri-arrow-right-s-line my-5 left"></a>',
         });
 
         jQuery('#product-additional-slider').slick({

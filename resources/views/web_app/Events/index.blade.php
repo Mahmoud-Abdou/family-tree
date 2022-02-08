@@ -14,12 +14,12 @@
                 @foreach($events as $event)
                     <div class="col-sm-4">
                     <a href="{{ route('events.show', $event->id) }}">
-                        <div class="card iq-mb-3">
+                        <div class="card iq-mb-3 shadow iq-bg-primary-hover">
                             <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $event->title }}">
                             <div class="card-body">
                                 <h4 class="card-title">{{ $event->title }}</h4>
                                 <hr />
-                                <p class="card-text">{!! $event->body !!}</p>
+                                <p class="card-text">{!! $event->short_body !!}</p>
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex justify-content-between" dir="ltr">
