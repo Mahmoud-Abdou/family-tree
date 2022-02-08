@@ -13,7 +13,7 @@ class StoreMarriageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreMarriageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'husband_id' => ['required', 'exists:persons,id'],
+            'wife_id' => ['required', 'exists:persons,id'],
+            'title' => ['required'],
+            'body' => ['required'],
+            'image' => ['required'],
+            'date' => ['required', 'date', 'date_format:Y-m-d'],
         ];
     }
 }

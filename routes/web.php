@@ -24,13 +24,13 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('deaths', \App\Http\Controllers\DeathController::class);
     Route::resource('newborns', \App\Http\Controllers\NewbornController::class);
     Route::resource('media', \App\Http\Controllers\MediaController::class);
+    Route::resource('marriages', \App\Http\Controllers\MarriageController::class);
 
     Route::get('get_media/{category_id}', [\App\Http\Controllers\MediaController::class, 'get_media']);
     Route::get('get_news/{category_id}', [\App\Http\Controllers\NewsController::class, 'get_news']);
 
     Route::get('media_category', [\App\Http\Controllers\MediaController::class, 'media_category'])->name('media_category');
 
-    Route::resource('marriages', \App\Http\Controllers\MarriageController::class);
 
 
     Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');

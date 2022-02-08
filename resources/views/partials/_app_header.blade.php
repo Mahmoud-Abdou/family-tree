@@ -159,7 +159,6 @@
     </div>
 </div>
 {{--<!-- TOP Nav Bar END -->--}}
-@section('add-scripts')
 
 <script>
     function markNotificationRead(id, url){
@@ -177,4 +176,3 @@
         })
     }
 </script>
-@endsection
