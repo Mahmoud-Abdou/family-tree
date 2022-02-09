@@ -316,7 +316,7 @@ Index Of Script
         -----------------------------------------------------------------------*/
         jQuery('.slick-slider').slick({
             centerMode: true,
-            mobileFirst: false,
+            mobileFirst: true,
             pauseOnHover: true,
             rtl: true,
             centerPadding: '60px',
@@ -340,8 +340,10 @@ Index Of Script
                     slidesToShow: 1
                 }
             }],
-            nextArrow: '<a href="#" class="ri-arrow-left-s-line my-5 right"></a>',
-            prevArrow: '<a href="#" class="ri-arrow-right-s-line my-5 left"></a>',
+            // nextArrow: '<a href="#" class="ri-arrow-left-s-line right slick-arrow" style="display: block;"></a>',
+            // prevArrow: '<a href="#" class="ri-arrow-right-s-line left slick-arrow"></a>',
+            nextArrow: '<a href="#" class="p-1 my-5 right iq-bg-primary-dark-hover bg-transparent font-size-32"><i class="ri-arrow-left-s-line"> </i></a>',
+            prevArrow: '<a href="#" class="p-1 my-5 left iq-bg-primary-dark-hover bg-transparent font-size-32"><i class="ri-arrow-right-s-line"> </i></a>',
         });
 
         jQuery('#product-additional-slider').slick({

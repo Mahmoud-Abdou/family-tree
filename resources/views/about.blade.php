@@ -12,7 +12,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow">
                         <div class="card-header">
                             <h5>
                                 <i class="ri-information-line"> </i>

@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'الرئيسية';
-        $lastNews = News::latest()->take(5)->get();
+        $lastNews = News::active()->latest()->take(5)->get();
 
         return view('home', compact('menuTitle', 'pageTitle', 'lastNews'));
     }

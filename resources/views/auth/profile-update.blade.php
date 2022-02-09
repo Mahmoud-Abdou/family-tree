@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    <div class="iq-card">
+                    <div class="iq-card shadow">
                         <div class="iq-card-body p-0">
                             <div class="iq-edit-list">
                                 <ul class="iq-edit-profile d-flex nav nav-pills">
@@ -40,7 +40,7 @@
 
             <div class="tab-content col-lg-12">
                 <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow">
                         <div class="card-header">
                             <h5 class="my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
                         </div>
@@ -171,7 +171,7 @@
 
                 <div class="tab-pane fade" id="manage-secret" role="tabpanel">
 
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow">
                         <div class="card-header">
                             <h5 class="my-auto"><i class="ri-shield-user-fill"> </i> تعديل بيانات الدخول </h5>
                         </div>

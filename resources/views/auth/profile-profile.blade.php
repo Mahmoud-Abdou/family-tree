@@ -1,7 +1,7 @@
 <div class="tab-pane fade {{ !isset($_GET['tab']) ? 'active show' : '' }}" id="profile-profile" role="tabpanel">
     <div class="row">
         <div class="col-lg-3">
-            <div class="iq-card iq-card-block iq-card-stretch">
+            <div class="iq-card iq-card-block iq-card-stretch shadow">
                 <div class="iq-card-header d-flex justify-content-between {{ $profile->gender == 'male' ? 'bg-cyan' : 'bg-pink' }}">
                     <div class="iq-header-title">
                         <h4 class="card-title">المعلومات الشخصية</h4>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="col-lg-9">
-            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
                 <div class="iq-card-header d-flex justify-content-between">
                     <div class="iq-header-title">
                         <h4 class="card-title"><i class="ri-information-line"> </i>السيرة الذاتية</h4>

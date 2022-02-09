@@ -17,7 +17,7 @@
             <div class="row">
 
                 <div class="col-lg-12">
-                    <div class="iq-card">
+                    <div class="iq-card shadow">
                         <div class="iq-card-body">
                             <div class="row">
                                 <div class="col-md-6 iq-item-product-right">
@@ -68,7 +68,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-12 px-0">
+                    <div class="col-lg-12 px-0 shadow">
                         <div class="iq-card">
                             <div class="iq-card-body p-0">
 
@@ -76,33 +76,28 @@
                                     <h2>آخر المناسبات</h2>
                                 </div>
 
+                                @if($lastEvents->count() > 0)
                                 <div id="events-slider" class="slick-slider">
-                                    <a href="#" class="ri-arrow-right-s-line left slick-arrow"></a>
-
                                     @foreach($lastEvents as $e)
                                         <div class="product_item col-xs-12 col-sm-6 col-md-6 col-lg-4">
                                             <div class="product-miniature">
                                                 <div class="thumbnail-container">
-                                                    <a href="{{ route('events.show', $e) }}"><img src="{{ $e->image->file }}" alt="{{ $e->title }}"
-                                                                     class="img-fluid"> </a>
+                                                    <a href="{{ route('events.show', $e) }}">
+                                                        <img src="{{ $e->image->file }}" alt="{{ $e->title }}" class="img-fluid">
+                                                    </a>
                                                 </div>
                                                 <div class="product-description">
                                                     <h4>{{ $e->title }}</h4>
                                                     <p class="mb-0">{!! $e->short_body !!}</p>
                                                     <hr>
-                                                    <div
-                                                        class="d-flex flex-wrap justify-content-between align-items-center">
+                                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
                                                         <div class="product-action">
                                                             <div class="add-to-cart mx-3">
-                                                                <p data-toggle="tooltip" data-placement="top"
-                                                                   title="المدينة" data-original-title="المدينة"><i
-                                                                        class="ri-map-pin-2-line"> </i> {{ $event->city->name_ar }}
+                                                                <p data-toggle="tooltip" data-placement="top" title="المدينة" data-original-title="المدينة"><i class="ri-map-pin-2-line"> </i> {{ $e->city->name_ar }}
                                                                 </p>
                                                             </div>
                                                             <div class="wishlist mx-3">
-                                                                <p data-toggle="tooltip" data-placement="top"
-                                                                   title="التاريخ" data-original-title="التاريخ"><i
-                                                                        class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($event->event_date)) }}
+                                                                <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($e->event_date)) }}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -112,9 +107,10 @@
                                             </div>
                                         </div>
                                     @endforeach
-
-                                    <a href="#" class="ri-arrow-left-s-line right slick-arrow" style="display: block;"></a></ul>
                                 </div>
+                                @else
+                                    <p class="text-center">لا يوجد بيانات</p>
+                                @endif
 
                             </div>
                         </div>
