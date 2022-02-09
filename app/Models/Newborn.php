@@ -37,6 +37,9 @@ class Newborn extends Model
     protected $casts = [
         'date' => 'datetime:Y-m-d',
     ];
+    
+    protected $appends = ['short_body'];
+
 
     public function getDateAttribute($date)
     {
@@ -61,6 +64,12 @@ class Newborn extends Model
     public function person()
     {
         return $this->hasOne('App\Models\Person', 'id', 'person_id');
+    }
+
+    public function getShortBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 160) . ' ....';
     }
 
     public function filters($request_filter)

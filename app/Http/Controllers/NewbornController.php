@@ -119,7 +119,7 @@ class NewbornController extends Controller
     public function show($newborn_id)
     {
         $appMenu = config('custom.main_menu');
-        $menuTitle = '  اظهار المتوفي';
+        $menuTitle = '  اظهار المولود';
         $pageTitle = 'لوحة التحكم';        
         $newborn = Newborn::where('id', $newborn_id)->first();
         
