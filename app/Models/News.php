@@ -29,11 +29,15 @@ class News extends Model
     protected $appends = ['short_body'];
 
     // accessories
-    public function getShortBodyAttribute($value)
+    public function getShortBodyAttribute()
     {
-        return $value;
-        // return str_limit($value, 20);
-//        return str_limit($value, 20, '&raquo');
+        $text = strip_tags($this->body);
+        return substr($text, 0, 160) . ' ....';
+    }
+
+    public function scopeActive($query)
+    {
+        $query->where('approved', true);
     }
 
     public function owner()

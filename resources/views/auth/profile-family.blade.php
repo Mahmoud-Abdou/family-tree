@@ -1,6 +1,6 @@
 <div class="tab-pane fade {{ isset($_GET['tab']) && $_GET['tab'] == 'family' ? 'active show' : '' }}" id="profile-family" role="tabpanel">
     @isset($person->belongsToFamily)
-    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
         <div class="iq-card-header d-flex justify-content-between">
             <div class="iq-header-title">
                 <h4 class="card-title"><i class="ri-group-2-fill"> </i>عائلة الأب</h4>

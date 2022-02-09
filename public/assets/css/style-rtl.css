@@ -356,7 +356,7 @@ a:hover { text-decoration: none; }
 .iq-user-dropdown { width: 350px; }
 body.sidebar-main .content-page, body.sidebar-main .iq-footer { margin-right: 80px; }
 body .iq-sidebar-logo { width: 260px; /*width: 80px;*/ }
-body.sidebar-main .iq-sidebar-logo { width: 80px; /*width: 80px;*/ }
+body.sidebar-main .iq-sidebar-logo { /*width: 80px;*/ }
 body.sidebar-main .iq-sidebar .iq-sidebar-menu .iq-menu li a span, body.sidebar-main .iq-sidebar-logo a span, body.sidebar-main .iq-sidebar-menu .iq-menu li a .badge { opacity: 0; display: none; }
 body.sidebar-main .iq-sidebar-menu .iq-menu .iq-menu-title span { display: none; }
 body.sidebar-main .iq-sidebar-menu .iq-menu .iq-menu-title i { font-size: 20px; display: block; }

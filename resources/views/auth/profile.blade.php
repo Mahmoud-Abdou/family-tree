@@ -12,11 +12,11 @@
             <div class="row">
 
                 <div class="col-sm-12">
-                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
                         <div class="iq-card-body profile-page p-0">
                             <div class="profile-header">
                                 <div class="cover-container">
-                                    <img src="{{ asset('assets/images/profile-bg.jpg') }}" alt="profile-bg" class="rounded img-fluid w-100">
+                                    <img src="{{ secure_asset('assets/images/profile-bg.jpg') }}" alt="profile-bg" class="rounded img-fluid w-100">
                                     <ul class="header-nav d-flex flex-wrap justify-end p-0 m-0">
                                         <li><a href="{{ route('profile.edit') }}"><i class="ri-pencil-line"></i></a></li>
                                     </ul>

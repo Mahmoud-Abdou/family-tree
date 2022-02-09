@@ -1,5 +1,5 @@
 <div class="tab-pane fade" id="profile-activity" role="tabpanel">
-    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+    <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
         <div class="iq-card-header d-flex justify-content-between">
             <div class="iq-header-title">
                 <h4 class="card-title"><i class="ri-shield-star-fill"> </i>سجل الدخول</h4>

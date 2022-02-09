@@ -91,7 +91,7 @@
     .iq-sidebar { display: inline-block; z-index: 99; right: -260px; }
     .iq-top-navbar .iq-navbar-custom .navbar-breadcrumb { display: none; }
     .iq-sidebar-logo { width: auto; }
-    .iq-top-navbar .iq-navbar-custom .iq-menu-bt { display: inline-block; position: absolute; left: 310px; opacity: 1; }
+    .iq-top-navbar .iq-navbar-custom .iq-menu-bt { display: inline-block; position: absolute; left: 360px; opacity: 1; }
     body.sidebar-main .iq-top-navbar .iq-sidebar-logo a span { opacity: 1; display: inline-block; }
     body.sidebar-main .iq-sidebar { width: 260px; right: 0; }
     body.sidebar-main .iq-sidebar .iq-sidebar-menu .iq-menu li a span { display: inline-block; opacity: 1; }
