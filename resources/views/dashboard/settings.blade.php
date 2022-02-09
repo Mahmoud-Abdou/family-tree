@@ -15,16 +15,13 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+                    @include('partials.messages')
+                    @include('partials.errors-messages')
+
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5>
-                                <i class="ri-settings-2-fill mx-2"></i>
-                                اعدادات التطبيق
-                            </h5>
+                            <h5><i class="ri-settings-2-fill mx-2"> </i></h5>
                         </div>
-
-                        @include('partials.messages')
-                        @include('partials.errors-messages')
 
                         <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
                             @csrf
