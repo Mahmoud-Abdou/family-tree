@@ -30,7 +30,7 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -40,13 +40,13 @@ class EventController extends Controller
         $page_limit = 20;
         $events = Event::paginate($page_limit);
 
-        return view('dashboard.Events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events'));
+        return view('dashboard.events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -56,14 +56,14 @@ class EventController extends Controller
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
-        return view('dashboard.Events.create', compact('menuTitle', 'appMenu', 'pageTitle', 'cities', 'categories'));
+        return view('dashboard.events.create', compact('menuTitle', 'appMenu', 'pageTitle', 'cities', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreEventRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreEventRequest $request)
     {
@@ -85,7 +85,7 @@ class EventController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Event $event)
     {
@@ -100,7 +100,7 @@ class EventController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Event $event)
     {
@@ -118,7 +118,7 @@ class EventController extends Controller
      *
      * @param  \App\Http\Requests\UpdateEventRequest  $request
      * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
@@ -149,7 +149,7 @@ class EventController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Event $event)
     {
