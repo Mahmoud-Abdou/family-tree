@@ -8,6 +8,7 @@ use App\Filters\IDFilter;
 use App\Filters\BetweenFilter;
 use App\Filters\InFilter;
 use App\Filters\OwnerFilter;
+use App\Filters\DateFilter;
 use Pricecurrent\LaravelEloquentFilters\Filterable;
 
 class News extends Model
@@ -82,11 +83,11 @@ class News extends Model
             $filters[] = new TextFilter($request_filter['body'], 'body');
         }
 
-        if(isset($request_filter['city_id'])){
-            $filters[] = new IDFilter($request_filter['city_id'], 'city_id');
+        if(isset($request_filter['city'])){
+            $filters[] = new IDFilter($request_filter['city'], 'city_id');
         }
-        if(isset($request_filter['category_id'])){
-            $filters[] = new IDFilter($request_filter['category_id'], 'category_id');
+        if(isset($request_filter['category'])){
+            $filters[] = new IDFilter($request_filter['category'], 'category_id');
         }
 
         if(isset($request_filter['owner_name'])){
@@ -98,9 +99,10 @@ class News extends Model
         if(isset($request_filter['owner_email'])){
             $filters[] = new OwnerFilter($request_filter['owner_email'], 'email');
         }
-        
-        
-        
+        if(isset($request_filter['date'])){
+            $filters[] = new DateFilter($request_filter['date'], 'created_at');
+        }
+
         return $filters;
     }
 }

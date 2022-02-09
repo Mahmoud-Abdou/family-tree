@@ -17,6 +17,8 @@ use Carbon\Carbon;
 use App\Events\DeathEvent;
 use App\Events\NotificationEvent;
 
+use Illuminate\Http\Request;
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class DeathController extends Controller
 {
@@ -35,13 +37,19 @@ class DeathController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $id = auth()->user()->id;
         $menuTitle = 'الوفيات';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
-        $deaths = Death::paginate($page_limit);
+        $deaths = new Death;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+
+        $filters_array = $deaths->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $deaths = $deaths->filter($filters);
+        $deaths = $deaths->paginate($page_limit);
         
         return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }

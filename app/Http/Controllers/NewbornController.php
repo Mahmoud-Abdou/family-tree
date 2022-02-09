@@ -12,6 +12,8 @@ use App\Models\News;
 use App\Models\Person;
 use Carbon\Carbon;
 
+use Illuminate\Http\Request;
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class NewbornController extends Controller
 {
@@ -29,13 +31,18 @@ class NewbornController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-//        $id = auth()->user()->id;
         $menuTitle = 'المواليد';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
-        $newborns = Newborn::paginate($page_limit);
+        $newborns = new Newborn;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+        
+        $filters_array = $newborns->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $newborns = $newborns->filter($filters);
+        $newborns = $newborns->paginate($page_limit);
 
         return view('web_app.Newborns.index', compact('menuTitle', 'pageTitle', 'newborns'));
     }
