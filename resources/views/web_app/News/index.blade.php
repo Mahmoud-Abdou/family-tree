@@ -83,8 +83,8 @@
                                             <option value="">الكل</option>
                                             <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
                                             <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
-                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار الاسبوع</option>
-                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اليوم</option>
+                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
+                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
                                             
                                         </select>
                                         <div class="invalid-tooltip">
@@ -104,39 +104,30 @@
                         </div>
                         <div class="card-body p-0">
                         @if($news->count() > 0)
-
                             @foreach($news as $row)
-                                <div class="col-sm-8">
-                                    <div class="card iq-mb-3">
+                                <div class="col-sm-4">
+                                <a href="{{ route('news.show', $row->id) }}">
+                                    <div class="card iq-mb-3 shadow iq-bg-primary-hover">
+                                        <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $row->title }}">
                                         <div class="card-body">
                                             <h4 class="card-title">{{ $row->title }}</h4>
                                             <hr />
-                                            <p class="card-text">{!! $row->body !!}</p>
+                                            <p class="card-text">{!! $row->short_body !!}</p>
                                         </div>
                                         <div class="card-footer">
                                             <div class="d-flex justify-content-between" dir="ltr">
-                                                <p class="card-text m-0"><i class="ri-user-2-fill"> </i><small class="text-muted">{{ $row->owner->name }}</small></p>
-                                                <p class="card-text m-0"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $row->city->name_ar }}</small></p>
-                                                @if($row->owner_id == auth()->user()->id)
-                                                    @can('news.update')
-                                                    
-                                                        <a href="{{ route('news.edit', $row) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
-                                                    @endcan
-                                                    @can('news.delete')
-                                                    <form action="{{ route('news.destroy', $row) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-
-                                                        <a onclick= "submit_form(this)" class="card-text m-0"><i class="ri-delete-back-2-fill"></i></a>
-                                                    </form>
-                                                    @endcan
-                                                @endif
+                                                <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d | H:i', strtotime($row->date)) }}</small></p>
+                                                <p class="card-text m-0"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $row->category->name_ar }}</small></p>
+                                            
                                             </div>
+                                            
+                                            
                                         </div>
                                     </div>
+                                </a>
                                 </div>
-                                
                             @endforeach
+                            
                         @else
                         <div class="col-sm-8">
                                     <div class="card iq-mb-3">

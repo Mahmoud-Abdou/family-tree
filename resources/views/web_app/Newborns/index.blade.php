@@ -61,8 +61,8 @@
                                         <option value="">الكل</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
-                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار الاسبوع</option>
-                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اليوم</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
                                         
                                     </select>
                                     <div class="invalid-tooltip">
@@ -81,63 +81,42 @@
                             </div>
                         </div>
                         <div class="card-body p-0">
+                        @if($newborns->count() > 0)
 
-                            <div class="table-responsive">
-                                <table class="table m-0 px-2">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">العائلة</th>
-                                        <th scope="col">عنوان</th>
-                                        <th scope="col">وصف </th>
-                                        <th scope="col">المالك </th>
-                                        <th scope="col">الصورة</th>
-                                        <th scope="col">التاريخ </th>
-                                        <th scope="col">الإجراءات</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if($newborns->count() > 0)
-                                        @foreach($newborns as $newborn)
-                                            <tr>
-                                                <td>{{ $newborn->family->name }}</td>
-                                                <td>{{ $newborn->title }}</td>
-                                                <td>{!! $newborn->body !!}</td>
-                                                <td>{{ $newborn->owner->name }}</td>
-                                                <td>
-                                                    @if(isset($newborn->image->file))
-                                                        <img src="{{ $newborn->image->file }}" alt="" style="height: 100px;width: 100px;">
-                                                    @else
-                                                        <img src="" alt="" style="height: 100px;width: 100px;">
-                                                    @endif
-                                                </td>
-                                                <td>{{ $newborn->date }}</td>
-                                                <td>
-                                                    <div class="d-flex justify-center">
-                                                        @if($newborn->owner_id == auth()->user()->id)
-                                                            @can('newborns.update')
-                                                            <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('newborns.edit', $newborn) }}"><i class="ri-edit-2-fill"></i></a>
-                                                            @endcan
-                                                            @can('newborns.delete')
-                                                            <form action="{{ route('newborns.destroy', $newborn) }}" method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-
-                                                                <button type="submit" class="btn btn-outline-danger rounded-pill mx-1"><i class="ri-delete-back-2-fill"></i></button>
-                                                            </form>
-                                                            @endcan
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
-                                </table>
+                            @foreach($newborns as $row)
+                            <div class="col-sm-4">
+                                <a href="{{ route('newborns.show', $row->id) }}">
+                                    <div class="card iq-mb-3 shadow iq-bg-primary-hover">
+                                        <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $row->title }}">
+                                        <div class="card-body">
+                                            <h4 class="card-title">{{ $row->title }}</h4>
+                                            <hr />
+                                            <p class="card-text">{!! $row->short_body !!}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="d-flex justify-content-between" dir="ltr">
+                                                <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d | H:i', strtotime($row->date)) }}</small></p>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
+                                
+                            @endforeach
+                        @else
+                        <div class="col-sm-8">
+                                    <div class="card iq-mb-3">
+                                        <div class="card-body">
+
+                                            
+                                            <p class="card-text">لا توجد بيانات</p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                        @endif
+               
 
                             <div class="d-flex justify-content-around">{{ $newborns->links() }}</div>
                         </div>

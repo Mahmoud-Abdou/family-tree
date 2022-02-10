@@ -45,7 +45,7 @@ class NewsController extends Controller
         $filters = EloquentFilters::make($filters_array);
         $news = $news->filter($filters);
 
-        $news = $news->where('approved', 0)
+        $news = $news->where('approved', 1)
                 ->orderBy('created_at', 'DESC')
                 ->paginate($page_limit);
         

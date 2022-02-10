@@ -21,10 +21,10 @@ class DateFilter extends AbstractEloquentFilter
             $this->from = Carbon::now()->startOfMonth();
         }
         else if($from == 3){
-            $this->from = Carbon::now()->startOfWeek();
+            $this->from = Carbon::now()->startOfMonth()->subMonth(3);
         }
         else if($from == 4){
-            $this->from = Carbon::now()->startOfDay();
+            $this->from = Carbon::now()->startOfMonth()->subMonth(6);
         }
             
         $this->column = $column;
