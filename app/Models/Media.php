@@ -5,10 +5,17 @@ namespace App\Models;
 use App\Traits\HasImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-
+use App\Filters\TextFilter;
+use App\Filters\IDFilter;
+use App\Filters\BetweenFilter;
+use App\Filters\InFilter;
+use Pricecurrent\LaravelEloquentFilters\Filterable;
+use App\Filters\OwnerFilter;
+use App\Filters\DateFilter;
 
 class Media extends Model
 {
+    use Filterable;
     use hasImage;
 
     public $filePath = '/uploads/media/';
@@ -108,6 +115,32 @@ class Media extends Model
         $query->move(public_path($path), $image_full_name);
 
         return $image_full_name;
+    }
+
+    public function filters($request_filter)
+    {
+        $filters = [];
+        if(isset($request_filter['title'])){
+            $filters[] = new TextFilter($request_filter['title'], 'title');
+        }
+        if(isset($request_filter['category'])){
+            $filters[] = new IDFilter($request_filter['category'], 'category_id');
+        }
+
+        if(isset($request_filter['owner_name'])){
+            $filters[] = new OwnerFilter($request_filter['owner_name'], 'name');
+        }
+        if(isset($request_filter['owner_phone'])){
+            $filters[] = new OwnerFilter($request_filter['owner_phone'], 'mobile');
+        }
+        if(isset($request_filter['owner_email'])){
+            $filters[] = new OwnerFilter($request_filter['owner_email'], 'email');
+        }
+        if(isset($request_filter['date'])){
+            $filters[] = new DateFilter($request_filter['date'], 'created_at');
+        }
+
+        return $filters;
     }
 
 }

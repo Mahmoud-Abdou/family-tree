@@ -14,6 +14,8 @@ use App\Models\User;
 use App\Events\NotificationEvent;
 use Carbon\Carbon;
 
+use Illuminate\Http\Request;
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class MarriageController extends Controller
 {
@@ -31,13 +33,19 @@ class MarriageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $id = auth()->user()->id;
         $menuTitle = 'الزواجات';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
-        $marriages = Marriage::paginate($page_limit);
+        $marriages = new Marriage;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+        
+        $filters_array = $marriages->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $marriages = $marriages->filter($filters);
+        $marriages = $marriages->paginate($page_limit);
 
         return view('web_app.Marriages.index', compact('menuTitle', 'pageTitle', 'marriages'));
     }
