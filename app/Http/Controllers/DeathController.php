@@ -138,6 +138,7 @@ class DeathController extends Controller
         $menuTitle = '  اظهار المتوفي';
         $pageTitle = 'لوحة التحكم';        
         $death = Death::where('id', $death_id)->first();
+        $death['type'] = 'deaths';
         
         return view('web_app.Deaths.show', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
     }
@@ -152,7 +153,7 @@ class DeathController extends Controller
     {
         $menuTitle = 'تعديل حالة وفاة';
         $pageTitle = 'القائمة الرئيسية';
-
+        
         return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
     }
 
