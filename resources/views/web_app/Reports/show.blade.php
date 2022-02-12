@@ -39,10 +39,10 @@
                                                     </p>
                                                 </div>
                                                 <div class="wishlist mx-3 float-right">
-                                                    <a href="{{ route('reports.create', 'type=deaths&type_id=' . $death->id) }}" data-toggle="tooltip" data-placement="top"
+                                                    <a href="{{ route('reports.create', 'type=death&id=' . $death->id) }}" data-toggle="tooltip" data-placement="top"
                                                        title="التبليغ عن شكوي"
                                                        data-original-title="التبليغ عن شكوي"> <i
-                                                            class="ri-alarm-warning-fill"> </i> </a>
+                                                            class="ri-heart-line"> </i> </a>
                                                 </div>
                                             </div>
                                         </div>

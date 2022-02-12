@@ -26,6 +26,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('media_category', [\App\Http\Controllers\MediaController::class, 'media_category'])->name('media_category');
     Route::get('get_media/{category_id}', [\App\Http\Controllers\MediaController::class, 'get_media']);
     Route::get('get_news/{category_id}', [\App\Http\Controllers\NewsController::class, 'get_news']);
+    
+    Route::resource('reports', \App\Http\Controllers\ReportController::class);
 
     Route::resource('marriages', \App\Http\Controllers\MarriageController::class);
 

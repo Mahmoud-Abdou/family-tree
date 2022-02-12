@@ -5,6 +5,10 @@ return [
     // relations types
     'relations-types' => ['son', 'daughter', 'father', 'mother'],
 
+    // report types
+    'report-types' => ['deaths', 'newborns', 'events', 'news', 'marriages', 'media'],
+
+
     // Categories types
     'category-types' => ['general', 'media', 'video', 'event', 'news', 'newborn', 'marriages', 'deaths'],
 
