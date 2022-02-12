@@ -32,7 +32,8 @@ class ReportController extends Controller
     {
         $id = auth()->user()->id;
         $menuTitle = 'الشكاوي';
-        $pageTitle = 'القائمة الرئيسية';
+        $appMenu = config('custom.app_menu');
+        $pageTitle = 'لوحة التحكم';
         $page_limit = 20;
         $reports = new Report;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
@@ -42,7 +43,7 @@ class ReportController extends Controller
         $reports = $reports->filter($filters);
         $reports = $reports->paginate($page_limit);
 
-        return view('web_app.Reports.index', compact('menuTitle', 'pageTitle', 'reports'));
+        return view('dashboard.reports.index', compact('appMenu', 'menuTitle', 'pageTitle', 'reports'));
     }
 
     /**
@@ -70,7 +71,7 @@ class ReportController extends Controller
         $report = Report::create($request->all());
 
         \App\Helpers\AppHelper::AddLog('Report Create', class_basename($report), $report->id);
-        return redirect('/')->with('success', 'تم اضافة الشكوي.');
+        return redirect()->back()->with('success', 'تم اضافة الشكوي.');
 
     }
 

@@ -12,6 +12,7 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::resource('cities', \App\Http\Controllers\CityController::class);
         Route::resource('events', \App\Http\Controllers\EventController::class);
         Route::post('event-activate', [\App\Http\Controllers\EventController::class, 'activate'])->name('events.activate');
+        Route::resource('reports', \App\Http\Controllers\ReportController::class);
 
     });
 

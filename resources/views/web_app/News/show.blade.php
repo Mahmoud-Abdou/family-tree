@@ -39,6 +39,12 @@
                                                             class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($news->date)) }}
                                                     </p>
                                                 </div>
+                                                <div class="wishlist mx-3 float-right">
+                                                    <a  data-toggle="modal" data-target=".bd-example-modal-xl"
+                                                       title="التبليغ عن شكوي"
+                                                       data-original-title="التبليغ عن شكوي"> <i
+                                                            class="ri-alarm-warning-fill"> </i> </a>
+                                                </div>
                                                 <div class="d-flex justify-content-between" dir="ltr">
                                                     @if($news->owner_id == auth()->user()->id)
                                                         @can('news.update')
@@ -75,6 +81,35 @@
                 </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-xl " tabindex="-1" role="dialog" aria-modal="true" >
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">التبليغ عن شكوي</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form dir="rtl" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" name="type" value="news" >
+                        <input type="hidden" name="type_id" value="{{ $news->id }}">
+
+                        <div class="form-group col-lg-6">
+                            <label for="body">وصف الشكوي</label>
+                            <textarea class="form-control" name="body" id="body"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

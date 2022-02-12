@@ -4,9 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Filters\TextFilter;
+use App\Filters\IDFilter;
+use App\Filters\BetweenFilter;
+use App\Filters\InFilter;
+use App\Filters\OwnerFilter;
+use Pricecurrent\LaravelEloquentFilters\Filterable;
+use App\Filters\DateFilter;
 
 class Report extends Model
 {
+    use Filterable;
     use HasFactory;
 
     /**
@@ -23,11 +31,17 @@ class Report extends Model
     
     protected $appends = ['short_body'];
 
+    public function owner()
+    {
+        return $this->belongsTo('App\Models\User', 'owner_id', 'id');
+    }
+
     public function getShortBodyAttribute()
     {
         $text = strip_tags($this->body);
         return substr($text, 0, 160) . ' ....';
     }
+    
 
     public function filters($request_filter)
     {

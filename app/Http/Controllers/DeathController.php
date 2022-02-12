@@ -42,7 +42,7 @@ class DeathController extends Controller
         $id = auth()->user()->id;
         $menuTitle = 'الوفيات';
         $pageTitle = 'القائمة الرئيسية';
-        $page_limit = 5;
+        $page_limit = 20;
         $deaths = new Death;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
 
