@@ -316,7 +316,7 @@ Index Of Script
         -----------------------------------------------------------------------*/
         jQuery('.slick-slider').slick({
             centerMode: true,
-            mobileFirst: true,
+            mobileFirst: false,
             pauseOnHover: true,
             rtl: true,
             centerPadding: '60px',
@@ -906,10 +906,7 @@ const $tableID = $('#table');
     $('div.setup-panel-data div a.active').trigger('click');
 
 
-
-
 $(document).ready(function() {
-
 
     var readURL = function(input) {
         if (input.files && input.files[0]) {
@@ -922,7 +919,6 @@ $(document).ready(function() {
             reader.readAsDataURL(input.files[0]);
         }
     }
-
 
     $(".file-upload").on('change', function(){
         readURL(this);
@@ -942,14 +938,12 @@ $(document).ready(function(){
         $('#cart').removeClass('show');
         $('#address').addClass('show');
         $('#step1').removeClass('active');
-        $('#step1').addClass('done');
         $('#step2').addClass('active');
     });
     $('#deliver-address').click(function(){
         $('#address').removeClass('show');
         $('#payment').addClass('show');
         $('#step2').removeClass('active');
-        $('#step2').addClass('done');
         $('#step3').addClass('active');
     });
 });
