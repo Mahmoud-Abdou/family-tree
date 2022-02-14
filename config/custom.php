@@ -144,8 +144,12 @@ return [
         ['id' => 5, 'title' => 'Categories', 'title_ar' => 'التصنيفات', 'link' => 'admin.categories.index', 'icon' => 'ri-price-tag-2-line', 'permission' => 'categories.read', 'child' => null],
         ['id' => 6, 'title' => 'Events', 'title_ar' => 'المناسبات', 'link' => 'admin.events.index', 'icon' => 'ri-calendar-event-line', 'permission' => 'events.read', 'child' => null],
         ['id' => 7, 'title' => 'Settings', 'title_ar' => 'الاعدادات', 'link' => 'admin.settings.show', 'icon' => 'ri-settings-4-line', 'permission' => 'settings.read', 'child' => null],
-        ['id' => 8, 'title' => 'Reports', 'title_ar' => 'الشكاوي', 'link' => 'admin.reports.index', 'icon' => 'ri-archive-line', 'permission' => 'reports.read', 'child' => null],
-        ['id' => 8, 'title' => 'Log', 'title_ar' => 'السجل', 'link' => 'admin.log.index', 'icon' => 'ri-archive-line', 'permission' => 'activities.read', 'child' => null],
+        ['id' => 8, 'title' => 'Reports', 'title_ar' => 'الشكاوي', 'link' => 'admin.reports.index', 'icon' => 'ri-feedback-line', 'permission' => 'reports.read', 'child' => null],
+        ['id' => 10, 'title' => 'Log', 'title_ar' => 'السجل', 'link' => 'admin.log.index', 'icon' => 'ri-archive-line', 'permission' => 'activities.read', 'child' => null],
+        ['id' => 11, 'title' => 'Deaths', 'title_ar' => 'الوفيات', 'link' => 'admin.deaths.index', 'icon' => 'ri-user-4-line', 'permission' => 'deaths.read', 'child' => null],
+        ['id' => 12, 'title' => 'Newborns', 'title_ar' => 'المواليد', 'link' => 'admin.newborns.index', 'icon' => 'ri-user-smile-line', 'permission' => 'newborns.read', 'child' => null],
+        ['id' => 13, 'title' => 'Marriages', 'title_ar' => 'الزواجات', 'link' => 'admin.marriages.index', 'icon' => 'ri-parent-line', 'permission' => 'marriages.read', 'child' => null],
+        ['id' => 14, 'title' => 'News', 'title_ar' => 'الأخبار', 'link' => 'admin.news.index', 'icon' => 'ri-newspaper-line', 'permission' => 'news.read', 'child' => null],
     ],
 
 ];

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDeathRequest;
 use App\Http\Requests\UpdateDeathRequest;
 use App\Models\Death;
@@ -40,8 +41,10 @@ class DeathController extends Controller
     public function index(Request $request)
     {
         $id = auth()->user()->id;
+        $appMenu = config('custom.app_menu');
+        $pageTitle = 'لوحة التحكم';
         $menuTitle = 'الوفيات';
-        $pageTitle = 'القائمة الرئيسية';
+
         $page_limit = 20;
         $deaths = new Death;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
@@ -51,7 +54,7 @@ class DeathController extends Controller
         $deaths = $deaths->filter($filters);
         $deaths = $deaths->paginate($page_limit);
         
-        return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
+        return view('dashboard.deaths.index', compact('appMenu', 'menuTitle', 'pageTitle', 'deaths'));
     }
 
     /**
@@ -62,11 +65,12 @@ class DeathController extends Controller
     public function create()
     {
         $menuTitle = 'اضافة حالة وفاة';
-        $pageTitle = 'القائمة الرئيسية';
+        $appMenu = config('custom.app_menu');
+        $pageTitle = 'لوحة التحكم';
         $family_id = auth()->user()->profile->family_id;
         $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
 
-        return view('web_app.Deaths.create', compact('menuTitle', 'pageTitle', 'persons'));
+        return view('dashboard.deaths.create', compact('appMenu', 'menuTitle', 'pageTitle', 'persons'));
     }
 
     /**
@@ -134,13 +138,13 @@ class DeathController extends Controller
      */
     public function show($death_id)
     {
-        $appMenu = config('custom.main_menu');
+        $appMenu = config('custom.app_menu');
         $menuTitle = '  اظهار المتوفي';
         $pageTitle = 'لوحة التحكم';        
         $death = Death::where('id', $death_id)->first();
         $death['type'] = 'deaths';
         
-        return view('web_app.Deaths.show', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
+        return view('dashboard.deaths.show', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
     }
 
     /**
@@ -152,9 +156,10 @@ class DeathController extends Controller
     public function edit(Death $death)
     {
         $menuTitle = 'تعديل حالة وفاة';
-        $pageTitle = 'القائمة الرئيسية';
-        
-        return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
+        $appMenu = config('custom.app_menu');
+        $pageTitle = 'لوحة التحكم';
+
+        return view('dashboard.deaths.update', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
     }
 
     /**
@@ -210,21 +215,5 @@ class DeathController extends Controller
         return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
 
-    public function get_admin_deaths()
-    {
-        $appMenu = config('custom.app_menu');
-        $menuTitle = 'الوفيات';
-        $pageTitle = 'لوحة التحكم';
-        $page_limit = 20;
-        $deaths = new Death;
-        $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        
-        $filters_array = $deaths->filters($filters_data);
-        $filters = EloquentFilters::make($filters_array);
-        $deaths = $deaths->filter($filters);
-        $deaths = $deaths->paginate($page_limit);
-        // dd($deaths->links());
-        
-        return view('dashboard.deaths.index', compact('appMenu', 'menuTitle', 'pageTitle', 'deaths'));
-    }
+    
 }

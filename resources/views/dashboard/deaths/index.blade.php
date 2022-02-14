@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-smile-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('home')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-calendar-event-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
 @endsection
 
 @section('content')
@@ -16,11 +16,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-user-smile-line"> </i> {{ $menuTitle }}</h5>
-                            @can('deaths.create')
-                                <a href="{{ route('deaths.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
-                            @endcan
-
+                            <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
                             <div class="row">
                                 <div class="col-md-1">
                                     <div class="form-group my-auto">
@@ -81,55 +77,66 @@
                             </div>
                         </div>
                         <div class="card-body p-0">
-                        @if($deaths->count() > 0)
 
-                            @foreach($deaths as $row)
-                            <div class="col-sm-4">
-                                <a href="{{ route('deaths.show', $row->id) }}">
-                                    <div class="card iq-mb-3 shadow iq-bg-primary-hover">
-                                        <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $row->title }}">
-                                        <div class="card-body">
-                                            <h4 class="card-title">{{ $row->title }}</h4>
-                                            <hr />
-                                            <p class="card-text">{!! $row->short_body !!}</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <div class="d-flex justify-content-between" dir="ltr">
-                                                <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d | H:i', strtotime($row->date)) }}</small></p>
-                                                @if($row->owner_id == auth()->user()->id)
-                                                    @can('deaths.update')
-                                                    
-                                                        <a href="{{ route('deaths.edit', $row) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
-                                                    @endcan
-                                                    @can('deaths.delete')
-                                                    <form action="{{ route('deaths.destroy', $row) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
+                            <div class="table-responsive">
+                                <table class="table m-0 px-2">
+                                    <colgroup>
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 30%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 15%;">
+                                        <col span="1" style="width: 15%;">
+                                    </colgroup>
 
-                                                        <a onclick= "submit_form(this)" class="card-text m-0"><i class="ri-delete-back-2-fill"></i></a>
-                                                    </form>
-                                                    @endcan
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">عنوان</th>
+                                        <th scope="col">وصف </th>
+                                        <th scope="col">الناشر </th>
+                                        <th scope="col">الصورة</th>
+                                        <th scope="col">التاريخ </th>
+                                        <th scope="col">الإجراءات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if($deaths->count() > 0)
+                                        @foreach($deaths as $death)
+                                            <tr>
+                                                <td>{{ $death->title }}</td>
+                                                <td>{!! $death->body !!}</td>
+                                                <td>{{ isset($deaths->owner) ? $deaths->owner->name : ''}}</td>
+                                                <td>
+                                                    <img src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}" alt="{{ $death->title }}" style="height: 100px;width: 100px;">
+                                                </td>
+                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($death->deaths_date)) }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-center">
+                                                        @can('deaths.update')
+                                                        <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.deaths.edit', $death) }}"><i class="ri-edit-2-fill"></i></a>
+                                                        @endcan
+                                                        @can('deaths.delete')
+                                                        <form action="{{ route('admin.deaths.destroy', $death) }}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button type="submit" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
+                                                        </form>
+                                                        @endcan
+                                                            
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
                             </div>
-                                
-                            @endforeach
-                        @else
-                        <div class="col-sm-8">
-                                    <div class="card iq-mb-3">
-                                        <div class="card-body">
-
-                                            
-                                            <p class="card-text">لا توجد بيانات</p>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                        @endif
-               
 
                             <div class="d-flex justify-content-around">{{ $deaths->links() }}</div>
                         </div>
@@ -178,3 +185,4 @@
     }
 </script>
 @endsection
+

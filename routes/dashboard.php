@@ -13,7 +13,12 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::resource('events', \App\Http\Controllers\EventController::class);
         Route::post('event-activate', [\App\Http\Controllers\EventController::class, 'activate'])->name('events.activate');
         Route::resource('reports', \App\Http\Controllers\ReportController::class);
-
+        
+        Route::resource('deaths', \App\Http\Controllers\Dashboard\DeathController::class);
+        Route::resource('newborns', \App\Http\Controllers\Dashboard\NewbornController::class);
+        Route::resource('marriages', \App\Http\Controllers\Dashboard\MarriageController::class);
+        Route::resource('news', \App\Http\Controllers\Dashboard\NewsController::class);
+        Route::post('news-activate', [\App\Http\Controllers\Dashboard\NewsController::class, 'activate'])->name('news.activate');
     });
 
     Route::group(['middleware' => ['role:Super Admin']], function () {
