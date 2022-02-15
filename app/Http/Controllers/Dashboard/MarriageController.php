@@ -60,22 +60,7 @@ class MarriageController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'اضافة زواجة';
-        $appMenu = config('custom.app_menu');
-        $pageTitle = 'لوحة التحكم';
-
-        $family_id = auth()->user()->profile->family_id;
-        $male = Person::where('family_id', $family_id)
-                        ->where('has_family', 0)
-                        ->where('is_live', 1)
-                        ->where('gender', 'male')
-                        ->get();
-
-        $female = Person::where('is_live', 1)
-                        ->where('gender', 'female')
-                        ->get();
-
-        return view('dashboard.marriages.create', compact('appMenu', 'menuTitle', 'pageTitle', 'male', 'female'));
+        return redirect()->route('admin.marriages.index');
     }
 
     /**
@@ -86,55 +71,7 @@ class MarriageController extends Controller
      */
     public function store(StoreMarriageRequest $request)
     {
-        try{
-            $request['owner_id'] = auth()->user()->id;
-            $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
-            $request['date'] = Carbon::parse($request['date']);
-
-            $category_id = Category::where('type', 'marriages')->first();
-            $media = new Media;
-
-            if($request->hasFile('image')){
-                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id, $request['title']);
-                $request['image_id'] = $media->id;
-            }
-            else{
-                $request['image_id'] = null;
-            }
-
-            $father = Person::where('id', $request['husband_id'])->first();
-
-            $new_family = [];
-            $new_family['name'] = 'عائلة ' . $father->first_name;
-            $new_family['father_id'] = $request['husband_id'];
-            $new_family['mother_id'] = $request['wife_id'];
-            $new_family['children_count'] = 0;
-            $new_family['gf_family_id'] = $request['family_id'];
-            $new_family['status'] = 1;
-            $new_family = Family::create($new_family);
-
-            $marriage = Marriage::create($request->all());
-            
-            $request['city_id'] = 1;
-            $request['category_id'] = $category_id->id;
-            $request['approved'] = 0;
-            $news = News::create($request->all());
-    
-            $marriage_notification = [];
-            $marriage_notification['title'] = 'تم اضافة زواج';
-            $marriage_notification['body'] = $marriage->body;
-            $marriage_notification['content'] = $marriage;
-            $marriage_notification['url'] = 'marriages/' . $marriage->id;
-            $marriage_notification['operation'] = 'store';
-    
-            $users = User::where('status', 'active')->get();
-            event(new NotificationEvent($marriage_notification, $users));
-
-            \App\Helpers\AppHelper::AddLog('Marriage Create', class_basename($marriage), $marriage->id);
-            return redirect()->route('marriages.index')->with('success', 'تم اضافة زواج جديد .');
-        }catch(Exception $ex){
-            return redirect()->route('marriages.index')->with('danger', 'حدثت مشكلة');
-        }
+        return redirect()->route('admin.marriages.index');
     }
 
     /**
@@ -145,13 +82,7 @@ class MarriageController extends Controller
      */
     public function show($marriage_id)
     {
-        $menuTitle = '  اظهار الزواج';
-        $appMenu = config('custom.app_menu');
-        $pageTitle = 'لوحة التحكم';
-
-        $marriage = Marriage::where('id', $marriage_id)->first();
-        
-        return view('dashboard.marriages.show', compact('appMenu', 'menuTitle', 'pageTitle', 'marriage'));
+        return redirect()->route('admin.marriages.index');
     }
 
     /**
@@ -179,7 +110,7 @@ class MarriageController extends Controller
     public function update(UpdateMarriageRequest $request, Marriage $marriage)
     {
         if(auth()->user()->id != $marriage->owner_id){
-            return redirect()->route('marriages.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('admin.marriages.index')->with('danger', 'لا يمكنك التعديل');
         }
         $marriage->title = $request->title;
         $marriage->body = $request->body;
@@ -189,7 +120,7 @@ class MarriageController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $marriage->image_id);
             if($new_media == null){
-                return redirect()->route('marriages.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.marriages.index')->with('danger', 'حدث خطا');
             }
         }
 
@@ -197,10 +128,10 @@ class MarriageController extends Controller
             $marriage->save();
 
             \App\Helpers\AppHelper::AddLog('Marriage Update', class_basename($marriage), $marriage->id);
-            return redirect()->route('marriages.index')->with('success', 'تم تعديل بيانات الزواج بنجاح.');
+            return redirect()->route('admin.marriages.index')->with('success', 'تم تعديل بيانات الزواج بنجاح.');
         }
 
-        return redirect()->route('marriages.index');
+        return redirect()->route('admin.marriages.index');
     }
 
     /**
@@ -211,14 +142,13 @@ class MarriageController extends Controller
      */
     public function destroy(Marriage $marriage)
     {
-        if(auth()->user()->id != $marriage->owner_id){
-            return redirect()->route('marriages.index')->with('danger', 'لا يمكنك التعديل');
+        if(isset($marriage->image)){
+            $marriage->image->DeleteFile($marriage->image);
+            $marriage->image->delete();
         }
-        $marriage->image->DeleteFile($marriage->image);
-        $marriage->image->delete();
         $marriage->delete();
 
         \App\Helpers\AppHelper::AddLog('Marriage Delete', class_basename($marriage), $marriage->id);
-        return redirect()->route('marriages.index')->with('success', 'تم حذف بيانات الزواج بنجاح.');
+        return redirect()->route('admin.marriages.index')->with('success', 'تم حذف بيانات الزواج بنجاح.');
     }
 }

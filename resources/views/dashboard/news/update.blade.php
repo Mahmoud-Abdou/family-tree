@@ -19,7 +19,7 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                         </div>
-                        <form dir="rtl" method="POST" action="{{ route('news.update', $news) }}" enctype="multipart/form-data" >
+                        <form dir="rtl" method="POST" action="{{ route('admin.news.update', $news) }}" enctype="multipart/form-data" >
                             @csrf
                             @method('PUT')
                             <div class="card-body">
@@ -44,7 +44,7 @@
                                         <select name="category_id" id="category_id" class="form-control mb-0" required autofocus>
                                             <option>اختر النوع</option>
                                             @foreach($categories as $category)
-                                                @if($category->id == $news->category->id)
+                                                @if($category->id == $news->category_id)
                                                     <option value="{{$category->id}}" selected>{{ $category->name_ar }}</option>
                                                 @else
                                                     <option value="{{$category->id}}">{{ $category->name_ar }}</option>

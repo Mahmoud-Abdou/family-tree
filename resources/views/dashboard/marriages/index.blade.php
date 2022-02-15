@@ -117,12 +117,7 @@
                                                         <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.marriages.edit', $marriage) }}"><i class="ri-edit-2-fill"></i></a>
                                                         @endcan
                                                         @can('marriages.delete')
-                                                        <form action="{{ route('admin.marriages.destroy', $marriage) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-
-                                                            <button type="submit" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
-                                                        </form>
+                                                            <button type="button" data-toggle="modal" data-target=".deleteModel" onclick="openDeleteModel(`{{ route('admin.marriages.destroy', $marriage) }}`)" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
                                                         @endcan
                                                             
                                                     </div>
@@ -151,14 +146,36 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade bd-example-modal-xl deleteModel " tabindex="-1" role="dialog" aria-modal="true" >
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">هل ترغب في الازالة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                
+                <form id="DeleteForm" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لا</button>
+                        <button type="submit" class="btn btn-primary" >نعم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('add-scripts')
 
 <script>
-    function submit_form(form){
-        if(confirm('Are you sure?')){
-            $(form).parent().submit()
-        }
+    function openDeleteModel(data){
+        $('#DeleteForm').attr('action', data)
+        $('deleteModel').toggle()
     }
 
     function filter_data(){

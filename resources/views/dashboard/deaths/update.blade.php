@@ -24,7 +24,7 @@
                             <h5 class="float-left my-auto"><i class="ri-user-4-line"> </i> {{ $menuTitle }}</h5>
                         </div>
 
-                            <form dir="rtl" method="POST" action="{{ route('deaths.update', $death) }}" enctype="multipart/form-data" >
+                            <form dir="rtl" method="POST" action="{{ route('admin.deaths.update', $death) }}" enctype="multipart/form-data" >
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
@@ -50,13 +50,13 @@
                                         <div class="form-group col-lg-6">
                                             <label for="image">الصورة (اختياري)</label>
                                             <div class="image-upload-wrap d-none">
-                                                <input id="image" class="file-upload-input" type="file" name="image" onchange="readURL(this);" accept="image/png,image/jpeg,image/jpg,image/icon" required>
+                                                <input id="image" class="file-upload-input" type="file" name="image" onchange="readURL(this);" accept="image/png,image/jpeg,image/jpg,image/icon">
                                                 <div class="drag-text">
                                                     <h3 class="m-4"><i class="ri-upload-2-line"> </i>اضغط أو اسحب صورة لرفعها</h3>
                                                 </div>
                                             </div>
                                             <div id="image-content" class="file-upload-content d-block">
-                                                <img class="file-upload-image" src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}" alt="Image" />
+                                                <img class="file-upload-image" src="{{ isset($death->image->file) ? $death->image->file : '/default.png' }}" alt="Image" />
                                                 <div class="image-title-wrap">
                                                     <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
                                                 </div>

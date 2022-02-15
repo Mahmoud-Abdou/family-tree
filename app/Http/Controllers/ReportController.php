@@ -82,13 +82,9 @@ class ReportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($report_id)
-    {
-        $appMenu = config('custom.main_menu');
-        $menuTitle = '  اظهار الشكوي';
-        $pageTitle = 'لوحة التحكم';        
+    {    
         $report = Report::where('id', $report_id)->first();
-        
-        return view('admin.Reports.show', compact('appMenu', 'menuTitle', 'pageTitle', 'report'));
+        return $report->showReportData($report);
     }
 
     /**
@@ -125,8 +121,10 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
-        return redirect()->route('admin.Reports.index');
-        
+        $report->delete();
+
+        \App\Helpers\AppHelper::AddLog('Report Delete', class_basename($report), $report->id);
+        return redirect()->back()->with('success', 'تم حذف بيانات الشكوي بنجاح.');
     }
 
 }

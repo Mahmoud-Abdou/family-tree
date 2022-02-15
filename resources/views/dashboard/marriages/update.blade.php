@@ -19,7 +19,7 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                         </div>
-                        <form dir="rtl" method="POST" action="{{ route('marriages.update', $marriage) }}" enctype="multipart/form-data" >
+                        <form dir="rtl" method="POST" action="{{ route('admin.marriages.update', $marriage) }}" enctype="multipart/form-data" >
                             @csrf
                             @method('PUT')
                             <div class="card-body">

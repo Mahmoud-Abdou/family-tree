@@ -93,6 +93,20 @@
                                         </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group my-auto">
+                                        <select class="form-control" name="approved" id="approved-filter">
+                                            <option disabled="">بحث بالمفعل</option>
+                                            <option value="">الكل</option>
+                                            <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 0 ? 'selected=""' : '' }} value="0">الاخبار الغير مفعلة</option>
+                                            <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 1 ? 'selected=""' : '' }} value="1">الاخبار المفعلة</option>
+                                            
+                                        </select>
+                                        <div class="invalid-tooltip">
+                                            بحث بالمفعل           
+                                        </div>
+                                        </div>
+                                    </div>
 
                                     
 
@@ -146,12 +160,7 @@
                                                         <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.news.edit', $row) }}"><i class="ri-edit-2-fill"></i></a>
                                                         @endcan
                                                         @can('news.delete')
-                                                        <form action="{{ route('admin.news.destroy', $row) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-
-                                                            <button type="submit" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
-                                                        </form>
+                                                            <button type="button" onclick="openDeleteModel(`{{ route('admin.news.destroy', $row) }}`)"  data-toggle="modal" data-target=".deleteModel" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
                                                         @endcan
                                                         @if($row->approved == 0)
                                                             <form method="POST" action="{{ route('admin.news.activate') }}">
@@ -187,11 +196,37 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade bd-example-modal-xl deleteModel " tabindex="-1" role="dialog" aria-modal="true" >
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">هل ترغب في الازالة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                
+                <form id="DeleteForm" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لا</button>
+                        <button type="submit" class="btn btn-primary" >نعم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('add-scripts')
 
 <script>
-
+    function openDeleteModel(data){
+        $('#DeleteForm').attr('action', data)
+    }
+    
     function filter_data(){
         title_filter = $('#title-filter').val();
         body_filter = $('#body-filter').val();
@@ -201,6 +236,7 @@
         city_filter = $('#city-filter').val();
         category_filter = $('#category-filter').val();
         date_filter = $('#date-filter').val();
+        approved_filter = $('#approved-filter').val();
         quary_string = "";
         if(title_filter){
             quary_string += `filters[title]=${title_filter}&`;
@@ -225,6 +261,9 @@
         }
         if(date_filter){
             quary_string += `filters[date]=${date_filter}&`;
+        }
+        if(approved_filter){
+            quary_string += `filters[approved]=${approved_filter}&`;
         }
         window.location = 'news?' + quary_string;
     }

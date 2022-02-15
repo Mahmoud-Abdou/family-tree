@@ -56,11 +56,7 @@ class NewbornController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'اضافة مولود';
-        $appMenu = config('custom.app_menu');
-        $pageTitle = 'لوحة التحكم';
-        
-        return view('dashboard.newborns.create', compact('appMenu', 'menuTitle', 'pageTitle'));
+        return redirect()->route('admin.newborns.index');
     }
 
     /**
@@ -71,46 +67,7 @@ class NewbornController extends Controller
      */
     public function store(StoreNewbornRequest $request)
     {
-        $request['owner_id'] = auth()->id();
-//        $request['date'] = Carbon::parse($request['date']);
-        $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
-
-        $media = new Media;
-        $category_id = Category::where('type', 'newborn')->first();
-        $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id());
-        $request['image_id'] = $media->id;
-
-
-//        $request['city_id'] = 1;
-//        $request['category_id'] = $category_id->id;
-//        $request['approved'] = 0;
-//        $news = News::create($request->all());
-
-        $person = [];
-        $person['user_id'] = 1;
-        $person['first_name'] = $request['first_name'];
-        $person['father_name'] = $request['father_name'];
-        $person['family_id'] = $request['family_id'];
-        $person['gender'] = $request['gender'];
-        $person = Person::create($person);
-
-        $request['person_id'] = $person->id;
-        
-        $newborn = Newborn::create($request->all());
-
-        $newborn_notification = [];
-        $newborn_notification['title'] = 'تم اضافة مولود';
-        $newborn_notification['body'] = $newborn->body;
-        $newborn_notification['content'] = $newborn;
-        $newborn_notification['url'] = 'newborns/' . $newborn->id;
-        $newborn_notification['operation'] = 'store';
-
-        $users = User::where('status', 'active')->get();
-        event(new NotificationEvent($newborn_notification, $users));
-
-
-        \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
-        return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');
+        return redirect()->route('admin.newborns.index');
     }
 
     /**
@@ -121,12 +78,7 @@ class NewbornController extends Controller
      */
     public function show($newborn_id)
     {
-        $appMenu = config('custom.app_menu');
-        $menuTitle = '  اظهار المولود';
-        $pageTitle = 'لوحة التحكم';        
-        $newborn = Newborn::where('id', $newborn_id)->first();
-        
-        return view('dashboard.newborns.show', compact('appMenu', 'menuTitle', 'pageTitle', 'newborn'));
+        return redirect()->route('admin.newborns.index');
     }
 
     /**
@@ -153,9 +105,6 @@ class NewbornController extends Controller
      */
     public function update(UpdateNewbornRequest $request, Newborn $newborn)
     {
-        if(auth()->user()->id != $newborn->owner_id){
-            return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
-        }
         $newborn->title = $request->title;
         $newborn->body = $request->body;
         $newborn->date = Carbon::parse($request['date']);
@@ -164,14 +113,13 @@ class NewbornController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $newborn->image_id);
             if($new_media == null){
-                return redirect()->route('newborns.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.newborns.index')->with('danger', 'حدث خطا');
             }
         }
 
         $newborn->save();
-
         \App\Helpers\AppHelper::AddLog('Newborn Update', class_basename($newborn), $newborn->id);
-        return redirect()->route('newborns.index')->with('success', 'تم تعديل بيانات مولود بنجاح.');
+        return redirect()->route('admin.newborns.index')->with('success', 'تم تعديل بيانات مولود بنجاح.');
     }
 
     /**
@@ -182,15 +130,17 @@ class NewbornController extends Controller
      */
     public function destroy(Newborn $newborn)
     {
-        if(auth()->user()->id != $newborn->owner_id){
-            return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
+        
+        if(isset($newborn->image)){
+            $newborn->image->DeleteFile($newborn->image);
+            $newborn->image->delete();
         }
-        $newborn->image->DeleteFile($newborn->image);
-        $newborn->image->delete();
-        $newborn->person->delete();
+        if(isset($newborn->person)){
+            $newborn->person->delete();
+        }
         $newborn->delete();
 
         \App\Helpers\AppHelper::AddLog('Newborn Delete', class_basename($newborn), $newborn->id);
-        return redirect()->route('newborns.index')->with('success', 'تم حذف بيانات مولود بنجاح.');
+        return redirect()->route('admin.newborns.index')->with('success', 'تم حذف بيانات مولود بنجاح.');
     }
 }

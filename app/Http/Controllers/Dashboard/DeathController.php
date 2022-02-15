@@ -40,7 +40,6 @@ class DeathController extends Controller
      */
     public function index(Request $request)
     {
-        $id = auth()->user()->id;
         $appMenu = config('custom.app_menu');
         $pageTitle = 'لوحة التحكم';
         $menuTitle = 'الوفيات';
@@ -64,13 +63,7 @@ class DeathController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'اضافة حالة وفاة';
-        $appMenu = config('custom.app_menu');
-        $pageTitle = 'لوحة التحكم';
-        $family_id = auth()->user()->profile->family_id;
-        $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
-
-        return view('dashboard.deaths.create', compact('appMenu', 'menuTitle', 'pageTitle', 'persons'));
+        return redirect()->route('admin.deaths.index');
     }
 
     /**
@@ -81,53 +74,7 @@ class DeathController extends Controller
      */
     public function store(StoreDeathRequest $request)
     {
-        try{
-            $request['owner_id'] = auth()->user()->id;
-            $request['date'] = Carbon::parse($request['date']);
-            $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
-
-            $category_id = Category::where('type', 'deaths')->first();
-            $media = new Media;
-
-            if($request->hasFile('image')){
-                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id, $request['title']);
-                $request['image_id'] = $media->id;
-            }
-            else{
-                $request['image_id'] = null;
-            }
-
-            
-            $person = Person::where('id', $request['person_id'])->first();
-            if($person != null){
-                $person->is_live = 0;
-                $person->save();
-                
-                $request['person_id'] = $person->id;
-            }
-
-            $death = Death::create($request->all());
-            
-            $request['city_id'] = 1;
-            $request['category_id'] = $category_id->id;
-            $request['approved'] = 0;
-            $news = News::create($request->all());
-    
-            $death_notification = [];
-            $death_notification['title'] = 'تم اضافة متوفي';
-            $death_notification['body'] = $death->body;
-            $death_notification['content'] = $death;
-            $death_notification['url'] = 'deaths/' . $death->id;
-            $death_notification['operation'] = 'store';
-    
-            $users = User::where('status', 'active')->get();
-            event(new NotificationEvent($death_notification, $users));
-
-            \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
-            return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
-        }catch(Exception $ex){
-            return redirect()->route('deaths.index')->with('danger', 'حدثت مشكلة');
-        }
+        return redirect()->route('admin.deaths.index');
     }
 
     /**
@@ -138,13 +85,7 @@ class DeathController extends Controller
      */
     public function show($death_id)
     {
-        $appMenu = config('custom.app_menu');
-        $menuTitle = '  اظهار المتوفي';
-        $pageTitle = 'لوحة التحكم';        
-        $death = Death::where('id', $death_id)->first();
-        $death['type'] = 'deaths';
-        
-        return view('dashboard.deaths.show', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
+        return redirect()->route('admin.deaths.index');
     }
 
     /**
@@ -171,9 +112,6 @@ class DeathController extends Controller
      */
     public function update(UpdateDeathRequest $request, Death $death)
     {
-        if(auth()->user()->id != $death->owner_id){
-            return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
-        }
         $death->title = $request->title;
         $death->body = $request->body;
         $death->date = Carbon::parse($request['date']);
@@ -182,7 +120,7 @@ class DeathController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $death->image_id);
             if($new_media == null){
-                return redirect()->route('deaths.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.deaths.index')->with('danger', 'حدث خطا');
             }
         }
 
@@ -190,10 +128,10 @@ class DeathController extends Controller
             $death->save();
 
             \App\Helpers\AppHelper::AddLog('Death Update', class_basename($death), $death->id);
-            return redirect()->route('deaths.index')->with('success', 'تم تعديل بيانات وفاة بنجاح.');
+            return redirect()->route('admin.deaths.index')->with('success', 'تم تعديل بيانات وفاة بنجاح.');
         }
 
-        return redirect()->route('deaths.index');
+        return redirect()->route('admin.deaths.index');
     }
 
     /**
@@ -204,15 +142,14 @@ class DeathController extends Controller
      */
     public function destroy(Death $death)
     {
-        if(auth()->user()->id != $death->owner_id){
-            return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
+        if(isset($death->image)){
+            $death->image->DeleteFile($death->image);
+            $death->image->delete();
         }
-        $death->image->DeleteFile($death->image);
-        $death->image->delete();
         $death->delete();
 
         \App\Helpers\AppHelper::AddLog('Death Delete', class_basename($death), $death->id);
-        return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
+        return redirect()->back()->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
 
     

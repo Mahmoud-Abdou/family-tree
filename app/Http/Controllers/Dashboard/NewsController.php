@@ -66,7 +66,7 @@ class NewsController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $cities = City::where('status', 1)->get();
-        $categories = Category::where('type', 'news')->get();
+        $categories = Category::get();
 
         return view('dashboard.news.create', compact('appMenu', 'menuTitle', 'pageTitle', 'cities', 'categories'));
     }
@@ -79,29 +79,7 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'city_id' => ['required'],
-            'category_id' => ['required'],
-            'title' => ['required'],
-            'body' => ['required'],
-        ]);
-        $request['owner_id'] = auth()->user()->id;
-
-        $news = News::create($request->all());
-
-        $news['operation_type'] = 'store';
-        $news_notification = [];
-        $news_notification['title'] = 'تم اضافة خبر';
-        $news_notification['body'] = $news->body;
-        $news_notification['content'] = $news;
-        $news_notification['url'] = 'news/' . $news->id;
-        $news_notification['operation'] = 'store';
-
-        $users = User::where('status', 'active')->get();
-        event(new NotificationEvent($news_notification, $users));
-
-        \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
-        return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');
+        return redirect()->route('admin.news.index');
     }
 
     /**
@@ -112,15 +90,7 @@ class NewsController extends Controller
      */
     public function show($news_id)
     {
-        $menuTitle = '  اظهار الخبر';
-        $appMenu = config('custom.app_menu');
-        $pageTitle = 'لوحة التحكم';
-
-        $news = News::where('id', $news_id)->first();
-
-       
-        return view('dashboard.news.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
-
+        return redirect()->route('admin.news.index');
     }
 
     /**
@@ -136,7 +106,7 @@ class NewsController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $cities = City::where('status', 1)->get();
-        $categories = Category::where('type', 'news')->get();
+        $categories = Category::get();
 
         return view('dashboard.news.update', compact('appMenu', 'menuTitle', 'pageTitle', 'news','cities', 'categories'));
     }
@@ -158,7 +128,7 @@ class NewsController extends Controller
         ]);
 
         if(auth()->user()->id != $news->owner_id){
-            return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('admin.news.index')->with('danger', 'لا يمكنك التعديل');
         }
 
         $news->city_id = $request->city_id;
@@ -170,10 +140,10 @@ class NewsController extends Controller
             $news->save();
 
             \App\Helpers\AppHelper::AddLog('News Update', class_basename($news), $news->id);
-            return redirect()->route('news.index')->with('success', 'تم تعديل بيانات الخبر بنجاح.');
+            return redirect()->route('admin.news.index')->with('success', 'تم تعديل بيانات الخبر بنجاح.');
         }
 
-        return redirect()->route('news.index');
+        return redirect()->route('admin.news.index');
     }
 
     /**
@@ -184,13 +154,10 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        if(auth()->user()->id != $news->owner_id){
-            return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
-        }
         $news->delete();
 
         \App\Helpers\AppHelper::AddLog('News Delete', class_basename($news), $news->id);
-        return redirect()->route('news.index')->with('success', 'تم حذف بيانات الخبر بنجاح.');
+        return redirect()->route('admin.news.index')->with('success', 'تم حذف بيانات الخبر بنجاح.');
     }
 
     public function activate(Request $request)

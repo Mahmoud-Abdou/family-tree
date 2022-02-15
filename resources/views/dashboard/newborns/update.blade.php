@@ -20,7 +20,7 @@
                             <h5 class="float-left my-auto"><i class="ri-user-smile-line"> </i> {{ $menuTitle }}</h5>
                         </div>
 
-                        <form dir="rtl" method="POST" action="{{ route('newborns.update', $newborn) }}" enctype="multipart/form-data" >
+                        <form dir="rtl" method="POST" action="{{ route('admin.newborns.update', $newborn) }}" enctype="multipart/form-data" >
                             @csrf
                             @method('PUT')
 
