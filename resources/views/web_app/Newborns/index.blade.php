@@ -132,6 +132,7 @@
         </div>
     </div>
 @endsection
+@section('add-scripts')
 
 <script>
     function filter_data(){
@@ -163,3 +164,4 @@
         window.location = 'newborns?' + quary_string;
     }
 </script>
+@endsection

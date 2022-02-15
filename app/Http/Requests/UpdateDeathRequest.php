@@ -26,7 +26,7 @@ class UpdateDeathRequest extends FormRequest
         return [
             'title' => ['required'],
             'body' => ['required'],
-            'date' => ['required', 'date', 'date_format:Y-m-d'],
+            'date' => ['required', 'date', 'date_format:Y-m-d H:i'],
         ];
     }
 }

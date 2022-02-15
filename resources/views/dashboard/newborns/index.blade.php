@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-smile-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('home')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-calendar-event-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
 @endsection
 
 @section('content')
@@ -16,11 +16,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-user-smile-line"> </i> {{ $menuTitle }}</h5>
-                            @can('deaths.create')
-                                <a href="{{ route('deaths.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
-                            @endcan
-
+                            <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
                             <div class="row">
                                 <div class="col-md-1">
                                     <div class="form-group my-auto">
@@ -81,62 +77,68 @@
                             </div>
                         </div>
                         <div class="card-body p-0">
-                        @if($deaths->count() > 0)
 
-                            @foreach($deaths as $row)
-                            <div class="col-sm-4">
-                                <a href="{{ route('deaths.show', $row->id) }}">
-                                    <div class="card iq-mb-3 shadow iq-bg-primary-hover">
-                                        <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $row->title }}">
-                                        <div class="card-body">
-                                            <h4 class="card-title">{{ $row->title }}</h4>
-                                            <hr />
-                                            <p class="card-text">{!! $row->short_body !!}</p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <div class="d-flex justify-content-between" dir="ltr">
-                                                <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d | H:i', strtotime($row->date)) }}</small></p>
-                                                @if($row->owner_id == auth()->user()->id)
-                                                    @can('deaths.update')
-                                                    
-                                                        <a href="{{ route('deaths.edit', $row) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
-                                                    @endcan
-                                                    @can('deaths.delete')
-                                                    <form action="{{ route('deaths.destroy', $row) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
+                            <div class="table-responsive">
+                                <table class="table m-0 px-2">
+                                    <colgroup>
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 30%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 15%;">
+                                        <col span="1" style="width: 15%;">
+                                    </colgroup>
 
-                                                        <a onclick= "submit_form(this)" class="card-text m-0"><i class="ri-delete-back-2-fill"></i></a>
-                                                    </form>
-                                                    @endcan
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">عنوان</th>
+                                        <th scope="col">وصف </th>
+                                        <th scope="col">الناشر </th>
+                                        <th scope="col">الصورة</th>
+                                        <th scope="col">التاريخ </th>
+                                        <th scope="col">الإجراءات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if($newborns->count() > 0)
+                                        @foreach($newborns as $newborn)
+                                            <tr>
+                                                <td>{{ $newborn->title }}</td>
+                                                <td>{!! $newborn->body !!}</td>
+                                                <td>{{ isset($newborn->owner) ? $newborn->owner->name : ''}}</td>
+                                                <td>
+                                                    <img src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="{{ $newborn->title }}" style="height: 100px;width: 100px;">
+                                                </td>
+                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($newborn->newborns_date)) }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-center">
+                                                        @can('newborns.update')
+                                                        <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.newborns.edit', $newborn) }}"><i class="ri-edit-2-fill"></i></a>
+                                                        @endcan
+                                                        @can('newborns.delete')
+                                                            <button type="button" onclick="openDeleteModel(`{{ route('admin.newborns.destroy', $newborn) }}`)"  data-toggle="modal" data-target=".deleteModel" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
+                                                        @endcan
+                                                            
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
                             </div>
-                                
-                            @endforeach
-                        @else
-                        <div class="col-sm-8">
-                                    <div class="card iq-mb-3">
-                                        <div class="card-body">
 
-                                            
-                                            <p class="card-text">لا توجد بيانات</p>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                        @endif
-               
-
-                            <div class="d-flex justify-content-around">{{ $deaths->links() }}</div>
+                            <div class="d-flex justify-content-around">{{ $newborns->links() }}</div>
                         </div>
 
                         <div class="card-footer text-muted">
                             مجموع عدد السجلات
-                            <span class="badge badge-pill border border-dark text-dark">{{ $deaths->count() }}</span>
+                            <span class="badge badge-pill border border-dark text-dark">{{ $newborns->count() }}</span>
                         </div>
                     </div>
                 </div>
@@ -144,10 +146,37 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade bd-example-modal-xl deleteModel " tabindex="-1" role="dialog" aria-modal="true" >
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">هل ترغب في الازالة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                
+                <form id="DeleteForm" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لا</button>
+                        <button type="submit" class="btn btn-primary" >نعم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('add-scripts')
 
 <script>
+    function openDeleteModel(data){
+        $('#DeleteForm').attr('action', data)
+    }
+
     function filter_data(){
         title_filter = $('#title-filter').val();
         body_filter = $('#body-filter').val();
@@ -174,7 +203,7 @@
         if(date_filter){
             quary_string += `filters[date]=${date_filter}&`;
         }
-        window.location = 'deaths?' + quary_string;
+        window.location = 'newborns?' + quary_string;
     }
 </script>
 @endsection

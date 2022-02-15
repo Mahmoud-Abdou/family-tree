@@ -209,4 +209,22 @@ class DeathController extends Controller
         \App\Helpers\AppHelper::AddLog('Death Delete', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
+
+    public function get_admin_deaths()
+    {
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'الوفيات';
+        $pageTitle = 'لوحة التحكم';
+        $page_limit = 20;
+        $deaths = new Death;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+        
+        $filters_array = $deaths->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $deaths = $deaths->filter($filters);
+        $deaths = $deaths->paginate($page_limit);
+        // dd($deaths->links());
+        
+        return view('dashboard.deaths.index', compact('appMenu', 'menuTitle', 'pageTitle', 'deaths'));
+    }
 }

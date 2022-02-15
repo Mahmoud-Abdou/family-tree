@@ -107,6 +107,10 @@ class News extends Model
             $filters[] = new DateFilter($request_filter['date'], 'created_at');
         }
 
+        if(isset($request_filter['approved'])){
+            $filters[] = new IDFilter($request_filter['approved'], 'approved');
+        }
+
         return $filters;
     }
 }

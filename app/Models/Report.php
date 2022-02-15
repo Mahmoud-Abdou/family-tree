@@ -66,5 +66,45 @@ class Report extends Model
         return $filters;
     }
 
+    public function showReportData($report)
+    {
+        if($report->type == 'deaths'){
+            $death = Death::where('id', $report->type_id)->first();
+            if($death == null){
+                return redirect()->back()->with('success', 'حدث مشكلة.');
+            }
+            return redirect()->route('admin.deaths.edit', $death);
+        }
+        if($report->type == 'newborns'){
+            $newborn = Newborn::where('id', $report->type_id)->first();
+            if($newborn == null){
+                return redirect()->back()->with('success', 'حدث مشكلة.');
+            }
+            return redirect()->route('admin.newborns.edit', $newborn);
+        }
+        if($report->type == 'marriages'){
+            $marriage = Marriage::where('id', $report->type_id)->first();
+            if($marriage == null){
+                return redirect()->back()->with('success', 'حدث مشكلة.');
+            }
+            return redirect()->route('admin.marriages.edit', $marriage);
+        }
+        if($report->type == 'events'){
+            $event = Event::where('id', $report->type_id)->first();
+            if($event == null){
+                return redirect()->back()->with('success', 'حدث مشكلة.');
+            }
+            return redirect()->route('admin.events.edit', $event);
+        }
+        if($report->type == 'news'){
+            $news = News::where('id', $report->type_id)->first();
+            if($news == null){
+                return redirect()->back()->with('success', 'حدث مشكلة.');
+            }
+            return redirect()->route('admin.news.edit', $news);
+        }
+        
+    }
+
 
 }
