@@ -94,8 +94,9 @@ class UserController extends Controller
         $menuTitle = $user->name;
         $person = $user->profile;
         $rolesData = Role::where('name', '!=', 'Super Admin')->get();
+        $allPersons = \App\Models\Person::get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
 
-        return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person', 'rolesData'));
+        return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person', 'rolesData', 'allPersons'));
     }
 
     /**

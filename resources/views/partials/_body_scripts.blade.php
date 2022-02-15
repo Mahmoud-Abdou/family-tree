@@ -11,8 +11,6 @@
 <script src="{{ asset('assets/js/apexcharts.js') }}"></script>
 {{--<!-- Slick JavaScript -->--}}
 <script src="{{ asset('assets/js/slick.min.js') }}"></script>
-{{--<!-- Select2 JavaScript -->--}}
-<script src="{{ asset('assets/js/select2.min.js') }}"></script>
 {{--<!-- Magnific Popup JavaScript -->--}}
 <script src="{{ asset('assets/js/jquery.magnific-popup.min.js') }}"></script>
 {{--<!-- Smooth Scrollbar JavaScript -->--}}

@@ -128,7 +128,7 @@
                                                     <div class="d-flex justify-center">
                                                     <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('admin.users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
                                                     @can('users.update')
-                                                    @if($user->status == 'registered')
+                                                    @if($user->status == 'registered' || $user->status == 'blocked')
                                                         <form method="POST" action="{{ route('admin.users.activate') }}">
                                                             @csrf
                                                             <input type="hidden" name="user_id" value="{{ $user->id }}">

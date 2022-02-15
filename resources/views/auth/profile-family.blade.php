@@ -3,7 +3,7 @@
     <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
         <div class="iq-card-header d-flex justify-content-between">
             <div class="iq-header-title">
-                <h4 class="card-title"><i class="ri-group-2-fill"> </i>عائلة الأب</h4>
+                <h4 class="card-title my-auto"><i class="ri-group-2-fill"> </i>عائلة الأب</h4>
             </div>
         </div>
         <div class="iq-card-body">
@@ -34,9 +34,11 @@
                     <div class="iq-header-title">
                         <h4 class="card-title"><i class="ri-group-2-fill"> </i>العائلة</h4>
                     </div>
+                    @if(auth()->id() == $ownFamily->father->id || auth()->id() == $ownFamily->mother->id)
                     <div class="iq-card-header-toolbar d-flex align-items-center">
-                        <button class="btn btn-outline-primary rounded-pill"> اضافة فرد للعائلة </button>
+                        <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة فرد للعائلة</button>
                     </div>
+                    @endif
                 </div>
                 <div class="iq-card-body">
                     <h6 class="text-center">الوالدان</h6>
@@ -60,3 +62,59 @@
         @endforeach
     @endif
 </div>
+
+@section('add-scripts')
+    <div class="modal fade" id="familyModal" tabindex="-1" role="dialog" aria-labelledby="familyModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title" id="familyModalLabel"><i class="ri-group-2-fill"> </i>اضافة فرد للعائلة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                // TODO: handel form action #
+                <form method="GET" action="#">
+                    <div class="modal-body">
+                        @csrf
+                        <input id="familyId" type="hidden" name="family_id">
+
+                        <div class="form-group">
+                            <label for="selectUser">
+                                ابحث و حدد الفرد، ليتم اضافته
+                                <select id="selectUser" name="user_id" class="js-example-theme-multiple js-states form-control" style="width: 100%; z-index: 99999 !important;">
+                                @foreach($personsData as $per)
+                                    <option value="{{$per->id}}">{{$per->full_name}}</option>
+                                @endforeach
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button id="roleFormBtn" type="submit" class="btn btn-primary"><i class="ri-add-fill"> </i>اضافة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{--<!-- Select2 JavaScript -->--}}
+    <script src="{{ secure_asset('assets/js/select2.min.js') }}"></script>
+
+    <script>
+        function modalFamily(familyId) {
+            $('#familyId').val(familyId);
+        }
+
+        $(document).ready(function() {
+            $('#selectUser').select2({
+                placeholder: 'حدد الفرد',
+                closeOnSelect: true,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+        });
+    </script>
+@endsection
