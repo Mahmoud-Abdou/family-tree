@@ -9,6 +9,7 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
     Route::group(['middleware' => ['permission:dashboard.read|dashboard.update']], function () {
         Route::resource('users', \App\Http\Controllers\UserController::class)->only(['index', 'show']);
         Route::post('users-activate', [\App\Http\Controllers\UserController::class, 'activate'])->name('users.activate');
+        Route::post('update-role', [\App\Http\Controllers\UserController::class, 'roleAssign'])->name('users.roleAssign');
         Route::resource('cities', \App\Http\Controllers\CityController::class);
         Route::resource('events', \App\Http\Controllers\EventController::class);
         Route::post('event-activate', [\App\Http\Controllers\EventController::class, 'activate'])->name('events.activate');

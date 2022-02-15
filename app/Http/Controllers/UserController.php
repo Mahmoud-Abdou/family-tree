@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -51,7 +52,7 @@ class UserController extends Controller
             ['email', $perEmail ? '=' : '<>', $perEmail]
         ])->paginate($perPage);
 
-        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get();
+        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
 
         return view('dashboard.users.index', compact(
@@ -92,8 +93,9 @@ class UserController extends Controller
         $pageTitle = 'لوحة التحكم';
         $menuTitle = $user->name;
         $person = $user->profile;
+        $rolesData = Role::where('name', '!=', 'Super Admin')->get();
 
-        return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person'));
+        return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person', 'rolesData'));
     }
 
     /**
@@ -127,7 +129,16 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if (is_null($user)) {
+            return back()->with('error', 'حدث خطأ!');
+        }
+
+        $user->status = 'blocked';
+        $user->save();
+
+        \App\Helpers\AppHelper::AddLog('Block User', class_basename($user), $user->id);
+
+        return back()->with('success', 'تم حظر المستخدم بنجاح');
     }
 
     /**
@@ -141,13 +152,41 @@ class UserController extends Controller
         $user = User::find($request->user_id);
 
         if (is_null($user)) {
-            return back()->with('error', '');
+            return back()->with('error', 'حدث خطأ!');
         }
 
-        $user->status = 'active';
+        if ($request->has('type') && $request->type == 'delete') {
+            $user->status = 'blocked';
+            \App\Helpers\AppHelper::AddLog('Block User', class_basename($user), $user->id);
+            $user->save();
+            return back()->with('error', 'تم حظر المستخدم بنجاح');
+        } else {
+            $user->status = 'active';
+            \App\Helpers\AppHelper::AddLog('Activate User', class_basename($user), $user->id);
+            $user->save();
+
+            return back()->with('success', 'تم تنشيط حساب المستخدم بنجاح');
+        }
+    }
+
+    // update user role
+    public function roleAssign(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if (is_null($user)) {
+            return back()->with('error', 'حدث خطأ!');
+        }
+
+        $user->removeRole($user->role_id);
+        $user->assignRole($request->role_id);
+//        $user->syncRoles($request->role_id);
+        $user->role_id = $request->role_id;
         $user->save();
 
-        return back()->with('success', '');
+        \App\Helpers\AppHelper::AddLog('Role User', class_basename($user), $user->id);
+
+        return back()->with('warning', 'تم تعديل صلاحيات المستخدم بنجاح');
     }
 
     public function profile()

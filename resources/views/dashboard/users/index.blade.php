@@ -14,7 +14,7 @@
                 <div class="col-lg-12">
                     @include('partials.messages')
 
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow">
                         <div class="card-header">
                             <h5><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
                         </div>
@@ -116,7 +116,7 @@
                                     @if($usersData->count() > 0)
                                         @foreach($usersData as $user)
                                             <tr>
-                                                <td>{{ $user->name }}</td>
+                                                <td><a href="{{ route('admin.users.show', $user->id) }}">{{ $user->name }}</a></td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>{{ $user->mobile }}</td>
                                                 <td>@isset($user->city) {{ $user->city->name_ar }} @else - @endisset</td>
@@ -127,6 +127,7 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                     <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('admin.users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
+                                                    @can('users.update')
                                                     @if($user->status == 'registered')
                                                         <form method="POST" action="{{ route('admin.users.activate') }}">
                                                             @csrf
@@ -134,6 +135,15 @@
                                                             <button type="submit" class="btn btn-outline-success rounded-pill m-1"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                         </form>
                                                     @endif
+                                                    @if($user->status == 'active')
+                                                        <button type="button" class="btn btn-outline-warning rounded-pill m-1" data-toggle="modal" data-target="#roleModal" onclick="modalRole({{ $user->id }})"><i class="ri-guide-line"> </i>الصلاحيات</button>
+                                                    @endif
+                                                    @endcan
+                                                    @can('users.delete')
+                                                        @if($user->status == 'active')
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->id }})"><i class="ri-delete-back-2-fill"></i></button>
+                                                        @endif
+                                                    @endcan
                                                     </div>
                                                 </td>
                                             </tr>
@@ -162,4 +172,77 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" id="roleModalLabel">تحديد صلاحيات المستخدم</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('admin.users.roleAssign') }}">
+                    <div class="modal-body">
+                        @csrf
+                        <input id="roleUserId" type="hidden" name="user_id">
+
+                        <label for="roles">الصلاحية</label>
+                        <select class="form-control" id="roles" name="role_id">
+                            <option disabled="">حدد الصلاحية</option>
+                            @foreach($rolesData as $role)
+                            <option value="{{ $role->id }}">{{ $role->name_ar }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button id="roleFormBtn" type="submit" class="btn btn-warning">حفظ التعديلات</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="blockModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="blockModalLabel">حظر المستخدم</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('admin.users.activate') }}">
+                    <div class="modal-body">
+                        @csrf
+                        <input id="blockUserId" type="hidden" name="user_id">
+                        <input type="hidden" name="type" value="delete">
+
+                        <p>سيتم حظر المستخدم و لن يتمكن من الدخول الى النظام.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button id="roleFormBtn" type="submit" class="btn btn-danger">حظر المستخدم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('add-scripts')
+    <script>
+        function modalRole(userId) {
+            $( '#roleUserId' ).val(userId);
+            // $('#roleFormBtn').click( function() {
+            //     $('form#roleUpdateForm').submit();
+            // });
+        }
+        function modalBlock(userId) {
+            $('#blockUserId').val(userId);
+        }
+    </script>
 @endsection
