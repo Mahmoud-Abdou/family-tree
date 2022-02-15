@@ -106,7 +106,7 @@
                                             <tr>
                                                 <td>{{ $death->title }}</td>
                                                 <td>{!! $death->body !!}</td>
-                                                <td>{{ isset($deaths->owner) ? $deaths->owner->name : ''}}</td>
+                                                <td>{{ $death->owner->name }}</td>
                                                 <td>
                                                     <img src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}" alt="{{ $death->title }}" style="height: 100px;width: 100px;">
                                                 </td>

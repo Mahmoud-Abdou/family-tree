@@ -133,7 +133,7 @@
                                             <tr>
                                                 <td>{{ $row->title }}</td>
                                                 <td>{!! $row->body !!}</td>
-                                                <td>{{ isset($deaths->owner) ? $deaths->owner->name : ''}}</td>
+                                                <td>{{ isset($row->owner) ? $row->owner->name : ''}}</td>
                                                 <td>
                                                     <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">
                                                 </td>
