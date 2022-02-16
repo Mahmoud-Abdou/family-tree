@@ -65,7 +65,7 @@
                                     <div class="bg-danger p-3">
                                         <h5 class="mb-0 text-white">الاشعارات<small class="badge badge-light float-right pt-1">{{ count(auth()->user()->unreadNotifications) }}</small></h5>
                                     </div>
-                                    
+
                                     @if(count(auth()->user()->unreadNotifications) > 0)
                                         @foreach(auth()->user()->unreadNotifications as $notification)
                                             <a onclick="markNotificationRead('{{ $notification->id }}', `{{ isset($notification->data['url']) ? $notification->data['url'] : '#' }}`)"  class="iq-sub-card" >
@@ -82,15 +82,13 @@
                                             <i class="ri-delete-bin-5-line" ></i>
                                         </div>
                                     @else
-                                        <a href="#" class="iq-sub-card" >
-                                            <div class="media align-items-center">
-                                                <div class="media-body ml-3">
-                                                    لا توجد اشعارات
-                                                </div>
+                                        <div class="iq-sub-card media align-items-center">
+                                            <div class="media-body ml-3 text-center">
+                                                لا توجد اشعارات
                                             </div>
-                                        </a>
+                                        </div>
                                     @endif
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -108,7 +106,6 @@
                             <div class="iq-card-body p-0 ">
                                 <div class="bg-primary p-3">
                                     <h5 class="mb-0 text-white line-height">{{ isset(auth()->user()->profile) ? auth()->user()->profile->full_name : auth()->user()->name }}</h5>
-{{--                                    <span class="text-white font-size-12">Available</span>--}}
                                 </div>
                                 <a href="{{ route('profile') }}" class="iq-sub-card iq-bg-primary-hover">
                                     <div class="media align-items-center">

@@ -52,7 +52,7 @@
                                             <tr>
                                                 <td>{{ $event->city->name_ar }}</td>
                                                 <td>{{ $event->title }}</td>
-                                                <td>{!! $event->body !!}</td>
+                                                <td>{!! $event->short_body !!}</td>
                                                 <td>{{ $event->owner->name }}</td>
                                                 <td>
                                                     <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" alt="{{ $event->title }}" style="height: 100px;width: 100px;">

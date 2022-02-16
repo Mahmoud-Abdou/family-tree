@@ -11,6 +11,23 @@
         <div class="container-fluid">
             <div class="row">
 
+                <div class="col-lg-12">
+                    <div class="card iq-mb-3 shadow-sm">
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                            <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
+                            <span class="ml-5"><i class="ri-filter-2-line"> </i>البحث في النتائج</span>
+                            @can('events.create')
+                                <a href="{{ route('events.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                            @endcan
+                        </div>
+                        <div class="collapse" id="collapseFilters">
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 @foreach($events as $event)
                     <div class="col-sm-4">
                     <a href="{{ route('events.show', $event->id) }}">

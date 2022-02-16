@@ -20,7 +20,7 @@ class UserController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:users.read')->only(['index', 'show']);
         $this->middleware('permission:users.create')->only(['create', 'store']);
-        $this->middleware('permission:users.update')->only(['edit', 'update']);
+        $this->middleware('permission:users.update')->only(['edit', 'update', 'roleAssign']);
         $this->middleware('permission:users.delete')->only('destroy');
         $this->middleware('permission:users.activate')->only('activate');
     }
@@ -94,7 +94,11 @@ class UserController extends Controller
         $menuTitle = $user->name;
         $person = $user->profile;
         $rolesData = Role::where('name', '!=', 'Super Admin')->get();
-        $allPersons = \App\Models\Person::get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
+        if ($user->profile->has_family) {
+            $allPersons = \App\Models\Person::where('family_id', null)->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
+        } else {
+            $allPersons = [];
+        }
 
         return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person', 'rolesData', 'allPersons'));
     }
@@ -198,5 +202,22 @@ class UserController extends Controller
         $person = $user->profile;
 
         return view('auth.profile', compact('pageTitle', 'menuTitle', 'user', 'person'));
+    }
+
+    // update or add user to family
+    public function updateFamily(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if (is_null($user)) {
+            return back()->with('error', 'حدث خطأ!');
+        }
+
+        $profile = $user->profile;
+        $profile->family_id = $request->family_id;
+        $profile->save();
+
+        \App\Helpers\AppHelper::AddLog('Family User', class_basename($user), $user->id);
+        return back()->with('warning', 'تم تعديل عائلة المستخدم بنجاح');
     }
 }

@@ -65,7 +65,6 @@ class RegisteredUserController extends Controller
         }
 
         \App\Helpers\AppHelper::AddLog('Register User', class_basename($user), $user->id);
-
         return redirect(RouteServiceProvider::HOME)->with('success', 'تم الاشتراك بنجاح، و سيتم تفعيل حسابكم قريباً..');
     }
 }
