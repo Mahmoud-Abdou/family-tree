@@ -28,14 +28,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('get_news/{category_id}', [\App\Http\Controllers\NewsController::class, 'get_news']);
     
     Route::resource('reports', \App\Http\Controllers\ReportController::class);
-
+    
     Route::resource('marriages', \App\Http\Controllers\MarriageController::class);
-
+    
     Route::get('events', [\App\Http\Controllers\EventController::class, 'indexUser'])->name('events.index');
     Route::get('events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
-
+    
     Route::get('read-notification', [\App\Http\Controllers\HomeController::class, 'read_notification']);
-
+    
+    Route::resource('news_comments', \App\Http\Controllers\NewsCommentController::class);
+    Route::resource('news_likes', \App\Http\Controllers\NewsLikeController::class);
 });
 
 Route::fallback(function () {

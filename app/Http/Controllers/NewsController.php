@@ -48,7 +48,7 @@ class NewsController extends Controller
         $news = $news->where('approved', 1)
                 ->orderBy('created_at', 'DESC')
                 ->paginate($page_limit);
-        
+
         return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news', 'categories', 'cities'));
     }
 
@@ -114,7 +114,6 @@ class NewsController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $news = News::where('id', $news_id)->first();
-
        
         return view('web_app.News.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
 

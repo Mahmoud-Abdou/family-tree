@@ -120,6 +120,10 @@
                                                 <p class="card-text m-0"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $row->category->name_ar }}</small></p>
                                             
                                             </div>
+                                            <div class="d-flex justify-content-between" dir="ltr">
+                                                <p class="card-text m-0"><i class="ri-discuss-fill"> </i><small class="text-muted">{{ $row->comments->count() }}</small></p>
+                                                <p class="card-text m-0"><i class="ri-thumb-up-fill"> </i><small class="text-muted">{{ $row->likes->count() }}</small></p>
+                                            </div>
                                             
                                             
                                         </div>

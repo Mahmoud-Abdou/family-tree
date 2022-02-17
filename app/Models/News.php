@@ -64,6 +64,16 @@ class News extends Model
         return $this->belongsTo('App\Models\Category','category_id', 'id');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Models\NewsComment', 'news_id', 'id')->orderBy('created_at', 'DESC');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Models\NewsLike', 'news_id', 'id');
+    }
+
     public function statusHtml()
     {
         switch ($this->status) {

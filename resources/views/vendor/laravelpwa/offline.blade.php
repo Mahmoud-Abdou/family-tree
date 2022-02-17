@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Offline</title>
     <link rel="shortcut icon" href="{{ Helper::GeneralSettings('app_icon') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/style.css') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/responsive.css') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/typography.css') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/custom.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/typography.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}"/>
     <style type="text/css">.apexcharts-canvas {
             position: relative;
             user-select: none;
