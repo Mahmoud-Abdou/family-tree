@@ -45,25 +45,26 @@
                                                     </p>
                                                 </div>
 
-                                                @if($event->owner_id == auth()->user()->id)
-                                                    @can('events.update')
-                                                        <a class="bg-warning text-dark" href="{{ route('events.edit', $event) }}" data-toggle="tooltip" data-placement="top"
-                                                           title="تعديل"
-                                                           data-original-title="تعديل">
-                                                            <i class="ri-edit-2-fill"></i>
-                                                        </a>
-                                                    @endcan
-                                                    @can('events.delete')
-                                                        <span data-toggle="tooltip" data-placement="top" title="حذف"
-                                                              data-original-title="حذف">
+                                                <div class="wishlist mx-1 float-right">
+
+                                                    @if($event->owner_id == auth()->user()->id)
+                                                        @can('events.update')
+                                                            <a class="bg-warning text-dark" href="{{ route('events.edit', $event) }}" data-toggle="tooltip" data-placement="top"
+                                                               title="تعديل"
+                                                               data-original-title="تعديل">
+                                                                <i class="ri-edit-2-fill"></i>
+                                                            </a>
+                                                        @endcan
+                                                        @can('events.delete')
+                                                            <span data-toggle="tooltip" data-placement="top" title="حذف"
+                                                                  data-original-title="حذف">
                                                                 <a class="bg-danger text-dark" href="#" data-toggle="modal" data-placement="top" data-target="#deleteModal">
                                                                     <i class="ri-delete-back-2-fill"> </i>
                                                                 </a>
                                                             </span>
-                                                    @endcan
-                                                @endif
+                                                        @endcan
+                                                    @endif
 
-                                                <div class="wishlist mx-1 float-right">
                                                     <a href="#" data-toggle="tooltip" data-placement="top"
                                                        title="اضافة الى المفضلة"
                                                        data-original-title="اضافة الى المفضلة">
