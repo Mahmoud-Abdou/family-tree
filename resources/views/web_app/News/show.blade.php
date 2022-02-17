@@ -45,20 +45,29 @@
                                                        data-original-title="التبليغ عن شكوي"> <i
                                                             class="ri-alarm-warning-fill"> </i> </a>
                                                 </div>
+                                                
                                                 <div class="d-flex justify-content-between" dir="ltr">
                                                     @if($news->owner_id == auth()->user()->id)
                                                         @can('news.update')
-                                                        
                                                             <a href="{{ route('news.edit', $news) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
                                                         @endcan
                                                         @can('news.delete')
-                                                        <form action="{{ route('news.destroy', $news) }}" method="POST">
+                                                            <a data-toggle="modal" data-target=".deleteModel" onclick= "openDeleteModel(`{{ route('news.destroy', $news) }}`)" class="card-text m-0"><i class="ri-delete-back-2-fill"></i></a>
+                                                        @endcan
+                                                    @endif
+                                                    @if($news->likes->where('owner_id', auth()->user()->id)->first() == null)
+                                                        <form dir="rtl" method="POST" action="{{ route('news_likes.store') }}" >
+                                                            @csrf
+                                                            <input type="hidden" name="news_id" value="{{ $news->id }}">
+                                                            <button type="submit" class="btn btn-sm card-text m-0"><i class="ri-thumb-up-fill"></i></button>
+                                                        </form>
+                                                    @else 
+                                                        <form dir="rtl" method="POST" action="{{ route('news_likes.destroy', $news->likes->where('owner_id', auth()->user()->id)->first()) }}" >
                                                             @csrf
                                                             @method('DELETE')
 
-                                                            <a onclick= "submit_form(this)" class="card-text m-0"><i class="ri-delete-back-2-fill"></i></a>
+                                                            <button type="submit" class="btn btn-sm btn-primary  card-text m-0"><i class="ri-thumb-up-fill"></i></button>
                                                         </form>
-                                                        @endcan
                                                     @endif
                                                 </div>
                                             </div>
@@ -77,6 +86,9 @@
                             </div>
                         </div>
                     </div>
+                    
+                    @include('web_app.News.comments')
+
 
                 </div>
                     </div>
@@ -84,6 +96,7 @@
             </div>
         </div>
     </div>
+    
 
     <div class="modal fade bd-example-modal-xl " tabindex="-1" role="dialog" aria-modal="true" >
         <div class="modal-dialog modal-xl">
@@ -113,12 +126,35 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade deleteModel " tabindex="-1" role="dialog" aria-modal="true" >
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">هل ترغب في الازالة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                
+                <form id="DeleteForm" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لا</button>
+                        <button type="submit" class="btn btn-primary" >نعم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 <script>
-    function submit_form(form){
-        if(confirm('Are you sure?')){
-            $(form).parent().submit()
-        }
+
+    function openDeleteModel(data){
+        console.log("Asd")
+        $('#DeleteForm').attr('action', data)
     }
 </script>
