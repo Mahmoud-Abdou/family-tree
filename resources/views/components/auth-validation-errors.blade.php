@@ -2,14 +2,18 @@
 
 @if ($errors->any())
     <div {{ $attributes }}>
-        <div class="font-medium text-red-600">
-            {{ __('Whoops! Something went wrong.') }}
-        </div>
-
-        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+        <i class="ri-information-line"> </i>
+        <div class="iq-alert-text"><b>فشلت العملية.</b>
             @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
+                @if($errors->count() > 0)
+                    <ul>{{ $error }}</ul>
+                @else
+                    <p>{{ $error }}</p>
+                @endif
             @endforeach
-        </ul>
+        </div>
+        <button type="button" class="close text-danger" data-dismiss="alert" aria-label="Close">
+            <i class="ri-close-line"></i>
+        </button>
     </div>
 @endif

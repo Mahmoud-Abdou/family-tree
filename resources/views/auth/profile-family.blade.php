@@ -34,11 +34,11 @@
                     <div class="iq-header-title">
                         <h4 class="card-title"><i class="ri-group-2-fill"> </i>العائلة</h4>
                     </div>
-                    @if(auth()->id() == $ownFamily->father->id || auth()->id() == $ownFamily->mother->id)
+{{--                    @if(auth()->id() == $ownFamily->father->id || auth()->id() == $ownFamily->mother->id)--}}
                     <div class="iq-card-header-toolbar d-flex align-items-center">
                         <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة فرد للعائلة</button>
                     </div>
-                    @endif
+{{--                    @endif--}}
                 </div>
                 <div class="iq-card-body">
                     <h6 class="text-center">الوالدان</h6>
@@ -73,21 +73,20 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                // TODO: handel form action #
-                <form method="GET" action="#">
+{{--                // TODO: handel form action #--}}
+                <form method="POST" action="{{ route('user.family') }}">
                     <div class="modal-body">
                         @csrf
+                        @method('PUT')
                         <input id="familyId" type="hidden" name="family_id">
 
                         <div class="form-group">
-                            <label for="selectUser">
-                                ابحث و حدد الفرد، ليتم اضافته
-                                <select id="selectUser" name="user_id" class="js-example-theme-multiple js-states form-control" style="width: 100%; z-index: 99999 !important;">
+                            <label for="selectUser">ابحث و اختر الشخص، ليتم اضافته</label>
+                            <select id="selectUser" name="user_id" class="js-states form-control" style="width: 100%;">
                                 @foreach($personsData as $per)
                                     <option value="{{$per->id}}">{{$per->full_name}}</option>
                                 @endforeach
-                                </select>
-                            </label>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -100,8 +99,6 @@
     </div>
 
     {{--<!-- Select2 JavaScript -->--}}
-    <script src="{{ secure_asset('assets/js/select2.min.js') }}"></script>
-
     <script>
         function modalFamily(familyId) {
             $('#familyId').val(familyId);

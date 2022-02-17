@@ -69,7 +69,7 @@ class FamilyController extends Controller
      */
     public function update(Request $request, family $family)
     {
-        //
+        // dd($request->all());
     }
 
     /**

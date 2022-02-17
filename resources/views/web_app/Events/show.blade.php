@@ -32,7 +32,6 @@
                                         <div class="additional-product-action d-flex align-items-center">
 
                                             <div class="product-action w-100">
-                                                {{--                                                <div class="add-to-cart"><a href="#"> Add to Cart </a></div>--}}
                                                 <div class="add-to-cart mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="المدينة"
                                                        data-original-title="المدينة"><i
@@ -45,17 +44,39 @@
                                                             class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($event->event_date)) }}
                                                     </p>
                                                 </div>
-                                                <div class="wishlist mx-3 float-right">
+
+                                                <div class="wishlist mx-1 float-right">
+
+                                                    @if($event->owner_id == auth()->user()->id)
+                                                        @can('events.update')
+                                                            <a class="bg-warning text-dark" href="{{ route('events.edit', $event) }}" data-toggle="tooltip" data-placement="top"
+                                                               title="تعديل"
+                                                               data-original-title="تعديل">
+                                                                <i class="ri-edit-2-fill"></i>
+                                                            </a>
+                                                        @endcan
+                                                        @can('events.delete')
+                                                            <span data-toggle="tooltip" data-placement="top" title="حذف"
+                                                                  data-original-title="حذف">
+                                                                <a class="bg-danger text-dark" href="#" data-toggle="modal" data-placement="top" data-target="#deleteModal">
+                                                                    <i class="ri-delete-back-2-fill"> </i>
+                                                                </a>
+                                                            </span>
+                                                        @endcan
+                                                    @endif
+
                                                     <a href="#" data-toggle="tooltip" data-placement="top"
                                                        title="اضافة الى المفضلة"
-                                                       data-original-title="اضافة الى المفضلة"> <i
-                                                            class="ri-heart-line"> </i> </a>
-                                                </div>
-                                                <div class="wishlist mx-3 float-right">
-                                                    <a data-toggle="modal" data-target=".bd-example-modal-xl"
-                                                       title="التبليغ عن شكوي"
-                                                       data-original-title="التبليغ عن شكوي"> <i
-                                                            class="ri-alarm-warning-fill"> </i> </a>
+                                                       data-original-title="اضافة الى المفضلة">
+                                                        <i class="ri-heart-line"></i>
+                                                    </a>
+
+                                                    <span data-toggle="tooltip" data-placement="top" title="التبليغ عن الخبر"
+                                                          data-original-title="التبليغ عن الخبر">
+                                                        <a href="#" data-toggle="modal" data-placement="top" data-target="#reportModal">
+                                                            <i class="ri-alarm-warning-line"> </i>
+                                                        </a>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,7 +106,7 @@
                                 @if($lastEvents->count() > 0)
                                 <div id="events-slider" class="slick-slider">
                                     @foreach($lastEvents as $e)
-                                        <div class="product_item col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                        <div class="product_item col-lg-4 col-md-6 col-sm-12">
                                             <div class="product-miniature">
                                                 <div class="thumbnail-container">
                                                     <a href="{{ route('events.show', $e) }}">
@@ -126,13 +147,14 @@
             </div>
         </div>
     </div>
-    <div class="modal fade bd-example-modal-xl " tabindex="-1" role="dialog" aria-modal="true" >
-        <div class="modal-dialog modal-xl">
+
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">التبليغ عن شكوي</h5>
+                    <h5 class="modal-title" id="reportModalLabel"><i class="ri-alarm-warning-fill"> </i>التبليغ عن شكوي</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <form dir="rtl" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
@@ -141,14 +163,42 @@
                         <input type="hidden" name="type" value="events" >
                         <input type="hidden" name="type_id" value="{{ $event->id }}">
 
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-12">
                             <label for="body">وصف الشكوي</label>
                             <textarea class="form-control" name="body" id="body"></textarea>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" >Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-primary">ارسال</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="deleteModalLabel">حذف البيانات</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('events.destroy', $event) }}">
+                    <div class="modal-body">
+                        @csrf
+                        @method('DELETE')
+
+                        <p>سيتم حذف البيانات بشكل كامل.</p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-danger">حذف</button>
                     </div>
                 </form>
             </div>

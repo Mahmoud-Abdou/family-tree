@@ -11,6 +11,60 @@
         <div class="container-fluid">
             <div class="row">
 
+                <div class="col-lg-12">
+                    @include('partials.messages')
+
+                    <div class="card iq-mb-3 shadow-sm">
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                            <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
+                            <span class="ml-5"><i class="ri-filter-2-line"> </i>البحث في النتائج</span>
+                            @can('events.create')
+                                <a href="{{ route('events.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                            @endcan
+                        </div>
+                        <div class="collapse" id="collapseFilters">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-group my-auto">
+                                            <label for="title-filter">بحث بالعنوان</label>
+                                            <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group my-auto">
+                                            <label for="body-filter">بحث بالوصف</label>
+                                            <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="date-filter">بحث بالتاريخ</label>
+                                            <select class="form-control" name="date" id="date-filter">
+                                                <option disabled="">بحث بالتاريخ</option>
+                                                <option value="">الكل</option>
+                                                <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
+                                                <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
+                                                <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
+                                                <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
+                                            </select>
+                                            <div class="invalid-tooltip">
+                                                بحث بالتاريخ
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 my-auto">
+                                        <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if($events->count() > 0)
                 @foreach($events as $event)
                     <div class="col-sm-4">
                     <a href="{{ route('events.show', $event->id) }}">
@@ -31,8 +85,60 @@
                     </a>
                     </div>
                 @endforeach
+                @else
+                    <div class="col-lg-12">
+                        <div class="card iq-mb-3 shadow p-5">
+                            <div class="card-body text-center">
+                                لا توجد بيانات
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="col-sm-12 my-4 d-flex justify-content-around">{{ $events->links() }}</div>
 
             </div>
         </div>
     </div>
 @endsection
+
+@section('add-scripts')
+
+    <script>
+        function submit_form(form){
+            if(confirm('Are you sure?')){
+                $(form).parent().submit()
+            }
+        }
+
+        function filter_data(){
+            title_filter = $('#title-filter').val();
+            body_filter = $('#body-filter').val();
+            name_filter = $('#name-filter').val();
+            email_filter = $('#email-filter').val();
+            mobile_filter = $('#mobile-filter').val();
+            date_filter = $('#date-filter').val();
+            quary_string = "";
+            if(title_filter){
+                quary_string += `filters[title]=${title_filter}&`;
+            }
+            if(body_filter){
+                quary_string += `filters[body]=${body_filter}&`;
+            }
+            if(name_filter){
+                quary_string += `filters[owner_name]=${name_filter}&`;
+            }
+            if(email_filter){
+                quary_string += `filters[owner_email]=${email_filter}&`;
+            }
+            if(mobile_filter){
+                quary_string += `filters[owner_phone]=${mobile_filter}&`;
+            }
+            if(date_filter){
+                quary_string += `filters[date]=${date_filter}&`;
+            }
+            window.location = 'events?' + quary_string;
+        }
+    </script>
+@endsection
+

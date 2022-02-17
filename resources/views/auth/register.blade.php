@@ -19,9 +19,7 @@
                     <h1 class="mb-0">@lang('auth.sign_up')</h1>
                     <p>@lang('auth.sign_up_message')</p>
 
-                    @include('partials.messages')
-
-                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                    <x-auth-validation-errors dir="rtl" class="alert alert-danger mb-4" role="alert" :errors="$errors" />
 
                     <form dir="rtl" class="mt-4" method="POST" action="{{ route('register') }}">
                         @csrf
@@ -35,15 +33,15 @@
                             <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="2" placeholder="{{ __('اسم الأب') }}" value="{{ old('father_name') }}" required autofocus>
                         </div>
                         <div class="form-group">
-                            <label for="gender">{{ __('نوع الجنس') }}</label>
+                            <label for="gender">{{ __('النوع') }}</label>
                             <select id="gender" name="gender" tabindex="3" class="form-control mb-0" value="{{ old('gender') }}" required autofocus>
                                 <option value="male">{{ __('ذكر') }}</option>
                                 <option value="female">{{ __('أنثى') }}</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="mobile">{{ __('رقم الجوال') }}</label>
-                            <input type="text" name="mobile" class="form-control mb-0" id="mobile" tabindex="4" placeholder="أدخل رقم الجوال" value="{{ old('mobile') }}" required>
+                            <label for="mobileNumber">{{ __('رقم الجوال') }}</label>
+                            <input type="number" name="mobile" class="form-control numeric mb-0" id="mobileNumber" tabindex="4" placeholder="أدخل رقم الجوال"  required>
                         </div>
                         <div class="form-group">
                             <label for="email">{{ __('البريد الإلكتروني') }}</label>
@@ -61,7 +59,7 @@
                             <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1 float-right">
                                 <input type="checkbox" name="terms" class="custom-control-input" id="terms" required {{ old('terms') == 'on' ? 'checked' : '' }} >
                                 <label class="custom-control-label" for="terms"> عند الاشتراك فانت توافق على </label>
-                                <a href="{{ route('terms') }}" class="mx-1">شروط الاستخدام </a>
+                                <a href="#" class="mx-1" data-toggle="modal" data-target="#termsModal">شروط الاستخدام </a>
                             </div>
                             <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="9">اشتراك</button>
                         </div>
@@ -78,3 +76,31 @@
 </section>
 
 @include('partials._body_footer')
+
+<div dir="rtl" class="modal fade bd-example-modal-xl fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalTitle">الشروط و حقوق الاستخدام</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-2 text-center border-bottom">
+                        <a href="{{ route('home') }}">
+                            <img src="{{ Helper::GeneralSettings('app_logo') }}" class="img-fluid" width="120" alt="{{ Helper::GeneralSettings('app_title_ar') }}">
+                            <h5 class="my-auto mx-3">{{ Helper::GeneralSettings('app_title_ar') }}</h5>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-12 p-5">
+                        {!! Helper::GeneralSettings('app_terms_ar') !!}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

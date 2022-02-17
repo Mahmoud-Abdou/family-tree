@@ -24,9 +24,6 @@ Index Of Script
 ----------------------------------------------*/
 
 (function(jQuery) {
-
-
-
     "use strict";
 
     jQuery(document).ready(function() {
@@ -1001,3 +998,27 @@ $('.image-upload-wrap').bind('dragover', function () {
 $('.image-upload-wrap').bind('dragleave', function () {
     $('.image-upload-wrap').removeClass('image-dropping');
 });
+
+// Restricts input for the set of matched elements to the given inputFilter function.
+function setInputFilter(textbox, inputFilter) {
+    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+        textbox.addEventListener(event, function() {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            } else {
+                this.value = "";
+            }
+        });
+    });
+}
+
+// setInputFilter(document.getElementById("mobileNumber"), function(value) {
+//     return /^\d*$/.test(value);
+// });
+
+// End Restricts input

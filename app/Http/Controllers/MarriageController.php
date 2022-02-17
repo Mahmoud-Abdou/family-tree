@@ -35,13 +35,13 @@ class MarriageController extends Controller
      */
     public function index(Request $request)
     {
-        $id = auth()->user()->id;
+//        $id = auth()->user()->id;
         $menuTitle = 'الزواجات';
         $pageTitle = 'القائمة الرئيسية';
-        $page_limit = 20;
+        $page_limit = 15;
         $marriages = new Marriage;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        
+
         $filters_array = $marriages->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);
         $marriages = $marriages->filter($filters);
@@ -57,7 +57,7 @@ class MarriageController extends Controller
      */
     public function create()
     {
-        $menuTitle = 'اضافة زواجة';
+        $menuTitle = 'اضافة زواج';
         $pageTitle = 'القائمة الرئيسية';
         $family_id = auth()->user()->profile->family_id;
         $male = Person::where('family_id', $family_id)
@@ -68,6 +68,7 @@ class MarriageController extends Controller
 
         $female = Person::where('is_live', 1)
                         ->where('gender', 'female')
+                        ->where('has_family', 0)
                         ->get();
 
         return view('web_app.Marriages.create', compact('menuTitle', 'pageTitle', 'male', 'female'));
@@ -81,7 +82,6 @@ class MarriageController extends Controller
      */
     public function store(StoreMarriageRequest $request)
     {
-        // dd($request);
         try{
             $request['owner_id'] = auth()->user()->id;
             $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
@@ -110,26 +110,26 @@ class MarriageController extends Controller
             $new_family = Family::create($new_family);
 
             $marriage = Marriage::create($request->all());
-            
+
             $request['city_id'] = 1;
             $request['category_id'] = $category_id->id;
             $request['approved'] = 0;
             $news = News::create($request->all());
-    
+
             $marriage_notification = [];
             $marriage_notification['title'] = 'تم اضافة زواج';
             $marriage_notification['body'] = $marriage->body;
             $marriage_notification['content'] = $marriage;
             $marriage_notification['url'] = 'marriages/' . $marriage->id;
             $marriage_notification['operation'] = 'store';
-    
+
             $users = User::where('status', 'active')->get();
             event(new NotificationEvent($marriage_notification, $users));
 
             \App\Helpers\AppHelper::AddLog('Marriage Create', class_basename($marriage), $marriage->id);
             return redirect()->route('marriages.index')->with('success', 'تم اضافة زواج جديد .');
         }catch(Exception $ex){
-            return redirect()->route('marriages.index')->with('danger', 'حدثت مشكلة');
+            return redirect()->route('marriages.index')->with('error', 'حدثت مشكلة');
         }
     }
 
@@ -141,12 +141,12 @@ class MarriageController extends Controller
      */
     public function show($marriage_id)
     {
-        $appMenu = config('custom.main_menu');
-        $menuTitle = '  اظهار الزواج';
-        $pageTitle = 'لوحة التحكم';        
-        $marriage = Marriage::where('id', $marriage_id)->first();
-        
-        return view('web_app.Marriages.show', compact('appMenu', 'menuTitle', 'pageTitle', 'marriage'));
+        $menuTitle = 'عرض الزواج';
+        $pageTitle = 'القائمة الرئيسية';
+        $marriage = Marriage::findOrFail($marriage_id);
+        $lastMarriage = Marriage::latest()->take(5)->get();
+
+        return view('web_app.Marriages.show', compact('menuTitle', 'pageTitle', 'marriage', 'lastMarriage'));
     }
 
     /**
@@ -173,7 +173,7 @@ class MarriageController extends Controller
     public function update(UpdateMarriageRequest $request, Marriage $marriage)
     {
         if(auth()->user()->id != $marriage->owner_id){
-            return redirect()->route('marriages.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->title = $request->title;
         $marriage->body = $request->body;
@@ -183,7 +183,7 @@ class MarriageController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $marriage->image_id);
             if($new_media == null){
-                return redirect()->route('marriages.index')->with('danger', 'حدث خطا');
+                return redirect()->route('marriages.index')->with('error', 'حدث خطا');
             }
         }
 
@@ -206,7 +206,7 @@ class MarriageController extends Controller
     public function destroy(Marriage $marriage)
     {
         if(auth()->user()->id != $marriage->owner_id){
-            return redirect()->route('marriages.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->image->DeleteFile($marriage->image);
         $marriage->image->delete();

@@ -19,9 +19,7 @@
                     <h1 class="mb-0">@lang('auth.sign_in')</h1>
                     <p>@lang('auth.sign_in_message')</p>
 
-                    @include('partials.messages')
-
-                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                    <x-auth-validation-errors dir="rtl" class="alert alert-danger mb-4" role="alert" :errors="$errors" />
 
                     <form dir="rtl" class="mt-4" method="POST" action="{{ route('login') }}">
                         @csrf

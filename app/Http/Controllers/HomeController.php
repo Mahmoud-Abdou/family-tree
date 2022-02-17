@@ -134,8 +134,7 @@ class HomeController extends Controller
     {
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'البحث';
-        $searchWord = $request->search;
-        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->get();
+        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $request->search)->get();
 
         return view('search', compact('menuTitle', 'pageTitle', 'searchResult', 'searchWord'));
     }
