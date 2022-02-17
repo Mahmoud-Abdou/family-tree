@@ -78,18 +78,7 @@
                                     <h4 class="card-title"><i class="ri-user-fill"> </i>آخر المستخدمين المسجلين</h4>
                                 </div>
                                 <div class="iq-card-header-toolbar d-flex align-items-center">
-                                    <div class="dropdown">
-                                 <span class="dropdown-toggle text-primary" id="dropdownMenuButton5" data-toggle="dropdown">
-                                 <i class="ri-more-2-fill"></i>
-                                 </span>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#"><i class="ri-eye-fill mr-2"></i>View</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-fill mr-2"></i>Delete</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-pencil-fill mr-2"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-printer-fill mr-2"></i>Print</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-file-download-fill mr-2"></i>Download</a>
-                                        </div>
-                                    </div>
+                                     <a href="{{ route('admin.users.index') }}" class="dropdown-toggle text-dark"><i class="ri-more-2-fill"></i></a>
                                 </div>
                             </div>
                             <div class="iq-card-body p-0">
@@ -149,18 +138,7 @@
                                     <h4 class="card-title"><i class="ri-newspaper-fill"> </i>آخر الأخبار</h4>
                                 </div>
                                 <div class="iq-card-header-toolbar d-flex align-items-center">
-                                    <div class="dropdown">
-                                 <span class="dropdown-toggle text-primary" id="dropdownMenuButton5" data-toggle="dropdown">
-                                 <i class="ri-more-2-fill"></i>
-                                 </span>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#"><i class="ri-eye-fill mr-2"></i>View</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-fill mr-2"></i>Delete</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-pencil-fill mr-2"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-printer-fill mr-2"></i>Print</a>
-                                            <a class="dropdown-item" href="#"><i class="ri-file-download-fill mr-2"></i>Download</a>
-                                        </div>
-                                    </div>
+                                    <a href="{{ route('admin.news.index') }}" class="dropdown-toggle text-dark"><i class="ri-more-2-fill"></i></a>
                                 </div>
                             </div>
                             <div class="iq-card-body p-0">

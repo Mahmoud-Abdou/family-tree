@@ -44,6 +44,25 @@
                                                             class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($event->event_date)) }}
                                                     </p>
                                                 </div>
+
+                                                @if($event->owner_id == auth()->user()->id)
+                                                    @can('events.update')
+                                                        <a class="bg-warning text-dark" href="{{ route('events.edit', $event) }}" data-toggle="tooltip" data-placement="top"
+                                                           title="تعديل"
+                                                           data-original-title="تعديل">
+                                                            <i class="ri-edit-2-fill"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('events.delete')
+                                                        <span data-toggle="tooltip" data-placement="top" title="حذف"
+                                                              data-original-title="حذف">
+                                                                <a class="bg-danger text-dark" href="#" data-toggle="modal" data-placement="top" data-target="#deleteModal">
+                                                                    <i class="ri-delete-back-2-fill"> </i>
+                                                                </a>
+                                                            </span>
+                                                    @endcan
+                                                @endif
+
                                                 <div class="wishlist mx-1 float-right">
                                                     <a href="#" data-toggle="tooltip" data-placement="top"
                                                        title="اضافة الى المفضلة"
@@ -86,7 +105,7 @@
                                 @if($lastEvents->count() > 0)
                                 <div id="events-slider" class="slick-slider">
                                     @foreach($lastEvents as $e)
-                                        <div class="product_item col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                        <div class="product_item col-lg-4 col-md-6 col-sm-12">
                                             <div class="product-miniature">
                                                 <div class="thumbnail-container">
                                                     <a href="{{ route('events.show', $e) }}">
@@ -152,6 +171,33 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
                         <button type="submit" class="btn btn-primary">ارسال</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="deleteModalLabel">حذف البيانات</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('events.destroy', $event) }}">
+                    <div class="modal-body">
+                        @csrf
+                        @method('DELETE')
+
+                        <p>سيتم حذف البيانات بشكل كامل.</p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-danger">حذف</button>
                     </div>
                 </form>
             </div>

@@ -33,6 +33,8 @@ class Marriage extends Model
         'date',
     ];
 
+    protected $appends = ['short_body'];
+
     public function owner()
     {
         return $this->belongsTo('App\Models\User', 'owner_id', 'id');
@@ -56,6 +58,17 @@ class Marriage extends Model
     public function image()
     {
         return $this->hasOne('App\Models\Media', 'id', 'image_id');
+    }
+
+    public function scopeActive($query)
+    {
+        $query->where('approved', true);
+    }
+
+    public function getShortBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 160) . ' ....';
     }
 
     public function filters($request_filter)

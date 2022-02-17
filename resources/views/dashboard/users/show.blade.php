@@ -16,7 +16,7 @@
                         <div class="iq-card-body profile-page p-0">
                             <div class="profile-header">
                                 <div class="cover-container">
-                                    <img src="{{ asset('assets/images/profile-bg.jpg') }}" alt="profile-bg" class="rounded img-fluid w-100">
+                                    <img src="{{ secure_asset('assets/images/profile-bg.jpg') }}" alt="profile-bg" class="rounded img-fluid w-100">
                                 </div>
                                 <div class="profile-info p-4">
                                     <div class="row">

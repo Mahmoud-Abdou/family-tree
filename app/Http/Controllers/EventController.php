@@ -9,6 +9,7 @@ use App\Models\City;
 use App\Models\Media;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class EventController extends Controller
 {
@@ -31,12 +32,20 @@ class EventController extends Controller
      *
      * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $menuTitle = 'المناسبات';
         $pageTitle = 'القائمة الرئيسية';
-        $page_limit = 10;
-        $events = Event::active()->paginate($page_limit);
+        //$events = Event::active()->paginate($page_limit);
+        $page_limit = 15;
+        $events = new Event;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+
+        $filters_array = $events->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $events = $events->filter($filters);
+        $events = $events->active();
+        $events = $events->paginate($page_limit);
 
         return view('web_app.Events.index', compact('menuTitle', 'pageTitle', 'events'));
     }

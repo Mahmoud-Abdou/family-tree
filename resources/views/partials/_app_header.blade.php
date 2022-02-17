@@ -78,8 +78,8 @@
                                                 </div>
                                             </a>
                                         @endforeach
-                                        <div class="media-pl" onclick="markNotificationRead('-1', '')">
-                                            <i class="ri-delete-bin-5-line" ></i>
+                                        <div class="media-pl m-3" onclick="markNotificationRead('-1', '')">
+                                            <a href="" class="text-danger"><i class="ri-delete-bin-5-line"> </i> مسح </a>
                                         </div>
                                     @else
                                         <div class="iq-sub-card media align-items-center">
@@ -99,7 +99,7 @@
             <ul class="navbar-list">
                 <li>
                     <a href="{{ route('profile') }}" class="search-toggle iq-waves-effect bg-primary text-white">
-                        <img src="{{ isset(auth()->user()->profile) ? auth()->user()->profile->photo : asset('assets/images/user/1.jpg') }}" class="img-fluid rounded" alt="{{ auth()->user()->name }}">
+                        <img src="{{ isset(auth()->user()->profile) ? auth()->user()->profile->photo : secure_asset('assets/images/user/1.jpg') }}" class="img-fluid rounded" alt="{{ auth()->user()->name }}">
                     </a>
                     <div class="iq-sub-dropdown iq-user-dropdown">
                         <div class="iq-card shadow-none m-0">

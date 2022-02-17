@@ -99,7 +99,6 @@
     </div>
 
     {{--<!-- Select2 JavaScript -->--}}
-
     <script>
         function modalFamily(familyId) {
             $('#familyId').val(familyId);
