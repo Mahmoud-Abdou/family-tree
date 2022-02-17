@@ -29,6 +29,7 @@ return [
         'media' => ['slug' => 'media', 'name' => 'Media', 'name_ar' => 'معرض الصور'],
         'events' => ['slug' => 'events', 'name' => 'Events', 'name_ar' => 'المناسبات'],
         'searching' => ['slug' => 'searching', 'name' => 'Searching', 'name_ar' => 'عملية البحث'],
+        'comments' => ['slug' => 'comments', 'name' => 'Comments', 'name_ar' => 'التعليقات'],
     ],
 
     //all permissions
@@ -119,6 +120,12 @@ return [
         'searching' => [
             ['name' => 'searching.public', 'name_ar' => 'البحث في العام', 'description' => 'البحث في العام'],
             ['name' => 'searching.private', 'name_ar' => 'البحث في العائلة', 'description' => 'البحث في العائلة'],
+        ],
+        'comments' => [
+            ['name' => 'comments.read', 'name_ar' => 'قراءة التعليقات', 'description' => 'قراءة التعليقات'],
+            ['name' => 'comments.create', 'name_ar' => 'كتابة التعليقات', 'description' => 'كتابة التعليقات'],
+            ['name' => 'comments.update', 'name_ar' => 'تعديل التعليقات', 'description' => 'تعديل التعليقات'],
+            ['name' => 'comments.delete', 'name_ar' => 'حذف التعليقات', 'description' => 'حذف التعليقات'],
         ]
     ],
 

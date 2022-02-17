@@ -3,7 +3,7 @@
     <nav aria-label="breadcrumb">
         <ul class="breadcrumb">
 
-            @if(isset(request()->segments()[0]) && request()->segments()[0] == env('APP_ADMIN_URI'))
+            @if(isset(request()->segments()[0]) && request()->segments()[0] == env('APP_ADMIN_URI', 'admin'))
                 <li class="breadcrumb-item m-1">
                     <a class="" href="{{ route('admin.dashboard') }}">
                         <i class="ri-dashboard-fill"> </i>&nbsp; لوحة التحكم

@@ -13,7 +13,6 @@
                 <div class="col-lg-12">
 
                     @include('partials.messages')
-                    @include('partials.errors-messages')
 
                     <div class="card iq-mb-3">
                     <div class="card-header">
@@ -68,4 +67,26 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('add-scripts')
+    <script src="{{ secure_asset('assets/js/tinymce/tinymce.min.js') }}"></script>
+
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount nonbreaking',
+            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor',
+            toolbar_mode: 'floating',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Al Falak World',
+            fullscreen_new_window : true,
+            fullscreen_settings : {
+                theme_advanced_path_location : "top"
+            },
+            language : "{{ app()->getLocale() }}",
+            menubar: false,
+            statusbar: false
+        });
+    </script>
 @endsection

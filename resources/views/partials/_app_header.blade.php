@@ -30,7 +30,7 @@
                 <ul class="navbar-nav ml-auto navbar-list">
 
                     @can('dashboard.read|dashboard.update')
-                        @if(isset(request()->segments()[0]) && request()->segments()[0] == env('APP_ADMIN_URI'))
+                        @if(isset(request()->segments()[0]) && request()->segments()[0] == env('APP_ADMIN_URI', 'admin'))
                             <li class="nav-item">
                                 <a class="btn iq-waves-effect" href="{{ route('home') }}"> التطبيق <i class="ri-global-fill"></i></a>
                             </li>
