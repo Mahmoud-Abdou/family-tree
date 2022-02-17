@@ -29,10 +29,16 @@ class ProfileController extends Controller
         $user = auth()->user();
         $person = $user->profile;
 
+        if ($user->profile->has_family) {
+            $allPersons = \App\Models\Person::where('family_id', null)->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
+        } else {
+            $allPersons = [];
+        }
+
         if ($person->completeData() > 1) {
             session()->flash('warning', 'الملف الشخصي غير مكتمل، يجب استكمال البيانات.');
         }
-        return view('auth.profile', compact('menuTitle', 'pageTitle', 'user', 'person'));
+        return view('auth.profile', compact('menuTitle', 'pageTitle', 'user', 'person', 'allPersons'));
     }
 
     public function edit()

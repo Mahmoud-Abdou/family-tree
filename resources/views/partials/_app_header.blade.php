@@ -73,7 +73,7 @@
                                                     <div class="media-body ml-3">
                                                         <h6 class="mb-0 ">{{ isset($notification->data['title']) ? $notification->data['title'] : 'Title' }}</h6>
                                                         <small class="float-right font-size-12">{{ $notification->created_at }}</small>
-                                                        <p class="mb-0">{{ isset($notification->data['body']) ? $notification->data['body'] : 'Body' }}</p>
+                                                        <p class="mb-0">{!! isset($notification->data['body']) ? $notification->data['body'] : 'Body' !!}</p>
                                                     </div>
                                                 </div>
                                             </a>
@@ -101,7 +101,7 @@
                     <a href="{{ route('profile') }}" class="search-toggle iq-waves-effect bg-primary text-white">
                         <img src="{{ isset(auth()->user()->profile) ? auth()->user()->profile->photo : secure_asset('assets/images/user/1.jpg') }}" class="img-fluid rounded" alt="{{ auth()->user()->name }}">
                     </a>
-                    <div class="iq-sub-dropdown iq-user-dropdown">
+                    <div class="iq-sub-dropdown iq-user-dropdown" style="left: 0 !important;">
                         <div class="iq-card shadow-none m-0">
                             <div class="iq-card-body p-0 ">
                                 <div class="bg-primary p-3">
