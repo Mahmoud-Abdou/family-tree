@@ -59,14 +59,14 @@
                                                         <form dir="rtl" method="POST" action="{{ route('news_likes.store') }}" >
                                                             @csrf
                                                             <input type="hidden" name="news_id" value="{{ $news->id }}">
-                                                            <button type="submit" class="card-text m-0"><i class="ri-thumb-up-fill"></i></button>
+                                                            <button type="submit" class="btn btn-sm card-text m-0"><i class="ri-thumb-up-fill"></i></button>
                                                         </form>
                                                     @else 
                                                         <form dir="rtl" method="POST" action="{{ route('news_likes.destroy', $news->likes->where('owner_id', auth()->user()->id)->first()) }}" >
                                                             @csrf
                                                             @method('DELETE')
 
-                                                            <button type="submit" class="card-text m-0"><i class="ri-thumb-up-fill"></i></button>
+                                                            <button type="submit" class="btn btn-sm btn-primary  card-text m-0"><i class="ri-thumb-up-fill"></i></button>
                                                         </form>
                                                     @endif
                                                 </div>
