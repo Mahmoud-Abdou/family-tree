@@ -173,7 +173,7 @@ class MarriageController extends Controller
     public function update(UpdateMarriageRequest $request, Marriage $marriage)
     {
         if(auth()->user()->id != $marriage->owner_id){
-            return redirect()->route('marriages.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->title = $request->title;
         $marriage->body = $request->body;
@@ -183,7 +183,7 @@ class MarriageController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $marriage->image_id);
             if($new_media == null){
-                return redirect()->route('marriages.index')->with('danger', 'حدث خطا');
+                return redirect()->route('marriages.index')->with('error', 'حدث خطا');
             }
         }
 
@@ -206,7 +206,7 @@ class MarriageController extends Controller
     public function destroy(Marriage $marriage)
     {
         if(auth()->user()->id != $marriage->owner_id){
-            return redirect()->route('marriages.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->image->DeleteFile($marriage->image);
         $marriage->image->delete();
