@@ -50,7 +50,7 @@ class NewsController extends Controller
 
         $news = $news->orderBy('created_at', 'DESC')
                 ->paginate($page_limit);
-        
+
         return view('dashboard.news.index', compact('appMenu', 'menuTitle', 'pageTitle', 'news', 'categories', 'cities'));
     }
 
@@ -128,7 +128,7 @@ class NewsController extends Controller
         ]);
 
         if(auth()->user()->id != $news->owner_id){
-            return redirect()->route('admin.news.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('admin.news.index')->with('error', 'لا يمكنك التعديل');
         }
 
         $news->city_id = $request->city_id;

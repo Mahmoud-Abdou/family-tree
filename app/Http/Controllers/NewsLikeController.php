@@ -57,7 +57,7 @@ class NewsLikeController extends Controller
     public function show($news_like_id)
     {
         return redirect()->route('news.index');
-        
+
     }
 
     /**
@@ -92,7 +92,7 @@ class NewsLikeController extends Controller
     public function destroy(NewsLike $news_like)
     {
         if(auth()->user()->id != $news_like->owner_id){
-            return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
         $news_like->delete();
 

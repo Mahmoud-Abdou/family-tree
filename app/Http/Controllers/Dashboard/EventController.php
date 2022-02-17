@@ -123,14 +123,14 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         if(!auth()->user()->can('events.update')) {
-            return redirect()->route('admin.events.index')->with('danger', 'لا تملك صلاحية للتعديل!');
+            return redirect()->route('admin.events.index')->with('error', 'لا تملك صلاحية للتعديل!');
         }
 
         if($request->hasFile('image')){
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $event->image_id);
             if($new_media == null){
-                return redirect()->route('admin.events.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.events.index')->with('error', 'حدث خطا');
             }
         }
 

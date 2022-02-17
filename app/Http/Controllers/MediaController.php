@@ -11,6 +11,19 @@ use Exception;
 
 class MediaController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:media.read')->only(['index', 'show']);
+        $this->middleware('permission:media.create')->only(['create', 'store']);
+        $this->middleware('permission:media.update')->only(['edit', 'update']);
+        $this->middleware('permission:media.delete')->only('destroy');
+    }
 
     /**
      * Display a listing of the resource.
@@ -25,8 +38,7 @@ class MediaController extends Controller
         $media = Media::where('owner_id', auth()->user()->id)->paginate(20);
         $categories = Category::get();
 
-        return view('web_app.Media.index', compact('appMenu', 'menuTitle', 'pageTitle', 'media', 'categories'));
-
+        return view('web_app.Media.index', compact('menuTitle', 'pageTitle', 'media', 'categories'));
     }
 
     /**
@@ -36,12 +48,10 @@ class MediaController extends Controller
      */
     public function create()
     {
-        $appMenu = config('custom.main_menu');
         $menuTitle = 'اضافة صورة';
-        $pageTitle = 'لوحة التحكم';
+        $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Media.create', compact('appMenu', 'menuTitle', 'pageTitle'));
-
+        return view('web_app.Media.create', compact('menuTitle', 'pageTitle'));
     }
 
     /**
@@ -56,11 +66,11 @@ class MediaController extends Controller
         $media = new Media;
         $media = $media->UploadMedia($request->file('file'), $request['category_id'], $request['owner_id']);
         if($media == null){
-            return redirect()->route('media.index')->with('danger', 'حدث خطا');
+            return redirect()->route('media.index')->with('error', 'حدث خطا');
         }
+
         \App\Helpers\AppHelper::AddLog('Media Create', class_basename($media), $media->id);
         return redirect()->route('media.index')->with('success', 'تم اضافة صورة جديدة و يمكنك استخدامها.');
-
     }
 
     /**
@@ -71,18 +81,17 @@ class MediaController extends Controller
      */
     public function show($category_id)
     {
-        $appMenu = config('custom.main_menu');
-        $menuTitle = ' الصور';
-        $pageTitle = 'لوحة التحكم';
-
+        $category = Category::findOrFail($category_id);
+        $menuTitle = $category->name_ar;
+        $pageTitle = 'القائمة الرئيسية';
         if($category_id == 0){
             $media = Media::get();
         }
         else{
             $media = Media::where('category_id', $category_id)->get();
         }
-        return view('web_app.Media.show', compact('appMenu', 'menuTitle', 'pageTitle', 'media'));
 
+        return view('web_app.Media.show', compact('menuTitle', 'pageTitle', 'media'));
     }
 
     /**
@@ -93,11 +102,10 @@ class MediaController extends Controller
      */
     public function edit(Media $media)
     {
-        $appMenu = config('custom.main_menu');
         $menuTitle = 'تعديل الصور';
-        $pageTitle = 'لوحة التحكم';
+        $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Media.update', compact('appMenu', 'menuTitle', 'pageTitle', 'media'));
+        return view('web_app.Media.update', compact('menuTitle', 'pageTitle', 'media'));
     }
 
     /**
@@ -111,11 +119,11 @@ class MediaController extends Controller
     {
         if($request->hasFile('file')){
             $request['owner_id'] = auth()->user()->id;
-            
+
             $new_media = new Media;
             $new_media = $new_media->UploadMedia($request->file('file'), $request['category_id'], $request['owner_id']);
             if($new_media == null){
-                return redirect()->route('media.index')->with('danger', 'حدث خطا');
+                return redirect()->route('media.index')->with('error', 'حدث خطا');
             }
             $media->file = $new_media->file;
         }
@@ -156,6 +164,5 @@ class MediaController extends Controller
     {
         return null;
     }
-
 
 }

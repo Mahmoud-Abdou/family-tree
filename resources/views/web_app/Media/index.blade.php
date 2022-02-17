@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-home-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('home')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-image-2-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('home')],]])
 @endsection
 
 @section('content')
@@ -13,19 +13,18 @@
 
                 @foreach($categories as $category)
                     <div class="col-sm-4">
-                        <a href="{{ route('media.show', $category->id) }}">
-                            <div class="card iq-mb-3">
+                        <div class="card iq-mb-3">
+                            <a class="text-center" href="{{ route('media.show', $category->slug) }}">
                                 <img src="{{ isset($category->image) ? $category->image : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $category->slug }}">
-                                <div class="card-body">
+                                <hr />
+                                <div class="card-body p-2">
                                     <h4 class="card-title">{{ $category->name_ar }}</h4>
-                                    <hr />
-                                    <p class="card-text">{!! $category->slug !!}</p>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
                 @endforeach
-               
+
 
             </div>
         </div>

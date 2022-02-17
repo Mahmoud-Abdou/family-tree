@@ -128,14 +128,14 @@ class EventController extends Controller
     public function update(UpdateEventRequest $request, Event $event)
     {
         if(auth()->user()->id != $event->owner_id){
-            return redirect()->route('events.index')->with('danger', 'لا تملك صلاحية للتعديل!');
+            return redirect()->route('events.index')->with('error', 'لا تملك صلاحية للتعديل!');
         }
 
         if($request->hasFile('image')){
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $event->image_id);
             if($new_media == null){
-                return redirect()->route('events.index')->with('danger', 'حدث خطا');
+                return redirect()->route('events.index')->with('error', 'حدث خطا');
             }
         }
 
@@ -159,7 +159,7 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         if(auth()->user()->id != $event->owner_id){
-            return redirect()->route('events.index')->with('danger', 'لا يمكنك الحذف');
+            return redirect()->route('events.index')->with('error', 'لا يمكنك الحذف');
         }
         $event->image->DeleteFile($event->image);
         $event->image->delete();

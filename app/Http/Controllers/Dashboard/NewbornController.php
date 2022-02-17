@@ -40,7 +40,7 @@ class NewbornController extends Controller
         $page_limit = 20;
         $newborns = new Newborn;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        
+
         $filters_array = $newborns->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);
         $newborns = $newborns->filter($filters);
@@ -113,7 +113,7 @@ class NewbornController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $newborn->image_id);
             if($new_media == null){
-                return redirect()->route('admin.newborns.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.newborns.index')->with('error', 'حدث خطا');
             }
         }
 
@@ -130,7 +130,7 @@ class NewbornController extends Controller
      */
     public function destroy(Newborn $newborn)
     {
-        
+
         if(isset($newborn->image)){
             $newborn->image->DeleteFile($newborn->image);
             $newborn->image->delete();

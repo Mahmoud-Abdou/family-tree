@@ -52,7 +52,7 @@ class DeathController extends Controller
         $filters = EloquentFilters::make($filters_array);
         $deaths = $deaths->filter($filters);
         $deaths = $deaths->paginate($page_limit);
-        
+
         return view('dashboard.deaths.index', compact('appMenu', 'menuTitle', 'pageTitle', 'deaths'));
     }
 
@@ -120,7 +120,7 @@ class DeathController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $death->image_id);
             if($new_media == null){
-                return redirect()->route('admin.deaths.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.deaths.index')->with('error', 'حدث خطا');
             }
         }
 
@@ -152,5 +152,5 @@ class DeathController extends Controller
         return redirect()->back()->with('success', 'تم حذف بيانات وفاة بنجاح.');
     }
 
-    
+
 }

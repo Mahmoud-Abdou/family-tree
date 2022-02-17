@@ -114,7 +114,7 @@ class NewsController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $news = News::where('id', $news_id)->first();
-       
+
         return view('web_app.News.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
 
     }
@@ -152,7 +152,7 @@ class NewsController extends Controller
         ]);
 
         if(auth()->user()->id != $news->owner_id){
-            return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
 
         $news->city_id = $request->city_id;
@@ -179,7 +179,7 @@ class NewsController extends Controller
     public function destroy(News $news)
     {
         if(auth()->user()->id != $news->owner_id){
-            return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
         $news->delete();
 

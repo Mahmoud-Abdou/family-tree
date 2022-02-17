@@ -18,7 +18,7 @@ class NewsCommentController extends Controller
     public function index(Request $request)
     {
         return redirect()->route('news.index');
-    
+
     }
 
     /**
@@ -29,7 +29,7 @@ class NewsCommentController extends Controller
     public function create()
     {
         return redirect()->route('news.index');
-    
+
     }
 
     /**
@@ -56,7 +56,7 @@ class NewsCommentController extends Controller
     public function show($news_comment_id)
     {
         return redirect()->route('news.index');
-        
+
     }
 
     /**
@@ -81,7 +81,7 @@ class NewsCommentController extends Controller
     {
 
         if(auth()->user()->id != $news->owner_id){
-            return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
 
         $news_comment->body = $request->body;
@@ -104,7 +104,7 @@ class NewsCommentController extends Controller
     public function destroy(NewsComment $news_comment)
     {
         if(auth()->user()->id != $news_comment->owner_id){
-            return redirect()->route('news.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
         $news_comment->delete();
 

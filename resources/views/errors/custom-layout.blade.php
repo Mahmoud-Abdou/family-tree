@@ -5,14 +5,15 @@
     <meta name="description" content="{{ Helper::GeneralSettings('app_description_ar') }}">
     <meta name="author" content="عالم الفلك لتقنية المعلومات">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>غير متصل</title>
+    <title>@yield('title')</title>
     <link rel="shortcut icon" href="{{ Helper::GeneralSettings('app_icon') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/bootstrap.min.css') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/style.css') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/responsive.css') }}"/>
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/typography.css') }}"/>
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/bootstrap-rtl.min.css') }}"/>
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/style-rtl.css') }}"/>
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/responsive-rtl.css') }}"/>
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/typography-rtl.css') }}"/>
     <link rel="stylesheet" href="{{ secure_asset('assets/css/custom.css') }}"/>
-    <style type="text/css">.apexcharts-canvas {
+    <style type="text/css">
+        .apexcharts-canvas {
             position: relative;
             user-select: none;
             /* cannot give overflow: hidden as it will crop tooltips which overflow outside chart area */
@@ -79,7 +80,7 @@
         }
 
         .apexcharts-tooltip * {
-            font-family: inherit;
+            font-family: 'Cairo', sans-serif;
         }
 
         .apexcharts-tooltip .apexcharts-marker,
@@ -660,40 +661,25 @@
         }
     </style>
 </head>
-<body style="">
-<!-- loader Start -->
-<div id="loading" style="display: none;">
-    <div id="loading-center">
-        <div class="loader">
-            <div class="cube">
-                <div class="sides">
-                    <div class="top"></div>
-                    <div class="right"></div>
-                    <div class="bottom"></div>
-                    <div class="left"></div>
-                    <div class="front"></div>
-                    <div class="back"></div>
+<body>
+
+<div class="wrapper">
+    <div class="container-fluid p-0">
+        <div class="row no-gutters">
+            <div class="col-sm-12 text-center">
+                <div class="iq-error">
+                    <h1>@yield('code')</h1>
+                    <h4 class="mb-0">@yield('title')</h4>
+                    <p>@yield('message')</p>
+                    <a class="btn btn-primary mt-3" href="{{ app('router')->has('home') ? route('home') : url('/') }}"><i class="ri-home-4-line"></i>الصفحة الرئيسية</a>
+                    <img src="{{ secure_asset('assets/images/error/01.png') }}" class="img-fluid iq-error-img" alt="">
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="wrapper">
-    <div class="mt-5 iq-maintenance">
-        <div class="container-fluid p-0">
-            <div class="row no-gutters">
-                <div class="col-sm-12 text-center">
-                    <div class="iq-maintenance">
-                        <img src="{{ secure_asset('assets/images/error/02.png') }}" class="img-fluid" alt="">
-                        <h3 class="mt-4 mb-1">أنت حاليا غير متصل بالشبكة.</h3>
-                        <p>يرجى التحقق و المحاولة مرة اخرى.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1"
      xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"

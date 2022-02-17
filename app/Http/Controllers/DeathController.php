@@ -50,7 +50,7 @@ class DeathController extends Controller
         $filters = EloquentFilters::make($filters_array);
         $deaths = $deaths->filter($filters);
         $deaths = $deaths->paginate($page_limit);
-        
+
         return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }
 
@@ -93,36 +93,36 @@ class DeathController extends Controller
                 $request['image_id'] = null;
             }
 
-            
+
             $person = Person::where('id', $request['person_id'])->first();
             if($person != null){
                 $person->is_live = 0;
                 $person->save();
-                
+
                 $request['person_id'] = $person->id;
             }
 
             $death = Death::create($request->all());
-            
+
             $request['city_id'] = 1;
             $request['category_id'] = $category_id->id;
             $request['approved'] = 0;
             $news = News::create($request->all());
-    
+
             $death_notification = [];
             $death_notification['title'] = 'تم اضافة متوفي';
             $death_notification['body'] = $death->body;
             $death_notification['content'] = $death;
             $death_notification['url'] = 'deaths/' . $death->id;
             $death_notification['operation'] = 'store';
-    
+
             $users = User::where('status', 'active')->get();
             event(new NotificationEvent($death_notification, $users));
 
             \App\Helpers\AppHelper::AddLog('Death Create', class_basename($death), $death->id);
             return redirect()->route('deaths.index')->with('success', 'تم اضافة وفاة جديدة .');
         }catch(Exception $ex){
-            return redirect()->route('deaths.index')->with('danger', 'حدثت مشكلة');
+            return redirect()->route('deaths.index')->with('error', 'حدثت مشكلة');
         }
     }
 
@@ -136,10 +136,10 @@ class DeathController extends Controller
     {
         $appMenu = config('custom.main_menu');
         $menuTitle = '  اظهار المتوفي';
-        $pageTitle = 'لوحة التحكم';        
+        $pageTitle = 'لوحة التحكم';
         $death = Death::where('id', $death_id)->first();
         $death['type'] = 'deaths';
-        
+
         return view('web_app.Deaths.show', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
     }
 
@@ -153,7 +153,7 @@ class DeathController extends Controller
     {
         $menuTitle = 'تعديل حالة وفاة';
         $pageTitle = 'القائمة الرئيسية';
-        
+
         return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
     }
 
@@ -167,7 +167,7 @@ class DeathController extends Controller
     public function update(UpdateDeathRequest $request, Death $death)
     {
         if(auth()->user()->id != $death->owner_id){
-            return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('deaths.index')->with('error', 'لا يمكنك التعديل');
         }
         $death->title = $request->title;
         $death->body = $request->body;
@@ -177,7 +177,7 @@ class DeathController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $death->image_id);
             if($new_media == null){
-                return redirect()->route('deaths.index')->with('danger', 'حدث خطا');
+                return redirect()->route('deaths.index')->with('error', 'حدث خطا');
             }
         }
 
@@ -200,7 +200,7 @@ class DeathController extends Controller
     public function destroy(Death $death)
     {
         if(auth()->user()->id != $death->owner_id){
-            return redirect()->route('deaths.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('deaths.index')->with('error', 'لا يمكنك التعديل');
         }
         $death->image->DeleteFile($death->image);
         $death->image->delete();
@@ -218,13 +218,13 @@ class DeathController extends Controller
         $page_limit = 20;
         $deaths = new Death;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        
+
         $filters_array = $deaths->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);
         $deaths = $deaths->filter($filters);
         $deaths = $deaths->paginate($page_limit);
         // dd($deaths->links());
-        
+
         return view('dashboard.deaths.index', compact('appMenu', 'menuTitle', 'pageTitle', 'deaths'));
     }
 }

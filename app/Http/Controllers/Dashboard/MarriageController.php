@@ -40,11 +40,11 @@ class MarriageController extends Controller
         $menuTitle = 'الزواجات';
         $appMenu = config('custom.app_menu');
         $pageTitle = 'لوحة التحكم';
-        
+
         $page_limit = 20;
         $marriages = new Marriage;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        
+
         $filters_array = $marriages->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);
         $marriages = $marriages->filter($filters);
@@ -110,7 +110,7 @@ class MarriageController extends Controller
     public function update(UpdateMarriageRequest $request, Marriage $marriage)
     {
         if(auth()->user()->id != $marriage->owner_id){
-            return redirect()->route('admin.marriages.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('admin.marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->title = $request->title;
         $marriage->body = $request->body;
@@ -120,7 +120,7 @@ class MarriageController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $marriage->image_id);
             if($new_media == null){
-                return redirect()->route('admin.marriages.index')->with('danger', 'حدث خطا');
+                return redirect()->route('admin.marriages.index')->with('error', 'حدث خطا');
             }
         }
 

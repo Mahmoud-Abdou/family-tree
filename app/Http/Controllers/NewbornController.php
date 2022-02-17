@@ -38,7 +38,7 @@ class NewbornController extends Controller
         $page_limit = 20;
         $newborns = new Newborn;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        
+
         $filters_array = $newborns->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);
         $newborns = $newborns->filter($filters);
@@ -92,7 +92,7 @@ class NewbornController extends Controller
         $person = Person::create($person);
 
         $request['person_id'] = $person->id;
-        
+
         $newborn = Newborn::create($request->all());
 
         $newborn_notification = [];
@@ -120,9 +120,9 @@ class NewbornController extends Controller
     {
         $appMenu = config('custom.main_menu');
         $menuTitle = '  اظهار المولود';
-        $pageTitle = 'لوحة التحكم';        
+        $pageTitle = 'لوحة التحكم';
         $newborn = Newborn::where('id', $newborn_id)->first();
-        
+
         return view('web_app.Newborns.show', compact('appMenu', 'menuTitle', 'pageTitle', 'newborn'));
     }
 
@@ -150,7 +150,7 @@ class NewbornController extends Controller
     public function update(UpdateNewbornRequest $request, Newborn $newborn)
     {
         if(auth()->user()->id != $newborn->owner_id){
-            return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('newborns.index')->with('error', 'لا يمكنك التعديل');
         }
         $newborn->title = $request->title;
         $newborn->body = $request->body;
@@ -160,7 +160,7 @@ class NewbornController extends Controller
             $new_media = new Media;
             $new_media = $new_media->EditUploadedMedia($request->file('image'), $newborn->image_id);
             if($new_media == null){
-                return redirect()->route('newborns.index')->with('danger', 'حدث خطا');
+                return redirect()->route('newborns.index')->with('error', 'حدث خطا');
             }
         }
 
@@ -179,7 +179,7 @@ class NewbornController extends Controller
     public function destroy(Newborn $newborn)
     {
         if(auth()->user()->id != $newborn->owner_id){
-            return redirect()->route('newborns.index')->with('danger', 'لا يمكنك التعديل');
+            return redirect()->route('newborns.index')->with('error', 'لا يمكنك التعديل');
         }
         $newborn->image->DeleteFile($newborn->image);
         $newborn->image->delete();

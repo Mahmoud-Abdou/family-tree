@@ -23,6 +23,15 @@ class Category extends Model
         'color'
     ];
 
+    protected $primaryKey = 'slug';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -63,7 +72,7 @@ class Category extends Model
         }
     }
 
-  
+
 
     public static function getTypeName($type)
     {
