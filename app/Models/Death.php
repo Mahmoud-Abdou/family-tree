@@ -38,6 +38,11 @@ class Death extends Model
         'date' => 'datetime:Y-m-d H:i',
     ];
 
+    public function person()
+    {
+        return $this->belongsTo('App\Models\Person', 'person_id', 'id');
+    }
+
     public function owner()
     {
         return $this->belongsTo('App\Models\User', 'owner_id', 'id');
@@ -75,9 +80,9 @@ class Death extends Model
         if(isset($request_filter['date'])){
             $filters[] = new DateFilter($request_filter['date'], 'created_at');
         }
-        
-        
-        
+
+
+
         return $filters;
     }
 }

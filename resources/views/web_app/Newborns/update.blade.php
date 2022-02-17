@@ -15,7 +15,7 @@
                     @include('partials.messages')
                     @include('partials.errors-messages')
 
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-user-smile-line"> </i> {{ $menuTitle }}</h5>
                         </div>
@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ $newborn->image->file }}" alt="Newborn Image" />
+                                            <img class="file-upload-image" src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="Newborn Image" />
                                             <div class="image-title-wrap">
                                                 <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
                                             </div>

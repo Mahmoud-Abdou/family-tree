@@ -22,7 +22,6 @@ use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class DeathController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -39,10 +38,9 @@ class DeathController extends Controller
      */
     public function index(Request $request)
     {
-        $id = auth()->user()->id;
         $menuTitle = 'الوفيات';
         $pageTitle = 'القائمة الرئيسية';
-        $page_limit = 20;
+        $page_limit = 15;
         $deaths = new Death;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
 
@@ -134,13 +132,13 @@ class DeathController extends Controller
      */
     public function show($death_id)
     {
-        $appMenu = config('custom.main_menu');
-        $menuTitle = '  اظهار المتوفي';
-        $pageTitle = 'لوحة التحكم';
+        $menuTitle = 'عرض المتوفي';
+        $pageTitle = 'القائمة الرئيسية';
         $death = Death::where('id', $death_id)->first();
         $death['type'] = 'deaths';
+        $lastDeaths = Death::latest()->take(5)->get();
 
-        return view('web_app.Deaths.show', compact('appMenu', 'menuTitle', 'pageTitle', 'death'));
+        return view('web_app.Deaths.show', compact('menuTitle', 'pageTitle', 'death', 'lastDeaths'));
     }
 
     /**
@@ -208,23 +206,5 @@ class DeathController extends Controller
 
         \App\Helpers\AppHelper::AddLog('Death Delete', class_basename($death), $death->id);
         return redirect()->route('deaths.index')->with('success', 'تم حذف بيانات وفاة بنجاح.');
-    }
-
-    public function get_admin_deaths()
-    {
-        $appMenu = config('custom.app_menu');
-        $menuTitle = 'الوفيات';
-        $pageTitle = 'لوحة التحكم';
-        $page_limit = 20;
-        $deaths = new Death;
-        $filters_data = isset($request['filters']) ? $request['filters'] : [];
-
-        $filters_array = $deaths->filters($filters_data);
-        $filters = EloquentFilters::make($filters_array);
-        $deaths = $deaths->filter($filters);
-        $deaths = $deaths->paginate($page_limit);
-        // dd($deaths->links());
-
-        return view('dashboard.deaths.index', compact('appMenu', 'menuTitle', 'pageTitle', 'deaths'));
     }
 }

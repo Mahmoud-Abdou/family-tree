@@ -24,7 +24,7 @@
                         <h5 class="float-left my-auto"><i class="ri-user-4-line"> </i> {{ $menuTitle }}</h5>
                     </div>
 
-                    <form dir="rtl" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
+                    <form dir="rtl" method="POST" action="{{ route('reports.store') }}">
                     @csrf
                     <div class="card-body">
 
@@ -38,11 +38,11 @@
                                 <textarea class="form-control" name="body" id="body">{!! old('body') !!}</textarea>
                             </div>
 
-                            
-                            
+
+
                         </div>
-                        
-                        
+
+
                     </div>
 
                     <div class="card-footer text-muted">

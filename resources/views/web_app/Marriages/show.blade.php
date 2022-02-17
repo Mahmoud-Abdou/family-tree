@@ -101,7 +101,7 @@
                                                 <div class="product-miniature">
                                                     <div class="thumbnail-container">
                                                         <a href="{{ route('marriages.show', $e) }}">
-                                                            <img src="{{ $e->image->file }}" alt="{{ $e->title }}" class="img-fluid">
+                                                            <img src="{{ isset($e->image->file) ? $e->image->file : 'default.png' }}" alt="{{ $e->title }}" class="img-fluid">
                                                         </a>
                                                     </div>
                                                     <div class="product-description">
@@ -143,7 +143,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form dir="rtl" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
+                <form dir="rtl" method="POST" action="{{ route('reports.store') }}">
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="type" value="marriages" >

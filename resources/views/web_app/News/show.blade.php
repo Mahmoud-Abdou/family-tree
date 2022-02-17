@@ -15,7 +15,7 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
-                            
+
                         </div>
                         <div class="col-lg-12">
                     <div class="iq-card shadow">
@@ -32,7 +32,7 @@
                                         <div class="additional-product-action d-flex align-items-center">
 
                                             <div class="product-action w-100">
-                                                
+
                                                 <div class="wishlist mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="التاريخ"
                                                        data-original-title="التاريخ"><i
@@ -45,7 +45,7 @@
                                                        data-original-title="التبليغ عن شكوي"> <i
                                                             class="ri-alarm-warning-fill"> </i> </a>
                                                 </div>
-                                                
+
                                                 <div class="d-flex justify-content-between" dir="ltr">
                                                     @if($news->owner_id == auth()->user()->id)
                                                         @can('news.update')
@@ -61,7 +61,7 @@
                                                             <input type="hidden" name="news_id" value="{{ $news->id }}">
                                                             <button type="submit" class="btn btn-sm card-text m-0"><i class="ri-thumb-up-fill"></i></button>
                                                         </form>
-                                                    @else 
+                                                    @else
                                                         <form dir="rtl" method="POST" action="{{ route('news_likes.destroy', $news->likes->where('owner_id', auth()->user()->id)->first()) }}" >
                                                             @csrf
                                                             @method('DELETE')
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     @include('web_app.News.comments')
 
 
@@ -96,7 +96,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="modal fade bd-example-modal-xl " tabindex="-1" role="dialog" aria-modal="true" >
         <div class="modal-dialog modal-xl">
@@ -107,7 +107,7 @@
                     <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form dir="rtl" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
+                <form dir="rtl" method="POST" action="{{ route('reports.store') }}">
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="type" value="news" >
@@ -136,7 +136,7 @@
                     <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                
+
                 <form id="DeleteForm" action="" method="POST">
                     @csrf
                     @method('DELETE')

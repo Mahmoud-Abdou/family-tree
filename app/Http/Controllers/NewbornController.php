@@ -35,7 +35,7 @@ class NewbornController extends Controller
     {
         $menuTitle = 'المواليد';
         $pageTitle = 'القائمة الرئيسية';
-        $page_limit = 20;
+        $page_limit = 15;
         $newborns = new Newborn;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
 
@@ -70,17 +70,19 @@ class NewbornController extends Controller
     {
         $request['owner_id'] = auth()->id();
 //        $request['date'] = Carbon::parse($request['date']);
-        $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+
+        // TODO: related to father family id.
+        if (auth()->user()->profile->has_family) {
+            $request['family_id'] = auth()->user()->profile->ownFamily[0]->id;
+        } else {
+            $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+        }
 
         $media = new Media;
         $category_id = Category::where('type', 'newborn')->first();
         $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id());
         $request['image_id'] = $media->id;
 
-
-//        $request['city_id'] = 1;
-//        $request['category_id'] = $category_id->id;
-//        $request['approved'] = 0;
 //        $news = News::create($request->all());
 
         $person = [];
@@ -105,7 +107,6 @@ class NewbornController extends Controller
         $users = User::where('status', 'active')->get();
         event(new NotificationEvent($newborn_notification, $users));
 
-
         \App\Helpers\AppHelper::AddLog('Newborn Create', class_basename($newborn), $newborn->id);
         return redirect()->route('newborns.index')->with('success', 'تم اضافة مولود جديدة .');
     }
@@ -118,12 +119,12 @@ class NewbornController extends Controller
      */
     public function show($newborn_id)
     {
-        $appMenu = config('custom.main_menu');
-        $menuTitle = '  اظهار المولود';
-        $pageTitle = 'لوحة التحكم';
+        $menuTitle = 'عرض المولود';
+        $pageTitle = 'القائمة الرئيسية';
         $newborn = Newborn::where('id', $newborn_id)->first();
+        $lastNewborn = Newborn::latest()->take(5)->get();
 
-        return view('web_app.Newborns.show', compact('appMenu', 'menuTitle', 'pageTitle', 'newborn'));
+        return view('web_app.Newborns.show', compact('menuTitle', 'pageTitle', 'newborn', 'lastNewborn'));
     }
 
     /**
@@ -164,10 +165,14 @@ class NewbornController extends Controller
             }
         }
 
-        $newborn->save();
+        if ($newborn->isDirty()) {
+            $newborn->save();
 
-        \App\Helpers\AppHelper::AddLog('Newborn Update', class_basename($newborn), $newborn->id);
-        return redirect()->route('newborns.index')->with('success', 'تم تعديل بيانات مولود بنجاح.');
+            \App\Helpers\AppHelper::AddLog('Newborn Update', class_basename($newborn), $newborn->id);
+            return redirect()->route('newborns.index')->with('success', 'تم تعديل بيانات مولود بنجاح.');
+        }
+
+        return redirect()->route('newborns.index');
     }
 
     /**

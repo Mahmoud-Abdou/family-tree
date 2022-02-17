@@ -19,7 +19,7 @@
                     @include('partials.messages')
                     @include('partials.errors-messages')
 
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow">
                     <div class="card-header">
                         <h5 class="float-left my-auto"><i class="ri-user-4-line"> </i> {{ $menuTitle }}</h5>
                     </div>
@@ -69,10 +69,10 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
-                        
+
+
                     </div>
 
                     <div class="card-footer text-muted">

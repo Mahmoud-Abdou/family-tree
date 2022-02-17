@@ -29,7 +29,7 @@ class StoreMarriageRequest extends FormRequest
             'title' => ['required'],
             'body' => ['required'],
             'image' => ['required'],
-            'date' => ['required', 'date', 'date_format:Y-m-d'],
+            'date' => ['required', 'date', 'date_format:Y-m-d'], // 'date_format:Y-m-d H:i'
         ];
     }
 }

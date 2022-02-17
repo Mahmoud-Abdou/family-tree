@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-calendar-newborn-line"> </i>'.$menuTitle, 'slots' => [['title' => 'المواليد', 'link' => route('newborns.index')],['title' => $menuTitle, 'link' => null],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-smile-line"> </i>'.$menuTitle, 'slots' => [['title' => 'المواليد', 'link' => route('newborns.index')],['title' => $menuTitle, 'link' => null],]])
 @endsection
 
 @section('content')
@@ -31,34 +31,45 @@
                                         <div class="additional-product-action d-flex align-items-center">
 
                                             <div class="product-action w-100">
-                                                
                                                 <div class="wishlist mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="التاريخ"
                                                        data-original-title="التاريخ"><i
                                                             class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($newborn->date)) }}
                                                     </p>
                                                 </div>
-                                                <div class="wishlist mx-3 float-right">
-                                                    <a  data-toggle="modal" data-target=".bd-example-modal-xl"
-                                                       title="التبليغ عن شكوي"
-                                                       data-original-title="التبليغ عن شكوي"> <i
-                                                            class="ri-alarm-warning-fill"> </i> </a>
-                                                </div>
-                                                <div class="d-flex justify-content-between" dir="ltr">
+
+                                                <div class="wishlist mx-1 float-right">
+
                                                     @if($newborn->owner_id == auth()->user()->id)
                                                         @can('newborns.update')
-                                                        
-                                                            <a href="{{ route('newborns.edit', $newborn) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
+                                                            <a class="bg-warning text-dark" href="{{ route('newborns.edit', $newborn) }}" data-toggle="tooltip" data-placement="top"
+                                                               title="تعديل"
+                                                               data-original-title="تعديل">
+                                                                <i class="ri-edit-2-fill"></i>
+                                                            </a>
                                                         @endcan
                                                         @can('newborns.delete')
-                                                        <form action="{{ route('newborns.destroy', $newborn) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-
-                                                            <a onclick= "submit_form(this)" class="card-text m-0"><i class="ri-delete-back-2-fill"></i></a>
-                                                        </form>
+                                                            <span data-toggle="tooltip" data-placement="top" title="حذف"
+                                                                  data-original-title="حذف">
+                                                                <a class="bg-danger text-dark" href="#" data-toggle="modal" data-placement="top" data-target="#deleteModal">
+                                                                    <i class="ri-delete-back-2-fill"> </i>
+                                                                </a>
+                                                            </span>
                                                         @endcan
                                                     @endif
+
+                                                    <a href="#" data-toggle="tooltip" data-placement="top"
+                                                       title="اضافة الى المفضلة"
+                                                       data-original-title="اضافة الى المفضلة">
+                                                        <i class="ri-heart-line"></i>
+                                                    </a>
+
+                                                    <span data-toggle="tooltip" data-placement="top" title="التبليغ عن الخبر"
+                                                          data-original-title="التبليغ عن الخبر">
+                                                        <a href="#" data-toggle="modal" data-placement="top" data-target="#reportModal">
+                                                            <i class="ri-alarm-warning-line"> </i>
+                                                        </a>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -67,9 +78,7 @@
                                 <div class="col-md-6 iq-item-product-left">
                                     <div class="iq-image-container">
                                         <div class="iq-product-cover">
-                                            <img
-                                                src="{{ isset($newborn->image->file) ? $newborn->image->file : '/default.png' }}"
-                                                alt="{{ $newborn->title }}" class="img-fluid">
+                                            <img src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="{{ $newborn->title }}" class="img-fluid">
                                         </div>
                                     </div>
                                 </div>
@@ -77,35 +86,106 @@
                         </div>
                     </div>
 
+                    <div class="col-lg-12 px-0 shadow">
+                        <div class="iq-card">
+                            <div class="iq-card-body p-0">
+
+                                <div class="related-heading text-center my-4 p-2">
+                                    <h2>آخر الولادات</h2>
+                                </div>
+
+                                @if($lastNewborn->count() > 0)
+                                    <div id="events-slider" class="slick-slider">
+                                        @foreach($lastNewborn as $e)
+                                            <div class="product_item col-lg-4 col-md-6 col-sm-12">
+                                                <div class="product-miniature">
+                                                    <div class="thumbnail-container">
+                                                        <a href="{{ route('newborns.show', $e) }}">
+                                                            <img src="{{ isset($e->image->file) ? $e->image->file : 'default.png' }}" alt="{{ $e->title }}" class="img-fluid">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-description">
+                                                        <h4>{{ $e->title }}</h4>
+                                                        <p class="mb-0">{!! $e->short_body !!}</p>
+                                                        <hr>
+                                                        <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                                            <div class="product-action">
+                                                                <div class="wishlist mx-3">
+                                                                    <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($e->date)) }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-price"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-center">لا يوجد بيانات</p>
+                                @endif
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <div class="modal fade bd-example-modal-xl " tabindex="-1" role="dialog" aria-modal="true" >
-        <div class="modal-dialog modal-xl">
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">التبليغ عن شكوي</h5>
+                    <h5 class="modal-title" id="reportModalLabel"><i class="ri-alarm-warning-fill"> </i>التبليغ عن شكوي</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form dir="rtl" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
+                <form dir="rtl" method="POST" action="{{ route('reports.store') }}">
                     @csrf
                     <div class="modal-body">
                         <input type="hidden" name="type" value="newborns" >
                         <input type="hidden" name="type_id" value="{{ $newborn->id }}">
 
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-12">
                             <label for="body">وصف الشكوي</label>
                             <textarea class="form-control" name="body" id="body"></textarea>
                         </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" >Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-primary">ارسال</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="deleteModalLabel">حذف البيانات</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('newborns.destroy', $newborn) }}">
+                    <div class="modal-body">
+                        @csrf
+                        @method('DELETE')
+
+                        <p>سيتم حذف البيانات بشكل كامل.</p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-danger">حذف</button>
                     </div>
                 </form>
             </div>
