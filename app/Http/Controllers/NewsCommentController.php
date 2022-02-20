@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\NewsComment;
 use App\Http\Requests\StoreNewsCommentRequest;
 use App\Http\Requests\UpdateNewsCommentRequest;
-
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
 class NewsCommentController extends Controller
 {
@@ -15,7 +14,7 @@ class NewsCommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         return redirect()->route('news.index');
 

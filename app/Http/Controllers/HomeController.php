@@ -66,7 +66,7 @@ class HomeController extends Controller
             foreach($main_families as $main_family){
                 $families[] = $this->familyTreeData($main_family->id);
             }
-            return response()->json($families, 200, [], JSON_UNESCAPED_UNICODE);
+            return response()->json($families, 200);
         }
 
         $pageTitle = 'القائمة الرئيسية';
@@ -142,7 +142,7 @@ class HomeController extends Controller
     public function dashboard()
     {
         $appMenu = config('custom.app_menu');
-        $menuTitle = 'الاعدادات';
+        $menuTitle = 'لوحة التحكم';
         $pageTitle = 'لوحة التحكم';
         $newsData = [];
         $newsData['lastNews'] = News::latest()->take(5)->get();

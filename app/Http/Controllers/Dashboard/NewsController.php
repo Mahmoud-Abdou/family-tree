@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+//use App\Models\User;
 use App\Models\News;
 use App\Models\City;
 use App\Models\Category;
-use App\Events\NewsEvent;
+//use App\Events\NewsEvent;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification;
-use App\Events\NotificationEvent;
-use Carbon\Carbon;
-use App\Filters\OwnerFilter;
+//use Carbon\Carbon;
+//use App\Filters\OwnerFilter;
 use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class NewsController extends Controller
@@ -39,8 +37,8 @@ class NewsController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $page_limit = 20;
-        $categories = Category::get();
-        $cities = City::get();
+        $categories = Category::all();
+        $cities = City::all();
 
         $news = new News;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
@@ -67,7 +65,7 @@ class NewsController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $cities = City::where('status', 1)->get();
-        $categories = Category::get();
+        $categories = Category::all();
 
         return view('dashboard.news.create', compact('appMenu', 'menuTitle', 'pageTitle', 'cities', 'categories'));
     }
@@ -107,7 +105,7 @@ class NewsController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $cities = City::where('status', 1)->get();
-        $categories = Category::get();
+        $categories = Category::all();
 
         return view('dashboard.news.update', compact('appMenu', 'menuTitle', 'pageTitle', 'news','cities', 'categories'));
     }
@@ -172,17 +170,6 @@ class NewsController extends Controller
         $news->approved = true;
         $news->approved_by = auth()->id();
         $news->save();
-        
-        $news['operation_type'] = 'store';
-        $news_notification = [];
-        $news_notification['title'] = 'تم اضافة خبر';
-        $news_notification['body'] = $news->notification_body;
-        $news_notification['content'] = $news;
-        $news_notification['url'] = 'news/' . $news->id;
-        $news_notification['operation'] = 'store';
-
-        $users = User::where('status', 'active')->get();
-        event(new NotificationEvent($news_notification, $users));
 
         return back()->with('success', 'تم تنشيط الخبر بنجاح');
     }
@@ -195,7 +182,7 @@ class NewsController extends Controller
         else{
             $news = News::with('category')->with('city')->with('owner')->where('approved', 1)->where('category_id', $category_id)->get();
         }
-        return response()->json($news, 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json($news, 200, []);
     }
 
 }

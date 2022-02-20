@@ -15,10 +15,10 @@
         <nav class="navbar navbar-expand-lg navbar-light p-0">
 
             <button class="navbar-toggler mr-1" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="ri-menu-3-line"></i>
+                <i class="ri-menu-2-line"></i>
             </button>
 
-            <div class="iq-menu-bt align-self-center">
+            <div id="sidebarMainMenu" class="iq-menu-bt align-self-center">
                 <div class="wrapper-menu">
                     <div class="line-menu half start"></div>
                     <div class="line-menu"></div>

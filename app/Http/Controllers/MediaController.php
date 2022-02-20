@@ -36,7 +36,7 @@ class MediaController extends Controller
         $menuTitle = 'المعرض';
         $pageTitle = 'لوحة التحكم';
         $media = Media::where('owner_id', auth()->user()->id)->paginate(20);
-        $categories = Category::get();
+        $categories = Category::all();
 
         return view('web_app.Media.index', compact('menuTitle', 'pageTitle', 'media', 'categories'));
     }
@@ -85,7 +85,7 @@ class MediaController extends Controller
         $menuTitle = $category->name_ar;
         $pageTitle = 'القائمة الرئيسية';
         if($category_id == 0){
-            $media = Media::get();
+            $media = Media::all();
         }
         else{
             $media = Media::where('category_id', $category_id)->get();
@@ -157,10 +157,10 @@ class MediaController extends Controller
         else{
             $media = Media::with('category')->where('category_id', $category_id)->get();
         }
-        return response()->json($media, 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json($media, 200);
     }
 
-    public function media_category(Request $request)
+    public function media_category()
     {
         return null;
     }

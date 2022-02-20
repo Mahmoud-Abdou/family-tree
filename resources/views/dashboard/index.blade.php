@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-dashboard-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-dashboard-line"> </i>'.$menuTitle, 'slots' => []])
 @endsection
 
 @section('content')

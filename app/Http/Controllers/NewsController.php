@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Models\User;
 use App\Models\News;
 use App\Models\City;
 use App\Models\Category;
-use App\Events\NewsEvent;
+//use App\Events\NewsEvent;
 use Illuminate\Http\Request;
 use App\Events\NotificationEvent;
 
-use Carbon\Carbon;
-use App\Filters\OwnerFilter;
+//use Carbon\Carbon;
+//use App\Filters\OwnerFilter;
 use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class NewsController extends Controller
@@ -28,15 +29,15 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
         $menuTitle = 'الاخبار';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 20;
-        $categories = Category::get();
-        $cities = City::get();
+        $categories = Category::all();
+        $cities = City::all();
 
         $news = new News;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
@@ -55,7 +56,7 @@ class NewsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -72,7 +73,7 @@ class NewsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -105,7 +106,7 @@ class NewsController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show($news_id)
     {
@@ -123,7 +124,7 @@ class NewsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\News  $news
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(News $news)
     {
@@ -210,7 +211,7 @@ class NewsController extends Controller
         else{
             $news = News::with('category')->with('city')->with('owner')->where('approved', 1)->where('category_id', $category_id)->get();
         }
-        return response()->json($news, 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json($news, 200);
     }
 
 }
