@@ -9,7 +9,6 @@ use App\Models\City;
 use App\Models\Category;
 //use App\Events\NewsEvent;
 use Illuminate\Http\Request;
-use App\Events\NotificationEvent;
 
 //use Carbon\Carbon;
 //use App\Filters\OwnerFilter;
