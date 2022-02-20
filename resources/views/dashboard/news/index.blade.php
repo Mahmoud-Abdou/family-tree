@@ -21,7 +21,7 @@
                         <div class="card-header">
                             <div class="row">
                                     <div class="col-md-2">
-                                        <div class="form-group my-auto">
+                                        <div class="form-group ">
                                             <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
                                         </div>
                                     </div>
@@ -49,7 +49,6 @@
                                     </div>
 
                                     
-
                                     <div class="col-md-2">
                                         <div class="form-group my-auto">
                                         <select class="form-control" name="city" id="city-filter">
