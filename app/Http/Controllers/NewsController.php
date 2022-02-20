@@ -110,7 +110,7 @@ class NewsController extends Controller
     public function show($news_id)
     {
         $appMenu = config('custom.main_menu');
-        $menuTitle = '  اظهار الخبر';
+        $menuTitle = '  عرض الخبر';
         $pageTitle = 'لوحة التحكم';
 
         $news = News::where('id', $news_id)->first();

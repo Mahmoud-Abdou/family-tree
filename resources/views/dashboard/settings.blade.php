@@ -20,7 +20,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5><i class="ri-settings-2-fill mx-2"> </i></h5>
+                            <h5><i class="ri-settings-2-fill mx-2"> </i> {{ $menuTitle }}</h5>
                         </div>
 
                         <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">

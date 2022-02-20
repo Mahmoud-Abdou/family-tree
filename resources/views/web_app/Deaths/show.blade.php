@@ -100,7 +100,7 @@
                                             <div class="product_item col-lg-4 col-md-6 col-sm-12">
                                                 <div class="product-miniature">
                                                     <div class="thumbnail-container">
-                                                        <a href="{{ route('newborns.show', $e) }}">
+                                                        <a href="{{ route('deaths.show', $e) }}">
                                                             <img src="{{ isset($e->image->file) ? $e->image->file : 'default.png' }}" alt="{{ $e->title }}" class="img-fluid">
                                                         </a>
                                                     </div>

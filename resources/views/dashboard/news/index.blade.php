@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                     <div class="col-md-2">
                                         <div class="form-group my-auto">
                                         <select class="form-control" name="city" id="city-filter">
@@ -87,31 +87,27 @@
                                             <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
                                             <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
                                             <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
-                                            
+
                                         </select>
                                         <div class="invalid-tooltip">
-                                            بحث بالتاريخ           
+                                            بحث بالتاريخ
                                         </div>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group my-auto">
                                         <select class="form-control" name="approved" id="approved-filter">
-                                            <option disabled="">بحث بالمفعل</option>
+                                            <option disabled="">بحث بالحالة</option>
                                             <option value="">الكل</option>
                                             <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 0 ? 'selected=""' : '' }} value="0">الاخبار الغير مفعلة</option>
                                             <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 1 ? 'selected=""' : '' }} value="1">الاخبار المفعلة</option>
-                                            
+
                                         </select>
                                         <div class="invalid-tooltip">
-                                            بحث بالمفعل           
+                                            بحث بالحالة
                                         </div>
                                         </div>
                                     </div>
-
-                                    
-
-                                    
 
                                     <div class="col-md-2 my-auto">
                                         <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
@@ -122,7 +118,7 @@
 
                             <div class="table-responsive">
                                 <table class="table m-0 px-2">
-                                 
+
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
@@ -146,7 +142,7 @@
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($row->news_date)) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                        
+
 
                                                         @can('news.update')
                                                         <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.news.edit', $row) }}"><i class="ri-edit-2-fill"></i></a>
@@ -161,7 +157,7 @@
                                                                 <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                             </form>
                                                         @endif
-                                                            
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -199,7 +195,7 @@
                     <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                
+
                 <form id="DeleteForm" action="" method="POST">
                     @csrf
                     @method('DELETE')
@@ -221,7 +217,7 @@
     function openDeleteModel(data){
         $('#DeleteForm').attr('action', data)
     }
-    
+
     function filter_data(){
         title_filter = $('#title-filter').val();
         body_filter = $('#body-filter').val();

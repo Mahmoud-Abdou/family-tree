@@ -166,9 +166,13 @@
                                                     </td>
                                                     <td>{{ $news->owner->name }}</td>
                                                     <td>
-                                                        <div class="iq-progress-bar">
-                                                            <span class="bg-success" data-percent="90"></span>
-                                                        </div>
+                                                        @if($news->approved == 0)
+                                                            <form method="POST" action="{{ route('admin.news.activate') }}">
+                                                                @csrf
+                                                                <input type="hidden" name="news_id" value="{{ $news->id }}">
+                                                                <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
