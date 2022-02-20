@@ -83,6 +83,7 @@ class ReportController extends Controller
      */
     public function show($report_id)
     {    
+        // dd("sda");
         $report = Report::where('id', $report_id)->first();
         return $report->showReportData($report);
     }
@@ -95,7 +96,6 @@ class ReportController extends Controller
      */
     public function edit(Request $request)
     {
-        dd($request);
         return redirect()->route('admin.Reports.index');
 
     }
