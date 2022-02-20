@@ -27,25 +27,22 @@
 
                                             <div class="product-action w-100">
                                                 <div class="wishlist mx-3">
-                                                    <p data-toggle="tooltip" data-placement="top" title="التاريخ"
-                                                       data-original-title="التاريخ"><i
-                                                            class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($news->date)) }}
+                                                    <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ">
+                                                        <i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($news->date)) }}
                                                     </p>
                                                 </div>
 
                                                 <div class="wishlist d-inline-flex mx-1 float-right">
-
                                                     @if($news->owner_id == auth()->user()->id)
                                                         @can('news.update')
-                                                            <a class="bg-warning text-dark" href="{{ route('news.edit', $news) }}" data-toggle="tooltip" data-placement="top"
-                                                               title="تعديل"
-                                                               data-original-title="تعديل">
-                                                                <i class="ri-edit-2-fill"></i>
-                                                            </a>
+                                                            <span data-toggle="tooltip" data-placement="top" title="تعديل" data-original-title="تعديل">
+                                                                <a class="bg-warning text-dark" href="{{ route('news.edit', $news) }}">
+                                                                    <i class="ri-edit-2-fill"></i>
+                                                                </a>
+                                                            </span>
                                                         @endcan
                                                         @can('news.delete')
-                                                            <span data-toggle="tooltip" data-placement="top" title="حذف"
-                                                                  data-original-title="حذف">
+                                                            <span data-toggle="tooltip" data-placement="top" title="حذف" data-original-title="حذف">
                                                                 <a class="bg-danger text-dark" href="#" data-toggle="modal" data-placement="top" data-target="#deleteModal">
                                                                     <i class="ri-delete-back-2-fill"> </i>
                                                                 </a>
@@ -53,32 +50,23 @@
                                                         @endcan
                                                     @endif
 
-                                                    @if($news->likes->where('owner_id', auth()->user()->id)->first() == null)
-                                                        <form method="POST" action="{{ route('news_likes.store') }}" >
-                                                            @csrf
-                                                            <input type="hidden" name="news_id" value="{{ $news->id }}">
+                                                    <span class="mx-1" data-toggle="tooltip" data-placement="top" title="اضافة الى المفضلة" data-original-title="اضافة الى المفضلة">
+                                                        @if($news->likes->where('owner_id', auth()->user()->id)->first() == null)
+                                                            <form method="POST" action="{{ route('news_likes.store') }}" >
+                                                                @csrf
+                                                                <input type="hidden" name="news_id" value="{{ $news->id }}">
+                                                                    <button class="btn btn-info p-2" type="submit"><i class="ri-heart-line"></i></button>
+                                                            </form>
+                                                        @else
+                                                            <form method="POST" action="{{ route('news_likes.destroy', $news->likes->where('owner_id', auth()->user()->id)->first()) }}" >
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                    <button class="btn btn-info p-2" type="submit"><i class="ri-heart-fill"></i></button>
+                                                            </form>
+                                                        @endif
+                                                    </span>
 
-                                                            <span data-toggle="tooltip" data-placement="top"
-                                                               title="اضافة الى المفضلة"
-                                                               data-original-title="اضافة الى المفضلة">
-                                                                <button class="btn btn-info p-2" type="submit"><i class="ri-heart-line"></i></button>
-                                                            </span>
-                                                        </form>
-                                                    @else
-                                                        <form method="POST" action="{{ route('news_likes.destroy', $news->likes->where('owner_id', auth()->user()->id)->first()) }}" >
-                                                            @csrf
-                                                            @method('DELETE')
-
-                                                            <span data-toggle="tooltip" data-placement="top"
-                                                               title="اضافة الى المفضلة"
-                                                               data-original-title="اضافة الى المفضلة">
-                                                                <button class="btn btn-info p-2" type="submit"><i class="ri-heart-fill"></i></button>
-                                                            </span>
-                                                        </form>
-                                                    @endif
-
-                                                    <span data-toggle="tooltip" data-placement="top" title="التبليغ عن الخبر"
-                                                          data-original-title="التبليغ عن الخبر">
+                                                    <span data-toggle="tooltip" data-placement="top" title="التبليغ عن الخبر" data-original-title="التبليغ عن الخبر">
                                                         <a href="#" data-toggle="modal" data-placement="top" data-target="#reportModal">
                                                             <i class="ri-alarm-warning-line"> </i>
                                                         </a>
@@ -100,8 +88,13 @@
                         <hr>
                         @include('web_app.News.comments')
                     </div>
-
                 </div>
+
+{{--                <div class="col-lg-12">--}}
+{{--                    <div class="iq-card shadow-sm">--}}
+{{--                        @include('web_app.News.comments')--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
             </div>
         </div>

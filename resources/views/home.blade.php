@@ -32,10 +32,10 @@
                         <div class="card-header">
                             <h5 class="card-title text-center">آخر الأخبار</h5>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body d-inline-flex mt-3">
 
                             @if($lastNews->count() > 0)
-                            <div id="events-slider" class="slick-slider">
+{{--                            <div id="events-slider" class="slick-slider">--}}
                                 @foreach($lastNews as $n)
                                     <div class="product_item col-xs-12 col-sm-6 col-md-6 col-lg-4">
                                         <div class="product-miniature">
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
+{{--                            </div>--}}
                             @else
                                 <p class="text-center">لا يوجد بيانات</p>
                             @endif
@@ -66,6 +66,8 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
 
         </div>
     </div>

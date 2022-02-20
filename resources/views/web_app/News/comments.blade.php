@@ -7,7 +7,7 @@
                     <input type="hidden" name="news_id" value="{{ $news->id }}">
                     <textarea name="body" class="form-control" rows="2" placeholder="اكتب تعليق"></textarea>
                     <br>
-                    <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="ri-discuss-fill"></i> اضف
+                    <button class="btn btn-sm btn-primary pull-right py-2 px-4" type="submit"><i class="ri-discuss-fill"></i> اضف
                         تعليق
                     </button>
                 </form>
