@@ -12,7 +12,7 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::post('update-role', [\App\Http\Controllers\UserController::class, 'roleAssign'])->name('users.roleAssign');
         Route::resource('cities', \App\Http\Controllers\CityController::class);
         Route::resource('events', \App\Http\Controllers\Dashboard\EventController::class);
-        Route::post('event-activate', [\App\Http\Controllers\EventController::class, 'activate'])->name('events.activate');
+        Route::post('event-activate', [\App\Http\Controllers\Dashboard\EventController::class, 'activate'])->name('events.activate');
         Route::resource('reports', \App\Http\Controllers\ReportController::class);
 //        Route::resource('families', \App\Http\Controllers\FamilyController::class);
         Route::resource('deaths', \App\Http\Controllers\Dashboard\DeathController::class);
@@ -20,6 +20,8 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::resource('marriages', \App\Http\Controllers\Dashboard\MarriageController::class);
         Route::resource('news', \App\Http\Controllers\Dashboard\NewsController::class);
         Route::post('news-activate', [\App\Http\Controllers\Dashboard\NewsController::class, 'activate'])->name('news.activate');
+        Route::get('read-notification', [\App\Http\Controllers\HomeController::class, 'read_notification']);
+   
     });
 
     Route::group(['middleware' => ['role:Super Admin']], function () {

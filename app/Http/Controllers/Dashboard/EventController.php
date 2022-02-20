@@ -7,9 +7,13 @@ use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Models\City;
+use App\Models\User;
 use App\Models\Media;
 use App\Models\Category;
+use App\Events\NotificationEvent;
 use Illuminate\Http\Request;
+
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class EventController extends Controller
 {
@@ -32,15 +36,23 @@ class EventController extends Controller
      *
      * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $appMenu = config('custom.app_menu');
         $menuTitle = 'المناسبات';
         $pageTitle = 'لوحة التحكم';
         $page_limit = 20;
-        $events = Event::paginate($page_limit);
+        $events = new Event;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+        $filters_array = $events->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $events = $events->filter($filters);
+        $events = $events->orderBy('created_at', 'DESC')
+                ->paginate($page_limit);
+                
+        $cities = City::get();
 
-        return view('dashboard.events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events'));
+        return view('dashboard.events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events', 'cities'));
     }
 
     /**
@@ -176,6 +188,18 @@ class EventController extends Controller
         $event->approved = true;
         $event->approved_by = auth()->id();
         $event->save();
+
+        $event['operation_type'] = 'store';
+        $event_notification = [];
+        $event_notification['title'] = 'تم اضافة مناسبة';
+        $event_notification['body'] = $event->notification_body;
+        $event_notification['content'] = $event;
+        $event_notification['url'] = 'events/' . $event->id;
+        $event_notification['operation'] = 'store';
+
+        $users = User::where('status', 'active')->get();
+        event(new NotificationEvent($event_notification, $users));
+
 
         return back()->with('success', 'تم تنشيط المناسبة بنجاح');
     }

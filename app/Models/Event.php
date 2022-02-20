@@ -35,7 +35,7 @@ class Event extends Model
         'approved_by',
     ];
 
-    protected $appends = ['short_body'];
+    protected $appends = ['short_body', 'notification_body'];
 
     protected $casts = [
         'approved' => 'boolean',
@@ -72,6 +72,11 @@ class Event extends Model
         $query->where('approved', true);
     }
 
+    public function getNotificationBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 20) . ' ....';
+    }
     public function getShortBodyAttribute()
     {
         $text = strip_tags($this->body);

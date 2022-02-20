@@ -38,8 +38,18 @@ class Newborn extends Model
         'date' => 'datetime:Y-m-d',
     ];
     
-    protected $appends = ['short_body'];
+    protected $appends = ['short_body', 'notification_body'];
 
+    public function getNotificationBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 20) . ' ....';
+    }
+    public function getShortBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 160) . ' ....';
+    }
 
     public function getDateAttribute($date)
     {
@@ -66,12 +76,7 @@ class Newborn extends Model
         return $this->hasOne('App\Models\Person', 'id', 'person_id');
     }
 
-    public function getShortBodyAttribute()
-    {
-        $text = strip_tags($this->body);
-        return substr($text, 0, 160) . ' ....';
-    }
-
+    
     public function filters($request_filter)
     {
         $filters = [];

@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Category;
 use App\Events\NewsEvent;
 use Illuminate\Http\Request;
+use App\Events\NotificationEvent;
 
 use Carbon\Carbon;
 use App\Filters\OwnerFilter;
@@ -85,16 +86,16 @@ class NewsController extends Controller
 
         $news = News::create($request->all());
 
-        $news['operation_type'] = 'store';
-        $news_notification = [];
-        $news_notification['title'] = 'تم اضافة خبر';
-        $news_notification['body'] = $news->body;
-        $news_notification['content'] = $news;
-        $news_notification['url'] = 'news/' . $news->id;
-        $news_notification['operation'] = 'store';
+        // $news['operation_type'] = 'store';
+        // $news_notification = [];
+        // $news_notification['title'] = 'تم اضافة خبر';
+        // $news_notification['body'] = $news->body;
+        // $news_notification['content'] = $news;
+        // $news_notification['url'] = 'news/' . $news->id;
+        // $news_notification['operation'] = 'store';
 
-        $users = User::where('status', 'active')->get();
-        event(new NotificationEvent($news_notification, $users));
+        // $users = User::where('status', 'active')->get();
+        // event(new NotificationEvent($news_notification, $users));
 
         \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
         return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');

@@ -28,12 +28,8 @@ class SendNewUserNotification
      */
     public function handle($event)
     {
-//        $admins = User::role('Super Admin')->get();
-//        $admins = User::whereHas('role_id', function ($query) {
-//            $query->where('id', 1);
-//        })->get();
-
-        $admins = User::permission('users.activate')->get();
+        $admins = User::role('Super Admin')->get();
+        
         Notification::send($admins, new NewUserNotification($event->user));
     }
 }
