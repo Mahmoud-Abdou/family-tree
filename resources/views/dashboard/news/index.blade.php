@@ -17,30 +17,32 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
+                        </div>
+                        <div class="card-header">
                             <div class="row">
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                             <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                             <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف ">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                             <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث برقم الجوال">
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                             <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                             <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
                                         </div>
@@ -48,7 +50,7 @@
 
                                     
 
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                         <select class="form-control" name="city" id="city-filter">
                                             <option disabled="">حدد المدينة</option>
@@ -62,7 +64,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                         <select class="form-control" name="category" id="category-filter">
                                             <option disabled="">حدد النوع</option>
@@ -77,7 +79,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                         <select class="form-control" name="date" id="date-filter">
                                             <option disabled="">بحث بالتاريخ</option>
@@ -93,7 +95,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-2">
                                         <div class="form-group my-auto">
                                         <select class="form-control" name="approved" id="approved-filter">
                                             <option disabled="">بحث بالمفعل</option>
@@ -121,16 +123,7 @@
 
                             <div class="table-responsive">
                                 <table class="table m-0 px-2">
-                                    <colgroup>
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 30%;">
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 15%;">
-                                        <col span="1" style="width: 15%;">
-                                    </colgroup>
-
+                                 
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
@@ -182,6 +175,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <hr class="pt-0 mt-0" />
 
                             <div class="d-flex justify-content-around">{{ $news->links() }}</div>
                         </div>
@@ -197,11 +191,11 @@
         </div>
     </div>
 
-    <div class="modal fade bd-example-modal-xl deleteModel " tabindex="-1" role="dialog" aria-modal="true" >
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">هل ترغب في الازالة</h5>
+    <div class="modal fade deleteModel " tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-modal="true" >
+        <div class="modal-dialog " role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="deleteModalLabel">هل ترغب في الازالة</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                     </button>
@@ -210,10 +204,12 @@
                 <form id="DeleteForm" action="" method="POST">
                     @csrf
                     @method('DELETE')
-
+                    <div class="modal-body">
+                        <p>سيتم مسح الخبر .</p>
+                    </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لا</button>
-                        <button type="submit" class="btn btn-primary" >نعم</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-danger" >مسح الخبر</button>
                     </div>
                 </form>
             </div>
