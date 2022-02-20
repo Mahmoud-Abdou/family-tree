@@ -37,6 +37,24 @@
                                             <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف">
                                         </div>
                                     </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group my-auto">
+                                            <label for="body-filter">بحث بالاسم</label>
+                                            <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث بالاسم ">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group my-auto">
+                                            <label for="body-filter">بحث بالبريد الالكتروني</label>
+                                            <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group my-auto">
+                                            <label for="body-filter">بحث برقم الجوال</label>
+                                            <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
+                                        </div>
+                                    </div>
 
                                     <div class="col-lg-3">
                                         <div class="form-group">

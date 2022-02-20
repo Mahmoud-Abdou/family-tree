@@ -17,23 +17,86 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
-                            @can('events.create')
-                                <a href="{{ route('admin.events.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
-                            @endcan
+                        </div>
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف ">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث برقم الجوال">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-1">
+                                        <div class="form-group my-auto">
+                                        <select class="form-control" name="city" id="city-filter">
+                                            <option disabled="">حدد المدينة</option>
+                                            <option {{ isset($_GET['filters']['city']) && $_GET['filters']['city'] == '' ? 'selected=""' : '' }} value="">الكل</option>
+                                            @foreach($cities as $city)
+                                                <option {{ isset($_GET['filters']['city']) && $city->id == $_GET['filters']['city'] ? 'selected=""' : '' }} value="{{ $city->id }}">{{ $city->name_ar }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-tooltip">
+                                            حدد المدينة
+                                        </div>
+                                        </div>
+                                    </div>
+                                
+
+                                
+
+                                <div class="col-md-1">
+                                    <div class="form-group my-auto">
+                                    <select class="form-control" name="date" id="date-filter">
+                                        <option disabled="">بحث بالتاريخ</option>
+                                        <option value="">الكل</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
+                                        
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        بحث بالتاريخ           
+                                    </div>
+                                    </div>
+                                </div>
+
+                                
+
+                                
+
+                                <div class="col-md-1 my-auto">
+                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body p-0">
 
                             <div class="table-responsive">
                                 <table class="table m-0 px-2">
-                                    <colgroup>
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 30%;">
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 10%;">
-                                        <col span="1" style="width: 15%;">
-                                        <col span="1" style="width: 15%;">
-                                    </colgroup>
+                                    
 
                                     <thead>
                                     <tr>
@@ -106,4 +169,46 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('add-scripts')
+
+<script>
+    function openDeleteModel(data){
+        $('#DeleteForm').attr('action', data)
+    }
+
+    function filter_data(){
+        title_filter = $('#title-filter').val();
+        body_filter = $('#body-filter').val();
+        name_filter = $('#name-filter').val();
+        email_filter = $('#email-filter').val();
+        mobile_filter = $('#mobile-filter').val();
+        city_filter = $('#city-filter').val();
+        date_filter = $('#date-filter').val();
+        quary_string = "";
+        if(title_filter){
+            quary_string += `filters[title]=${title_filter}&`;
+        }
+        if(body_filter){
+            quary_string += `filters[body]=${body_filter}&`;
+        }
+        if(name_filter){
+            quary_string += `filters[owner_name]=${name_filter}&`;
+        }
+        if(email_filter){
+            quary_string += `filters[owner_email]=${email_filter}&`;
+        }
+        if(mobile_filter){
+            quary_string += `filters[owner_phone]=${mobile_filter}&`;
+        }
+        if(date_filter){
+            quary_string += `filters[date]=${date_filter}&`;
+        }
+        if(city_filter){
+            quary_string += `filters[city]=${city_filter}&`;
+        }
+        window.location = 'events?' + quary_string;
+    }
+</script>
 @endsection

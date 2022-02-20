@@ -109,7 +109,7 @@ class DeathController extends Controller
 
             $death_notification = [];
             $death_notification['title'] = 'تم اضافة متوفي';
-            $death_notification['body'] = $death->body;
+            $death_notification['body'] = $death->notification_body;
             $death_notification['content'] = $death;
             $death_notification['url'] = 'deaths/' . $death->id;
             $death_notification['operation'] = 'store';

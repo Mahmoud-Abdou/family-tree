@@ -9,7 +9,8 @@ use App\Models\City;
 use App\Models\Category;
 use App\Events\NewsEvent;
 use Illuminate\Http\Request;
-
+use Illuminate\Notifications\Notification;
+use App\Events\NotificationEvent;
 use Carbon\Carbon;
 use App\Filters\OwnerFilter;
 use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
@@ -171,6 +172,17 @@ class NewsController extends Controller
         $news->approved = true;
         $news->approved_by = auth()->id();
         $news->save();
+        
+        $news['operation_type'] = 'store';
+        $news_notification = [];
+        $news_notification['title'] = 'تم اضافة خبر';
+        $news_notification['body'] = $news->notification_body;
+        $news_notification['content'] = $news;
+        $news_notification['url'] = 'news/' . $news->id;
+        $news_notification['operation'] = 'store';
+
+        $users = User::where('status', 'active')->get();
+        event(new NotificationEvent($news_notification, $users));
 
         return back()->with('success', 'تم تنشيط الخبر بنجاح');
     }

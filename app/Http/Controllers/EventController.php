@@ -7,9 +7,15 @@ use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Models\City;
 use App\Models\Media;
+use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
+use Illuminate\Notifications\Notification;
+use Carbon\Carbon;
+use App\Events\DeathEvent;
+use App\Events\NotificationEvent;
+
 
 class EventController extends Controller
 {

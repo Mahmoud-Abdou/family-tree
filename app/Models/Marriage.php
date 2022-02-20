@@ -33,7 +33,18 @@ class Marriage extends Model
         'date',
     ];
 
-    protected $appends = ['short_body'];
+    protected $appends = ['short_body', 'notification_body'];
+
+    public function getNotificationBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 20) . ' ....';
+    }
+    public function getShortBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 160) . ' ....';
+    }
 
     public function owner()
     {
@@ -65,11 +76,6 @@ class Marriage extends Model
         $query->where('approved', true);
     }
 
-    public function getShortBodyAttribute()
-    {
-        $text = strip_tags($this->body);
-        return substr($text, 0, 160) . ' ....';
-    }
 
     public function filters($request_filter)
     {

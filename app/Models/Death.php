@@ -38,6 +38,21 @@ class Death extends Model
         'date' => 'datetime:Y-m-d H:i',
     ];
 
+    protected $appends = ['short_body', 'notification_body'];
+
+    public function getNotificationBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 20) . ' ....';
+    }
+    public function getShortBodyAttribute()
+    {
+        $text = strip_tags($this->body);
+        return substr($text, 0, 160) . ' ....';
+    }
+
+
+
     public function person()
     {
         return $this->belongsTo('App\Models\Person', 'person_id', 'id');

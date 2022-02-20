@@ -118,7 +118,7 @@ class MarriageController extends Controller
 
             $marriage_notification = [];
             $marriage_notification['title'] = 'تم اضافة زواج';
-            $marriage_notification['body'] = $marriage->body;
+            $marriage_notification['body'] = $marriage->notification_body;
             $marriage_notification['content'] = $marriage;
             $marriage_notification['url'] = 'marriages/' . $marriage->id;
             $marriage_notification['operation'] = 'store';

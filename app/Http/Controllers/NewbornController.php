@@ -11,6 +11,9 @@ use App\Models\Media;
 use App\Models\News;
 use App\Models\Person;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Events\NotificationEvent;
+
 
 use Illuminate\Http\Request;
 use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
@@ -99,7 +102,7 @@ class NewbornController extends Controller
 
         $newborn_notification = [];
         $newborn_notification['title'] = 'تم اضافة مولود';
-        $newborn_notification['body'] = $newborn->body;
+        $newborn_notification['body'] = $newborn->notification_body;
         $newborn_notification['content'] = $newborn;
         $newborn_notification['url'] = 'newborns/' . $newborn->id;
         $newborn_notification['operation'] = 'store';

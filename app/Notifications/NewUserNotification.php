@@ -56,6 +56,9 @@ class NewUserNotification extends Notification
     public function toArray($notifiable)
     {
         return [
+            'title' => 'اضافة مستخدم جديد',
+            'body' => $this->user->name ,
+            'url' => 'admin/dashboard' ,
             'name' => $this->user->name,
             'email' => $this->user->email,
             'mobile' => $this->user->mobile,
