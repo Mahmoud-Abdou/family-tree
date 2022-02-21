@@ -20,6 +20,15 @@
                     <div class="iq-card shadow">
                         <div class="iq-card-body">
                             <div class="row">
+                                <div class="col-md-6 iq-item-product-left d-block d-md-block d-lg-none">
+                                    <div class="iq-image-container">
+                                        <div class="iq-product-cover">
+                                            <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}"
+                                                alt="{{ $event->title }}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6 iq-item-product-right">
                                     <div class="product-additional-details">
                                         <h3 class="productpage_title">{{ $event->title }}</h3>
@@ -82,12 +91,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 iq-item-product-left">
+
+                                <div class="col-md-6 iq-item-product-left d-none d-lg-block">
                                     <div class="iq-image-container">
                                         <div class="iq-product-cover">
-                                            <img
-                                                src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}"
-                                                alt="{{ $event->title }}" class="img-fluid">
+                                            <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}"
+                                                 alt="{{ $event->title }}" class="img-fluid">
                                         </div>
                                     </div>
                                 </div>

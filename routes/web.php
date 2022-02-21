@@ -20,6 +20,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', [HomeController::class, 'home'])->name('home');
     Route::post('search', [HomeController::class, 'search'])->name('search');
+    Route::get('search/{word?}', [HomeController::class, 'search'])->name('search.show');
+    Route::get('search/{word}/{result?}', [HomeController::class, 'searchSingle'])->name('search.result');
     Route::get('about', [HomeController::class, 'about'])->name('about');
     Route::get('family-tree', [HomeController::class, 'familyTree'])->name('family.tree');
     Route::get('family-tree/render', [HomeController::class, 'familyTreeRender'])->name('family.tree.render');

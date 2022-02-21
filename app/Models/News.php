@@ -47,7 +47,7 @@ class News extends Model
         $text = strip_tags($this->body);
         return substr($text, 0, 160) . ' ....';
     }
-    
+
 
     public function scopeActive($query)
     {
@@ -81,7 +81,7 @@ class News extends Model
 
     public function statusHtml()
     {
-        switch ($this->status) {
+        switch ($this->approved) {
             case 1:
                 return '<span class="badge iq-bg-success">تم النشر</span>';
             case 0:
@@ -89,7 +89,7 @@ class News extends Model
             default:
                 return '<span class="badge iq-bg-warning">غير مصرح</span>';
         }
-//        <div class="badge badge-pill badge-success">Moving</div>
+//        <div class="badge badge-pill badge-success">الحالة</div>
     }
 
     public function filters($request_filter)

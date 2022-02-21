@@ -130,13 +130,29 @@ class HomeController extends Controller
         return view('terms', compact('menuTitle', 'pageTitle', 'content'));
     }
 
-    public function search(Request $request)
+    public function search(Request $request, $word = '')
     {
+        if (request()->method() == "POST") {
+            return redirect()->route('search.show', $request->search);
+        }
+        $searchWord = request()->has('search') ? $request->search : $word;
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'البحث';
-        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $request->search)->get();
+        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->get();
 
+        session()->put('searchWord', $searchWord);
         return view('search', compact('menuTitle', 'pageTitle', 'searchResult', 'searchWord'));
+    }
+
+    public function searchSingle($word, $data_id)
+    {
+        $user = User::findOrFail($data_id);
+        $searchWord = session()->has('searchWord') ? session('searchWord') : $word;
+        $pageTitle = 'القائمة الرئيسية';
+        $menuTitle = session()->has('searchWord') ? session('searchWord') : 'نتائج البحث';
+        $person = $user->profile;
+
+        return view('search-single', compact('menuTitle', 'pageTitle', 'searchWord', 'user', 'person'));
     }
 
     public function dashboard()

@@ -99,7 +99,7 @@
                                         @if($usersData['lastUsers']->count() > 0)
                                             @foreach($usersData['lastUsers'] as $user)
                                                 <tr>
-                                                    <td>{{ $user->name }}</td>
+                                                    <td><a href="{{ route('admin.users.show', $user->id) }}">{{ $user->name }}</a></td>
                                                     <td>{{ $user->email }}</td>
                                                     <td>{{ $user->mobile }}</td>
                                                     <td>@isset($user->city) {{ $user->city->name_ar }} @else - @endisset</td>
@@ -158,13 +158,13 @@
                                         @if($newsData['lastNews']->count() > 0)
                                             @foreach($newsData['lastNews'] as $news)
                                                 <tr>
-                                                    <td>{{ $news->title }}</td>
+                                                    <td><a href="{{ route('news.show', $news->id) }}">{{ $news->title }}</a></td>
                                                     <td>{{ $news->short_body }}</td>
                                                     <td>{{ $news->category->name }}</td>
                                                     <td>
                                                         {!! $news->statusHtml() !!}
                                                     </td>
-                                                    <td>{{ $news->owner->name }}</td>
+                                                    <td><a href="{{ route('admin.users.show', $news->owner->id) }}">{{ $news->owner->name }}</a></td>
                                                     <td>
                                                         @if($news->approved == 0)
                                                             <form method="POST" action="{{ route('admin.news.activate') }}">
@@ -172,6 +172,10 @@
                                                                 <input type="hidden" name="news_id" value="{{ $news->id }}">
                                                                 <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                             </form>
+                                                        @else
+                                                            <div class="progress">
+                                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                                            </div>
                                                         @endif
                                                     </td>
                                                 </tr>

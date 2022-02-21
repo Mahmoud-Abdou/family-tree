@@ -34,11 +34,11 @@
                     <div class="iq-header-title">
                         <h4 class="card-title"><i class="ri-group-2-fill"> </i>العائلة</h4>
                     </div>
-{{--                    @if(auth()->id() == $ownFamily->father->id || auth()->id() == $ownFamily->mother->id)--}}
+                    @if(auth()->id() == $ownFamily->father->id || auth()->id() == $ownFamily->mother->id)
                     <div class="iq-card-header-toolbar d-flex align-items-center">
                         <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة فرد للعائلة</button>
                     </div>
-{{--                    @endif--}}
+                    @endif
                 </div>
                 <div class="iq-card-body">
                     <h6 class="text-center">الوالدان</h6>
