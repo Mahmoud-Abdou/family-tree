@@ -85,6 +85,10 @@ class Family extends Model
 //        return $this->hasMany('App\Models\Family', 'gf_family_id', 'id')->with('gfFamilies');
         return $this->members();
     }
+    public function fosterBrothers()
+    {
+        return $this->hasMany('App\Models\FosterBrother', 'family_id', 'id');
+    }
 
     public function statusHtml()
     {

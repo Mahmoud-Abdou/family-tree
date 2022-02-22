@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('profile/update-user', [ProfileController::class, 'updateUser'])->name('profile.update-user');
     Route::post('profile/history-delete', [ProfileController::class, 'historyDelete'])->name('history.delete');
     Route::put('profile/family', [UserController::class, 'updateFamily'])->name('user.family');
+    Route::put('profile/foster_family', [UserController::class, 'addFosterFamily'])->name('user.foster_family');
+    Route::put('profile/new_foster_family', [UserController::class, 'addNewFosterFamily'])->name('user.new_foster_family');
 
     Route::resource('events', EventController::class);
     Route::resource('news', NewsController::class);
