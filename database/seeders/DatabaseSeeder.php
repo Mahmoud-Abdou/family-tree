@@ -19,10 +19,10 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             CategoriesSeeder::class,
             CitiesSeeder::class,
-            UsersSeeder::class,
-            PersonsSeeder::class,
-            FamiliesSeeder::class,
-            EventsSeeder::class
+//            UsersSeeder::class,
+//            PersonsSeeder::class,
+//            FamiliesSeeder::class,
+//            EventsSeeder::class
         ]);
 
     }

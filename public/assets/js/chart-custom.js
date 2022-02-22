@@ -46,7 +46,8 @@ var options = {
 
   },
   dataLabels: {
-      enabled: false
+      enabled: false,
+      position: 'top'
   },
   stroke: {
       width: 3,
@@ -72,6 +73,7 @@ var options = {
       categories: ["2018-08-19T00:00:00", "2018-09-19T01:30:00", "2018-10-19T02:30:00", "2018-11-19T01:30:00", "2018-12-19T01:30:00"],
   },
   tooltip: {
+      enabled: false,
       x: {
           format: 'dd/MM/yy HH:mm'
       },
@@ -124,6 +126,7 @@ var options = {
       categories: ["2018-08-19T00:00:00", "2018-09-19T01:30:00", "2018-10-19T02:30:00", "2018-11-19T01:30:00", "2018-12-19T01:30:00"],
   },
   tooltip: {
+      enabled: false,
       x: {
           format: 'dd/MM/yy HH:mm'
       },
@@ -176,6 +179,7 @@ var options = {
       categories: ["2018-08-19T00:00:00", "2018-09-19T01:30:00", "2018-10-19T02:30:00", "2018-11-19T01:30:00", "2018-12-19T01:30:00"],
   },
   tooltip: {
+      enabled: false,
       x: {
           format: 'dd/MM/yy HH:mm'
       },
@@ -226,6 +230,7 @@ var options = {
       categories: ["2018-08-19T00:00:00", "2018-09-19T01:30:00", "2018-10-19T02:30:00", "2018-11-19T01:30:00", "2018-12-19T01:30:00"],
   },
   tooltip: {
+      enabled: false,
       x: {
           format: 'dd/MM/yy HH:mm'
       },

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Dashboard\MediaController;
+use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
@@ -26,13 +28,14 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::resource('cities', CityController::class);
         Route::resource('events', EventController::class);
         Route::post('event-activate', [EventController::class, 'activate'])->name('events.activate');
-        Route::resource('reports', ReportController::class);
-//        Route::resource('families', FamilyController::class);
+        Route::resource('families', FamilyController::class);
         Route::resource('deaths', DeathController::class);
         Route::resource('newborns', NewbornController::class);
         Route::resource('marriages', MarriageController::class);
         Route::resource('news', NewsController::class);
         Route::post('news-activate', [NewsController::class, 'activate'])->name('news.activate');
+        Route::resource('reports', ReportController::class);
+        Route::resource('media', MediaController::class);
     });
 
     Route::group(['middleware' => ['role:Super Admin']], function () {
