@@ -162,7 +162,7 @@
 
                         <div class="form-group col-lg-12">
                             <label for="body">وصف الشكوي</label>
-                            <textarea class="form-control" name="body" id="body"></textarea>
+                            <textarea class="form-control" name="body" id="body" required oninvalid="this.setCustomValidity('ادخل وصف الشكوى')"></textarea>
                         </div>
                     </div>
 

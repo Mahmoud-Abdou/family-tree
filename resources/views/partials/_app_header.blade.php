@@ -57,7 +57,9 @@
                     <li class="nav-item">
                         <a href="#" class="search-toggle iq-waves-effect">
                             <i class="ri-notification-2-line"></i>
-                            <span class="bg-danger dots"></span>
+                            @if(count(auth()->user()->unreadNotifications) > 0)
+                                <span class="bg-danger dots"></span>
+                            @endif
                         </a>
                         <div class="iq-sub-dropdown">
                             <div class="iq-card shadow-none m-0">

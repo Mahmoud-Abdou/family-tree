@@ -5,7 +5,9 @@
                 <form dir="rtl" method="POST" action="{{ route('news_comments.store') }}">
                     @csrf
                     <input type="hidden" name="news_id" value="{{ $news->id }}">
-                    <textarea name="body" class="form-control" rows="2" placeholder="اكتب تعليق"></textarea>
+                    <div class="form-group">
+                        <textarea name="body" class="form-control" rows="2" placeholder="اكتب تعليق" required oninvalid="this.setCustomValidity('اكتب تعليق هنا')"></textarea>
+                    </div>
                     <br>
                     <button class="btn btn-sm btn-primary pull-right py-2 px-4" type="submit"><i class="ri-discuss-fill"></i> اضف
                         تعليق
@@ -16,6 +18,7 @@
                 </div>
             </div>
         </div>
+        @can('comments.read')
         <br>
         <div class="panel">
             <div class="panel-body">
@@ -43,7 +46,7 @@
                 </div>
             </div>
             {{--    <!-- End Newsfeed Content -->--}}
-
+        @endcan
         </div>
     </div>
 </div>

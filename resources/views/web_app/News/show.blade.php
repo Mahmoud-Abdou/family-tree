@@ -15,16 +15,8 @@
                     <div class="iq-card shadow">
                         <div class="iq-card-body">
                             <div class="row">
-                                <div class="col-md-6 iq-item-product-left d-block d-md-block d-lg-none">
-                                    <div class="iq-image-container">
-                                        <div class="iq-product-cover">
-                                            <img src="{{ isset($news->image->file) ? $news->image->file : 'default.png' }}"
-                                                 alt="{{ $news->title }}" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="col-md-6 iq-item-product-right">
+                                <div class="col-lg-12 iq-item-product-right">
                                     <div class="product-additional-details">
                                         <h3 class="productpage_title">{{ $news->title }}</h3>
                                         <hr>
@@ -35,6 +27,9 @@
                                         <div class="additional-product-action d-flex align-items-center">
 
                                             <div class="product-action w-100">
+                                                <div class="add-to-cart mx-3">
+                                                    <p data-toggle="tooltip" data-placement="top" title="المدينة" data-original-title="المدينة"><i class="ri-map-pin-2-line"> </i> {{ $news->city->name_ar }}</p>
+                                                </div>
                                                 <div class="wishlist mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ">
                                                         <i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($news->date)) }}
@@ -86,18 +81,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 iq-item-product-left d-none d-lg-block">
-                                    <div class="iq-image-container">
-                                        <div class="iq-product-cover">
-                                            <img src="{{ isset($news->image->file) ? $news->image->file : 'default.png' }}"
-                                                 alt="{{ $news->title }}" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <hr>
-                        @include('web_app.News.comments')
+                        @can('comments.create')
+                            @include('web_app.News.comments')
+                        @endcan
                     </div>
                 </div>
 
@@ -128,7 +117,7 @@
 
                         <div class="form-group col-lg-12">
                             <label for="body">وصف الشكوي</label>
-                            <textarea class="form-control" name="body" id="body"></textarea>
+                            <textarea class="form-control" name="body" id="body" required oninvalid="this.setCustomValidity('ادخل وصف الشكوى')"></textarea>
                         </div>
                     </div>
 
