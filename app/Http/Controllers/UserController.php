@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Models\FosterBrother;
+use App\Models\Person;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -99,8 +101,9 @@ class UserController extends Controller
         } else {
             $allPersons = [];
         }
+        $fosterPersons = \App\Models\Person::get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
 
-        return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person', 'rolesData', 'allPersons'));
+        return view('dashboard.users.show', compact('appMenu', 'menuTitle', 'pageTitle', 'user', 'person', 'rolesData', 'allPersons', 'fosterPersons'));
     }
 
     /**
@@ -219,5 +222,60 @@ class UserController extends Controller
 
         \App\Helpers\AppHelper::AddLog('Family User', class_basename($user), $user->id);
         return back()->with('warning', 'تم تعديل عائلة المستخدم بنجاح');
+    }
+    public function addFosterFamily(Request $request)
+    {
+        $person = Person::find($request->person_id);
+        $foster_brother = FosterBrother::where('person_id', $request->person_id)
+                                        ->where('family_id', $request->family_id)
+                                        ->first();
+        
+        
+        if (is_null($person)) {
+            return back()->with('error', 'حدث خطأ!');
+        }
+        if ($person->family_id == $request->family_id) {
+            return back()->with('error', 'هذاالفرد موجود في العائلة!');
+        }
+        if (!is_null($foster_brother) ) {
+            return back()->with('error', 'الاخ في الرضاعة موجود بالفعل!');
+        }
+        $foster_brother = new FosterBrother;
+        $foster_brother->family_id = $request->family_id;
+        $foster_brother->person_id = $request->person_id;
+        $foster_brother->save();
+
+        \App\Helpers\AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
+        return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
+    }
+
+    public function addNewFosterFamily(Request $request)
+    {
+        $person = new Person;
+        $person->first_name = $request->first_name;
+        $person->father_name = $request->father_name;
+        $person->gender = $request->gender;
+        $person->save();
+
+        $foster_brother = FosterBrother::where('person_id', $person->id)
+                                        ->where('family_id', $request->family_id)
+                                        ->first();
+        
+        if (is_null($person)) {
+            return back()->with('error', 'حدث خطأ!');
+        }
+        if ($person->family_id == $request->family_id) {
+            return back()->with('error', 'هذاالفرد موجود في العائلة!');
+        }
+        if (!is_null($foster_brother) ) {
+            return back()->with('error', 'الاخ في الرضاعة موجود بالفعل!');
+        }
+        $foster_brother = new FosterBrother;
+        $foster_brother->family_id = $request->family_id;
+        $foster_brother->person_id = $person->id;
+        $foster_brother->save();
+
+        \App\Helpers\AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
+        return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
     }
 }
