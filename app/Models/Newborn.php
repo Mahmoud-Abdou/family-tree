@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Filters\TextFilter;
-use App\Filters\IDFilter;
-use App\Filters\BetweenFilter;
-use App\Filters\InFilter;
+//use App\Filters\IDFilter;
+//use App\Filters\BetweenFilter;
+//use App\Filters\InFilter;
 use App\Filters\OwnerFilter;
 use Pricecurrent\LaravelEloquentFilters\Filterable;
 use App\Filters\DateFilter;
 
 class Newborn extends Model
 {
-    use Filterable;
-    use HasFactory;
+    use Filterable, HasFactory;
 
     public $photoPath = '/uploads/newborn/';
 
@@ -37,7 +36,7 @@ class Newborn extends Model
     protected $casts = [
         'date' => 'datetime:Y-m-d',
     ];
-    
+
     protected $appends = ['short_body', 'notification_body'];
 
     public function getNotificationBodyAttribute()
@@ -45,6 +44,7 @@ class Newborn extends Model
         $text = strip_tags($this->body);
         return substr($text, 0, 20) . ' ....';
     }
+
     public function getShortBodyAttribute()
     {
         $text = strip_tags($this->body);
@@ -59,6 +59,11 @@ class Newborn extends Model
     public function owner()
     {
         return $this->belongsTo('App\Models\User', 'owner_id', 'id');
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo('App\Models\User', 'approved_by', 'id');
     }
 
     public function family()
@@ -76,7 +81,7 @@ class Newborn extends Model
         return $this->hasOne('App\Models\Person', 'id', 'person_id');
     }
 
-    
+
     public function filters($request_filter)
     {
         $filters = [];

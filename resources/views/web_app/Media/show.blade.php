@@ -11,7 +11,16 @@
         <div class="container-fluid">
             <div class="row">
 
-                <div class="col-lg-12 mb-4">
+                <div class="col-lg-12 mb-4 d-block d-md-block d-lg-none">
+                    <div class="d-inline-flex w-100">
+                        <div class="btn-group btn-group-lg w-100" role="group" aria-label="Basic example">
+                            <a href="{{ route('media.index') }}" type="button" class="btn btn-primary text-white px-5">المعرض</a>
+                            <a type="button" class="btn btn-primary disabled text-white px-5">{{$menuTitle}}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 mb-4 d-none d-lg-block">
                     <div class="d-inline-flex">
                         <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
                             <a href="{{ route('media.index') }}" type="button" class="btn btn-primary text-white px-5">المعرض</a>
@@ -31,7 +40,7 @@
                                 <div class="col-sm-12">
                                     <div class="card iq-mb-3">
                                         <div class="card-body">
-                                            <img src="{{ $row->file }}" class="img-thumbnail" alt="">
+                                            <img src="{{ $row->file }}" class="img-thumbnail card-img-lo" alt="{{ $row->title }}">
                                         </div>
                                     </div>
                                 </div>

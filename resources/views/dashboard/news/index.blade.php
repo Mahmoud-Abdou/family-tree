@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-calendar-event-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-newspaper-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
 @endsection
 
 @section('content')
@@ -16,103 +16,102 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-header">
                             <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="form-group ">
-                                            <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                            <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف ">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                            <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث برقم الجوال">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                            <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                            <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                        <select class="form-control" name="city" id="city-filter">
-                                            <option disabled="">حدد المدينة</option>
-                                            <option {{ isset($_GET['filters']['city']) && $_GET['filters']['city'] == '' ? 'selected=""' : '' }} value="">الكل</option>
-                                            @foreach($cities as $city)
-                                                <option {{ isset($_GET['filters']['city']) && $city->id == $_GET['filters']['city'] ? 'selected=""' : '' }} value="{{ $city->id }}">{{ $city->name_ar }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            حدد المدينة
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                        <select class="form-control" name="category" id="category-filter">
-                                            <option disabled="">حدد النوع</option>
-                                            <option {{ isset($_GET['filters']['category']) && $_GET['filters']['category'] == '' ? 'selected=""' : '' }} value="">الكل</option>
-                                            @foreach($categories as $category)
-                                                <option {{ isset($_GET['filters']['category']) && $category->id == $_GET['filters']['category'] ? 'selected=""' : '' }} value="{{ $category->id }}">{{ $category->name_ar }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            حدد النوع
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                        <select class="form-control" name="date" id="date-filter">
-                                            <option disabled="">بحث بالتاريخ</option>
-                                            <option value="">الكل</option>
-                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
-                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
-                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
-                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
-
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            بحث بالتاريخ
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group my-auto">
-                                        <select class="form-control" name="approved" id="approved-filter">
-                                            <option disabled="">بحث بالحالة</option>
-                                            <option value="">الكل</option>
-                                            <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 0 ? 'selected=""' : '' }} value="0">الاخبار الغير مفعلة</option>
-                                            <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 1 ? 'selected=""' : '' }} value="1">الاخبار المفعلة</option>
-
-                                        </select>
-                                        <div class="invalid-tooltip">
-                                            بحث بالحالة
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2 my-auto">
-                                        <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                <div class="col-md-2">
+                                    <div class="form-group ">
+                                        <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف ">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث برقم الجوال">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                    <select class="form-control" name="city" id="city-filter">
+                                        <option disabled="">حدد المدينة</option>
+                                        <option {{ isset($_GET['filters']['city']) && $_GET['filters']['city'] == '' ? 'selected=""' : '' }} value="">الكل</option>
+                                        @foreach($cities as $city)
+                                            <option {{ isset($_GET['filters']['city']) && $city->id == $_GET['filters']['city'] ? 'selected=""' : '' }} value="{{ $city->id }}">{{ $city->name_ar }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        حدد المدينة
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                    <select class="form-control" name="category" id="category-filter">
+                                        <option disabled="">حدد النوع</option>
+                                        <option {{ isset($_GET['filters']['category']) && $_GET['filters']['category'] == '' ? 'selected=""' : '' }} value="">الكل</option>
+                                        @foreach($categories as $category)
+                                            <option {{ isset($_GET['filters']['category']) && $category->id == $_GET['filters']['category'] ? 'selected=""' : '' }} value="{{ $category->id }}">{{ $category->name_ar }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        حدد النوع
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                    <select class="form-control" name="date" id="date-filter">
+                                        <option disabled="">بحث بالتاريخ</option>
+                                        <option value="">الكل</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
+
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        بحث بالتاريخ
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                    <select class="form-control" name="approved" id="approved-filter">
+                                        <option disabled="">بحث بالحالة</option>
+                                        <option value="">الكل</option>
+                                        <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 0 ? 'selected=""' : '' }} value="0">الاخبار الغير مفعلة</option>
+                                        <option {{ isset($_GET['filters']['approved']) && $_GET['filters']['approved'] == 1 ? 'selected=""' : '' }} value="1">الاخبار المفعلة</option>
+
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        بحث بالحالة
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 my-auto">
+                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body p-0">
 

@@ -211,8 +211,8 @@
     .right-block .image-absulute.image-absulute-1{left: 50px;}
     .right-block .image-absulute.image-absulute-2{right: 40px;left: auto; top: auto; bottom: 50px;}
     body.iq-page-menu-horizontal .iq-navbar-custom.d-flex {display: block !important;}
-    .iq-top-navbar .iq-sub-dropdown { left: -195px;}
-    .iq-top-navbar .search-box { left: -145px; }
+    .iq-top-navbar .iq-sub-dropdown { float: left; left: -162px;}
+    .iq-top-navbar .search-box { float: left; left: -114px; }
 }
 @media(max-width:479px) {
     .display-1 { font-size: 2.0rem; font-weight: 500; }

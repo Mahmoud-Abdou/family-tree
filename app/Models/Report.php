@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Filters\TextFilter;
 use App\Filters\IDFilter;
@@ -15,7 +14,6 @@ use App\Filters\DateFilter;
 class Report extends Model
 {
     use Filterable;
-    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +26,7 @@ class Report extends Model
         'type_id',
         'body',
     ];
-    
+
     protected $appends = ['short_body'];
 
     public function owner()
@@ -41,7 +39,7 @@ class Report extends Model
         $text = strip_tags($this->body);
         return substr($text, 0, 160) . ' ....';
     }
-    
+
 
     public function filters($request_filter)
     {
@@ -103,8 +101,6 @@ class Report extends Model
             }
             return redirect()->route('admin.news.edit', $news);
         }
-        
+
     }
-
-
 }

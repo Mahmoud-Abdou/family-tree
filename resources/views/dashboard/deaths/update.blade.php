@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-4-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الوفيات', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('deaths.index')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-4-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الوفيات', 'link' => route('admin.deaths.index')],['title' => $menuTitle, 'link' => route('deaths.index')],]])
 @endsection
 
 @section('content')
@@ -31,7 +31,7 @@
 
                                     <div class="row">
 
-                                        
+
                                         <div class="form-group col-lg-6">
                                             <label for="title">العنوان</label>
                                             <input type="text" name="title" class="form-control mb-0" value="{{ $death->title }}" id="title" required autofocus>

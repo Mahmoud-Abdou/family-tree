@@ -119,7 +119,7 @@
                         <div class="col-sm-4">
                             <a href="{{ route('news.show', $row->id) }}">
                                 <div class="card iq-mb-3 shadow iq-bg-primary-hover">
-                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $row->title }}">
+                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $row->title }}">
                                     <div class="card-body">
                                         <h4 class="card-title">{{ $row->title }}</h4>
                                         <hr />

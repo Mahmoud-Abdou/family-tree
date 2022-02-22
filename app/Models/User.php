@@ -107,6 +107,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\History', 'user_id', 'id');
     }
 
+    public function favorite()
+    {
+        return $this->hasMany('App\Models\NewsLike', 'owner_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\NewsComment', 'owner_id', 'id');
+    }
+
     // accessories
     public function getFullNameAttribute()
     {

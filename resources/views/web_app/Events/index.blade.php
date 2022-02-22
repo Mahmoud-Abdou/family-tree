@@ -87,7 +87,7 @@
                     <div class="col-sm-4">
                     <a href="{{ route('events.show', $event->id) }}">
                         <div class="card iq-mb-3 shadow iq-bg-primary-hover">
-                            <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $event->title }}">
+                            <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $event->title }}">
                             <div class="card-body">
                                 <h4 class="card-title">{{ $event->title }}</h4>
                                 <hr />

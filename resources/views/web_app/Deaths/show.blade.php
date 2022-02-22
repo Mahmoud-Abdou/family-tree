@@ -20,6 +20,15 @@
                     <div class="iq-card shadow">
                         <div class="iq-card-body">
                             <div class="row">
+                                <div class="col-md-6 iq-item-product-left d-block d-md-block d-lg-none">
+                                    <div class="iq-image-container">
+                                        <div class="iq-product-cover">
+                                            <img src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}"
+                                                 alt="{{ $death->title }}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-6 iq-item-product-right">
                                     <div class="product-additional-details">
                                         <h3 class="productpage_title">{{ $death->title }}</h3>
@@ -75,58 +84,60 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 iq-item-product-left">
+
+                                <div class="col-md-6 iq-item-product-left d-none d-lg-block">
                                     <div class="iq-image-container">
                                         <div class="iq-product-cover">
-                                            <img src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}" alt="{{ $death->title }}" class="img-fluid">
+                                            <img src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}"
+                                                 alt="{{ $death->title }}" class="img-fluid">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-lg-12 px-0 shadow">
-                        <div class="iq-card">
-                            <div class="iq-card-body p-0">
+                <div class="col-lg-12">
+                    <div class="iq-card shadow">
+                        <div class="iq-card-header mb-4">
+                            <div class="related-heading text-center my-auto p-2">
+                                <h2>آخر الوفيات</h2>
+                            </div>
+                        </div>
 
-                                <div class="related-heading text-center my-4 p-2">
-                                    <h2>آخر الوفيات</h2>
-                                </div>
+                        <div class="iq-card-body p-0">
 
-                                @if($lastDeaths->count() > 0)
-                                    <div id="events-slider" class="slick-slider">
-                                        @foreach($lastDeaths as $e)
-                                            <div class="product_item col-lg-4 col-md-6 col-sm-12">
-                                                <div class="product-miniature">
-                                                    <div class="thumbnail-container">
-                                                        <a href="{{ route('deaths.show', $e) }}">
-                                                            <img src="{{ isset($e->image->file) ? $e->image->file : 'default.png' }}" alt="{{ $e->title }}" class="img-fluid">
-                                                        </a>
-                                                    </div>
-                                                    <div class="product-description">
-                                                        <h4>{{ $e->title }}</h4>
-                                                        <p class="mb-0">{!! $e->short_body !!}</p>
-                                                        <hr>
-                                                        <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                                            <div class="product-action">
-                                                                <div class="wishlist mx-3">
-                                                                    <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($e->date)) }}
-                                                                    </p>
-                                                                </div>
+                            @if($lastDeaths->count() > 0)
+                                <div id="DeathSlider" class="slick-slider">
+                                    @foreach($lastDeaths as $e)
+                                        <div class="product_item col-lg-4 col-md-6 col-sm-12">
+                                            <div class="product-miniature-lo">
+                                                <div class="thumbnail-container-lo">
+                                                    <a href="{{ route('deaths.show', $e) }}">
+                                                        <img src="{{ isset($e->image->file) ? $e->image->file : 'default.png' }}" alt="{{ $e->title }}" class="img-fluid">
+                                                    </a>
+                                                </div>
+                                                <div class="product-description-lo">
+                                                    <h4>{{ $e->title }}</h4>
+                                                    <p class="mb-0">{!! $e->short_body !!}</p>
+                                                    <hr>
+                                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                                        <div class="product-action">
+                                                            <div class="wishlist mx-3">
+                                                                <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($e->event_date)) }}</p>
                                                             </div>
-                                                            <div class="product-price"></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <p class="text-center">لا يوجد بيانات</p>
-                                @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p class="text-center">لا يوجد بيانات</p>
+                            @endif
 
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -111,7 +111,7 @@
                                                         <form method="POST" action="{{ route('admin.users.activate') }}">
                                                             @csrf
                                                             <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                                            <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
+                                                            <button type="submit" class="btn btn-outline-success rounded-pill w-100 px-auto"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -170,7 +170,7 @@
                                                             <form method="POST" action="{{ route('admin.news.activate') }}">
                                                                 @csrf
                                                                 <input type="hidden" name="news_id" value="{{ $news->id }}">
-                                                                <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
+                                                                <button type="submit" class="btn btn-outline-success rounded-pill w-100 px-auto"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                             </form>
                                                         @else
                                                             <div class="progress">

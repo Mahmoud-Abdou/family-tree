@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Filters\TextFilter;
 use App\Filters\IDFilter;
-use App\Filters\BetweenFilter;
-use App\Filters\InFilter;
+//use App\Filters\BetweenFilter;
+//use App\Filters\InFilter;
 use Pricecurrent\LaravelEloquentFilters\Filterable;
 use App\Filters\OwnerFilter;
 use App\Filters\DateFilter;
 
 class Media extends Model
 {
-    use Filterable;
-    use hasImage;
+    use Filterable, hasImage;
 
     public $filePath = '/uploads/media/';
 

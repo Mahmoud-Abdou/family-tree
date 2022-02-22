@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Filters\TextFilter;
-use App\Filters\IDFilter;
-use App\Filters\BetweenFilter;
-use App\Filters\InFilter;
+//use App\Filters\IDFilter;
+//use App\Filters\BetweenFilter;
+//use App\Filters\InFilter;
 use App\Filters\OwnerFilter;
 use App\Filters\DateFilter;
 use Pricecurrent\LaravelEloquentFilters\Filterable;
@@ -40,6 +40,7 @@ class Marriage extends Model
         $text = strip_tags($this->body);
         return substr($text, 0, 20) . ' ....';
     }
+
     public function getShortBodyAttribute()
     {
         $text = strip_tags($this->body);
@@ -49,6 +50,11 @@ class Marriage extends Model
     public function owner()
     {
         return $this->belongsTo('App\Models\User', 'owner_id', 'id');
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo('App\Models\User', 'approved_by', 'id');
     }
 
     public function family()

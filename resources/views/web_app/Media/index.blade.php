@@ -15,7 +15,7 @@
                     <div class="col-sm-4">
                         <div class="card iq-mb-3">
                             <a class="text-center" href="{{ route('media.show', $category->slug) }}">
-                                <img src="{{ isset($category->image) ? $category->image : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $category->slug }}">
+                                <img src="{{ isset($category->image) ? $category->image : 'default.png' }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $category->slug }}">
                                 <hr />
                                 <div class="card-body p-2">
                                     <h4 class="card-title">{{ $category->name_ar }}</h4>
@@ -24,7 +24,6 @@
                         </div>
                     </div>
                 @endforeach
-
 
             </div>
         </div>

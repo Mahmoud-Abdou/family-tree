@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('breadcrumb')
-    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-calendar-event-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
+    @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-smile-line"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('admin.dashboard')],]])
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-calendar-event-line"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="float-left my-auto"><i class="ri-user-smile-line"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-header">
                             <div class="row">
@@ -48,9 +48,9 @@
                                     </div>
                                 </div>
 
-                                
 
-                                
+
+
 
                                 <div class="col-md-1">
                                     <div class="form-group my-auto">
@@ -61,17 +61,17 @@
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
-                                        
+
                                     </select>
                                     <div class="invalid-tooltip">
-                                        بحث بالتاريخ           
+                                        بحث بالتاريخ
                                     </div>
                                     </div>
                                 </div>
 
-                                
 
-                                
+
+
 
                                 <div class="col-md-2 my-auto">
                                     <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
@@ -111,7 +111,7 @@
                                                         @can('newborns.delete')
                                                             <button type="button" onclick="openDeleteModel(`{{ route('admin.newborns.destroy', $newborn) }}`)"  data-toggle="modal" data-target=".deleteModel" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
                                                         @endcan
-                                                            
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -149,7 +149,7 @@
                     <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                
+
                 <form id="DeleteForm" action="" method="POST">
                     @csrf
                     @method('DELETE')

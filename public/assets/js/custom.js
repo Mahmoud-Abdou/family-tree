@@ -312,6 +312,9 @@ Index Of Script
         slick
         -----------------------------------------------------------------------*/
         jQuery('.slick-slider').slick({
+            // dots: false,
+            // infinite: false,
+            speed: 300,
             centerMode: true,
             mobileFirst: false,
             pauseOnHover: true,
@@ -325,15 +328,15 @@ Index Of Script
                 settings: {
                     arrows: true,
                     centerMode: true,
-                    centerPadding: '30',
-                    slidesToShow: 3
+                    centerPadding: '30px',
+                    slidesToShow: 2
                 }
             }, {
                 breakpoint: 480,
                 settings: {
                     arrows: false,
                     centerMode: true,
-                    centerPadding: '15',
+                    centerPadding: '15px',
                     slidesToShow: 1
                 }
             }],
