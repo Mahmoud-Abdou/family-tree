@@ -6,7 +6,7 @@
             <div class="col-lg-3 text-center">
                 <ul class="list-inline mb-0">
 {{--                    <li class="list-inline-item"><a href="{{ route('terms') }}">Privacy Policy</a></li>--}}
-                    <li class="list-inline-item"><a href="{{ route('terms') }}">شروط الاستخدام</a></li>
+                    <li class="list-inline-item"><a href="{{ route('terms') }}" target="_blank">شروط الاستخدام</a></li>
                 </ul>
             </div>
             <div class="col-lg-1"></div>

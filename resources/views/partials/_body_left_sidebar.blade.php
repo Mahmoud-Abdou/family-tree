@@ -14,9 +14,8 @@
         </div>
     </div>
 
-{{--    <hr class="mb-0">--}}
-    <div id="sidebar-scrollbar">
-{{--    <div id="sidebar-scrollbar" data-scrollbar="true" tabindex="-1" style="overflow: hidden; outline: none;">--}}
+{{--    <div id="sidebar-scrollbar">--}}
+    <div id="sidebar-scrollbar" data-scrollbar="true" tabindex="-1" style="overflow: hidden; outline: none;">
         <div class="scroll-content">
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
@@ -25,7 +24,7 @@
                     <i class="ri-separator"></i>
                     <span>{{ $pageTitle }}</span>
                 </li>
-                
+
                 @foreach($appMenu as $menu)
                     @can($menu['permission'])
                     @isset($menu['child'])

@@ -64,7 +64,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="6" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="6" class="text-center p-5"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>

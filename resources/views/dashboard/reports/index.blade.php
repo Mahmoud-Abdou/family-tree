@@ -20,7 +20,7 @@
                         </div>
                         <div class="card-header">
                             <div class="row">
-                                
+
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
                                         <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف ">
@@ -44,10 +44,6 @@
                                     </div>
                                 </div>
 
-                                
-
-                                
-
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
                                     <select class="form-control" name="date" id="date-filter">
@@ -57,17 +53,13 @@
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
-                                        
+
                                     </select>
                                     <div class="invalid-tooltip">
-                                        بحث بالتاريخ           
+                                        بحث بالتاريخ
                                     </div>
                                     </div>
                                 </div>
-
-                                
-
-                                
 
                                 <div class="col-md-2 my-auto">
                                     <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
@@ -77,8 +69,7 @@
                         <div class="card-body p-0">
 
                             <div class="table-responsive">
-                                <table class="table m-0 px-2">
-                                    
+                                <table class="table m-0">
                                     <thead>
                                     <tr>
                                         <th scope="col">الناشر </th>
@@ -88,6 +79,7 @@
                                         <th scope="col">الإجراءات</th>
                                     </tr>
                                     </thead>
+
                                     <tbody>
                                     @if($reports->count() > 0)
                                         @foreach($reports as $report)
@@ -106,13 +98,15 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="5" class="text-center p-5"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
-                            <hr class="pt-0 mt-0" />
+                            @if($reports->lastPage() > 1)
+                                <hr class="pt-0 mt-0" />
+                            @endif
 
                             <div class="d-flex justify-content-around">{{ $reports->links() }}</div>
                         </div>
@@ -136,7 +130,7 @@
                     <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                
+
                 <form id="DeleteForm" action="" method="POST">
                     @csrf
                     @method('DELETE')
@@ -151,7 +145,7 @@
             </div>
         </div>
     </div>
-    
+
 @endsection
 @section('add-scripts')
 

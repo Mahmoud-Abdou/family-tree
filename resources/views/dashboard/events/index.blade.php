@@ -62,9 +62,6 @@
                                         </div>
                                         </div>
                                     </div>
-                                
-
-                                
 
                                 <div class="col-md-1">
                                     <div class="form-group my-auto">
@@ -75,17 +72,13 @@
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
-                                        
+
                                     </select>
                                     <div class="invalid-tooltip">
-                                        بحث بالتاريخ           
+                                        بحث بالتاريخ
                                     </div>
                                     </div>
                                 </div>
-
-                                
-
-                                
 
                                 <div class="col-md-1 my-auto">
                                     <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
@@ -96,16 +89,15 @@
 
                             <div class="table-responsive">
                                 <table class="table m-0 px-2">
-                                    
 
                                     <thead>
                                     <tr>
                                         <th scope="col">المدينة</th>
                                         <th scope="col">عنوان</th>
-                                        <th scope="col">وصف </th>
-                                        <th scope="col">الناشر </th>
+                                        <th scope="col">وصف</th>
+                                        <th scope="col">الناشر</th>
                                         <th scope="col">الصورة</th>
-                                        <th scope="col">التاريخ </th>
+                                        <th scope="col">التاريخ</th>
                                         <th scope="col">الإجراءات</th>
                                     </tr>
                                     </thead>
@@ -123,7 +115,6 @@
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-{{--                                                        @if($event->owner_id == auth()->user()->id)--}}
                                                             @can('events.update')
                                                             <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.events.edit', $event) }}"><i class="ri-edit-2-fill"></i></a>
                                                             @endcan
@@ -142,19 +133,22 @@
                                                                 <button type="submit" class="btn btn-outline-success rounded-pill m-1 px-3"><i class="ri-arrow-up-circle-line"></i></button>
                                                             </form>
                                                             @endif
-{{--                                                        @endif--}}
                                                     </div>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="7" class="text-center p-5"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
+
+                            @if($events->hasMorePages())
+                                <hr class="pt-0 mt-0" />
+                            @endif
 
                             <div class="d-flex justify-content-around">{{ $events->links() }}</div>
                         </div>

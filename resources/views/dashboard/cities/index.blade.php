@@ -66,12 +66,16 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="7" class="text-center p-5"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
+
+                            @if($cities->hasMorePages())
+                                <hr class="pt-0 mt-0" />
+                            @endif
 
                             <div class="d-flex justify-content-around">{{ $cities->links() }}</div>
                         </div>

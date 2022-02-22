@@ -117,13 +117,20 @@
 
                             <div class="table-responsive">
                                 <table class="table m-0 px-2">
+                                    <colgroup>
+                                        <col span="1" style="width: 20%;">
+                                        <col span="1" style="width: 30%;">
+                                        <col span="1" style="width: 10%;">
+                                        <col span="1" style="width: 15%;">
+                                        <col span="1" style="width: 25%;">
+                                    </colgroup>
 
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
                                         <th scope="col">وصف </th>
                                         <th scope="col">الناشر </th>
-                                        <th scope="col">الصورة</th>
+{{--                                        <th scope="col">الصورة</th>--}}
                                         <th scope="col">التاريخ </th>
                                         <th scope="col">الإجراءات</th>
                                     </tr>
@@ -135,9 +142,9 @@
                                                 <td>{{ $row->title }}</td>
                                                 <td>{!! $row->body !!}</td>
                                                 <td>{{ isset($row->owner) ? $row->owner->name : ''}}</td>
-                                                <td>
-                                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">
-                                                </td>
+{{--                                                <td>--}}
+{{--                                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">--}}
+{{--                                                </td>--}}
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($row->news_date)) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
@@ -163,13 +170,15 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="5" class="text-center p-5"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
-                            <hr class="pt-0 mt-0" />
+                            @if($news->hasMorePages())
+                                <hr class="pt-0 mt-0" />
+                            @endif
 
                             <div class="d-flex justify-content-around">{{ $news->links() }}</div>
                         </div>

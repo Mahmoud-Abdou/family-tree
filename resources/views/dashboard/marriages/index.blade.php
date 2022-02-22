@@ -48,10 +48,6 @@
                                     </div>
                                 </div>
 
-
-
-
-
                                 <div class="col-md-1">
                                     <div class="form-group my-auto">
                                     <select class="form-control" name="date" id="date-filter">
@@ -68,10 +64,6 @@
                                     </div>
                                     </div>
                                 </div>
-
-
-
-
 
                                 <div class="col-md-2 my-auto">
                                     <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
@@ -119,14 +111,16 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="6" class="text-center p-5"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>
                                 </table>
                             </div>
 
-                            <hr class="pt-0 mt-0" />
+                            @if($marriages->hasMorePages())
+                                <hr class="pt-0 mt-0" />
+                            @endif
 
                             <div class="d-flex justify-content-around">{{ $marriages->links() }}</div>
                         </div>

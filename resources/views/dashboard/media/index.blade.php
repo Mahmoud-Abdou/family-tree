@@ -23,8 +23,7 @@
                                     <option value="{{$category->id}}">{{ $category->name_ar }}</option>
                                 @endforeach
                             </select>
-                            
-                            
+
                         </div>
                         <div class="card-body p-0">
 
@@ -32,6 +31,7 @@
                                 <table class="table m-0 px-2" id="media_table">
                                     <thead>
                                     <tr>
+                                        <th scope="col">العنوان</th>
                                         <th scope="col">الصورة</th>
                                         <th scope="col">النوع</th>
                                     </tr>
@@ -40,16 +40,16 @@
                                     @if($media->count() > 0)
                                         @foreach($media as $row_media)
                                             <tr>
+                                                <td>{{ $row_media->title }}</td>
                                                 <td>
                                                     <img src="{{ $row_media->file }}" alt="" style="height: 100px;width: 100px;">
                                                 </td>
                                                 <td>{{ $row_media->category->name_ar }}</td>
-                                                
                                             </tr>
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                            <td colspan="3" class="text-center p-5"> لا توجد بيانات </td>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -96,7 +96,7 @@
                                     <img src="${row.file}" alt="" style="height: 100px;width: 100px;">
                                 </td>
                                 <td>${row.category}</td>
-                                
+
                             </tr>
                         `)
                     })
