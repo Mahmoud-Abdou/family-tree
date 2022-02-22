@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FosterBrother extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -28,6 +25,5 @@ class FosterBrother extends Model
     {
         return $this->belongsTo('App\Models\Family', 'family_id', 'id');
     }
-
 
 }

@@ -9,14 +9,14 @@
         <div class="iq-card-body">
             <h6 class="text-center">الوالدان</h6>
             <div class="list-group list-group-horizontal text-center">
-                <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{ $person->belongsToFamily->father->full_name }}</a>
-                <a href="#" class="list-group-item list-group-item-action list-group-item-danger">{{ $person->belongsToFamily->mother->full_name }}</a>
+                <a href="{{ route('admin.users.show', $person->belongsToFamily->father->user->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $person->belongsToFamily->father->full_name }}</a>
+                <a href="{{ route('admin.users.show', $person->belongsToFamily->mother->user->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $person->belongsToFamily->mother->full_name }}</a>
             </div>
             <br>
             <h6 class="text-center">الأولاد</h6>
             <div class="list-group text-center">
                 @foreach($person->belongsToFamily->members as $member)
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
+                    <a href="{{ route('admin.users.show', $member->user->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                 @endforeach
             </div>
             @if($person->belongsToFamily->fosterBrothers->count() > 0)
@@ -28,11 +28,10 @@
                     @endforeach
                 </div>
             @endif
-            
 
         </div>
         <div class="card-footer">
-            <p class="m-0 p-0"> عدد أفراد العائلة  <span class="badge badge-pill border border-dark text-dark">{{ $person->belongsToFamily->children_count }}</span></p>
+            <p class="m-0 p-0"> عدد أفراد العائلة <span class="badge badge-pill border border-dark text-dark">{{ $person->belongsToFamily->children_count }}</span></p>
         </div>
     </div>
     @endif
@@ -50,20 +49,19 @@
                         <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#fosterFamilyModal" onclick="modalFosterFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة اخ في الرضاعة للعائلة</button>
                     </div>
                     @endif
-                    
                 </div>
-                
+
                 <div class="iq-card-body">
                     <h6 class="text-center">الوالدان</h6>
                     <div class="list-group list-group-horizontal text-center">
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-danger">{{ $ownFamily->mother->full_name }}</a>
+                        <a href="{{ route('admin.users.show', $ownFamily->father->user->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
+                        <a href="{{ route('admin.users.show', $ownFamily->mother->user->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $ownFamily->mother->full_name }}</a>
                     </div>
                     <br>
                     <h6 class="text-center">الأولاد</h6>
                     <div class="list-group text-center">
                         @foreach($ownFamily->members as $member)
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
+                        <a href="{{ route('admin.users.show', $member->user->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                         @endforeach
                     </div>
                     @if($ownFamily->fosterBrothers->count() > 0)
@@ -78,7 +76,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <p class="m-0 p-0"> عدد أفراد العائلة  <span class="badge badge-pill border border-dark text-dark">{{ $ownFamily->children_count }}</span></p>
+                    <p class="m-0 p-0"> عدد أفراد العائلة <span class="badge badge-pill border border-dark text-dark">{{ $ownFamily->children_count }}</span></p>
                 </div>
             </div>
         @endforeach
@@ -95,7 +93,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-{{--                // TODO: handel form action #--}}
+
                 <form method="POST" action="{{ route('user.family') }}">
                     <div class="modal-body">
                         @csrf
@@ -119,7 +117,8 @@
             </div>
         </div>
     </div>
-    
+
+    @if(isset($ownFamily->id))
     <div class="modal fade" id="fosterFamilyModal" tabindex="-1" role="dialog" aria-labelledby="fosterFamilyModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content shadow">
@@ -129,7 +128,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-{{--                // TODO: handel form action #--}}
+
                 <form method="POST" action="{{ route('user.foster_family') }}">
                     <div class="modal-body">
                         @csrf
@@ -139,8 +138,8 @@
                         <div class="form-group">
                             <label for="selectUser2">ابحث و اختر الشخص، ليتم اضافته</label>
                             <select id="selectUser2" name="person_id" class="js-states form-control" style="width: 100%;">
-                                @foreach($fosterPersonsData as $per)
-                                    <option value="{{$per->id}}">{{$per->full_name}}</option>
+                                @foreach($fosterPersonsData as $foster)
+                                    <option value="{{$foster->id}}">{{$foster->full_name}}</option>
                                 @endforeach
                             </select>
                             <br>
@@ -157,6 +156,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="newFosterFamilyModal" tabindex="-1" role="dialog" aria-labelledby="newFosterFamilyModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content shadow">
@@ -166,16 +166,18 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-{{--                // TODO: handel form action #--}}
+
                 <form method="POST" action="{{ route('user.new_foster_family') }}">
                     <div class="modal-body">
                         @csrf
                         @method('PUT')
                         <input id="newFosterFamilyId" type="hidden" name="family_id">
 
-                        <input type="text" class="form-control" name="first_name"  placeholder="الاسم">
+                        <label for="foster_first_name">الاسم</label>
+                        <input id="foster_first_name" type="text" class="form-control" name="first_name"  placeholder="الاسم">
                         <br>
-                        <input type="text" class="form-control" name="father_name" placeholder="اسم الاب">
+                        <label for="foster_father_name">اسم الاب</label>
+                        <input id="foster_father_name" type="text" class="form-control" name="father_name" placeholder="اسم الاب">
                         <br>
                         <div>
                             <label>النوع</label>
@@ -192,7 +194,7 @@
                             </div>
                         </div>
                         <br>
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
@@ -202,6 +204,8 @@
             </div>
         </div>
     </div>
+    @endif
+
     {{--<!-- Select2 JavaScript -->--}}
     <script>
         function modalFamily(familyId) {
@@ -222,6 +226,7 @@
                 language: 'ar',
                 width: '100%',
             });
+
             $('#selectUser2').select2({
                 placeholder: 'حدد الفرد',
                 closeOnSelect: true,
@@ -229,7 +234,7 @@
                 language: 'ar',
                 width: '100%',
             });
-            
+
         });
     </script>
 @endsection
