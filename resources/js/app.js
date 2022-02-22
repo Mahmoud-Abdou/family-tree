@@ -12,8 +12,8 @@ Alpine.start();
 
 Echo.channel(`News`)
     .listen('SendNewsNotification', (e) => {
-        console.log(e);
-        alert("SDA");
+        // console.log(e);
+        // alert("SDA");
     });
 
-console.log("asdasdasd");
+// console.log("asdasdasd");

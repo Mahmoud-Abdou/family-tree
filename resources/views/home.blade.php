@@ -47,12 +47,12 @@
                                             <td class="py-4">{!! $row->short_body !!}</td>
                                             <td class="py-4">{{ $row->category->name_ar }}</td>
                                             <td class="py-4">{{ $row->city->name_ar }}</td>
-                                            <td class="py-4" dir="ltr">{{ date('Y-m-d', strtotime($row->news_date)) }}</td>
+{{--                                            <td class="py-4" dir="ltr">{{ date('Y-m-d', strtotime($row->news_date)) }}</td>--}}
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5" class="text-center p-5"> لا توجد بيانات </td>
+                                        <td colspan="4" class="text-center p-5"> لا توجد بيانات </td>
                                     </tr>
                                 @endif
                                 </tbody>

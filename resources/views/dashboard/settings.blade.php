@@ -132,8 +132,8 @@
                                     <p class="my-auto mx-4">ملاحظة: هذه التعديلات ستؤثر بشكل مباشر في اعدادات التطبيق.</p>
                                 </div>
 
-                                <div class="d-flex">
-                                    <i class="ri-time-fill"></i>
+                                <div class="d-none d-lg-flex">
+                                    <i class="ri-time-fill"> </i>
                                     آخر تعديل تم في
                                     <span class="mx-2">{{ $settingData->updated_at }}</span>
                                 </div>

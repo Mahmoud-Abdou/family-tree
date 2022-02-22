@@ -31,14 +31,23 @@
 
                 @if($media->count() > 0)
                     @foreach($media as $row)
-                        <div class="col-lg-4">
-                            <div class="card iq-mb-3" onclick="OpenImage({{ $row->id }})" data-toggle="modal" data-target=".bd-example-modal-xl" id="{{ $row->id }}">
-                                <img src="{{ $row->file }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $row->title }}">
-                                <div class="card-body">
-                                    <h4 class="card-title text-center">{{ $row->title }}</h4>
+
+                        <div class="card col-lg-4" onclick="OpenImage({{ $row->id }})" data-toggle="modal" data-target=".bd-example-modal-xl" id="{{ $row->id }}" >
+                            <div class="card-header">
+                                <h4 class="card-title text-center">{{ $row->title }}</h4>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="col-sm-12">
+                                    <div class="card iq-mb-3">
+                                        <div class="card-body">
+                                            <img src="{{ $row->file }}" class="img-thumbnail card-img-lo" alt="{{ $row->title }}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
+
                     @endforeach
                 @else
                     <div class="col-lg-12">
@@ -55,15 +64,13 @@
     </div>
 
 <div id="imageModel" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
                 <div class="carousel-inner">
                     @foreach($media as $row)
                         <div class="carousel-item" id="image_{{ $row->id }}">
                             <img src="{{ $row->file }}" class="d-block w-100" alt="#">
-                            <hr class="m-0">
-                            <h4 class="text-center py-2">{{ $row->title }}</h4>
                         </div>
                     @endforeach
 
@@ -80,8 +87,8 @@
         </div>
     </div>
 </div>
-@endsection
 
+@endsection
 @section('add-scripts')
 <script>
     function OpenImage(id){

@@ -8,7 +8,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class SettingController extends Controller
 {
@@ -64,7 +63,6 @@ class SettingController extends Controller
             'app_icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
             'app_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
             'family_tree_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
-//            'app_registration' => ['required'],
             'default_user_role' => ['required', 'exists:roles,id'],
         ]);
 

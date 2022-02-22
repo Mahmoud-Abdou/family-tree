@@ -5455,10 +5455,9 @@ alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start(); // window.Echo.channel
 // });
 
 Echo.channel("News").listen('SendNewsNotification', function (e) {
-  console.log(e);
-  alert("SDA");
+  // console.log(e);
+  // alert("SDA");
 });
-console.log("asdasdasd");
 
 /***/ }),
 

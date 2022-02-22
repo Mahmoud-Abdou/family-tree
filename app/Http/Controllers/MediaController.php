@@ -32,13 +32,12 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $appMenu = config('custom.main_menu');
         $menuTitle = 'المعرض';
-        $pageTitle = 'لوحة التحكم';
-        $media = Media::where('owner_id', auth()->user()->id)->paginate(20);
+        $pageTitle = 'القائمة الرئيسية';
+//        $media = Media::where('owner_id', auth()->id())->paginate(20);
         $categories = Category::all();
 
-        return view('web_app.Media.index', compact('menuTitle', 'pageTitle', 'media', 'categories'));
+        return view('web_app.Media.index', compact('menuTitle', 'pageTitle', 'categories'));
     }
 
     /**
@@ -84,11 +83,12 @@ class MediaController extends Controller
         $category = Category::findOrFail($category_id);
         $menuTitle = $category->name_ar;
         $pageTitle = 'القائمة الرئيسية';
+
         if($category_id == 0){
             $media = Media::all();
         }
         else{
-            $media = Media::where('category_id', $category_id)->get();
+            $media = Media::where('category_id', $category->id)->get();
         }
 
         return view('web_app.Media.show', compact('menuTitle', 'pageTitle', 'media'));
@@ -147,7 +147,6 @@ class MediaController extends Controller
         return redirect()->route('media.index')->with('success', 'تم حذف بيانات الصور بنجاح.');
 
     }
-
 
     public function get_media($category_id)
     {

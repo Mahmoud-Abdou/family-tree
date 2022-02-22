@@ -5,7 +5,7 @@
                 <form dir="rtl" method="POST" action="{{ route('news_comments.store') }}">
                     @csrf
                     <input type="hidden" name="news_id" value="{{ $news->id }}">
-                    <div class="form-group">
+                    <div class="form-group has-validation">
                         <textarea name="body" class="form-control" rows="2" placeholder="اكتب تعليق" required oninvalid="this.setCustomValidity('اكتب تعليق هنا')"></textarea>
                     </div>
                     <br>

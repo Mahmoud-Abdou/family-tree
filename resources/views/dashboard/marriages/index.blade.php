@@ -74,14 +74,13 @@
 
                             <div class="table-responsive">
                                 <table class="table m-0 px-2">
-
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
-                                        <th scope="col">وصف </th>
-                                        <th scope="col">الناشر </th>
+                                        <th scope="col">وصف</th>
+                                        <th scope="col">الناشر</th>
                                         <th scope="col">الصورة</th>
-                                        <th scope="col">التاريخ </th>
+                                        <th scope="col">التاريخ</th>
                                         <th scope="col">الإجراءات</th>
                                     </tr>
                                     </thead>
@@ -91,7 +90,7 @@
                                             <tr>
                                                 <td>{{ $marriage->title }}</td>
                                                 <td>{!! $marriage->body !!}</td>
-                                                <td>{{ isset($marriage->owner) ? $marriage->owner->name : ''}}</td>
+                                                <td><a href="{{ route('admin.users.show', $marriage->owner_id) }}">{{ $marriage->owner->name }}</a></td>
                                                 <td>
                                                     <img src="{{ isset($marriage->image->file) ? $marriage->image->file : 'default.png' }}" alt="{{ $marriage->title }}" style="height: 100px;width: 100px;">
                                                 </td>

@@ -30,8 +30,10 @@ class CreateSettingsTable extends Migration
             $table->string('family_tree_image')->nullable();
             $table->string('family_name_ar');
             $table->string('family_name_en')->nullable();
-            $table->boolean('app_registration')->default(false);
             $table->integer('default_user_role')->default(3);
+            $table->boolean('app_registration')->default(false);
+            $table->boolean('app_first_registration')->default(false);
+            $table->boolean('app_comments')->default(true);
             $table->timestamps();
         });
     }

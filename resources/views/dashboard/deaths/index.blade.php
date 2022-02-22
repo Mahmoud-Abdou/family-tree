@@ -91,7 +91,7 @@
                                             <tr>
                                                 <td>{{ $death->title }}</td>
                                                 <td>{!! $death->body !!}</td>
-                                                <td>{{ $death->owner->name }}</td>
+                                                <td><a href="{{ route('admin.users.show', $death->owner_id) }}">{{ $death->owner->name }}</a></td>
                                                 <td>
                                                     <img src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}" alt="{{ $death->title }}" style="height: 100px;width: 100px;">
                                                 </td>

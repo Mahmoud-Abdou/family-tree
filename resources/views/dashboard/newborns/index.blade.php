@@ -77,10 +77,10 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
-                                        <th scope="col">وصف </th>
-                                        <th scope="col">الناشر </th>
+                                        <th scope="col">وصف</th>
+                                        <th scope="col">الناشر</th>
                                         <th scope="col">الصورة</th>
-                                        <th scope="col">التاريخ </th>
+                                        <th scope="col">التاريخ</th>
                                         <th scope="col">الإجراءات</th>
                                     </tr>
                                     </thead>
@@ -90,7 +90,7 @@
                                             <tr>
                                                 <td>{{ $newborn->title }}</td>
                                                 <td>{!! $newborn->body !!}</td>
-                                                <td>{{ isset($newborn->owner) ? $newborn->owner->name : ''}}</td>
+                                                <td><a href="{{ route('admin.users.show', $newborn->owner_id) }}">{{ $newborn->owner->name }}</a></td>
                                                 <td>
                                                     <img src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="{{ $newborn->title }}" style="height: 100px;width: 100px;">
                                                 </td>

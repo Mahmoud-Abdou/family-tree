@@ -141,14 +141,13 @@
                                             <tr>
                                                 <td>{{ $row->title }}</td>
                                                 <td>{!! $row->body !!}</td>
-                                                <td>{{ isset($row->owner) ? $row->owner->name : ''}}</td>
-{{--                                                <td>--}}
+                                                <td><a href="{{ route('admin.users.show', $row->owner_id) }}">{{ $row->owner->name }}</a></td>
+                                                {{--                                                <td>--}}
 {{--                                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">--}}
 {{--                                                </td>--}}
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($row->news_date)) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-
 
                                                         @can('news.update')
                                                         <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.news.edit', $row) }}"><i class="ri-edit-2-fill"></i></a>

@@ -32,8 +32,10 @@ class Setting extends Model
         'family_tree_image',
         'family_name_ar',
         'family_name_en',
-        'app_registration',
         'default_user_role',
+        'app_registration',
+        'app_first_registration',
+        'app_comments'
     ];
 
     // accessories
