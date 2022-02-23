@@ -141,7 +141,7 @@
                                                     @endcan
                                                     @can('users.delete')
                                                         @if($user->status == 'active')
-                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->id }})"><i class="ri-delete-back-2-fill"></i></button>
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->id }})"><i class="ri-delete-back-fill"></i></button>
                                                         @endif
                                                     @endcan
                                                     </div>
@@ -157,7 +157,7 @@
                                 </table>
                             </div>
 
-                            @if($usersData->hasMorePages())
+                            @if($usersData->lastPage() > 1)
                                 <hr class="pt-0 mt-0" />
                             @endif
 

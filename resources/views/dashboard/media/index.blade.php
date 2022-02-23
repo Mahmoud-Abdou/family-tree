@@ -43,7 +43,6 @@
                                     </div>
                                 </div>
 
-                                
                                 <div class="col-md-1">
                                     <div class="form-group my-auto">
                                     <select class="form-control" name="category" id="category-filter">
@@ -125,7 +124,8 @@
                                 </table>
                             </div>
 
-                            @if($media->hasMorePages())
+{{--                            @if($media->hasMorePages())--}}
+                            @if($media->lastPage() > 1)
                                 <hr class="pt-0 mt-0" />
                             @endif
 

@@ -140,7 +140,7 @@
                                         @foreach($news as $row)
                                             <tr>
                                                 <td>{{ $row->title }}</td>
-                                                <td>{!! $row->body !!}</td>
+                                                <td>{!! $row->short_body !!}</td>
                                                 <td><a href="{{ route('admin.users.show', $row->owner_id) }}">{{ $row->owner->name }}</a></td>
                                                 {{--                                                <td>--}}
 {{--                                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">--}}
@@ -175,7 +175,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            @if($news->hasMorePages())
+
+                            @if($news->lastPage() > 1)
                                 <hr class="pt-0 mt-0" />
                             @endif
 

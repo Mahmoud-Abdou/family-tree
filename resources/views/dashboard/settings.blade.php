@@ -123,6 +123,22 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" name="app_first_registration" id="app_first_registration" {{ $settingData->app_first_registration ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="app_first_registration">تفعيل الدخول لأول مرة</label>
+                                            <p>عند تفعيل هذا الخيار سيتم تفعيل و اعداد كلمة المرور عند الدخول أول مرة.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" name="app_comments" id="app_comments" {{ $settingData->app_comments ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="app_comments">تفعيل التعليقات على الأخبار</label>
+                                            <p>عند تفعيل هذا الخيار سيتم تفعيل التعليقات على الأخبار حسب الصلاحيات.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

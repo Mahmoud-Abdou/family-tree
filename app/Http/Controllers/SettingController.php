@@ -91,11 +91,17 @@ class SettingController extends Controller
         if ($request->hasfile('family_tree_image')) {
             $setting->family_tree_image = $this->ImageUpload($request->file('family_tree_image'), $setting->photoPath, 'family_tree_image');
         }
-        $setting->app_registration = $request->app_registration == 'on';
         $setting->default_user_role = $request->default_user_role;
-        $setting->save();
+        $setting->app_registration = $request->app_registration == 'on';
+        $setting->app_first_registration = $request->app_first_registration == 'on';
+        $setting->app_comments = $request->app_comments == 'on';
 
-        return back()->with('success', 'تم تحديث الاعدادت بنجاح.');
+        if ($setting->isDirty()) {
+            $setting->save();
+            return back()->with('success', 'تم تحديث الاعدادت بنجاح.');
+        }
+
+        return back();
     }
 
 }

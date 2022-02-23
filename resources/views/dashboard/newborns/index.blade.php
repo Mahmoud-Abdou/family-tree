@@ -89,10 +89,10 @@
                                         @foreach($newborns as $newborn)
                                             <tr>
                                                 <td>{{ $newborn->title }}</td>
-                                                <td>{!! $newborn->body !!}</td>
+                                                <td>{!! $newborn->short_body !!}</td>
                                                 <td><a href="{{ route('admin.users.show', $newborn->owner_id) }}">{{ $newborn->owner->name }}</a></td>
                                                 <td>
-                                                    <img src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="{{ $newborn->title }}" style="height: 100px;width: 100px;">
+                                                    <img src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="لا توجد صورة" style="height: 100px;width: 100px;">
                                                 </td>
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($newborn->newborns_date)) }}</td>
                                                 <td>
@@ -116,7 +116,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            @if($newborns->hasMorePages())
+
+                            @if($newborns->lastPage() > 1)
                                 <hr class="pt-0 mt-0" />
                             @endif
 

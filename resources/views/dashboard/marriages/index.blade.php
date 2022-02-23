@@ -89,7 +89,7 @@
                                         @foreach($marriages as $marriage)
                                             <tr>
                                                 <td>{{ $marriage->title }}</td>
-                                                <td>{!! $marriage->body !!}</td>
+                                                <td>{!! $marriage->short_body !!}</td>
                                                 <td><a href="{{ route('admin.users.show', $marriage->owner_id) }}">{{ $marriage->owner->name }}</a></td>
                                                 <td>
                                                     <img src="{{ isset($marriage->image->file) ? $marriage->image->file : 'default.png' }}" alt="{{ $marriage->title }}" style="height: 100px;width: 100px;">
@@ -117,7 +117,7 @@
                                 </table>
                             </div>
 
-                            @if($marriages->hasMorePages())
+                            @if($marriages->lastPage() > 1)
                                 <hr class="pt-0 mt-0" />
                             @endif
 

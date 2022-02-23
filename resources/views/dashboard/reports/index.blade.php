@@ -104,6 +104,7 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             @if($reports->lastPage() > 1)
                                 <hr class="pt-0 mt-0" />
                             @endif

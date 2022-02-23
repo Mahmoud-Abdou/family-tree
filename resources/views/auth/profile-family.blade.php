@@ -129,6 +129,7 @@
                     </button>
                 </div>
 
+                @isset($fosterPersonsData)
                 <form method="POST" action="{{ route('user.foster_family') }}">
                     <div class="modal-body">
                         @csrf
@@ -153,6 +154,7 @@
                         <button id="roleFormBtn" type="submit" class="btn btn-primary"><i class="ri-add-fill"> </i>اضافة</button>
                     </div>
                 </form>
+                @endisset
             </div>
         </div>
     </div>

@@ -21,7 +21,11 @@ class FirstAuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.password-confirmation');
+        if (\App\Helpers\AppHelper::GeneralSettings('app_first_registration')){
+            return view('auth.password-confirmation');
+        }
+
+        return redirect()->route('home');
     }
 
     /**
@@ -32,6 +36,10 @@ class FirstAuthenticatedSessionController extends Controller
      */
     public function store(FirstLoginRequest $request)
     {
+        if (!\App\Helpers\AppHelper::GeneralSettings('app_first_registration')){
+            return redirect()->route('home');
+        }
+
         $user = User::where('email', $request->email)->first();
         if($user->status != 'registered'){
             throw ValidationException::withMessages([
@@ -41,7 +49,7 @@ class FirstAuthenticatedSessionController extends Controller
         $user->password = $request['password'];
         $user->status = 'active';
         $user->save();
-        
+
         $request->authenticate();
 
         $request->session()->regenerate();

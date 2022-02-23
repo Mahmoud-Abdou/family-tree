@@ -92,9 +92,9 @@
 
                                     <thead>
                                     <tr>
-                                        <th scope="col">المدينة</th>
                                         <th scope="col">عنوان</th>
                                         <th scope="col">وصف</th>
+                                        <th scope="col">المدينة</th>
                                         <th scope="col">الناشر</th>
                                         <th scope="col">الصورة</th>
                                         <th scope="col">التاريخ</th>
@@ -105,9 +105,9 @@
                                     @if($events->count() > 0)
                                         @foreach($events as $event)
                                             <tr>
-                                                <td>{{ $event->city->name_ar }}</td>
                                                 <td>{{ $event->title }}</td>
                                                 <td>{!! $event->short_body !!}</td>
+                                                <td>{{ $event->city->name_ar }}</td>
                                                 <td><a href="{{ route('admin.users.show', $event->owner_id) }}">{{ $event->owner->name }}</a></td>
                                                 <td>
                                                     <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" alt="{{ $event->title }}" style="height: 100px;width: 100px;">
@@ -146,7 +146,7 @@
                                 </table>
                             </div>
 
-                            @if($events->hasMorePages())
+                            @if($events->lastPage() > 1)
                                 <hr class="pt-0 mt-0" />
                             @endif
 

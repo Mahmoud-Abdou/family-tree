@@ -29,7 +29,7 @@
                         <div class="media-block">
                             <div class="media-body">
                                 <div class="mar-btm w-100 d-inline-flex justify-content-between">
-                                    <a class="btn-link text-secondary font-size-16" href="{{ route('admin.users.show', $comment->owner->id) }}">
+                                    <a class="btn-link text-secondary font-size-16" href="#">
                                         {{ $comment->owner->name }}
                                     </a>
                                     <p class="text-muted text-sm"><i class="ri-calendar-event-line"> </i>

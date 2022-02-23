@@ -32,10 +32,11 @@
                 @if($media->count() > 0)
                     @foreach($media as $row)
                         <div class="col-lg-4">
-                            <div class="card iq-mb-3" onclick="OpenImage({{ $row->id }})" data-toggle="modal" data-target=".bd-example-modal-xl" id="{{ $row->id }}">
+                            <div class="card shadow iq-mb-3" onclick="OpenImage({{ $row->id }})" data-toggle="modal" data-target=".bd-example-modal-xl" id="{{ $row->id }}">
                                 <img src="{{ $row->file }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $row->title }}">
+                                <hr class="m-0" />
                                 <div class="card-body">
-                                    <h4 class="card-title text-center">{{ $row->title }}</h4>
+                                    <h4 class="card-title text-center m-0">{{ $row->title }}</h4>
                                 </div>
                             </div>
                         </div>

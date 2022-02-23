@@ -85,7 +85,9 @@
                         </div>
                         <hr>
 
-                        @include('web_app.News.comments')
+                        @if(Helper::GeneralSettings('app_comments'))
+                            @include('web_app.News.comments')
+                        @endif
                     </div>
                 </div>
 
