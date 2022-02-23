@@ -77,8 +77,30 @@ class HomeController extends Controller
         return view('family-tree-render', compact('menuTitle', 'pageTitle', 'personsCount', 'familiesCount'));
     }
 
+    private function getClassesSymbol($person)
+    {
+        if(!$person->is_live)
+            return 'ri-bookmark-fill';
+
+        if($person->has_family == 0){
+            if($person->gender == 'male')
+                return 'ri-men-fill';
+            if($person->relation == 'mother')
+               return 'ri-user-smile-fill';
+
+            return 'ri-women-fill';
+        }
+        
+        if($person->gender == 'male')
+            return 'ri-user-fill';
+        
+        return 'ri-user-smile-fill';
+
+    }
+
     private function familyTreeData($main_family_id)
     {
+        
         $family_data_array = [];
         $main_family = Family::where('id', $main_family_id)->first();
         if($main_family == null){
@@ -95,6 +117,9 @@ class HomeController extends Controller
         $family_data_array['status2'] = $father->has_family;
         $family_data_array['className'] = $father->is_live ? ($father->gender == 'male' ? 'man-father' : 'wife-out') : 'dead';
         $family_data_array['gender'] = $father->gender;
+        $family_data_array['fatherSymbol'] = $this->getClassesSymbol($father);
+        $family_data_array['motherSymbol'] = $this->getClassesSymbol($mother);
+
 
         $families = Family::where('gf_family_id', $main_family->id)
             ->whereColumn('id', '!=', 'gf_family_id')
@@ -105,6 +130,8 @@ class HomeController extends Controller
             ->get();
         $no_family_children = [];
         foreach($family_noFamily_children as $child){
+            $no_family_child['fatherSymbol'] = $this->getClassesSymbol($child);
+            $no_family_child['motherSymbol'] = null;
             $no_family_child['name'] = $child->first_name;
             $no_family_child['wife'] = "";
             $no_family_child['status'] = $child->is_live;

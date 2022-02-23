@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('add-styles')
-    <link rel="stylesheet" href="{{ secure_asset('css/jquery.orgchart.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery.orgchart.min.css') }}">
     <style type="text/css">
         .orgchart .linkNode {
             box-sizing: border-box;
@@ -89,8 +89,8 @@
 @endsection
 
 @section('add-scripts')
-    <script type="text/javascript" src="{{ secure_asset('js/html2canvas.min.js') }}"></script>
-    <script type="text/javascript" src="{{ secure_asset('js/jquery.orgchart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.orgchart.min.js') }}"></script>
 
     <script type="text/javascript">
         $(function() {
@@ -106,14 +106,15 @@
 
             function renderData(data) {
                 var datascource = data;
-
+                console.log(data)
                 var nodeTemplate = function(data) {
                     return `
 {{--                        <div class="wife-node">
                             <span class="office">${data.wife}</span>
                         </div>--}}
-                        <div class="title">${data.name}</div>
-                        <div class="content">${data.wife}</div>
+                        
+                        <div class="title"><i class=${data.fatherSymbol}> </i> ${data.name}</div>
+                        <div class="content"> <i class=${data.motherSymbol}> </i>${data.wife}</div>
                     `;
                 };
 
@@ -135,7 +136,7 @@
                     'zoomoutLimit': 0.3,
                     'chartClass': '',
                     'className': 'top-level',
-                    'parentNodeSymbol': 'oci-leader',
+                    'parentNodeSymbol': '',
                     // 'exportButton': true,
                     // 'exportFileextension': 'png',
                     // 'exportFilename': 'Export PDF'
