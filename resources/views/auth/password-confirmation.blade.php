@@ -23,23 +23,23 @@
 
                     <form dir="rtl" class="mt-4" method="POST" action="{{ route('first_login') }}">
                         @csrf
- 
+
                         <div class="form-group">
                             <label for="email">@lang('auth.username')</label>
                             <input type="text" name="email" class="form-control mb-0" id="email" tabindex="1" placeholder="" value="{{ old('email') }}" required autofocus>
                         </div>
                         <div class="form-group">
                             <label for="password">@lang('auth.passwordField')</label>
-                            
+
                             <input type="password" name="password" class="form-control mb-0" id="password" tabindex="2" placeholder="******" required >
                         </div>
                         <div class="form-group">
                             <label for="password_confirmation">{{ __('تأكيد كلمة المرور') }}</label>
-                            <input type="password" name="password_confirmation" class="form-control mb-0" id="password_confirmation" tabindex="7" placeholder="{{ __('تأكيد كلمة المرور') }}" required>
+                            <input type="password" name="password_confirmation" class="form-control mb-0" id="password_confirmation" tabindex="3" placeholder="******" required>
                         </div>
                         <div class="d-inline-block w-100">
-                            
-                            <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="4">@lang('auth.enter')</button>
+
+                            <button type="submit" class="btn btn-primary my-4 w-100 py-3 px-5 float-left py-2 px-4" tabindex="4">@lang('auth.enter')</button>
                         </div>
                     </form>
                 </div>

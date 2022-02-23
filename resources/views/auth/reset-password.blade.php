@@ -10,7 +10,7 @@
                 <div class="sign-in-from">
                     <h1 class="mb-0">إعادة تعيين كلمة المرور</h1>
                     <p>أدخل عنوان بريدك الإلكتروني وسنرسل إليك بريدًا إلكترونيًا يحتوي على تعليمات لإعادة تعيين كلمة المرور الخاصة بك.</p>
-                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                    <x-auth-validation-errors dir="rtl" class="alert alert-danger mb-4" role="alert" :errors="$errors" />
 
                     <form class="mt-4" method="POST" action="{{ route('password.update') }}">
                         @csrf

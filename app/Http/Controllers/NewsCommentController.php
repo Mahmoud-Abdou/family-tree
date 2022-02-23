@@ -9,6 +9,15 @@ use App\Http\Requests\UpdateNewsCommentRequest;
 
 class NewsCommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:comments.read')->only(['index', 'show']);
+        $this->middleware('permission:comments.create')->only(['create', 'store']);
+        $this->middleware('permission:comments.update')->only(['edit', 'update']);
+        $this->middleware('permission:comments.delete')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +26,6 @@ class NewsCommentController extends Controller
     public function index()
     {
         return redirect()->route('news.index');
-
     }
 
     /**
@@ -28,7 +36,6 @@ class NewsCommentController extends Controller
     public function create()
     {
         return redirect()->route('news.index');
-
     }
 
     /**
@@ -55,7 +62,6 @@ class NewsCommentController extends Controller
     public function show($news_comment_id)
     {
         return redirect()->route('news.index');
-
     }
 
     /**

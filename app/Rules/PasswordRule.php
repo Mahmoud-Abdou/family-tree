@@ -303,19 +303,19 @@ class PasswordRule implements Rule, DataAwareRule, ValidatorAwareRule
             $value = (string) $value;
 
             if ($this->mixedCase && ! preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
-                $validator->errors()->add($attribute, 'The :attribute must contain at least one uppercase and one lowercase letter.');
+                $validator->errors()->add($attribute, ':attribute يجب أن يحتوي على حرف كبير واحد على الأقل وحرف صغير واحد');
             }
 
             if ($this->letters && ! preg_match('/\pL/u', $value)) {
-                $validator->errors()->add($attribute, 'The :attribute must contain at least one letter.');
+                $validator->errors()->add($attribute, ':attribute يجب أن يحتوي على حرف واحد على الأقل.');
             }
 
             if ($this->symbols && ! preg_match('/\p{Z}|\p{S}|\p{P}/u', $value)) {
-                $validator->errors()->add($attribute, 'The :attribute must contain at least one symbol.');
+                $validator->errors()->add($attribute, ':attribute يجب أن يحتوي على رمز واحد على الأقل.');
             }
 
             if ($this->numbers && ! preg_match('/\pN/u', $value)) {
-                $validator->errors()->add($attribute, 'The :attribute must contain at least one number.');
+                $validator->errors()->add($attribute, ':attribute يجب أن يحتوي على رقم واحد على الأقل.');
             }
         });
 
@@ -328,7 +328,7 @@ class PasswordRule implements Rule, DataAwareRule, ValidatorAwareRule
                 'threshold' => $this->compromisedThreshold,
             ])) {
             return $this->fail(
-                'The given :attribute has appeared in a data leak. Please choose a different :attribute.'
+                'الرمز المدخل :attribute ظهر في تسرب البيانات. الرجاء تعديله :attribute.'
             );
         }
 

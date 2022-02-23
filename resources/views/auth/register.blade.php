@@ -56,19 +56,20 @@
                             <input type="password" name="password_confirmation" class="form-control mb-0" id="password_confirmation" tabindex="7" placeholder="{{ __('تأكيد كلمة المرور') }}" required>
                         </div>
                         <div class="d-inline-block w-100">
-                            <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1 float-right">
+                            <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1 float-right my-2">
                                 <input type="checkbox" name="terms" class="custom-control-input" id="terms" required {{ old('terms') == 'on' ? 'checked' : '' }} >
                                 <label class="custom-control-label" for="terms"> عند الاشتراك فانت توافق على </label>
                                 <a href="#" class="mx-1" data-toggle="modal" data-target="#termsModal">شروط الاستخدام </a>
                             </div>
-                            <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="9">اشتراك</button>
+                            <button type="submit" class="btn btn-primary float-left py-3 px-5" tabindex="9">اشتراك</button>
                         </div>
                         <div class="sign-info">
                             <span class="dark-color d-inline-block line-height-2">لديك حساب بالفعل؟
-                                <a href="{{ route('login') }}" class="float-right mx-3 btn btn-outline-primary">دخول</a>
+                                <a href="{{ route('login') }}" class="mx-3 py-3 px-5 btn btn-outline-primary">دخول</a>
                             </span>
                         </div>
                     </form>
+                    <br>
                 </div>
             </div>
         </div>

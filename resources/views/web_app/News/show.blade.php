@@ -84,9 +84,8 @@
                             </div>
                         </div>
                         <hr>
-                        @can('comments.create')
-                            @include('web_app.News.comments')
-                        @endcan
+
+                        @include('web_app.News.comments')
                     </div>
                 </div>
 

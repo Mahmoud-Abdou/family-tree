@@ -2,6 +2,17 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Validation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines contain the default error messages used by
+    | the validator class. Some of these rules have multiple versions such
+    | as the size rules. Feel free to tweak each of these messages here.
+    |
+    */
+
     'accepted' => 'The :attribute must be accepted.',
     'accepted_if' => 'The :attribute must be accepted when :other is :value.',
     'active_url' => 'The :attribute is not a valid URL.',
@@ -10,34 +21,34 @@ return [
     'alpha' => 'The :attribute must only contain letters.',
     'alpha_dash' => 'The :attribute must only contain letters, numbers, dashes and underscores.',
     'alpha_num' => 'The :attribute must only contain letters and numbers.',
-    'array' => 'The :attribute must be an array.',
-    'before' => 'The :attribute must be a date before :date.',
-    'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
+    'array' => 'ال :attribute يجب أن يكون مصفوفة.',
+    'before' => 'يجب أن يكون التاريخ المدخل تاريخًا يسبق :date.',
+    'before_or_equal' => 'يجب أن يكون التاريخ الذي تم إدخاله تاريخًا يسبق أو يساوي :date.',
     'between' => [
         'numeric' => 'The :attribute must be between :min and :max.',
         'file' => 'The :attribute must be between :min and :max kilobytes.',
         'string' => 'The :attribute must be between :min and :max characters.',
         'array' => 'The :attribute must have between :min and :max items.',
     ],
-    'boolean' => 'The :attribute field must be true or false.',
-    'confirmed' => 'The :attribute confirmation does not match.',
-    'current_password' => 'The password is incorrect.',
-    'date' => 'The :attribute is not a valid date.',
-    'date_equals' => 'The :attribute must be a date equal to :date.',
-    'date_format' => 'The :attribute does not match the format :format.',
-    'declined' => 'The :attribute must be declined.',
+    'boolean' => 'يجب أن يكون حقل القيمة صحيحًا أو خطأ.',
+    'confirmed' => 'تأكيد كلمة المرور غير متطابق.',
+    'current_password' => 'كلمة المرور غير صحيحة.',
+    'date' => 'التاريخ الذي تم إدخاله ليس تاريخًا صالحًا.',
+    'date_equals' => 'يجب أن يكون التاريخ تاريخًا مساويًا لـ :date.',
+    'date_format' => 'التاريخ لا يتطابق مع التنسيق: :format.',
+    'declined' => 'يجب أن يتم رفض القيمة.',
     'declined_if' => 'The :attribute must be declined when :other is :value.',
-    'different' => 'The :attribute and :other must be different.',
-    'digits' => 'The :attribute must be :digits digits.',
+    'different' => 'يجب أن تكون القيمة والقيمة الأخرى مختلفة.',
+    'digits' => 'يجب أن تكون القيمة مكونة من 9 أرقام.',
     'digits_between' => 'The :attribute must be between :min and :max digits.',
-    'dimensions' => 'The :attribute has invalid image dimensions.',
-    'distinct' => 'The :attribute field has a duplicate value.',
-    'email' => 'The :attribute must be a valid email address.',
-    'ends_with' => 'The :attribute must end with one of the following: :values.',
-    'enum' => 'The selected :attribute is invalid.',
-    'exists' => 'The selected :attribute is invalid.',
-    'file' => 'The :attribute must be a file.',
-    'filled' => 'The :attribute field must have a value.',
+    'dimensions' => 'الصورة المحددة، أبعاد الصورة غير صالحة. ',
+    'distinct' => ':attribute الحقل له قيمة مكررة.',
+    'email' => 'البريد الالكتروني المدخل، يجب أن يكون عنوان بريد إلكتروني صالح.',
+    'ends_with' => ':attribute يجب أن ينتهي بواحد مما يلي: :values.',
+    'enum' => 'القيمة المحددة :attribute غير صحيحة.',
+    'exists' => 'القيمة المحددة :attribute غير صحيحة.',
+    'file' => 'ال :attribute يجب أن يكون ملفًا.',
+    'filled' => ':attribute يجب أن يكون للحقل قيمة.',
     'gt' => [
         'numeric' => 'The :attribute must be greater than :value.',
         'file' => 'The :attribute must be greater than :value kilobytes.',
@@ -50,7 +61,7 @@ return [
         'string' => 'The :attribute must be greater than or equal to :value characters.',
         'array' => 'The :attribute must have :value items or more.',
     ],
-    'image' => 'The :attribute must be an image.',
+    'image' => 'يجب أن يكون الملف المحدد صورة.',
     'in' => 'The selected :attribute is invalid.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',
@@ -72,24 +83,24 @@ return [
         'array' => 'The :attribute must not have more than :value items.',
     ],
     'max' => [
-        'numeric' => 'The :attribute must not be greater than :max.',
-        'file' => 'The :attribute must not be greater than :max kilobytes.',
-        'string' => 'The :attribute must not be greater than :max characters.',
-        'array' => 'The :attribute must not have more than :max items.',
+        'numeric' => ':attribute يجب ألا يكون أكبر من :max.',
+        'file' => ':attribute يجب ألا يكون أكبر من :max كيلوبايت.',
+        'string' => ':attribute يجب ألا يكون أكبر من :max أحرف.',
+        'array' => ':attribute يجب ألا يحتوي على أكثر من :max عناصر.',
     ],
-    'mimes' => 'The :attribute must be a file of type: :values.',
-    'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
-        'numeric' => 'The :attribute must be at least :min.',
-        'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
-        'array' => 'The :attribute must have at least :min items.',
+        'numeric' => ':attribute يجب أن يكون على الأقل :min.',
+        'file' => ':attribute يجب أن يكون على الأقل :min كيلوبايت.',
+        'string' => ':attribute يجب أن يكون على الأقل :min أحرف.',
+        'array' => ':attribute يجب أن يحتوي على الأقل :min عناصر.',
     ],
+    'mimes' => ':attribute يجب أن يكون ملفًا من النوع: :values.',
+    'mimetypes' => ':attribute يجب أن يكون ملفًا من النوع: :values.',
     'multiple_of' => 'The :attribute must be a multiple of :value.',
     'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => 'The :attribute must be a number.',
-    'password' => 'The password is incorrect.',
+    'password' => 'كلمة المرور غير صحيحة.',
     'present' => 'The :attribute field must be present.',
     'prohibited' => 'The :attribute field is prohibited.',
     'prohibited_if' => 'The :attribute field is prohibited when :other is :value.',
@@ -112,11 +123,11 @@ return [
     ],
     'starts_with' => 'The :attribute must start with one of the following: :values.',
     'string' => 'The :attribute must be a string.',
-    'timezone' => 'The :attribute must be a valid timezone.',
-    'unique' => 'The :attribute has already been taken.',
-    'uploaded' => 'The :attribute failed to upload.',
-    'url' => 'The :attribute must be a valid URL.',
-    'uuid' => 'The :attribute must be a valid UUID.',
+    'timezone' => 'يجب أن تكون القيمة منطقة زمنية صالحة.',
+    'unique' => 'ال :attribute تم استخدامه بالفعل.',
+    'uploaded' => 'فشل تحميل الملف.',
+    'url' => 'يجب أن تكون القيمة عنوان URL صالحًا.',
+    'uuid' => 'يجب أن تكون القيمة UUID صالحة.',
 
     /*
     |--------------------------------------------------------------------------
@@ -146,6 +157,25 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'الاسم',
+        'first_name' => 'الاسم',
+        'father_name' => 'اسم الأب',
+        'grand_father_name' => 'اسم الجد',
+        'surname' => 'الكنية',
+        'job' => 'الوظيفة',
+        'address' => 'العنوان',
+        'mobile' => 'الجوال',
+        'email' => 'البريد الالكتروني',
+        'password' => 'كلمة المرور',
+        'title' => 'العنوان',
+        'body' => 'المحتوى',
+        'bio' => 'المحتوى',
+        'gender' => 'النوع',
+        'birth_date' => 'تاريخ الميلاد',
+        'birth_place' => 'مكان الوفاة',
+        'death_date' => 'تاريخ الوفاة',
+        'death_place' => 'مكان الوفاة',
+    ],
 
 ];

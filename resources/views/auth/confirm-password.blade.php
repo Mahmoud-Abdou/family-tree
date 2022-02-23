@@ -12,7 +12,7 @@
                     <p>{{ __('This is a secure area of the application. Please confirm your password before continuing.') }}</p>
 
                     {{--                    <!-- Validation Errors -->--}}
-                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                    <x-auth-validation-errors dir="rtl" class="alert alert-danger mb-4" role="alert" :errors="$errors" />
 
                     <form class="mt-4" method="POST" action="{{ route('password.confirm') }}">
                         @csrf

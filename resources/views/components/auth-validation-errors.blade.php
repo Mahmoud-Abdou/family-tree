@@ -4,13 +4,19 @@
     <div {{ $attributes }}>
         <i class="ri-information-line"> </i>
         <div class="iq-alert-text"><b>فشلت العملية.</b>
-            @foreach ($errors->all() as $error)
-                @if($errors->count() > 0)
-                    <ul>{{ $error }}</ul>
-                @else
+
+            @if($errors->count() > 1)
+                <ul class="p-0">
+                @foreach ($errors->all() as $error)
+                    <li>- {{ $error }}</li>
+                @endforeach
+                </ul>
+            @else
+                @foreach ($errors->all() as $error)
                     <p>{{ $error }}</p>
-                @endif
-            @endforeach
+                @endforeach
+            @endif
+
         </div>
         <button type="button" class="close text-danger" data-dismiss="alert" aria-label="Close">
             <i class="ri-close-line"></i>

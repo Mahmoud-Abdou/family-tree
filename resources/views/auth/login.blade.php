@@ -40,11 +40,17 @@
                                 <input type="checkbox" name="remember" id="remember_me" tabindex="3" class="custom-control-input">
                                 <label class="custom-control-label" for="remember_me">@lang('auth.remember_me')</label>
                             </div>
-                            <button type="submit" class="btn btn-primary float-left py-2 px-4" tabindex="4">@lang('auth.enter')</button>
+                            <button type="submit" class="btn btn-primary float-left py-3 px-5" tabindex="4">@lang('auth.enter')</button>
                         </div>
                         <div class="sign-info">
-                            <span class="dark-color d-inline-block line-height-2">@lang('auth.no_have_account')
-                                <a href="{{ route('register') }}" class="float-right mx-3 btn btn-outline-primary">@lang('auth.sign_up')</a>
+                            <span class="dark-color d-inline-block line-height-2 my-auto w-100">
+                                <span>@lang('auth.no_have_account')</span>
+                                <a href="{{ route('register') }}" class="mx-3 py-3 px-5 btn btn-outline-primary">@lang('auth.sign_up')</a>
+                                <br>
+
+                                @if(Helper::GeneralSettings('app_first_registration'))
+                                    <a href="{{ route('first_login') }}" class="mt-3 py-3 px-5 btn btn-outline-primary w-100">الدخول بالبريد المسجل مسبقاً</a>
+                                @endif
                             </span>
                         </div>
                     </form>

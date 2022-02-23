@@ -42,7 +42,7 @@
                                 <tbody>
                                 @if($lastNews->count() > 0)
                                     @foreach($lastNews as $row)
-                                        <tr class="clickable-row" data-href="{{ route('news.show', $row->id) }}">
+                                        <tr class="clickable-row" data-href="{{ route('news.show', $row->id) }}" style="cursor: pointer;">
                                             <td class="py-4">{{ $row->title }}</td>
                                             <td class="py-4">{!! $row->short_body !!}</td>
                                             <td class="py-4">{{ $row->category->name_ar }}</td>
