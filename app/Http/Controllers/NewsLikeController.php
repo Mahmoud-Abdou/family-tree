@@ -37,7 +37,7 @@ class NewsLikeController extends Controller
      */
     public function store(StoreNewsLikeRequest $request)
     {
-        $request['owner_id'] = auth()->user()->id;
+        $request['owner_id'] = auth()->id();
         $old_like = NewsLike::where('owner_id', $request['owner_id'])
                             ->where('news_id', $request['news_id'])
                             ->first();
@@ -91,7 +91,7 @@ class NewsLikeController extends Controller
      */
     public function destroy(NewsLike $news_like)
     {
-        if(auth()->user()->id != $news_like->owner_id){
+        if(auth()->id() != $news_like->owner_id){
             return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
         $news_like->delete();

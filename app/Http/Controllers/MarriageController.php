@@ -35,7 +35,7 @@ class MarriageController extends Controller
      */
     public function index(Request $request)
     {
-//        $id = auth()->user()->id;
+//        $id = auth()->id();
         $menuTitle = 'الزواجات';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 15;
@@ -83,7 +83,7 @@ class MarriageController extends Controller
     public function store(StoreMarriageRequest $request)
     {
         try{
-            $request['owner_id'] = auth()->user()->id;
+            $request['owner_id'] = auth()->id();
             $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
             $request['date'] = Carbon::parse($request['date']);
 
@@ -91,7 +91,7 @@ class MarriageController extends Controller
             $media = new Media;
 
             if($request->hasFile('image')){
-                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id, $request['title']);
+                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id(), $request['title']);
                 $request['image_id'] = $media->id;
             }
             else{
@@ -172,7 +172,7 @@ class MarriageController extends Controller
      */
     public function update(UpdateMarriageRequest $request, Marriage $marriage)
     {
-        if(auth()->user()->id != $marriage->owner_id){
+        if(auth()->id() != $marriage->owner_id){
             return redirect()->route('marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->title = $request->title;
@@ -205,7 +205,7 @@ class MarriageController extends Controller
      */
     public function destroy(Marriage $marriage)
     {
-        if(auth()->user()->id != $marriage->owner_id){
+        if(auth()->id() != $marriage->owner_id){
             return redirect()->route('marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->image->DeleteFile($marriage->image);

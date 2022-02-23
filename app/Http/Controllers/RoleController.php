@@ -138,6 +138,5 @@ class RoleController extends Controller
         \App\Helpers\AppHelper::AddLog('ٍRole Delete', class_basename($role), $role->id);
 
         return redirect()->route('admin.roles.index')->with('success', 'تم حذف الصلاحية المحددة بنجاح.');
-
     }
 }

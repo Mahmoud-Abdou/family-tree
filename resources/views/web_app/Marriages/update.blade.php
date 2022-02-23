@@ -49,7 +49,7 @@
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ isset($marriage->image->file) ? $marriage->image->file : 'default.png' }}" alt="Image" />
+                                            <img class="file-upload-image" src="{{ isset($marriage->image->file) ? $marriage->image->file : url('default.png') }}" alt="Image" />
                                             <div class="image-title-wrap">
                                                 <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
                                             </div>

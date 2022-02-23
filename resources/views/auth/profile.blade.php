@@ -17,7 +17,7 @@
                             <div class="profile-header">
                                 <div class="cover-container">
                                     <img src="{{ secure_asset('assets/images/profile-bg.jpg') }}" alt="profile-bg" class="rounded img-fluid w-100">
-                                    <ul class="header-nav d-flex flex-wrap justify-end p-0 m-0">
+                                    <ul class="header-nav d-flex flex-wrap justify-end p-1 m-2">
                                         <li><a href="{{ route('profile.edit') }}"><i class="ri-pencil-line"></i></a></li>
                                     </ul>
                                 </div>

@@ -50,10 +50,6 @@
                                     </div>
                                 </div>
 
-                                
-
-                                
-
                                 <div class="col-md-1">
                                     <div class="form-group my-auto">
                                     <select class="form-control" name="date" id="date-filter">
@@ -63,17 +59,17 @@
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
-                                        
+
                                     </select>
                                     <div class="invalid-tooltip">
-                                        بحث بالتاريخ           
+                                        بحث بالتاريخ
                                     </div>
                                     </div>
                                 </div>
 
-                                
 
-                                
+
+
 
                                 <div class="col-md-2 my-auto">
                                     <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
@@ -87,7 +83,7 @@
                             <div class="col-sm-4">
                                 <a href="{{ route('deaths.show', $row->id) }}">
                                     <div class="card iq-mb-3 shadow iq-bg-primary-hover">
-                                        <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto" alt="{{ $row->title }}">
+                                        <img src="{{ isset($row->image->file) ? $row->image->file : url('default.png') }}" class="card-img-top img-fluid w-auto" alt="{{ $row->title }}">
                                         <div class="card-body">
                                             <h4 class="card-title">{{ $row->title }}</h4>
                                             <hr />
@@ -96,10 +92,10 @@
                                         <div class="card-footer">
                                             <div class="d-flex justify-content-between" dir="ltr">
                                                 <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d | H:i', strtotime($row->date)) }}</small></p>
-                                                @if($row->owner_id == auth()->user()->id)
+                                                @if($row->owner_id == auth()->id())
                                                     @can('deaths.update')
-                                                    
-                                                        <a href="{{ route('deaths.edit', $row) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></p>
+
+                                                        <a href="{{ route('deaths.edit', $row) }}" class="card-text m-0"><i class="ri-edit-2-fill"> </i><small class="text-muted"></small></a>
                                                     @endcan
                                                     @can('deaths.delete')
                                                     <form action="{{ route('deaths.destroy', $row) }}" method="POST">
@@ -115,21 +111,21 @@
                                     </div>
                                 </a>
                             </div>
-                                
+
                             @endforeach
                         @else
                         <div class="col-sm-8">
                                     <div class="card iq-mb-3">
                                         <div class="card-body">
 
-                                            
+
                                             <p class="card-text">لا توجد بيانات</p>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                         @endif
-               
+
 
                             <div class="d-flex justify-content-around">{{ $deaths->links() }}</div>
                         </div>

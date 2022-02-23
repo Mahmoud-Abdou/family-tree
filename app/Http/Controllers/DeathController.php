@@ -76,7 +76,7 @@ class DeathController extends Controller
     public function store(StoreDeathRequest $request)
     {
         try{
-            $request['owner_id'] = auth()->user()->id;
+            $request['owner_id'] = auth()->id();
             $request['date'] = Carbon::parse($request['date']);
             $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
 
@@ -84,7 +84,7 @@ class DeathController extends Controller
             $media = new Media;
 
             if($request->hasFile('image')){
-                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->user()->id, $request['title']);
+                $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id(), $request['title']);
                 $request['image_id'] = $media->id;
             }
             else{
@@ -164,7 +164,7 @@ class DeathController extends Controller
      */
     public function update(UpdateDeathRequest $request, Death $death)
     {
-        if(auth()->user()->id != $death->owner_id){
+        if(auth()->id() != $death->owner_id){
             return redirect()->route('deaths.index')->with('error', 'لا يمكنك التعديل');
         }
         $death->title = $request->title;
@@ -197,7 +197,7 @@ class DeathController extends Controller
      */
     public function destroy(Death $death)
     {
-        if(auth()->user()->id != $death->owner_id){
+        if(auth()->id() != $death->owner_id){
             return redirect()->route('deaths.index')->with('error', 'لا يمكنك التعديل');
         }
         $death->image->DeleteFile($death->image);

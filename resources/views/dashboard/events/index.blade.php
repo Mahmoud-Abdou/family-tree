@@ -110,7 +110,7 @@
                                                 <td>{{ $event->city->name_ar }}</td>
                                                 <td><a href="{{ route('admin.users.show', $event->owner_id) }}">{{ $event->owner->name }}</a></td>
                                                 <td>
-                                                    <img src="{{ isset($event->image->file) ? $event->image->file : 'default.png' }}" alt="{{ $event->title }}" style="height: 100px;width: 100px;">
+                                                    <img src="{{ isset($event->image->file) ? $event->image->file : url('default.png') }}" alt="{{ $event->title }}" style="height: 100px;width: 100px;">
                                                 </td>
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</td>
                                                 <td>

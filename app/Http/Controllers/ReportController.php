@@ -30,14 +30,14 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
-        $id = auth()->user()->id;
+        $id = auth()->id();
         $menuTitle = 'الشكاوي';
         $appMenu = config('custom.app_menu');
         $pageTitle = 'لوحة التحكم';
         $page_limit = 20;
         $reports = new Report;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        
+
         $filters_array = $reports->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);
         $reports = $reports->filter($filters);
@@ -67,7 +67,7 @@ class ReportController extends Controller
      */
     public function store(StoreReportRequest $request)
     {
-        $request['owner_id'] = auth()->user()->id;
+        $request['owner_id'] = auth()->id();
         $report = Report::create($request->all());
 
         \App\Helpers\AppHelper::AddLog('Report Create', class_basename($report), $report->id);
@@ -82,7 +82,7 @@ class ReportController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($report_id)
-    {    
+    {
         // dd("sda");
         $report = Report::where('id', $report_id)->first();
         return $report->showReportData($report);
@@ -110,7 +110,7 @@ class ReportController extends Controller
     public function update(UpdateReportRequest $request, Report $report)
     {
         return redirect()->route('admin.Reports.index');
-        
+
     }
 
     /**

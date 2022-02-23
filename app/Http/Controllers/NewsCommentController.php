@@ -46,7 +46,7 @@ class NewsCommentController extends Controller
      */
     public function store(StoreNewsCommentRequest $request)
     {
-        $request['owner_id'] = auth()->user()->id;
+        $request['owner_id'] = auth()->id();
 
         $news_comment = NewsComment::create($request->all());
 
@@ -84,8 +84,7 @@ class NewsCommentController extends Controller
      */
     public function update(UpdateNewsCommentRequest $request, NewsComment $news_comment)
     {
-
-        if(auth()->user()->id != $news->owner_id){
+        if(auth()->id() != $news_comment->owner_id){
             return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
 
@@ -108,7 +107,7 @@ class NewsCommentController extends Controller
      */
     public function destroy(NewsComment $news_comment)
     {
-        if(auth()->user()->id != $news_comment->owner_id){
+        if(auth()->id() != $news_comment->owner_id){
             return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
         $news_comment->delete();

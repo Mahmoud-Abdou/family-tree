@@ -33,7 +33,7 @@ class Media extends Model
 
     public function getFileAttribute($file)
     {
-        return asset($this->filePath). '/' . $file;
+        return secure_asset($this->filePath). '/' . $file;
     }
 
     public function owner()
@@ -65,16 +65,18 @@ class Media extends Model
     public function EditUploadedMedia($file, $media_id)
     {
         try{
-            $image = $this->ImageUpload($file, $this->filePath);
             $media = Media::where('id', $media_id)->first();
             if($media == null){
                 return null;
             }
+            $image = $this->ImageUpload($file, $this->filePath);
             $name = explode('/', $media->file);
             $name = $this->filePath . $name[sizeof($name) - 1];
             $name = substr($name, 1);
 
-            unlink($name);
+            if (file_exists($name)) {
+                unlink($name);
+            }
             $media->file = $image;
             $media->save();
             return $media;
@@ -90,10 +92,13 @@ class Media extends Model
             $name = explode('/', $file->file);
             $name = $this->filePath . $name[sizeof($name) - 1];
             $name = substr($name, 1);
-            return unlink($name);
+            if (file_exists($name)){
+                return unlink($name);
+            }
         }catch(Exception $ex){
             return null;
         }
+        return null;
     }
 
     public function ImageUpload($query, $path, $name = null)
@@ -110,7 +115,7 @@ class Media extends Model
             unlink(public_path($path) . $image_full_name);
         }
 
-        $image_url = public_path($path) . $image_full_name;
+//        $image_url = public_path($path) . $image_full_name;
         $query->move(public_path($path), $image_full_name);
 
         return $image_full_name;

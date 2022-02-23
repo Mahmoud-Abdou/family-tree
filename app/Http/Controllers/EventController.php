@@ -83,7 +83,7 @@ class EventController extends Controller
 
         if ($request->hasfile('image')) {
             $media = new Media;
-            $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->user()->id);
+            $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->id());
             $request['image_id'] = $media->id;
         }
 
@@ -133,7 +133,7 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        if(auth()->user()->id != $event->owner_id){
+        if(auth()->id() != $event->owner_id){
             return redirect()->route('events.index')->with('error', 'لا تملك صلاحية للتعديل!');
         }
 
@@ -164,7 +164,7 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        if(auth()->user()->id != $event->owner_id){
+        if(auth()->id() != $event->owner_id){
             return redirect()->route('events.index')->with('error', 'لا يمكنك الحذف');
         }
         $event->image->DeleteFile($event->image);

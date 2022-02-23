@@ -23,7 +23,7 @@
                                 <div class="col-md-6 iq-item-product-left d-block d-md-block d-lg-none">
                                     <div class="iq-image-container">
                                         <div class="iq-product-cover">
-                                            <img src="{{ isset($marriage->image->file) ? $marriage->image->file : 'default.png' }}"
+                                            <img src="{{ isset($marriage->image->file) ? $marriage->image->file : url('default.png') }}"
                                                  alt="{{ $marriage->title }}" class="img-fluid">
                                         </div>
                                     </div>
@@ -48,7 +48,7 @@
                                                 </div>
 
                                                 <div class="wishlist mx-1 float-right d-inline-flex">
-                                                    @if($marriage->owner_id == auth()->user()->id)
+                                                    @if($marriage->owner_id == auth()->id())
                                                         @can('marriages.update')
                                                             <a class="bg-warning text-dark" href="{{ route('marriages.edit', $marriage) }}" data-toggle="tooltip" data-placement="top"
                                                                title="تعديل"
@@ -88,7 +88,7 @@
                                 <div class="col-md-6 iq-item-product-left d-none d-lg-block">
                                     <div class="iq-image-container">
                                         <div class="iq-product-cover">
-                                            <img src="{{ isset($marriage->image->file) ? $marriage->image->file : 'default.png' }}"
+                                            <img src="{{ isset($marriage->image->file) ? $marriage->image->file : url('default.png') }}"
                                                  alt="{{ $marriage->title }}" class="img-fluid">
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@
                                             <div class="product-miniature-lo">
                                                 <div class="thumbnail-container-lo">
                                                     <a href="{{ route('marriages.show', $e) }}">
-                                                        <img src="{{ isset($e->image->file) ? $e->image->file : 'default.png' }}" alt="{{ $e->title }}" class="img-fluid">
+                                                        <img src="{{ isset($e->image->file) ? $e->image->file : url('default.png') }}" alt="{{ $e->title }}" class="img-fluid">
                                                     </a>
                                                 </div>
                                                 <div class="product-description-lo">

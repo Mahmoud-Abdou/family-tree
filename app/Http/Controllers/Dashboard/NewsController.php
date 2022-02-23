@@ -126,7 +126,7 @@ class NewsController extends Controller
             'category_id' => ['required'],
         ]);
 
-        if(auth()->user()->id != $news->owner_id){
+        if(auth()->id() != $news->owner_id){
             return redirect()->route('admin.news.index')->with('error', 'لا يمكنك التعديل');
         }
 

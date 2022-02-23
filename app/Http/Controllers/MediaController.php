@@ -61,7 +61,7 @@ class MediaController extends Controller
      */
     public function store(StoreMediaRequest $request)
     {
-        $request['owner_id'] = auth()->user()->id;
+        $request['owner_id'] = auth()->id();
         $media = new Media;
         $media = $media->UploadMedia($request->file('file'), $request['category_id'], $request['owner_id']);
         if($media == null){
@@ -118,7 +118,7 @@ class MediaController extends Controller
     public function update(UpdateMediaRequest $request, Media $media)
     {
         if($request->hasFile('file')){
-            $request['owner_id'] = auth()->user()->id;
+            $request['owner_id'] = auth()->id();
 
             $new_media = new Media;
             $new_media = $new_media->UploadMedia($request->file('file'), $request['category_id'], $request['owner_id']);

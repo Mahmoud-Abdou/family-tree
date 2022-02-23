@@ -92,7 +92,7 @@
                                                 <td>{!! $marriage->short_body !!}</td>
                                                 <td><a href="{{ route('admin.users.show', $marriage->owner_id) }}">{{ $marriage->owner->name }}</a></td>
                                                 <td>
-                                                    <img src="{{ isset($marriage->image->file) ? $marriage->image->file : 'default.png' }}" alt="{{ $marriage->title }}" style="height: 100px;width: 100px;">
+                                                    <img src="{{ isset($marriage->image->file) ? $marriage->image->file : url('default.png') }}" alt="{{ $marriage->title }}" style="height: 100px;width: 100px;">
                                                 </td>
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($marriage->marriages_date)) }}</td>
                                                 <td>

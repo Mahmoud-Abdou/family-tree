@@ -82,7 +82,7 @@ class NewsController extends Controller
             'title' => ['required'],
             'body' => ['required'],
         ]);
-        $request['owner_id'] = auth()->user()->id;
+        $request['owner_id'] = auth()->id();
 
         $news = News::create($request->all());
 
@@ -151,7 +151,7 @@ class NewsController extends Controller
             'category_id' => ['required'],
         ]);
 
-        if(auth()->user()->id != $news->owner_id){
+        if(auth()->id() != $news->owner_id){
             return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
 
@@ -178,7 +178,7 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        if(auth()->user()->id != $news->owner_id){
+        if(auth()->id() != $news->owner_id){
             return redirect()->route('news.index')->with('error', 'لا يمكنك التعديل');
         }
         $news->delete();

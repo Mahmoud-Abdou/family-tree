@@ -75,16 +75,18 @@ class NewbornController extends Controller
 //        $request['date'] = Carbon::parse($request['date']);
 
         // TODO: related to father family id.
-        if (auth()->user()->profile->has_family) {
+        if (auth()->user()->profile->has_family && isset(auth()->user()->profile->ownFamily[0])) {
             $request['family_id'] = auth()->user()->profile->ownFamily[0]->id;
         } else {
             $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
         }
 
-        $media = new Media;
-        $category_id = Category::where('type', 'newborn')->first();
-        $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id());
-        $request['image_id'] = $media->id;
+        if ($request->hasFile('image')) {
+            $media = new Media;
+            $category_id = Category::where('type', 'newborn')->first();
+            $media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id(), $request->title);
+            $request['image_id'] = $media->id;
+        }
 
 //        $news = News::create($request->all());
 
@@ -153,7 +155,7 @@ class NewbornController extends Controller
      */
     public function update(UpdateNewbornRequest $request, Newborn $newborn)
     {
-        if(auth()->user()->id != $newborn->owner_id){
+        if(auth()->id() != $newborn->owner_id){
             return redirect()->route('newborns.index')->with('error', 'لا يمكنك التعديل');
         }
         $newborn->title = $request->title;
@@ -161,10 +163,15 @@ class NewbornController extends Controller
         $newborn->date = Carbon::parse($request['date']);
 
         if($request->hasFile('image')){
-            $new_media = new Media;
-            $new_media = $new_media->EditUploadedMedia($request->file('image'), $newborn->image_id);
+            $media = new Media;
+            $new_media = $media->EditUploadedMedia($request->file('image'), $newborn->image_id);
             if($new_media == null){
-                return redirect()->route('newborns.index')->with('error', 'حدث خطا');
+                $category_id = Category::where('type', 'newborn')->first();
+                $new_media = $media->UploadMedia($request->file('image'), $category_id->id, auth()->id(), $newborn->title);
+                if($new_media == null){
+                    return redirect()->route('newborns.index')->with('error', 'حدث خطا');
+                }
+                $request['image_id'] = $new_media->id;
             }
         }
 
@@ -186,7 +193,7 @@ class NewbornController extends Controller
      */
     public function destroy(Newborn $newborn)
     {
-        if(auth()->user()->id != $newborn->owner_id){
+        if(auth()->id() != $newborn->owner_id){
             return redirect()->route('newborns.index')->with('error', 'لا يمكنك التعديل');
         }
         $newborn->image->DeleteFile($newborn->image);

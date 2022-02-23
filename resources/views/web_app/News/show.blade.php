@@ -37,7 +37,7 @@
                                                 </div>
 
                                                 <div class="wishlist d-inline-flex mx-1 float-right">
-                                                    @if($news->owner_id == auth()->user()->id)
+                                                    @if($news->owner_id == auth()->id())
                                                         @can('news.update')
                                                             <span data-toggle="tooltip" data-placement="top" title="تعديل" data-original-title="تعديل">
                                                                 <a class="bg-warning text-dark" href="{{ route('news.edit', $news) }}">
@@ -55,14 +55,14 @@
                                                     @endif
 
                                                     <span class="mx-1" data-toggle="tooltip" data-placement="top" title="اضافة الى المفضلة" data-original-title="اضافة الى المفضلة">
-                                                        @if($news->likes->where('owner_id', auth()->user()->id)->first() == null)
+                                                        @if($news->likes->where('owner_id', auth()->id())->first() == null)
                                                             <form method="POST" action="{{ route('news_likes.store') }}" >
                                                                 @csrf
                                                                 <input type="hidden" name="news_id" value="{{ $news->id }}">
                                                                     <button class="btn btn-info p-2" type="submit"><i class="ri-heart-line"></i></button>
                                                             </form>
                                                         @else
-                                                            <form method="POST" action="{{ route('news_likes.destroy', $news->likes->where('owner_id', auth()->user()->id)->first()) }}" >
+                                                            <form method="POST" action="{{ route('news_likes.destroy', $news->likes->where('owner_id', auth()->id())->first()) }}" >
                                                                 @csrf
                                                                 @method('DELETE')
                                                                     <button class="btn btn-info p-2" type="submit"><i class="ri-heart-fill"></i></button>

@@ -16,7 +16,6 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <!-- <h5><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5> -->
                             <h5 class="float-left my-auto"><i class="ri-user-4-line"> </i> {{ $menuTitle }}</h5>
                         </div>
                         <div class="card-header">
@@ -93,7 +92,7 @@
                                                 <td>{!! $death->short_body !!}</td>
                                                 <td><a href="{{ route('admin.users.show', $death->owner_id) }}">{{ $death->owner->name }}</a></td>
                                                 <td>
-                                                    <img src="{{ isset($death->image->file) ? $death->image->file : 'default.png' }}" alt="{{ $death->title }}" style="height: 100px;width: 100px;">
+                                                    <img src="{{ isset($death->image->file) ? $death->image->file : url('default.png') }}" alt="{{ $death->title }}" style="height: 100px;width: 100px;">
                                                 </td>
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($death->deaths_date)) }}</td>
                                                 <td>

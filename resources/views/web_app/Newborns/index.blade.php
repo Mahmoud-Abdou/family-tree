@@ -39,19 +39,19 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group my-auto">
-                                            <label for="body-filter">بحث بالاسم</label>
+                                            <label for="name-filter">بحث بالاسم</label>
                                             <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث بالاسم ">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group my-auto">
-                                            <label for="body-filter">بحث بالبريد الالكتروني</label>
+                                            <label for="email-filter">بحث بالبريد الالكتروني</label>
                                             <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group my-auto">
-                                            <label for="body-filter">بحث برقم الجوال</label>
+                                            <label for="mobile-filter">بحث برقم الجوال</label>
                                             <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
                                         </div>
                                     </div>
@@ -87,7 +87,7 @@
                         <div class="col-sm-4">
                             <a href="{{ route('newborns.show', $row->id) }}">
                                 <div class="card iq-mb-3 shadow iq-bg-primary-hover">
-                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $row->title }}">
+                                    <img src="{{ isset($row->image->file) ? $row->image->file : url('default.png') }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $row->title }}">
                                     <div class="card-body">
                                         <h4 class="card-title">{{ $row->title }}</h4>
                                         <hr />

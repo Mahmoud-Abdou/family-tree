@@ -49,7 +49,7 @@ class EventController extends Controller
         $events = $events->filter($filters);
         $events = $events->orderBy('created_at', 'DESC')
                 ->paginate($page_limit);
-                
+
         $cities = City::get();
 
         return view('dashboard.events.index', compact('menuTitle', 'appMenu', 'pageTitle', 'events', 'cities'));
@@ -83,7 +83,7 @@ class EventController extends Controller
 
         if ($request->hasfile('image')) {
             $media = new Media;
-            $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->user()->id);
+            $media = $media->UploadMedia($request->file('image'), $request['category_id'], auth()->id());
             $request['image_id'] = $media->id;
         }
 

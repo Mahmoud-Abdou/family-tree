@@ -23,6 +23,7 @@
                         <form dir="rtl" method="POST" action="{{ route('newborns.update', $newborn) }}" enctype="multipart/form-data" >
                             @csrf
                             @method('PUT')
+                            <input id="deleteImage" type="hidden" name="delete_image" value="0">
 
                             <div class="card-body">
                                 <div class="row">
@@ -51,9 +52,9 @@
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="Newborn Image" />
+                                            <img class="file-upload-image" src="{{ isset($newborn->image->file) ? $newborn->image->file : url('default.png') }}" alt="Newborn Image" />
                                             <div class="image-title-wrap">
-                                                <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
+                                                <button id="removeImageBtn" type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -92,6 +93,12 @@
             language : "{{ app()->getLocale() }}",
             menubar: false,
             statusbar: false
+        });
+    </script>
+
+    <script>
+        $("#removeImageBtn").click(function(){
+            $("#deleteImage").val(1);
         });
     </script>
 @endsection

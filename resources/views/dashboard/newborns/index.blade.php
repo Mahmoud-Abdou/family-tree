@@ -92,7 +92,7 @@
                                                 <td>{!! $newborn->short_body !!}</td>
                                                 <td><a href="{{ route('admin.users.show', $newborn->owner_id) }}">{{ $newborn->owner->name }}</a></td>
                                                 <td>
-                                                    <img src="{{ isset($newborn->image->file) ? $newborn->image->file : 'default.png' }}" alt="لا توجد صورة" style="height: 100px;width: 100px;">
+                                                    <img src="{{ isset($newborn->image->file) ? $newborn->image->file : url('default.png') }}" alt="لا توجد صورة" style="height: 100px;width: 100px;">
                                                 </td>
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($newborn->newborns_date)) }}</td>
                                                 <td>

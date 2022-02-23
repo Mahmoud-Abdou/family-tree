@@ -36,7 +36,7 @@ class MarriageController extends Controller
      */
     public function index(Request $request)
     {
-        $id = auth()->user()->id;
+        $id = auth()->id();
         $menuTitle = 'الزواجات';
         $appMenu = config('custom.app_menu');
         $pageTitle = 'لوحة التحكم';
@@ -109,7 +109,7 @@ class MarriageController extends Controller
      */
     public function update(UpdateMarriageRequest $request, Marriage $marriage)
     {
-        if(auth()->user()->id != $marriage->owner_id){
+        if(auth()->id() != $marriage->owner_id){
             return redirect()->route('admin.marriages.index')->with('error', 'لا يمكنك التعديل');
         }
         $marriage->title = $request->title;

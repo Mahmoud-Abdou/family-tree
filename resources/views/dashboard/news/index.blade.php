@@ -143,7 +143,7 @@
                                                 <td>{!! $row->short_body !!}</td>
                                                 <td><a href="{{ route('admin.users.show', $row->owner_id) }}">{{ $row->owner->name }}</a></td>
                                                 {{--                                                <td>--}}
-{{--                                                    <img src="{{ isset($row->image->file) ? $row->image->file : 'default.png' }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">--}}
+{{--                                                    <img src="{{ isset($row->image->file) ? $row->image->file : url('default.png') }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">--}}
 {{--                                                </td>--}}
                                                 <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($row->news_date)) }}</td>
                                                 <td>
