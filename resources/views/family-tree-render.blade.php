@@ -106,14 +106,15 @@
 
             function renderData(data) {
                 var datascource = data;
-
+                console.log(data)
                 var nodeTemplate = function(data) {
                     return `
 {{--                        <div class="wife-node">
                             <span class="office">${data.wife}</span>
                         </div>--}}
-                        <div class="title">${data.name}</div>
-                        <div class="content">${data.wife}</div>
+                        
+                        <div class="title"><i class=${data.fatherSymbol}> </i> ${data.name}</div>
+                        <div class="content"> <i class=${data.motherSymbol}> </i>${data.wife}</div>
                     `;
                 };
 
@@ -135,7 +136,7 @@
                     'zoomoutLimit': 0.3,
                     'chartClass': '',
                     'className': 'top-level',
-                    'parentNodeSymbol': 'oci-leader',
+                    'parentNodeSymbol': '',
                     // 'exportButton': true,
                     // 'exportFileextension': 'png',
                     // 'exportFilename': 'Export PDF'
