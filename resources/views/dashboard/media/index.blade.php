@@ -17,13 +17,69 @@
                     <div class="card iq-mb-3">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-image-2-line"> </i> {{ $menuTitle }}</h5>
-                            <select name="category_id" id="category_id" onchange="ChangeCategory(this.value)" class=" rounded-pill float-right" >
-                                <option selected="selected" disabled>اختر النوع</option>
-                                @foreach($categories as $category)
-                                    <option value="{{$category->id}}">{{ $category->name_ar }}</option>
-                                @endforeach
-                            </select>
+                        </div>
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group ">
+                                        <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
+                                    </div>
+                                </div>
 
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث برقم الجوال">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
+                                    </div>
+                                </div>
+
+                                
+                                <div class="col-md-1">
+                                    <div class="form-group my-auto">
+                                    <select class="form-control" name="category" id="category-filter">
+                                        <option disabled="">حدد النوع</option>
+                                        <option {{ isset($_GET['filters']['category']) && $_GET['filters']['category'] == '' ? 'selected=""' : '' }} value="">الكل</option>
+                                        @foreach($categories as $category)
+                                            <option {{ isset($_GET['filters']['category']) && $category->id == $_GET['filters']['category'] ? 'selected=""' : '' }} value="{{ $category->id }}">{{ $category->name_ar }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        حدد النوع
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-1">
+                                    <div class="form-group my-auto">
+                                    <select class="form-control" name="date" id="date-filter">
+                                        <option disabled="">بحث بالتاريخ</option>
+                                        <option value="">الكل</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
+                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
+
+                                    </select>
+                                    <div class="invalid-tooltip">
+                                        بحث بالتاريخ
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2 my-auto">
+                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body p-0">
 
@@ -51,10 +107,10 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
 {{--                                                        @can('media.update')--}}
-{{--                                                            <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.media.edit', $row_media->id) }}"><i class="ri-edit-2-fill"> </i></a>--}}
+{{--                                                            <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.media.destroy', $row_media) }}"><i class="ri-edit-2-fill"> </i></a>--}}
 {{--                                                        @endcan--}}
                                                         @can('media.delete')
-                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#deleteModal" onclick="modalDelete(`{{ route('admin.media.destroy', $row_media->id) }}`);"><i class="ri-delete-back-2-fill"> </i> حذف </button>
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#deleteModal" onclick="modalDelete(`{{ route('admin.media.destroy', $row_media) }}`)"><i class="ri-delete-back-2-fill"> </i> حذف </button>
                                                         @endcan
                                                     </div>
                                                 </td>
@@ -98,18 +154,18 @@
                     </button>
                 </div>
 
-                <div class="modal-body">
-                    <form id="deleteMediaForm" method="POST" action="">
-                        @csrf
-                        @method('DELETE')
+                <form id="deleteMediaForm" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-body">
 
                         <p>سيتم حذف الصورة بشكل نهائي.</p>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                    <button id="roleFormBtn" type="submit" class="btn btn-danger">حذف</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button id="roleFormBtn" type="submit" class="btn btn-danger">حذف</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -121,6 +177,47 @@
         function modalDelete(deleteRoute) {
             $('#deleteMediaForm').attr('action', deleteRoute);
         }
+
+        function filter_data(){
+        title_filter = $('#title-filter').val();
+        body_filter = $('#body-filter').val();
+        name_filter = $('#name-filter').val();
+        email_filter = $('#email-filter').val();
+        mobile_filter = $('#mobile-filter').val();
+        city_filter = $('#city-filter').val();
+        category_filter = $('#category-filter').val();
+        date_filter = $('#date-filter').val();
+        approved_filter = $('#approved-filter').val();
+        quary_string = "";
+        if(title_filter){
+            quary_string += `filters[title]=${title_filter}&`;
+        }
+        if(body_filter){
+            quary_string += `filters[body]=${body_filter}&`;
+        }
+        if(name_filter){
+            quary_string += `filters[owner_name]=${name_filter}&`;
+        }
+        if(email_filter){
+            quary_string += `filters[owner_email]=${email_filter}&`;
+        }
+        if(mobile_filter){
+            quary_string += `filters[owner_phone]=${mobile_filter}&`;
+        }
+        if(city_filter){
+            quary_string += `filters[city]=${city_filter}&`;
+        }
+        if(category_filter){
+            quary_string += `filters[category]=${category_filter}&`;
+        }
+        if(date_filter){
+            quary_string += `filters[date]=${date_filter}&`;
+        }
+        if(approved_filter){
+            quary_string += `filters[approved]=${approved_filter}&`;
+        }
+        window.location = 'media?' + quary_string;
+    }
 
         function ChangeCategory(value){
             $.ajax({
