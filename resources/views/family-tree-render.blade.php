@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('add-styles')
-    <link rel="stylesheet" href="{{ asset('css/jquery.orgchart.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/jquery.orgchart.min.css') }}">
     <style type="text/css">
         .orgchart .linkNode {
             box-sizing: border-box;
@@ -89,8 +89,8 @@
 @endsection
 
 @section('add-scripts')
-    <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery.orgchart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ secure_asset('js/html2canvas.min.js') }}"></script>
+    <script type="text/javascript" src="{{ secure_asset('js/jquery.orgchart.min.js') }}"></script>
 
     <script type="text/javascript">
         $(function() {
