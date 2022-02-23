@@ -36,6 +36,8 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::post('news-activate', [NewsController::class, 'activate'])->name('news.activate');
         Route::resource('reports', ReportController::class);
         Route::resource('media', MediaController::class);
+        Route::get('read-notification', [HomeController::class, 'read_notification']);
+
     });
 
     Route::group(['middleware' => ['role:Super Admin']], function () {

@@ -81,7 +81,7 @@
                                             </a>
                                         @endforeach
                                         <div class="media-pl m-3" onclick="markNotificationRead('-1', '')">
-                                            <a href="" class="text-danger"><i class="ri-delete-bin-5-line"> </i> مسح </a>
+                                            <a href="#" class="text-danger"><i class="ri-delete-bin-5-line"> </i> مسح </a>
                                         </div>
                                     @else
                                         <div class="iq-sub-card media align-items-center">
@@ -158,7 +158,6 @@
     </div>
 </div>
 {{--<!-- TOP Nav Bar END -->--}}
-@section('add-scripts')
 
 <script>
     function markNotificationRead(id, url){
@@ -176,4 +175,3 @@
         })
     }
 </script>
-@endsection

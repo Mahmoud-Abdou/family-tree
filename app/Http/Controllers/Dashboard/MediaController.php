@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateMediaRequest;
 use App\Models\Media;
 use App\Models\Category;
 
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
+use Illuminate\Http\Request;
 use Exception;
 
 class MediaController extends Controller
@@ -31,12 +33,22 @@ class MediaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $appMenu = config('custom.app_menu');
         $menuTitle = 'المعرض';
         $pageTitle = 'لوحة التحكم';
-        $media = Media::paginate(20);
+        $page_limit = 20;
+        $media = new Media;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+
+        $filters_array = $media->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $media = $media->filter($filters);
+
+        $media = $media->orderBy('created_at', 'DESC')
+                ->paginate($page_limit);
+
         $categories = Category::all();
 
         return view('dashboard.media.index', compact('appMenu', 'menuTitle', 'pageTitle', 'media', 'categories'));
@@ -114,8 +126,10 @@ class MediaController extends Controller
      * @param  \App\Models\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Media $media)
+    public function destroy($media_id)
     {
+        $media = Media::where('id', $media_id)->first();
+        $media->DeleteFile($media);
         $media->delete();
         \App\Helpers\AppHelper::AddLog('Media Delete', class_basename($media), $media->id);
         return redirect()->route('admin.media.index')->with('success', 'تم حذف بيانات الصور بنجاح.');
