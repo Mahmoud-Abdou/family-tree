@@ -28,7 +28,6 @@ class StoreMarriageRequest extends FormRequest
             'wife_id' => ['required', 'exists:persons,id'],
             'title' => ['required'],
             'body' => ['required'],
-            'image' => ['required'],
             'date' => ['required', 'date', 'date_format:Y-m-d'], // 'date_format:Y-m-d H:i'
         ];
     }

@@ -11,6 +11,7 @@ use App\Filters\TextFilter;
 use App\Filters\OwnerFilter;
 use Pricecurrent\LaravelEloquentFilters\Filterable;
 use App\Filters\DateFilter;
+use App\Filters\OwnerRelativesFilter;
 
 class Newborn extends Model
 {
@@ -103,6 +104,12 @@ class Newborn extends Model
         }
         if(isset($request_filter['date'])){
             $filters[] = new DateFilter($request_filter['date'], 'created_at');
+        }
+        if(isset($request_filter['relatives'])){
+            if(isset(auth()->user()->profile->belongsToFamily)){
+                $relatives_famiy_id = auth()->user()->profile->belongsToFamily->gf_family_id;
+                $filters[] = new OwnerRelativesFilter($relatives_famiy_id, 'gf_family_id');
+            }
         }
 
         return $filters;

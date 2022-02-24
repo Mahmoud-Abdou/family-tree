@@ -12,6 +12,7 @@ use App\Filters\IDFilter;
 use Pricecurrent\LaravelEloquentFilters\Filterable;
 use App\Filters\OwnerFilter;
 use App\Filters\DateFilter;
+use App\Filters\OwnerRelativesFilter;
 
 class Media extends Model
 {
@@ -142,6 +143,12 @@ class Media extends Model
         }
         if(isset($request_filter['date'])){
             $filters[] = new DateFilter($request_filter['date'], 'created_at');
+        }
+        if(isset($request_filter['relatives'])){
+            if(isset(auth()->user()->profile->belongsToFamily)){
+                $relatives_famiy_id = auth()->user()->profile->belongsToFamily->gf_family_id;
+                $filters[] = new OwnerRelativesFilter($relatives_famiy_id, 'gf_family_id');
+            }
         }
 
         return $filters;

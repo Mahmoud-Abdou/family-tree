@@ -74,6 +74,9 @@ class NewbornController extends Controller
         $request['owner_id'] = auth()->id();
 //        $request['date'] = Carbon::parse($request['date']);
 
+        if(!isset(auth()->user()->profile)){
+            return redirect()->back()->with('error', 'حدث خطا');
+        }
         // TODO: related to father family id.
         if (auth()->user()->profile->has_family && isset(auth()->user()->profile->ownFamily[0])) {
             $request['family_id'] = auth()->user()->profile->ownFamily[0]->id;

@@ -27,7 +27,6 @@ class StoreNewbornRequest extends FormRequest
         return [
             'title' => ['required'],
             'body' => ['required'],
-            'image' => ['required'],
             'date' => ['required', 'date', 'date_format:Y-m-d'],
             'first_name' => ['required'],
             'father_name' => ['required'],

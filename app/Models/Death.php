@@ -11,6 +11,8 @@ use App\Filters\TextFilter;
 //use App\Filters\InFilter;
 use App\Filters\OwnerFilter;
 use App\Filters\DateFilter;
+use App\Filters\OwnerRelativesFilter;
+
 
 class Death extends Model
 {
@@ -97,6 +99,12 @@ class Death extends Model
         }
         if(isset($request_filter['date'])){
             $filters[] = new DateFilter($request_filter['date'], 'created_at');
+        }
+        if(isset($request_filter['relatives'])){
+            if(isset(auth()->user()->profile->belongsToFamily)){
+                $relatives_famiy_id = auth()->user()->profile->belongsToFamily->gf_family_id;
+                $filters[] = new OwnerRelativesFilter($relatives_famiy_id, 'gf_family_id');
+            }
         }
 
 

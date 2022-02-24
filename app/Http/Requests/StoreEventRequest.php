@@ -27,7 +27,6 @@ class StoreEventRequest extends FormRequest
             'city_id' => ['required', 'exists:cities,id'],
             'title' => ['required'],
             'body' => ['required'],
-            'image' => ['required'],
             'event_date' => ['required', 'date', 'date_format:Y-m-d H:i'],
             'category_id' => ['required', 'exists:categories,id'],
         ];
