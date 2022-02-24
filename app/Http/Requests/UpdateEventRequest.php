@@ -28,7 +28,7 @@ class UpdateEventRequest extends FormRequest
             'title' => ['required'],
             'body' => ['required'],
             'image' => ['nullable'],
-            'event_date' => ['required', 'date', 'date_format:Y-m-d H:i'],
+            'event_date' => ['required', 'date', 'date_format:Y-m-d'],
             'category_id' => ['required', 'exists:categories,id'],
         ];
     }
