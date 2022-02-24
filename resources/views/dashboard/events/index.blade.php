@@ -128,12 +128,7 @@
                                                             <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.events.edit', $event) }}"><i class="ri-edit-2-fill"></i></a>
                                                             @endcan
                                                             @can('events.delete')
-                                                            <form action="{{ route('admin.events.destroy', $event) }}" method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-
-                                                                <button type="submit" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
-                                                            </form>
+                                                                <button type="button" onclick="openDeleteModel(`{{ route('admin.events.destroy', $event) }}`)"  data-toggle="modal" data-target=".deleteModel" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
                                                             @endcan
                                                             @if(!$event->approved)
                                                             <form method="POST" action="{{ route('admin.events.activate') }}">
@@ -172,6 +167,30 @@
             </div>
         </div>
     </div>
+    <div class="modal fade deleteModel " tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-modal="true" >
+        <div class="modal-dialog " role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="deleteModalLabel">هل ترغب في الازالة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form id="DeleteForm" action="" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-body">
+                        <p>سيتم مسح الخبر .</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button type="submit" class="btn btn-danger" >مسح الخبر</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('add-scripts')
@@ -180,7 +199,6 @@
     function openDeleteModel(data){
         $('#DeleteForm').attr('action', data)
     }
-
     function filter_data(){
         title_filter = $('#title-filter').val();
         body_filter = $('#body-filter').val();
