@@ -87,6 +87,9 @@ class MarriageController extends Controller
     {
         try{
             $request['owner_id'] = auth()->id();
+            if (!isset(auth()->user()->profile->belongsToFamily)) {
+                return redirect()->back()->with('error', 'حدث خطا');
+            }
             $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
             $request['date'] = Carbon::parse($request['date']);
 
