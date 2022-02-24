@@ -104,7 +104,16 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="form-group col-lg-4">
+                                        <br>
+                                        <br>
+                                        <div class="d-inline-flex">
+                                            <div class="custom-control mx-4 custom-switch">
+                                                <input type="checkbox" id="relatives-filter" name="relatives-filter" class="custom-control-input" {{ isset($_GET['filters']['relatives']) && $_GET['filters']['relatives'] == true ? 'checked=""' : '' }}>
+                                                <label class="custom-control-label" for="relatives-filter"> بحث بالاقارب </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-3 my-auto">
                                         <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
                                     </div>
@@ -179,6 +188,7 @@
         city_filter = $('#city-filter').val();
         category_filter = $('#category-filter').val();
         date_filter = $('#date-filter').val();
+        relatives_filter = $('#relatives-filter').is(':checked')
         quary_string = "";
         if(title_filter){
             quary_string += `filters[title]=${title_filter}&`;
@@ -203,6 +213,9 @@
         }
         if(date_filter){
             quary_string += `filters[date]=${date_filter}&`;
+        }
+        if(relatives_filter){
+            quary_string += `filters[relatives]=${relatives_filter}&`;
         }
         window.location = 'news?' + quary_string;
     }

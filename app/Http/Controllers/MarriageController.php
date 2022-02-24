@@ -59,6 +59,9 @@ class MarriageController extends Controller
     {
         $menuTitle = 'اضافة زواج';
         $pageTitle = 'القائمة الرئيسية';
+        if(!isset(auth()->user()->profile)){
+            return redirect()->back()->with('error', 'حدث خطا');
+        }
         $family_id = auth()->user()->profile->family_id;
         $male = Person::where('family_id', $family_id)
                         ->where('has_family', 0)

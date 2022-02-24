@@ -67,7 +67,7 @@
                                 </div>
 
                                 <div class="form-group col-lg-6">
-                                    <label for="image">الصورة</label>
+                                    <label for="image">الصورة (اختياري)</label>
                                     <div class="image-upload-wrap d-block">
                                         <input id="image" class="file-upload-input" type="file" name="image" value="{{ old('image') }}" onchange="readURL(this);" accept="image/png,image/jpeg,image/jpg,image/icon">
                                         <div class="drag-text">
