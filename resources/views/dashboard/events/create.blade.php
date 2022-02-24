@@ -50,7 +50,7 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label for="event_date_picker">تاريخ المناسبة</label>
-                                                <input type="text" name="event_date" value="{{ old('event_date') }}" class="form-control" id="event_date_picker" required>
+                                                <input type="date" name="event_date" value="{{ old('event_date') }}" class="form-control" id="event_date_picker" required>
                                             </div>
                                         </div>
 
