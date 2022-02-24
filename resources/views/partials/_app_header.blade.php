@@ -95,7 +95,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item iq-full-screen"><a href="#" class="iq-waves-effect" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
+                    <li class="nav-item iq-full-screen d-none d-md-block"><a href="#" class="iq-waves-effect" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
                 </ul>
             </div>
             <ul class="navbar-list">

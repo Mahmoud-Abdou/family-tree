@@ -39,15 +39,15 @@
 
                             <div class="table-responsive table-hover">
                                 <table class="table m-0">
-                                    <thead>
-                                        <tr class="w-100">
-                                            <th class="my-auto" scope="col">العنوان</th>
-                                            <th class="w-100" scope="col">الخبر</th>
-                                            <th class="w-25" scope="col">التصنيف</th>
+{{--                                    <thead>--}}
+{{--                                        <tr class="w-100">--}}
+{{--                                            <th class="my-auto" scope="col">العنوان</th>--}}
+{{--                                            <th class="w-100" scope="col">الخبر</th>--}}
+{{--                                            <th class="w-25" scope="col">التصنيف</th>--}}
 {{--                                            <th class="w-25" scope="col">المدينة</th>--}}
 {{--                                            <th scope="col">التاريخ</th>--}}
-                                        </tr>
-                                    </thead>
+{{--                                        </tr>--}}
+{{--                                    </thead>--}}
                                     <tbody>
                                     @if($lastNews->count() > 0)
                                         @foreach($lastNews as $row)

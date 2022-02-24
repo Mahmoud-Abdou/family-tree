@@ -121,7 +121,7 @@ class EventController extends Controller
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
-        return view('web_app.Events.update', compact('menuTitle', 'pageTitle', 'event', 'cities', 'categories'));
+        return view('web_app.events.update', compact('menuTitle', 'pageTitle', 'event', 'cities', 'categories'));
     }
 
     /**
