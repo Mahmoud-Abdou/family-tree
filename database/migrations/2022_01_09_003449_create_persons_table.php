@@ -15,7 +15,7 @@ class CreatePersonsTable extends Migration
     {
         Schema::create('persons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->index();
+            $table->foreignId('user_id')->nullable()->index();
             $table->string('first_name', 100)->index();
             $table->string('father_name', 100)->index();
             $table->string('grand_father_name', 100)->index()->nullable();

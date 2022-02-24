@@ -90,17 +90,15 @@ class HomeController extends Controller
 
             return 'ri-women-fill';
         }
-        
+
         if($person->gender == 'male')
             return 'ri-user-fill';
-        
-        return 'ri-user-smile-fill';
 
+        return 'ri-user-smile-fill';
     }
 
     private function familyTreeData($main_family_id)
     {
-        
         $family_data_array = [];
         $main_family = Family::where('id', $main_family_id)->first();
         if($main_family == null){
@@ -165,7 +163,7 @@ class HomeController extends Controller
         $searchWord = request()->has('search') ? $request->search : $word;
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'البحث';
-        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->get();
+        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->paginate(20);
 
         session()->put('searchWord', $searchWord);
         return view('search', compact('menuTitle', 'pageTitle', 'searchResult', 'searchWord'));

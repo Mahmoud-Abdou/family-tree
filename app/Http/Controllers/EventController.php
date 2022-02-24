@@ -53,7 +53,7 @@ class EventController extends Controller
         $events = $events->active();
         $events = $events->paginate($page_limit);
 
-        return view('web_app.Events.index', compact('menuTitle', 'pageTitle', 'events'));
+        return view('web_app.events.index', compact('menuTitle', 'pageTitle', 'events'));
     }
 
     /**
@@ -105,7 +105,7 @@ class EventController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $lastEvents = Event::latest()->take(5)->get();
 
-        return view('web_app.Events.show', compact('menuTitle', 'pageTitle', 'event', 'lastEvents'));
+        return view('web_app.events.show', compact('menuTitle', 'pageTitle', 'event', 'lastEvents'));
     }
 
     /**

@@ -50,7 +50,7 @@ class DeathController extends Controller
         $deaths = $deaths->filter($filters);
         $deaths = $deaths->paginate($page_limit);
 
-        return view('web_app.Deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
+        return view('web_app.deaths.index', compact('menuTitle', 'pageTitle', 'deaths'));
     }
 
     /**
@@ -65,7 +65,7 @@ class DeathController extends Controller
         $family_id = auth()->user()->profile->family_id;
         $persons = Person::where('family_id', $family_id)->where('is_live', 1)->get();
 
-        return view('web_app.Deaths.create', compact('menuTitle', 'pageTitle', 'persons'));
+        return view('web_app.deaths.create', compact('menuTitle', 'pageTitle', 'persons'));
     }
 
     /**
@@ -79,7 +79,7 @@ class DeathController extends Controller
         try{
             $request['owner_id'] = auth()->id();
             $request['date'] = Carbon::parse($request['date']);
-            $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+            $request['family_id'] = isset(auth()->user()->profile->belongsToFamily) ? auth()->user()->profile->belongsToFamily->id : null;
 
             $category_id = Category::where('type', 'deaths')->first();
             $media = new Media;
@@ -139,7 +139,7 @@ class DeathController extends Controller
         $death['type'] = 'deaths';
         $lastDeaths = Death::latest()->take(5)->get();
 
-        return view('web_app.Deaths.show', compact('menuTitle', 'pageTitle', 'death', 'lastDeaths'));
+        return view('web_app.deaths.show', compact('menuTitle', 'pageTitle', 'death', 'lastDeaths'));
     }
 
     /**
@@ -153,7 +153,7 @@ class DeathController extends Controller
         $menuTitle = 'تعديل حالة وفاة';
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Deaths.update', compact('menuTitle', 'pageTitle', 'death'));
+        return view('web_app.deaths.update', compact('menuTitle', 'pageTitle', 'death'));
     }
 
     /**

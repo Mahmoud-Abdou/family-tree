@@ -56,7 +56,7 @@ class ReportController extends Controller
         $menuTitle = 'اضافةشكوي';
         $pageTitle = 'القائمة الرئيسية';
         $type = $request->all();
-        return view('web_app.Reports.create', compact('menuTitle', 'pageTitle', 'type'));
+        return view('web_app.reports.create', compact('menuTitle', 'pageTitle', 'type'));
     }
 
     /**

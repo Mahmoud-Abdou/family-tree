@@ -86,7 +86,7 @@
                         <hr>
 
                         @if(Helper::GeneralSettings('app_comments'))
-                            @include('web_app.News.comments')
+                            @include('web_app.news.comments')
                         @endif
                     </div>
                 </div>

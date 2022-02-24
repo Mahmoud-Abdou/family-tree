@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Person;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -51,6 +52,15 @@ class RolesAndPermissionsSeeder extends Seeder
             'password' => 'Pass@1234',
             'status' => 'active',
             'accept_terms' => true
+        ]);
+
+        Person::create([
+            'user_id' => $user->id,
+            'first_name' => $user->name,
+            'father_name' => '-',
+            'gender' => 'male',
+            'has_family' => true,
+            'is_live' => true,
         ]);
 
         $user->assignRole('Super Admin');

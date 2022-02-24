@@ -34,13 +34,13 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 //        Schema::defaultStringLength(191);
 
-        // add detect to app
-        app()->singleton('detect', function(){
-            return new Mobile_Detect;
-        });
-
-        // add detect to all views
-        view()->share('detect', app('detect'));
+//        // add detect to app
+//        app()->singleton('detect', function(){
+//            return new Mobile_Detect;
+//        });
+//
+//        // add detect to all views
+//        view()->share('detect', app('detect'));
 
         // add main menu array to all views from config file
         view()->share('appMenu', config('custom.main_menu'));
