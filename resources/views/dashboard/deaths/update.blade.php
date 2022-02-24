@@ -40,7 +40,7 @@
 
                                         <div class="form-group col-lg-6">
                                             <label for="date_picker">تاريخ الوفاة</label>
-                                            <input type="date" name="date" value="{{ $death->date }}" class="form-control" id="date_picker" required>
+                                            <input type="date" name="date" value="{{ $death->date->format('Y-m-d')  }}" class="form-control" id="date_picker" required>
                                         </div>
 
                                         <div class="form-group col-lg-6">
