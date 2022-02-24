@@ -2,10 +2,6 @@
 
 @section('page-title', $pageTitle)
 
-@section('add-styles')
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/bootstrap-datetimepicker.min.css') }}"/>
-@endsection
-
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-calendar-event-line"> </i>'.$menuTitle, 'slots' => [['title' => 'المناسبات', 'link' => route('events.index')],['title' => $menuTitle, 'link' => route('events.index')],]])
 @endsection
@@ -55,7 +51,7 @@
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="event_date_picker">تاريخ المناسبة</label>
-                                                    <input type="text" name="event_date" value="{{ $event->event_date }}" class="form-control datetimepicker-input" id="event_date_picker" data-toggle="datetimepicker" data-target="#event_date_picker" required>
+                                                    <input type="text" name="event_date" value="{{ $event->event_date }}" class="form-control" id="event_date_picker" required>
                                                 </div>
                                             </div>
 
@@ -123,42 +119,6 @@
             language : "{{ app()->getLocale() }}",
             menubar: false,
             statusbar: false
-        });
-    </script>
-
-    <script>
-        $(function () {
-            $('#event_date_picker').datetimepicker({
-                locale: '{{ app()->getLocale() }}',
-                format: 'YYYY-MM-DD HH:mm',
-                defaultDate: moment(new Date()),
-                minDate: moment().subtract(1, 'seconds'),
-                tooltips: {
-                    today: 'Go to today',
-                    clear: 'Clear selection',
-                    close: 'Close the picker',
-                    selectMonth: 'Select Month',
-                    prevMonth: 'Previous Month',
-                    nextMonth: 'Next Month',
-                    selectYear: 'Select Year',
-                    prevYear: 'Previous Year',
-                    nextYear: 'Next Year',
-                    selectDecade: 'Select Decade',
-                    prevDecade: 'Previous Decade',
-                    nextDecade: 'Next Decade',
-                    prevCentury: 'Previous Century',
-                    nextCentury: 'Next Century',
-                    incrementHour: 'Increment Hour',
-                    pickHour: 'Pick Hour',
-                    decrementHour:'Decrement Hour',
-                    incrementMinute: 'Increment Minute',
-                    pickMinute: 'Pick Minute',
-                    decrementMinute:'Decrement Minute',
-                    incrementSecond: 'Increment Second',
-                    pickSecond: 'Pick Second',
-                    decrementSecond:'Decrement Second'
-                },
-            });
         });
     </script>
 @endsection

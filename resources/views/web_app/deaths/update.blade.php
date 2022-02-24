@@ -2,10 +2,6 @@
 
 @section('page-title', $pageTitle)
 
-@section('add-styles')
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/bootstrap-datetimepicker.min.css') }}"/>
-@endsection
-
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-4-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الوفيات', 'link' => route('deaths.index')],['title' => $menuTitle, 'link' => route('deaths.index')],]])
 @endsection
@@ -49,7 +45,7 @@
 
                                         <div class="form-group col-lg-6">
                                             <label for="date_picker">تاريخ الوفاة</label>
-                                            <input type="text" name="date" value="{{ $death->date }}" class="form-control datetimepicker-input" id="date_picker" data-toggle="datetimepicker" data-target="#date_picker" required>
+                                            <input type="text" name="date" value="{{ $death->date }}" class="form-control datepicker-decades" id="date_picker" required>
                                         </div>
 
                                         <div class="form-group col-lg-6">
@@ -83,8 +79,6 @@
 @endsection
 
 @section('add-scripts')
-    <script src="{{ secure_asset('assets/js/moment/moment.min.js') }}"></script>
-    <script src="{{ secure_asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ secure_asset('assets/js/tinymce/tinymce.min.js') }}"></script>
 
     <script>
@@ -101,43 +95,6 @@
             language : "{{ app()->getLocale() }}",
             menubar: false,
             statusbar: false
-        });
-    </script>
-
-    <script>
-        $(function () {
-            $('#date_picker').datetimepicker({
-                locale: '{{ app()->getLocale() }}',
-                format: 'YYYY-MM-DD HH:mm',
-                defaultDate: moment(new Date()),
-                minDate: moment().subtract(1, 'day'),
-                // maxDate: moment().add(1, 'days'),
-                tooltips: {
-                    today: 'Go to today',
-                    clear: 'Clear selection',
-                    close: 'Close the picker',
-                    selectMonth: 'Select Month',
-                    prevMonth: 'Previous Month',
-                    nextMonth: 'Next Month',
-                    selectYear: 'Select Year',
-                    prevYear: 'Previous Year',
-                    nextYear: 'Next Year',
-                    selectDecade: 'Select Decade',
-                    prevDecade: 'Previous Decade',
-                    nextDecade: 'Next Decade',
-                    prevCentury: 'Previous Century',
-                    nextCentury: 'Next Century',
-                    incrementHour: 'Increment Hour',
-                    pickHour: 'Pick Hour',
-                    decrementHour:'Decrement Hour',
-                    incrementMinute: 'Increment Minute',
-                    pickMinute: 'Pick Minute',
-                    decrementMinute:'Decrement Minute',
-                    incrementSecond: 'Increment Second',
-                    pickSecond: 'Pick Second',
-                    decrementSecond:'Decrement Second'
-                },
-            });
         });
     </script>
 @endsection

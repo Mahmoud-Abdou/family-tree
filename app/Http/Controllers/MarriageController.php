@@ -47,7 +47,7 @@ class MarriageController extends Controller
         $marriages = $marriages->filter($filters);
         $marriages = $marriages->paginate($page_limit);
 
-        return view('web_app.Marriages.index', compact('menuTitle', 'pageTitle', 'marriages'));
+        return view('web_app.marriages.index', compact('menuTitle', 'pageTitle', 'marriages'));
     }
 
     /**
@@ -71,7 +71,7 @@ class MarriageController extends Controller
                         ->where('has_family', 0)
                         ->get();
 
-        return view('web_app.Marriages.create', compact('menuTitle', 'pageTitle', 'male', 'female'));
+        return view('web_app.marriages.create', compact('menuTitle', 'pageTitle', 'male', 'female'));
     }
 
     /**
@@ -146,7 +146,7 @@ class MarriageController extends Controller
         $marriage = Marriage::findOrFail($marriage_id);
         $lastMarriage = Marriage::latest()->take(5)->get();
 
-        return view('web_app.Marriages.show', compact('menuTitle', 'pageTitle', 'marriage', 'lastMarriage'));
+        return view('web_app.marriages.show', compact('menuTitle', 'pageTitle', 'marriage', 'lastMarriage'));
     }
 
     /**
@@ -160,7 +160,7 @@ class MarriageController extends Controller
         $menuTitle = 'تعديل حالة زواج';
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Marriages.update', compact('menuTitle', 'pageTitle', 'marriage'));
+        return view('web_app.marriages.update', compact('menuTitle', 'pageTitle', 'marriage'));
     }
 
     /**

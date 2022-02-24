@@ -37,7 +37,7 @@ class MediaController extends Controller
 //        $media = Media::where('owner_id', auth()->id())->paginate(20);
         $categories = Category::all();
 
-        return view('web_app.Media.index', compact('menuTitle', 'pageTitle', 'categories'));
+        return view('web_app.media.index', compact('menuTitle', 'pageTitle', 'categories'));
     }
 
     /**
@@ -50,7 +50,7 @@ class MediaController extends Controller
         $menuTitle = 'اضافة صورة';
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Media.create', compact('menuTitle', 'pageTitle'));
+        return view('web_app.media.create', compact('menuTitle', 'pageTitle'));
     }
 
     /**
@@ -91,7 +91,7 @@ class MediaController extends Controller
             $media = Media::where('category_id', $category->id)->get();
         }
 
-        return view('web_app.Media.show', compact('menuTitle', 'pageTitle', 'media'));
+        return view('web_app.media.show', compact('menuTitle', 'pageTitle', 'media'));
     }
 
     /**
@@ -105,7 +105,7 @@ class MediaController extends Controller
         $menuTitle = 'تعديل الصور';
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Media.update', compact('menuTitle', 'pageTitle', 'media'));
+        return view('web_app.media.update', compact('menuTitle', 'pageTitle', 'media'));
     }
 
     /**

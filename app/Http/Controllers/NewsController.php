@@ -49,7 +49,7 @@ class NewsController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->paginate($page_limit);
 
-        return view('web_app.News.index', compact('menuTitle', 'pageTitle', 'news', 'categories', 'cities'));
+        return view('web_app.news.index', compact('menuTitle', 'pageTitle', 'news', 'categories', 'cities'));
     }
 
     /**
@@ -65,7 +65,7 @@ class NewsController extends Controller
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'news')->get();
 
-        return view('web_app.News.create', compact('menuTitle', 'pageTitle', 'cities', 'categories'));
+        return view('web_app.news.create', compact('menuTitle', 'pageTitle', 'cities', 'categories'));
     }
 
     /**
@@ -115,7 +115,7 @@ class NewsController extends Controller
 
         $news = News::where('id', $news_id)->first();
 
-        return view('web_app.News.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
+        return view('web_app.news.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
 
     }
 
@@ -132,7 +132,7 @@ class NewsController extends Controller
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'news')->get();
 
-        return view('web_app.News.update', compact('menuTitle', 'pageTitle', 'news','cities', 'categories'));
+        return view('web_app.news.update', compact('menuTitle', 'pageTitle', 'news','cities', 'categories'));
     }
 
     /**

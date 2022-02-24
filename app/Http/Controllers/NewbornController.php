@@ -47,7 +47,7 @@ class NewbornController extends Controller
         $newborns = $newborns->filter($filters);
         $newborns = $newborns->paginate($page_limit);
 
-        return view('web_app.Newborns.index', compact('menuTitle', 'pageTitle', 'newborns'));
+        return view('web_app.newborns.index', compact('menuTitle', 'pageTitle', 'newborns'));
     }
 
     /**
@@ -60,7 +60,7 @@ class NewbornController extends Controller
         $menuTitle = 'اضافة مولود';
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Newborns.create', compact('menuTitle', 'pageTitle'));
+        return view('web_app.newborns.create', compact('menuTitle', 'pageTitle'));
     }
 
     /**
@@ -129,7 +129,7 @@ class NewbornController extends Controller
         $newborn = Newborn::where('id', $newborn_id)->first();
         $lastNewborn = Newborn::latest()->take(5)->get();
 
-        return view('web_app.Newborns.show', compact('menuTitle', 'pageTitle', 'newborn', 'lastNewborn'));
+        return view('web_app.newborns.show', compact('menuTitle', 'pageTitle', 'newborn', 'lastNewborn'));
     }
 
     /**
@@ -143,7 +143,7 @@ class NewbornController extends Controller
         $menuTitle = 'تعديل مولود';
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.Newborns.update', compact('menuTitle', 'pageTitle', 'newborn'));
+        return view('web_app.newborns.update', compact('menuTitle', 'pageTitle', 'newborn'));
     }
 
     /**

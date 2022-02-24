@@ -16,7 +16,7 @@ class PersonsSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Person::factory(301)->create()->each(function($person) {
+        \App\Models\Person::factory(300)->create()->each(function($person) {
             if (!$person->is_live) {
                 \App\Models\Death::factory()->create([
                     'person_id' => $person->id,

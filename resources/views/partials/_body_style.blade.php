@@ -2,7 +2,8 @@
     <meta charset="utf-8">
     <meta name="description" content="{{ Helper::GeneralSettings('app_description_ar') }}">
     <meta name="author" content="عالم الفلك لتقنية المعلومات">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{{--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">--}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no">
     <title>{{ Helper::GeneralSettings('app_title_ar') }} | @yield('page-title')</title>
     <link rel="shortcut icon" href="{{ Helper::GeneralSettings('app_icon') }}"/>
     @if(app()->getLocale() == 'ar')
