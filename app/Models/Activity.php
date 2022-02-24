@@ -54,6 +54,10 @@ class Activity extends Model
                 return $this->belongsTo('App\Models\Person', 'action_id', 'id');
             case 'family':
                 return $this->belongsTo('App\Models\Family', 'action_id', 'id');
+            case 'report':
+                return $this->belongsTo('App\Models\Report', 'action_id', 'id');
+            case 'comment':
+                return $this->belongsTo('App\Models\Comment', 'action_id', 'id');
             default:
                 return $this->action_id;
         }

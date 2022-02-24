@@ -29,7 +29,7 @@ class ActivityController extends Controller
         $appMenu = config('custom.app_menu');
         $menuTitle = 'سجل المستخدمين';
         $pageTitle = 'لوحة التحكم';
-        $activities = Activity::paginate(25);
+        $activities = Activity::with('user')->paginate(25);
 
         return view('dashboard.activities', compact('appMenu', 'pageTitle', 'menuTitle', 'activities'));
     }
