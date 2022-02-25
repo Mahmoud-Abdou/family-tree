@@ -98,7 +98,7 @@
                         <div class="card-body p-0">
 
                             <div class="table-responsive">
-                                <table class="table m-0 px-2">
+                                <table class="table m-0 text-center">
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
@@ -114,15 +114,15 @@
                                     @if($events->count() > 0)
                                         @foreach($events as $event)
                                             <tr>
-                                                <td>{{ $event->title }}</td>
-                                                <td>{!! $event->short_body !!}</td>
-                                                <td>{{ $event->city->name_ar }}</td>
-                                                <td><a href="{{ route('admin.users.show', $event->owner_id) }}">{{ $event->owner->name }}</a></td>
-                                                <td>
-                                                    <img src="{{ isset($event->image->file) ? $event->image->file : url('default.png') }}" alt="{{ $event->title }}" style="height: 100px;width: 100px;">
+                                                <td class="align-middle">{{ $event->title }}</td>
+                                                <td class="align-middle">{!! $event->short_body !!}</td>
+                                                <td class="align-middle">{{ $event->city->name_ar }}</td>
+                                                <td class="align-middle"><a href="{{ route('admin.users.show', $event->owner_id) }}">{{ $event->owner->name }}</a></td>
+                                                <td class="align-middle">
+                                                    <img src="{{ isset($event->image->file) ? $event->image->file : url('default.png') }}" class="img-thumbnail" alt="صورة المناسبة" style="height: 80px;">
                                                 </td>
-                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</td>
-                                                <td>
+                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</td>
+                                                <td class="align-middle">
                                                     <div class="d-flex justify-center">
                                                             @can('events.update')
                                                             <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.events.edit', $event) }}"><i class="ri-edit-2-fill"></i></a>

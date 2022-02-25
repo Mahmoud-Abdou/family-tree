@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Activity;
 use App\Models\History;
+use App\Models\Setting;
 use Carbon\Carbon;
 
 class AppHelper {
@@ -38,10 +39,10 @@ class AppHelper {
 
     static function GeneralSettings($var)
     {
-        $Setting = cache('setting');
-        return $Setting->$var;
-//        $Setting = \App\Models\Setting::first();
+//        $Setting = cache('setting');
 //        return $Setting->$var;
+        $Setting = Setting::first();
+        return $Setting->$var;
     }
 
     static function AddUserHistory()
@@ -71,10 +72,10 @@ class AppHelper {
     }
 
     // Menu array List
-    static function MenuList($GroupId)
-    {
-        return Menu::where('father_id', $GroupId)->where('status', 1)->orderby('row_no', 'asc')->get();
-    }
+//    static function MenuList($GroupId)
+//    {
+//        return Menu::where('father_id', $GroupId)->where('status', 1)->orderby('row_no', 'asc')->get();
+//    }
 
     // detect browser
     static function getBrowser()

@@ -85,7 +85,7 @@
                         <div class="card-body p-0">
 
                             <div class="table-responsive">
-                                <table class="table m-0 px-2">
+                                <table class="table m-0 text-center">
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
@@ -100,14 +100,14 @@
                                     @if($newborns->count() > 0)
                                         @foreach($newborns as $newborn)
                                             <tr>
-                                                <td>{{ $newborn->title }}</td>
-                                                <td>{!! $newborn->short_body !!}</td>
-                                                <td><a href="{{ route('admin.users.show', $newborn->owner_id) }}">{{ $newborn->owner->name }}</a></td>
-                                                <td>
-                                                    <img src="{{ isset($newborn->image->file) ? $newborn->image->file : url('default.png') }}" alt="لا توجد صورة" style="height: 100px;width: 100px;">
+                                                <td class="align-middle">{{ $newborn->title }}</td>
+                                                <td class="align-middle">{!! $newborn->short_body !!}</td>
+                                                <td class="align-middle"><a href="{{ route('admin.users.show', $newborn->owner_id) }}">{{ $newborn->owner->name }}</a></td>
+                                                <td class="align-middle">
+                                                    <img src="{{ isset($newborn->image->file) ? $newborn->image->file : url('default.png') }}" class="img-thumbnail" alt="صورة المولود" style="height: 80px;">
                                                 </td>
-                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($newborn->newborns_date)) }}</td>
-                                                <td>
+                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d | H:i', strtotime($newborn->newborns_date)) }}</td>
+                                                <td class="align-middle">
                                                     <div class="d-flex justify-center">
                                                         @can('newborns.update')
                                                         <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.newborns.edit', $newborn) }}"><i class="ri-edit-2-fill"></i></a>
@@ -115,7 +115,6 @@
                                                         @can('newborns.delete')
                                                             <button type="button" onclick="openDeleteModel(`{{ route('admin.newborns.destroy', $newborn) }}`)"  data-toggle="modal" data-target=".deleteModel" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
                                                         @endcan
-
                                                     </div>
                                                 </td>
                                             </tr>

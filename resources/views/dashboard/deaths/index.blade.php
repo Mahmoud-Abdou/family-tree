@@ -84,7 +84,7 @@
                         <div class="card-body p-0">
 
                             <div class="table-responsive">
-                                <table class="table m-0 px-2">
+                                <table class="table m-0 text-center">
                                     <thead>
                                     <tr>
                                         <th scope="col">عنوان</th>
@@ -99,14 +99,14 @@
                                     @if($deaths->count() > 0)
                                         @foreach($deaths as $death)
                                             <tr>
-                                                <td>{{ $death->title }}</td>
-                                                <td>{!! $death->short_body !!}</td>
-                                                <td><a href="{{ route('admin.users.show', $death->owner_id) }}">{{ $death->owner->name }}</a></td>
-                                                <td>
-                                                    <img src="{{ isset($death->image->file) ? $death->image->file : url('default.png') }}" alt="{{ $death->title }}" style="height: 100px;width: 100px;">
+                                                <td class="align-middle">{{ $death->title }}</td>
+                                                <td class="align-middle">{!! $death->short_body !!}</td>
+                                                <td class="align-middle"><a href="{{ route('admin.users.show', $death->owner_id) }}">{{ $death->owner->name }}</a></td>
+                                                <td class="align-middle">
+                                                    <img src="{{ isset($death->image->file) ? $death->image->file : url('default.png') }}" class="img-thumbnail" alt="صورة الوفاة" style="height: 80px;">
                                                 </td>
-                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($death->deaths_date)) }}</td>
-                                                <td>
+                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d | H:i', strtotime($death->deaths_date)) }}</td>
+                                                <td class="align-middle">
                                                     <div class="d-flex justify-center">
                                                         @can('deaths.update')
                                                         <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.deaths.edit', $death) }}"><i class="ri-edit-2-fill"></i></a>
@@ -115,7 +115,6 @@
 
                                                             <button type="button" onclick="openDeleteModel(`{{ route('admin.deaths.destroy', $death) }}`)"  data-toggle="modal" data-target=".deleteModel" class="btn btn-outline-danger rounded-pill m-1 px-3"><i class="ri-delete-back-2-fill"></i></button>
                                                         @endcan
-
                                                     </div>
                                                 </td>
                                             </tr>
