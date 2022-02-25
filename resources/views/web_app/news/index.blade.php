@@ -43,18 +43,18 @@
                                             <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث بالاسم ">
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group my-auto">
-                                            <label for="email-filter">بحث بالبريد الالكتروني</label>
-                                            <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group my-auto">
-                                            <label for="mobile-filter">بحث برقم الجوال</label>
-                                            <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
-                                        </div>
-                                    </div>
+{{--                                    <div class="col-lg-3">--}}
+{{--                                        <div class="form-group my-auto">--}}
+{{--                                            <label for="email-filter">بحث بالبريد الالكتروني</label>--}}
+{{--                                            <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-lg-3">--}}
+{{--                                        <div class="form-group my-auto">--}}
+{{--                                            <label for="mobile-filter">بحث برقم الجوال</label>--}}
+{{--                                            <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
                                     <div class="col-lg-3">
                                         <div class="form-group my-auto">
@@ -104,9 +104,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-lg-4">
-                                        <br>
-                                        <br>
+                                    <div class="form-group col-lg-3 my-auto">
                                         <div class="d-inline-flex">
                                             <div class="custom-control mx-4 custom-switch">
                                                 <input type="checkbox" id="relatives-filter" name="relatives-filter" class="custom-control-input" {{ isset($_GET['filters']['relatives']) && $_GET['filters']['relatives'] == true ? 'checked=""' : '' }}>
@@ -115,7 +113,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3 my-auto">
-                                        <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                        <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
                                     </div>
                                 </div>
                             </div>

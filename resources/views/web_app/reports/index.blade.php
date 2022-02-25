@@ -81,7 +81,7 @@
                                         </div>
                                     </div>
                                 <div class="col-md-2 my-auto">
-                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
                                 </div>
                             </div>
                         </div>

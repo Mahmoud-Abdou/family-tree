@@ -15,26 +15,32 @@
                     @include('partials.messages')
 
                     <div class="card iq-mb-3 shadow">
-                        <div class="card-header">
+                        <div class="card-header d-inline-flex justify-content-between">
                             <h5><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
+                            <button type="button" class="btn btn-outline-secondary rounded-pill" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                                <i class="ri-filter-2-line"> </i>البحث في النتائج
+                            </button>
                         </div>
-                        <div class="card-header">
+                        <div class="card-header collapse" id="collapseFilters">
                             <form method="GET" action="{{ route('admin.users.index') }}">
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                        <label for="email-filter">بحث بالبريد الالكتروني</label>
                                         <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['email']) ? $_GET['email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
                                     </div>
                                 </div>
 
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                        <label for="mobile-filter">بحث برقم الجوال</label>
                                         <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['mobile']) ? $_GET['mobile'] : '' }}" placeholder="بحث برقم الجوال">
                                     </div>
                                 </div>
 
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                    <label for="status-filter">بحث بالحالة</label>
                                     <select class="form-control" name="status" id="status-filter">
                                         <option disabled="">حدد الحالة</option>
                                         <option {{ isset($_GET['status']) && $_GET['status'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
@@ -47,6 +53,7 @@
 
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                    <label for="city-filter">بحث بالمدينة</label>
                                     <select class="form-control" name="city" id="city-filter">
                                         <option disabled="">حدد المدينة</option>
                                         <option {{ isset($_GET['city']) && $_GET['city'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
@@ -62,6 +69,7 @@
 
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                    <label for="role-filter">بحث بالصلاحية</label>
                                     <select class="form-control" name="role" id="role-filter">
                                         <option disabled="">حدد الصلاحية</option>
                                         <option {{ isset($_GET['role']) && $_GET['role'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
@@ -75,8 +83,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                    <label for="per-page-filter">عدد النتائج في الصفحة</label>
                                     <select class="form-control" name="per-page" id="per-page-filter">
                                         <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 10 ? 'selected=""' : '' }} value="10">10</option>
                                         <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 20 ? 'selected=""' : '' }} value="20">20</option>
@@ -91,8 +100,8 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 my-auto">
-                                    <button type="submit" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                <div class="col-md-2 mt-2">
+                                    <button type="submit" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
                                 </div>
                             </div>
                             </form>

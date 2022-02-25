@@ -194,6 +194,10 @@ class HomeController extends Controller
         $usersData['activeUsers'] = User::activeCount();
         $usersData['registeredUsers'] = User::registeredCount();
         $usersData['blockedCount'] = User::blockedCount();
+        $usersData['mealsCount'] = Person::where('gender', '=', 'male')->count();
+        $usersData['femalesCount'] = Person::where('gender', '=', 'female')->count();
+        $usersData['marriagesCount'] = Person::where('has_family', true)->count();
+        $usersData['deathsCount'] = Person::where('is_live', false)->count();
 
         return view('dashboard.index', compact('appMenu', 'menuTitle', 'pageTitle', 'newsData', 'usersData'));
     }

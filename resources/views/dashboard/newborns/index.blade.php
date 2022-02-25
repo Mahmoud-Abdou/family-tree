@@ -15,70 +15,73 @@
                     @include('partials.messages')
 
                     <div class="card iq-mb-3">
-                        <div class="card-header">
+                        <div class="card-header d-inline-flex justify-content-between">
                             <h5 class="float-left my-auto"><i class="ri-user-smile-line"> </i> {{ $menuTitle }}</h5>
+                            <button type="button" class="btn btn-outline-secondary rounded-pill" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                                <i class="ri-filter-2-line"> </i>البحث في النتائج
+                            </button>
                         </div>
-                        <div class="card-header">
+
+                        <div class="card-header collapse" id="collapseFilters">
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                        <label for="title-filter">بحث  بالعنوان</label>
                                         <input type="text" class="form-control" name="title" id="title-filter" value="{{ isset($_GET['filters']['title']) ? $_GET['filters']['title'] : '' }}" placeholder="بحث  بالعنوان">
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group my-auto">
-                                        <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالوصف ">
+                                        <label for="body-filter">بحث بالمحتوى</label>
+                                        <input type="text" class="form-control" name="body" id="body-filter" value="{{ isset($_GET['filters']['body']) ? $_GET['filters']['body'] : '' }}" placeholder="بحث بالمحتوى">
                                     </div>
                                 </div>
 
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
-                                        <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث برقم الجوال">
+                                        <label for="name-filter">بحث بالاسم</label>
+                                        <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['owner_name']) ? $_GET['filters']['owner_name'] : '' }}" placeholder="بحث بالاسم">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                        <label for="email-filter">بحث بالبريد الالكتروني</label>
                                         <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
                                     </div>
                                 </div>
 
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                        <label for="mobile-filter">بحث برقم الجوال</label>
                                         <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_phone']) ? $_GET['filters']['owner_phone'] : '' }}" placeholder="بحث برقم الجوال">
                                     </div>
                                 </div>
 
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group my-auto">
-                                    <select class="form-control" name="date" id="date-filter">
-                                        <option disabled="">بحث بالتاريخ</option>
-                                        <option value="">الكل</option>
-                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
-                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
-                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
-                                        <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
+                                        <label for="date-filter">بحث بالتاريخ</label>
+                                        <select class="form-control" name="date" id="date-filter">
+                                            <option disabled="">بحث بالتاريخ</option>
+                                            <option value="">الكل</option>
+                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 1 ? 'selected=""' : '' }} value="1">اخبار السنة</option>
+                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
+                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
+                                            <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
 
-                                    </select>
-                                    <div class="invalid-tooltip">
-                                        بحث بالتاريخ
-                                    </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                        <br>
-                                        <br>
-                                        <div class="d-inline-flex">
-                                            <div class="custom-control mx-4 custom-switch">
-                                                <input type="checkbox" id="relatives-filter" name="relatives-filter" class="custom-control-input" {{ isset($_GET['filters']['relatives']) && $_GET['filters']['relatives'] == true ? 'checked=""' : '' }}>
-                                                <label class="custom-control-label" for="relatives-filter"> بحث بالاقارب </label>
-                                            </div>
+                                        </select>
+                                        <div class="invalid-tooltip">
+                                            بحث بالتاريخ
                                         </div>
                                     </div>
-                                <div class="col-md-2 my-auto">
-                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">فلتر البيانات</button>
+                                </div>
+
+                                <div class="col-md-2 mt-3 mb-auto">
+                                    <div class="p-1 d-block d-md-block d-lg-none"></div>
+                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
                                 </div>
                             </div>
                         </div>
+
                         <div class="card-body p-0">
 
                             <div class="table-responsive">

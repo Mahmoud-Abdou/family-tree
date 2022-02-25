@@ -19,7 +19,7 @@
                             <div class="clearfix"></div>
                             <div class="text-center">
                                 <h2 class="mb-0"><span class="counter">{{ $usersData['allUsersCount'] }}</span></h2>
-                                {{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-up-line text-success mr-1"></i><span class="text-success">30%</span> Increased</p>--}}
+{{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-up-line text-success mr-1"></i><span class="text-success">30%</span> Increased</p>--}}
                             </div>
                         </div>
                         <div id="chart-3"></div>
@@ -33,7 +33,7 @@
                             <div class="clearfix"></div>
                             <div class="text-center">
                                 <h2 class="mb-0"><span class="counter">{{ $usersData['activeUsers'] }}</span></h2>
-                                {{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-up-line text-success mr-1"></i><span class="text-success">10%</span> Increased</p>--}}
+{{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-up-line text-success mr-1"></i><span class="text-success">10%</span> Increased</p>--}}
                             </div>
                         </div>
                         <div id="chart-1"></div>
@@ -47,7 +47,7 @@
                             <div class="clearfix"></div>
                             <div class="text-center">
                                 <h2 class="mb-0"><span class="counter">{{ $usersData['registeredUsers'] }}</span></h2>
-                                {{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-up-line text-success mr-1"></i><span class="text-success">20%</span> Increased</p>--}}
+{{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-up-line text-success mr-1"></i><span class="text-success">20%</span> Increased</p>--}}
                             </div>
                         </div>
                         <div id="chart-2"></div>
@@ -62,14 +62,86 @@
                             <div class="clearfix"></div>
                             <div class="text-center">
                                 <h2 class="mb-0"><span class="counter">{{ $usersData['blockedCount'] }}</span></h2>
-                                {{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-down-line text-danger mr-1"></i><span class="text-danger">10%</span> Increased</p>--}}
+{{--                                <p class="mb-0 text-secondary line-height"><i class="ri-arrow-down-line text-danger mr-1"></i><span class="text-danger">10%</span> Increased</p>--}}
                             </div>
                         </div>
                         <div id="chart-4"></div>
                     </div>
                 </div>
 
-                {{--                last users--}}
+                <div class="col-lg-3 col-md-4 col-md-6">
+                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height wow zoomIn" style="visibility: visible; animation-name: zoomIn;">
+                        <div class="iq-card-body">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2 d-flex justify-content-between">
+                                    <div class="icon iq-icon-box rounded-circle iq-bg-secondary rounded-circle">
+                                        <i class="ri-account-box-line"></i>
+                                    </div>
+                                    <div class="my-auto mx-auto text-center">
+                                        <h6 class="card-title text-uppercase text-secondary text-center mb-0">الذكور</h6>
+                                        <span class="h2 text-dark mb-0 counter">{{ $usersData['mealsCount'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-md-6">
+                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height wow zoomIn" style="visibility: visible; animation-name: zoomIn;">
+                        <div class="iq-card-body">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2 d-flex justify-content-between">
+                                    <div class="icon iq-icon-box rounded-circle iq-bg-pink rounded-circle">
+                                        <i class="ri-user-5-line"></i>
+                                    </div>
+                                    <div class="my-auto mx-auto text-center">
+                                        <h6 class="card-title text-uppercase text-secondary text-center mb-0">الإناث</h6>
+                                        <span class="h2 text-dark mb-0 counter">{{ $usersData['femalesCount'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-md-6">
+                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height wow zoomIn" style="visibility: visible; animation-name: zoomIn;">
+                        <div class="iq-card-body">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2 d-flex justify-content-between">
+                                    <div class="icon iq-icon-box rounded-circle iq-bg-info rounded-circle">
+                                        <i class="ri-parent-line"></i>
+                                    </div>
+                                    <div class="my-auto mx-auto text-center">
+                                        <h6 class="card-title text-uppercase text-secondary text-center mb-0">المتزوجين</h6>
+                                        <span class="h2 text-dark mb-0 counter">{{ $usersData['marriagesCount'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-md-6">
+                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height wow zoomIn" style="visibility: visible; animation-name: zoomIn;">
+                        <div class="iq-card-body">
+                            <div class="row">
+                                <div class="col-lg-12 mb-2 d-flex justify-content-between">
+                                    <div class="icon iq-icon-box rounded-circle iq-bg-warning rounded-circle">
+                                        <i class="ri-user-4-line"></i>
+                                    </div>
+                                    <div class="m-auto mx-auto text-center">
+                                        <h6 class="card-title text-uppercase text-secondary text-center mb-0">المتوفين</h6>
+                                        <span class="h2 text-dark mb-0 counter">{{ $usersData['deathsCount'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+{{--                last users--}}
                 @can('users.read|users.activate')
                     <div class="col-lg-12">
                         <div class="iq-card">
@@ -129,7 +201,7 @@
                     </div>
                 @endcan
 
-                {{--                last news--}}
+{{--                last news--}}
                 @can('news.read|news.update|news.delete')
                     <div class="col-lg-12">
                         <div class="iq-card">

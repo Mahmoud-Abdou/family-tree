@@ -684,7 +684,7 @@
         <div class="container-fluid p-0">
             <div class="row no-gutters">
                 <div class="col-sm-12 text-center">
-                    <div class="iq-maintenance">
+                    <div class="iq-maintenance" style="text-align: center;">
                         <img src="{{ secure_asset('assets/images/error/02.png') }}" class="img-fluid" alt="">
                         <h3 class="mt-4 mb-1">أنت حاليا غير متصل بالشبكة.</h3>
                         <p>يرجى التحقق و المحاولة مرة اخرى.</p>
