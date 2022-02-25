@@ -43,7 +43,7 @@
                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
                         <div class="iq-card-body pb-0">
                             <div class="rounded-circle iq-card-icon iq-bg-warning"><i class="ri-user-add-line"></i></div>
-                            <span class="float-right line-height-6">المستخدمون المسجلون</span>
+                            <span class="float-right line-height-6">المستخدمون المسجلين</span>
                             <div class="clearfix"></div>
                             <div class="text-center">
                                 <h2 class="mb-0"><span class="counter">{{ $usersData['registeredUsers'] }}</span></h2>

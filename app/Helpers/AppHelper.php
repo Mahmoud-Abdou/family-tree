@@ -31,17 +31,17 @@ class AppHelper {
         return $final_code;
     }
 
-    static function generateToken()
+    function generateToken()
     {
-        return str_random(60);
+        return $this::generateRandomString(60);
     }
 
     static function GeneralSettings($var)
     {
-//        $Setting = cache('setting');
-//        return $Setting->$var;
-        $Setting = \App\Models\Setting::first();
+        $Setting = cache('setting');
         return $Setting->$var;
+//        $Setting = \App\Models\Setting::first();
+//        return $Setting->$var;
     }
 
     static function AddUserHistory()
@@ -200,7 +200,7 @@ class AppHelper {
                     return Carbon::createFromFormat($format, $date)->format('Y-m-d');
                 }
             } catch (\Exception $e) {
-
+                return null;
             }
         }
         return "";

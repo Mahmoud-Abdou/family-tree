@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Alflk'),
     'admin_uri' => env('APP_ADMIN_URI', 'admin'),
 
     /*

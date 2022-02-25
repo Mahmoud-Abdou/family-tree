@@ -20,6 +20,7 @@ class CreateNewsTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->foreignId('category_id');
+            $table->foreignId('image_id')->nullable();
             $table->boolean('approved')->default(false);
             $table->foreignId('approved_by')->nullable()->default(null);
             $table->timestamps();

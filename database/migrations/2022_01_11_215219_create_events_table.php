@@ -19,9 +19,8 @@ class CreateEventsTable extends Migration
             $table->foreignId('city_id')->nullable();
             $table->string('title')->index();
             $table->text('body');
-            $table->foreignId('image_id');
+            $table->foreignId('image_id')->nullable();
 //            $table->enum('type', config('custom.categories'))->nullable();
-//            $table->bigInteger('event_date');
             $table->dateTime('event_date')->default(now());
             $table->foreignId('category_id');
             $table->boolean('approved')->default(false);
