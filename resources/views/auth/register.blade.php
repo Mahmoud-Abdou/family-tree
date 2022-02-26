@@ -46,7 +46,7 @@
                                 <option value="1"{{ old('has_family') == '1' ? 'selected' : ''  }}>متزوج</option>
                             </select>
                         </div>
-                                                        </a>
+
                         <div class="form-group">
                             <label for="mobileNumber">{{ __('رقم الجوال') }}</label>
                             <input type="text" name="mobile" class="form-control numeric mb-0" id="mobileNumber" tabindex="5" placeholder="أدخل رقم الجوال" value="{{ old('mobile') }}"  required>
@@ -80,7 +80,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="FamilyModelLabel">ادخال بيانات الزوج/ة  </h5>
+                                        <h5 class="modal-title" id="FamilyModelLabel"><i class="ri-user-fill"> </i>ادخال بيانات الزوج/ة </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                         </button>
@@ -97,17 +97,17 @@
                                         </div>
                                         <div class="form-group col-lg-12">
                                             <label for="partner_email">{{ __('البريد الإلكتروني') }}</label>
-                                            <input type="partner_email" name="partner_email" class="form-control mb-0" id="partner_email" value="{{ old('partner_email') }}">
+                                            <input type="email" name="partner_email" class="form-control mb-0" id="partner_email" value="{{ old('partner_email') }}" placeholder="أدخل البريد الإلكتروني">
                                         </div>
                                         <div class="form-group col-lg-12">
-                                            <label for="partner_mobile">{{ __('رقم الجوال') }}</label>
-                                            <input type="number" name="partner_mobile" class="form-control mb-0" id="partner_mobile" value="{{ old('partner_mobile') }}">
+                                            <label for="partnerMobile">{{ __('رقم الجوال') }}</label>
+                                            <input type="text" name="partner_mobile" class="form-control numeric mb-0" id="partnerMobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}"  required>
                                         </div>
-                                        
+
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" data-dismiss="modal" class="btn btn-primary">ارسال</button>
+                                        <button type="button" data-dismiss="modal" class="btn btn-primary w-100 py-2">موافق</button>
                                     </div>
                                 </div>
                             </div>
@@ -180,6 +180,12 @@
 
     document.getElementById('mobileNumber').addEventListener('keyup',function(evt){
         var phoneNumber = document.getElementById('mobileNumber');
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        phoneNumber.value = phoneFormat(phoneNumber.value);
+    });
+
+    document.getElementById('partnerMobile').addEventListener('keyup',function(evt){
+        var phoneNumber = document.getElementById('partnerMobile');
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         phoneNumber.value = phoneFormat(phoneNumber.value);
     });

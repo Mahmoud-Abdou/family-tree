@@ -121,7 +121,7 @@
                                                 <td class="align-middle">
                                                     <img src="{{ isset($event->image->file) ? $event->image->file : url('default.png') }}" class="img-thumbnail" alt="صورة المناسبة" style="height: 80px;">
                                                 </td>
-                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</td>
+                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d', strtotime($event->event_date)) }}</td>
                                                 <td class="align-middle">
                                                     <div class="d-flex justify-center">
                                                             @can('events.update')

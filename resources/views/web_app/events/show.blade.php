@@ -32,7 +32,7 @@
                                 <div class="col-md-6 iq-item-product-right">
                                     <div class="product-additional-details">
                                         <h3 class="productpage_title">{{ $event->title }}</h3>
-                                        {{--                                        <p>{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</p>--}}
+                                        {{--                                        <p>{{ date('Y-m-d', strtotime($event->event_date)) }}</p>--}}
                                         <hr>
                                         <div class="product-descriptio">
                                             {!! $event->body !!}
@@ -50,7 +50,7 @@
                                                 <div class="wishlist mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="التاريخ"
                                                        data-original-title="التاريخ"><i
-                                                            class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($event->event_date)) }}
+                                                            class="ri-timer-2-line"> </i> {{ date('Y-m-d', strtotime($event->event_date)) }}
                                                     </p>
                                                 </div>
 
@@ -136,7 +136,7 @@
                                                             </p>
                                                         </div>
                                                         <div class="wishlist mx-3">
-                                                            <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($e->event_date)) }}
+                                                            <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d', strtotime($e->event_date)) }}
                                                             </p>
                                                         </div>
                                                     </div>

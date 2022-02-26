@@ -50,7 +50,7 @@
                                 <br>
 
                                 @if(Helper::GeneralSettings('app_first_registration'))
-                                    <a href="{{ route('first_login') }}" class="mt-3 py-3 px-5 btn btn-outline-primary w-100">الدخول بالبريد المسجل مسبقاً</a>
+                                    <a href="{{ route('first_login') }}" class="mt-3 py-3 px-5 btn btn-outline-secondary w-100">الدخول بالبريد المسجل مسبقاً</a>
                                 @endif
                             </span>
                         </div>

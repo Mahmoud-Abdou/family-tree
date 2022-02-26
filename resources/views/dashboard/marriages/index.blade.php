@@ -106,7 +106,7 @@
                                                 <td class="align-middle">
                                                     <img src="{{ isset($marriage->image->file) ? $marriage->image->file : url('default.png') }}" class="img-thumbnail" alt="صورة الزواج" style="height: 80px;">
                                                 </td>
-                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d | H:i', strtotime($marriage->marriages_date)) }}</td>
+                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d', strtotime($marriage->marriages_date)) }}</td>
                                                 <td class="align-middle">
                                                     <div class="d-flex justify-center">
                                                         @can('marriages.update')

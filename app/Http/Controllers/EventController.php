@@ -65,7 +65,7 @@ class EventController extends Controller
     public function create()
     {
         $menuTitle = 'إضافة مناسبة';
-        $pageTitle = 'لوحة التحكم';
+        $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 
@@ -99,9 +99,8 @@ class EventController extends Controller
         $news_data['body'] = $request['body'];
         $news = News::create($news_data);
 
-
         \App\Helpers\AppHelper::AddLog('Event Create', class_basename($event), $event->id);
-        return redirect()->route('events.index')->with('success', 'تم اضافة مناسبة جديدة .');
+        return redirect()->route('events.index')->with('success', 'تم اضافة مناسبة جديدة.')->with('warning', 'سيتم نشر المناسبة بعد المراجعة.');
     }
 
     /**
@@ -112,6 +111,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        if (!isset($event) || !$event->approved) {
+            return back();
+        }
         $menuTitle = $event->title;
         $pageTitle = 'القائمة الرئيسية';
         $lastEvents = Event::active()->latest()->take(5)->get();
@@ -127,8 +129,11 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
+        if (!isset($event)) {
+            return back();
+        }
         $menuTitle = 'تعديل مناسبة';
-        $pageTitle = 'لوحة التحكم';
+        $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();
 

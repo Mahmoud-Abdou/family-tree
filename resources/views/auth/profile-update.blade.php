@@ -72,17 +72,17 @@
                                 <div class="row">
                                     <div class="form-group col-lg-4">
                                         <label for="prefix">مقدمة الاسم</label>
-                                        <input type="text" name="prefix" class="form-control mb-0" id="prefix" tabindex="4" value="{{ $person->prefix ?? '' }}">
+                                        <input type="text" name="prefix" class="form-control mb-0" id="prefix" tabindex="4" value="{{ $person->prefix }}">
                                     </div>
 
                                     <div class="form-group col-lg-4">
                                         <label for="surname">اللقب</label>
-                                        <input type="text" name="surname" class="form-control mb-0" id="surname" tabindex="5" value="{{ $person->surname ?? '' }}">
+                                        <input type="text" name="surname" class="form-control mb-0" id="surname" tabindex="5" value="{{ $person->surname }}">
                                     </div>
 
                                     <div class="form-group col-lg-4">
                                         <label for="job">العمل / الوظيفة</label>
-                                        <input type="text" name="job" class="form-control mb-0" id="job" tabindex="6" value="{{ $person->job ?? '' }}">
+                                        <input type="text" name="job" class="form-control mb-0" id="job" tabindex="6" value="{{ $person->job }}">
                                     </div>
                                 </div>
 
@@ -94,7 +94,7 @@
                                             <div class="d-inline-flex">
                                                 <div class="custom-control custom-radio mx-4">
                                                     <input type="radio" id="male" name="gender" value="male" class="custom-control-input" {{ $person->gender == 'male' ? 'checked' : '' }}>
-                                                    <label class="custom-control-label" for="male"> رجل </label>
+                                                    <label class="custom-control-label" for="male"> ذكر </label>
                                                 </div>
                                                 <div class="custom-control custom-radio mx-4">
                                                     <input type="radio" id="female" name="gender" value="female" class="custom-control-input" {{ $person->gender == 'female' ? 'checked' : '' }}>

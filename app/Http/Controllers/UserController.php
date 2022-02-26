@@ -229,8 +229,7 @@ class UserController extends Controller
         $foster_brother = FosterBrother::where('person_id', $request->person_id)
                                         ->where('family_id', $request->family_id)
                                         ->first();
-        
-        
+
         if (is_null($person)) {
             return back()->with('error', 'حدث خطأ!');
         }
@@ -260,7 +259,7 @@ class UserController extends Controller
         $foster_brother = FosterBrother::where('person_id', $person->id)
                                         ->where('family_id', $request->family_id)
                                         ->first();
-        
+
         if (is_null($person)) {
             return back()->with('error', 'حدث خطأ!');
         }

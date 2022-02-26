@@ -97,7 +97,7 @@
                                                 <td>{{ $report->owner->name }}</td>
                                                 <td>{{ $report->type }}</td>
                                                 <td>{!! $report->body !!}</td>
-                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($report->created_at)) }}</td>
+                                                <td dir="ltr">{{ date('Y-m-d', strtotime($report->created_at)) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         <a class="btn btn-outline-warning rounded-pill m-1 px-3" href="{{ route('admin.reports.show', $report) }}"><i class="ri-edit-2-fill"></i></a>

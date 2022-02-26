@@ -31,11 +31,11 @@
                                         <div class="additional-product-action d-flex align-items-center">
 
                                             <div class="product-action w-100">
-                                                
+
                                                 <div class="wishlist mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="التاريخ"
                                                        data-original-title="التاريخ"><i
-                                                            class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($death->date)) }}
+                                                            class="ri-timer-2-line"> </i> {{ date('Y-m-d', strtotime($death->date)) }}
                                                     </p>
                                                 </div>
                                                 <div class="wishlist mx-3 float-right">

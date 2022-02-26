@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Family;
 use App\Models\Person;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -163,7 +164,11 @@ class HomeController extends Controller
         $searchWord = request()->has('search') ? $request->search : $word;
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'البحث';
-        $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->paginate(20);
+        if ($searchWord) {
+            $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->paginate(20);
+        } else {
+            $searchResult = \App\Models\Person::where('first_name', $searchWord)->paginate(20);
+        }
 
         session()->put('searchWord', $searchWord);
         return view('search', compact('menuTitle', 'pageTitle', 'searchResult', 'searchWord'));

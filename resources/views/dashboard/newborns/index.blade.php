@@ -106,7 +106,7 @@
                                                 <td class="align-middle">
                                                     <img src="{{ isset($newborn->image->file) ? $newborn->image->file : url('default.png') }}" class="img-thumbnail" alt="صورة المولود" style="height: 80px;">
                                                 </td>
-                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d | H:i', strtotime($newborn->newborns_date)) }}</td>
+                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d', strtotime($newborn->newborns_date)) }}</td>
                                                 <td class="align-middle">
                                                     <div class="d-flex justify-center">
                                                         @can('newborns.update')

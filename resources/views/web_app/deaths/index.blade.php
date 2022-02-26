@@ -103,7 +103,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="d-flex justify-content-between" dir="ltr">
-                                            <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d | H:i', strtotime($row->date)) }}</small></p>
+                                            <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d', strtotime($row->date)) }}</small></p>
                                         </div>
                                     </div>
                                 </div>

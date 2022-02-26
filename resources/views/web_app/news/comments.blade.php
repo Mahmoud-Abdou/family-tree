@@ -33,7 +33,7 @@
                                         {{ $comment->owner->name }}
                                     </a>
                                     <p class="text-muted text-sm"><i class="ri-calendar-event-line"> </i>
-                                        : {{ date('Y-m-d | H:i', strtotime($comment->created_at)) }}
+                                        : {{ date('Y-m-d', strtotime($comment->created_at)) }}
                                     </p>
                                 </div>
                                 <h5>{{ $comment->body }}</h5>

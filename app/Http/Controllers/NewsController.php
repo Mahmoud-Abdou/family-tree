@@ -98,7 +98,7 @@ class NewsController extends Controller
         // event(new NotificationEvent($news_notification, $users));
 
         \App\Helpers\AppHelper::AddLog('News Create', class_basename($news), $news->id);
-        return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد .');
+        return redirect()->route('news.index')->with('success', 'تم اضافة خبر جديد.')->with('warning', 'سيتم نشر الخبر بعد المراجعة.');
     }
 
     /**
@@ -109,14 +109,15 @@ class NewsController extends Controller
      */
     public function show($news_id)
     {
-        $appMenu = config('custom.main_menu');
-        $menuTitle = '  عرض الخبر';
-        $pageTitle = 'لوحة التحكم';
-
         $news = News::where('id', $news_id)->first();
+        if (!isset($news) || !$news->approved) {
+            return back();
+        }
+        $appMenu = config('custom.main_menu');
+        $menuTitle = $news->title;
+        $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.news.show', compact('appMenu', 'menuTitle', 'pageTitle', 'news'));
-
     }
 
     /**
@@ -127,6 +128,9 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
+        if (!isset($news)) {
+            return back();
+        }
         $menuTitle = 'تعديل خبر';
         $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();

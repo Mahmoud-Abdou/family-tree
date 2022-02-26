@@ -27,7 +27,7 @@
                                             <div class="user-detail pl-5">
                                                 <div class="d-flex flex-wrap align-items-center">
                                                     <div class="profile-img pr-4">
-                                                        <img src="{{ $person->photo }}" alt="profile-img" class="avatar-130 img-fluid">
+                                                        <img src="{{ $person->photo }}" alt="الصورة" class="avatar-130 img-fluid">
                                                     </div>
                                                     <div class="profile-detail d-flex align-items-center">
                                                         <h3>{{ $person->prefix }} {{ $person->full_name }}</h3>
@@ -40,6 +40,9 @@
                                             <ul class="nav nav-pills d-flex align-items-end float-right profile-feed-items p-0 m-0">
                                                 <li>
                                                     <a class="nav-link" data-toggle="pill" href="#profile-activity">سجل الدخول</a>
+                                                </li>
+                                                <li>
+                                                    <a class="nav-link {{ isset($_GET['tab']) && $_GET['tab'] == 'favorite' ? 'active' : '' }}" data-toggle="pill" href="#profile-favorite">المفضلة</a>
                                                 </li>
                                                 <li>
                                                     <a class="nav-link {{ isset($_GET['tab']) && $_GET['tab'] == 'family' ? 'active' : '' }}" data-toggle="pill" href="#profile-family">العائلة</a>
@@ -61,6 +64,8 @@
 
                     <div class="tab-content">
                         @include('auth.profile-activity', ['histories' => $user->history()->latest()->take(5)->get()])
+
+                        @include('auth.profile-favorite', ['favorites' => $user->favorite])
 
                         @include('auth.profile-family', ['ownFamily' => $user->profile->OwnFamily, 'family' => $user->profile->belongsToFamily, 'personsData' => $allPersons, 'fosterPersonsData' => $fosterPersons])
 

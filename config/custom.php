@@ -131,8 +131,8 @@ return [
 
     // main menu
     'main_menu' => [
-        ['id' => 0, 'title' => 'Search', 'title_ar' => 'البحث', 'link' => 'search', 'icon' => 'ri-search-line', 'permission' => null, 'child' => null],
-        ['id' => 1, 'title' => 'Profile', 'title_ar' => 'الرئيسية', 'link' => 'home', 'icon' => 'ri-home-line', 'permission' => null, 'child' => null],
+        ['id' => 0, 'title' => 'Profile', 'title_ar' => 'الرئيسية', 'link' => 'home', 'icon' => 'ri-home-line', 'permission' => null, 'child' => null],
+        ['id' => 1, 'title' => 'Search', 'title_ar' => 'البحث', 'link' => 'search', 'icon' => 'ri-search-line', 'permission' => null, 'child' => null],
 //        ['id' => 2, 'title' => 'Family', 'title_ar' => 'العائلة', 'link' => 'home', 'icon' => 'ri-group-2-line', 'permission' => '', 'child' => null],
         ['id' => 3, 'title' => 'About Family', 'title_ar' => 'نبذة عن العائلة', 'link' => 'about', 'icon' => 'ri-information-line', 'permission' => null, 'child' => null],
         ['id' => 4, 'title' => 'Family Tree', 'title_ar' => 'شجرة العائلة', 'link' => 'family.tree', 'icon' => 'ri-group-2-line', 'permission' => 'families.read', 'child' => null],

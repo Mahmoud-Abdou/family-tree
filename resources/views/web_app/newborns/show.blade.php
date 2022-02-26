@@ -43,7 +43,7 @@
                                                 <div class="wishlist mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="التاريخ"
                                                        data-original-title="التاريخ"><i
-                                                            class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($newborn->date)) }}
+                                                            class="ri-timer-2-line"> </i> {{ date('Y-m-d', strtotime($newborn->date)) }}
                                                     </p>
                                                 </div>
 
@@ -125,7 +125,7 @@
                                                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                                                         <div class="product-action">
                                                             <div class="wishlist mx-3">
-                                                                <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($e->event_date)) }}</p>
+                                                                <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d', strtotime($e->event_date)) }}</p>
                                                             </div>
                                                         </div>
                                                     </div>

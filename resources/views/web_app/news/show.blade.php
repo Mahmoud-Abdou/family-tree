@@ -16,8 +16,14 @@
                         <div class="iq-card-body">
                             <div class="row">
 
-                                <div class="col-lg-12 iq-item-product-right">
+                                <div class="col-lg-12 m-0 iq-item-product-right">
                                     <div class="product-additional-details">
+                                        <div class="float-right">
+                                            <a class="" href="{{ route('search.result', [$news->owner->name, $news->owner->id]) }}">
+                                                <span class="my-auto">{{ $news->owner->name }}</span>
+                                                <img class="avatar-30 rounded-circle img-fluid m-1" src="{{ $news->owner->profile->photo }}" alt="">
+                                            </a>
+                                        </div>
                                         <h3 class="productpage_title">{{ $news->title }}</h3>
                                         <hr>
                                         <div class="product-descriptio">
@@ -32,7 +38,7 @@
                                                 </div>
                                                 <div class="wishlist mx-3">
                                                     <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ">
-                                                        <i class="ri-timer-2-line"> </i> {{ date('Y-m-d | H:i', strtotime($news->date)) }}
+                                                        <i class="ri-timer-2-line"> </i> {{ date('Y-m-d', strtotime($news->date)) }}
                                                     </p>
                                                 </div>
 

@@ -110,7 +110,6 @@ class ReportController extends Controller
     public function update(UpdateReportRequest $request, Report $report)
     {
         return redirect()->route('admin.Reports.index');
-
     }
 
     /**

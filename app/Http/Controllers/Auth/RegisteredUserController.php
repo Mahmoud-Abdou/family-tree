@@ -59,11 +59,10 @@ class RegisteredUserController extends Controller
             'gender' => $request->gender,
         ]);
 
-        if($request->has_family == 1){
-            $partner_person = User::where('email', $request['partner_email'])->first();
-            if($partner_person == null){
-                
+        if($request->has_family == '1'){
+            $partner_person = User::where('email', $request['partner_email'])->orWhere('mobile', $request['partner_mobile'])->first();
 
+            if ($partner_person == null) {
                 $partner_user = User::create([
                     'name' => $request->partner_first_name,
                     'email' => $request->partner_email,
@@ -75,27 +74,20 @@ class RegisteredUserController extends Controller
 
                 $partner_person = Person::create([
                     'user_id' => $partner_user->id,
-                    'first_name' => $partner_user->name,
-                    'father_name' => $request->father_name,
+                    'first_name' => $request->partner_first_name,
+                    'father_name' => $request->partner_father_name,
                     'has_family' => $request->gender == 'male' ? 0 : 1,
                     'gender' => $request->gender == 'male' ? 'female' : 'male',
                 ]);
-                Family::create([
-                    'name' => ' عائلة ' . ($request->gender == 'male' ? $request->name : $request->partner_first_name),
-                    'father_id' => $request->gender == 'male' ? $person->id : $partner_person->id,
-                    'mother_id' => $request->gender == 'female' ? $person->id : $partner_person->id,
-                ]);
             }
 
-        }
+            Family::create([
+                'name' => ' عائلة ' . ($request->gender == 'male' ? $request->name : $request->partner_first_name),
+                'father_id' => $request->gender == 'male' ? $person->id : $partner_person->id,
+                'mother_id' => $request->gender == 'female' ? $person->id : $partner_person->id,
+            ]);
 
-//        if ($request->has_family == '1') {
-//            Family::create([
-//                'name' => ' عائلة ' . $user->name,
-//                'father_id' => $request->gender == 'male' ? $user->profile->id : null,
-//                'mother_id' => $request->gender == 'female' ? $user->profile->id : null,
-//            ]);
-//        }
+        }
 
         $user->assignRole(AppHelper::GeneralSettings('default_user_role'));
 

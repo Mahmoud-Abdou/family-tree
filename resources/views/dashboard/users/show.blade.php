@@ -24,7 +24,7 @@
                                             <div class="user-detail pl-5">
                                                 <div class="d-flex flex-wrap align-items-center">
                                                     <div class="profile-img pr-4">
-                                                        <img src="{{ $person->photo }}" alt="profile-img" class="avatar-130 img-fluid">
+                                                        <img src="{{ $person->photo }}" alt="الصورة" class="avatar-130 img-fluid">
                                                     </div>
                                                     <div class="profile-detail d-flex align-items-center">
                                                         <h3>{{ $person->prefix }} {{ $person->full_name }}</h3>

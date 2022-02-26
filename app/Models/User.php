@@ -109,6 +109,11 @@ class User extends Authenticatable
 
     public function favorite()
     {
+        return $this->belongsToMany('App\Models\News', 'news_likes', 'owner_id', 'news_id', 'id', 'id');
+    }
+
+    public function likes()
+    {
         return $this->hasMany('App\Models\NewsLike', 'owner_id', 'id');
     }
 

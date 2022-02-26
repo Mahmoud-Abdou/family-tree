@@ -102,7 +102,7 @@
                             </div>
                             <div class="card-footer">
                                 <div class="d-flex justify-content-between" dir="ltr">
-                                    <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d | H:i', strtotime($event->event_date)) }}</small></p>
+                                    <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d', strtotime($event->event_date)) }}</small></p>
                                     <p class="card-text m-0"><i class="ri-map-pin-2-fill"> </i><small class="text-muted">{{ $event->city->name_ar }}</small></p>
                                 </div>
                             </div>

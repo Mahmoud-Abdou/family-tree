@@ -105,7 +105,7 @@
                                                 <td class="align-middle">
                                                     <img src="{{ isset($death->image->file) ? $death->image->file : url('default.png') }}" class="img-thumbnail" alt="صورة الوفاة" style="height: 80px;">
                                                 </td>
-                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d | H:i', strtotime($death->deaths_date)) }}</td>
+                                                <td class="align-middle" dir="ltr">{{ date('Y-m-d', strtotime($death->deaths_date)) }}</td>
                                                 <td class="align-middle">
                                                     <div class="d-flex justify-center">
                                                         @can('deaths.update')

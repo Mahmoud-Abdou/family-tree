@@ -145,7 +145,7 @@
                                                 {{--                                                <td>--}}
 {{--                                                    <img src="{{ isset($row->image->file) ? $row->image->file : url('default.png') }}" alt="{{ $row->title }}" style="height: 100px;width: 100px;">--}}
 {{--                                                </td>--}}
-                                                <td dir="ltr">{{ date('Y-m-d | H:i', strtotime($row->news_date)) }}</td>
+                                                <td dir="ltr">{{ date('Y-m-d', strtotime($row->news_date)) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
 

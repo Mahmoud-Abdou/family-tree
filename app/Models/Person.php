@@ -123,7 +123,7 @@ class Person extends Model
 //    public function getGenderAttribute($gender)
     public function genderName()
     {
-        return $this->gender == 'male' ? 'رجل' : 'انثى';
+        return $this->gender == 'male' ? 'ذكر' : 'انثى';
     }
 
     public function getBirthDateAttribute($date)
