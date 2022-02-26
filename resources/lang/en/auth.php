@@ -32,5 +32,6 @@ return [
     'sign_out' => 'خروج',
     'sms_access_code' => 'رمز الوصول الخاص بك: :CODE تطبيق CargoFEB، استمتع بوقتك!',
     'no_have_account' => 'ليس لديك حساب؟',
+    'not_active' => 'الحساب غير مفعل'
 
 ];

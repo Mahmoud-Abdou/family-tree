@@ -55,19 +55,29 @@ class LoginRequest extends FormRequest
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
-        }
-
-        if(auth()->user()->status != 'active') {
-            auth()->logout();
-            session()->invalidate();
-            session()->regenerateToken();
-
-            redirect()->back()->with(['error' => __('auth.failed')]);
         } else {
-            \App\Helpers\AppHelper::AddUserHistory();
+
+            if(auth()->user()->status == 'active') {
+                \App\Helpers\AppHelper::AddUserHistory();
+                RateLimiter::clear($this->throttleKey());
+            } else {
+                $status = auth()->user()->status;
+                auth()->logout();
+                session()->invalidate();
+                session()->regenerateToken();
+
+                if($status == 'registered') {
+                    throw ValidationException::withMessages([
+                        'email' => __('auth.not_active'),
+                    ]);
+                } else {
+                    throw ValidationException::withMessages([
+                        'email' => __('auth.failed'),
+                    ]);
+                }
+            }
         }
 
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**
