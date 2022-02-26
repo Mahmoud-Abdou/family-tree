@@ -51,13 +51,43 @@ class RegisteredUserController extends Controller
             'status' => AppHelper::GeneralSettings('app_registration') ? 'active' : 'registered', // or registered
         ]);
 
-        Person::create([
+        $person = Person::create([
             'user_id' => $user->id,
             'first_name' => $user->name,
             'father_name' => $request->father_name,
             'has_family' => $request->has_family == '1',
             'gender' => $request->gender,
         ]);
+
+        if($request->has_family == 1){
+            $partner_person = User::where('email', $request['partner_email'])->first();
+            if($partner_person == null){
+                
+
+                $partner_user = User::create([
+                    'name' => $request->partner_first_name,
+                    'email' => $request->partner_email,
+                    'mobile' => $request->partner_mobile,
+                    'password' => '123456789',
+                    'accept_terms' => $request->terms == 'on',
+                    'status' => 'registered'
+                ]);
+
+                $partner_person = Person::create([
+                    'user_id' => $partner_user->id,
+                    'first_name' => $partner_user->name,
+                    'father_name' => $request->father_name,
+                    'has_family' => $request->gender == 'male' ? 0 : 1,
+                    'gender' => $request->gender == 'male' ? 'female' : 'male',
+                ]);
+                Family::create([
+                    'name' => ' عائلة ' . ($request->gender == 'male' ? $request->name : $request->partner_first_name),
+                    'father_id' => $request->gender == 'male' ? $person->id : $partner_person->id,
+                    'mother_id' => $request->gender == 'female' ? $person->id : $partner_person->id,
+                ]);
+            }
+
+        }
 
 //        if ($request->has_family == '1') {
 //            Family::create([

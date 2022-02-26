@@ -43,7 +43,7 @@
                     <div class="iq-header-title">
                         <h4 class="card-title"><i class="ri-group-2-fill"> </i>العائلة</h4>
                     </div>
-                    @if(auth()->id() == $ownFamily->father->id || auth()->id() == $ownFamily->mother->id)
+                    @if(auth()->user()->profile->id == $ownFamily->father->id || auth()->user()->profile->id == $ownFamily->mother->id)
                     <div class="iq-card-header-toolbar d-flex align-items-center">
                         <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة فرد للعائلة</button>
                         <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#fosterFamilyModal" onclick="modalFosterFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة اخ في الرضاعة للعائلة</button>

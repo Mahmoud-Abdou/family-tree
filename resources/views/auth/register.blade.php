@@ -41,11 +41,12 @@
                         </div>
                         <div class="form-group">
                             <label for="has_family">الحالة الاجتماعية</label>
-                            <select id="has_family" name="has_family" tabindex="4" class="form-control mb-0" required>
+                            <select id="has_family" name="has_family" tabindex="4" class="form-control mb-0" onchange="changeSelect(this.value)" required>
                                 <option value="0"{{ old('has_family') == '0' ? 'selected' : ''  }}>غير متزوج</option>
                                 <option value="1"{{ old('has_family') == '1' ? 'selected' : ''  }}>متزوج</option>
                             </select>
                         </div>
+                                                        </a>
                         <div class="form-group">
                             <label for="mobileNumber">{{ __('رقم الجوال') }}</label>
                             <input type="text" name="mobile" class="form-control numeric mb-0" id="mobileNumber" tabindex="5" placeholder="أدخل رقم الجوال" value="{{ old('mobile') }}"  required>
@@ -74,6 +75,42 @@
                             <span class="dark-color d-inline-block line-height-2">لديك حساب بالفعل؟
                                 <a href="{{ route('login') }}" class="mx-3 py-3 px-5 btn btn-outline-primary">دخول</a>
                             </span>
+                        </div>
+                        <div class="modal fade" id="FamilyModel" tabindex="-1" role="dialog" aria-labelledby="FamilyModelLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="FamilyModelLabel">ادخال بيانات الزوج/ة  </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_first_name">{{ __('الاسم') }}</label>
+                                            <input type="text" name="partner_first_name" class="form-control mb-0" id="partner_first_name" value="{{ old('partner_first_name') }}">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_father_name">{{ __('اسم الأب') }}</label>
+                                            <input type="text" name="partner_father_name" class="form-control mb-0" id="partner_father_name" value="{{ old('partner_father_name') }}">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_email">{{ __('البريد الإلكتروني') }}</label>
+                                            <input type="partner_email" name="partner_email" class="form-control mb-0" id="partner_email" value="{{ old('partner_email') }}">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_mobile">{{ __('رقم الجوال') }}</label>
+                                            <input type="number" name="partner_mobile" class="form-control mb-0" id="partner_mobile" value="{{ old('partner_mobile') }}">
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" data-dismiss="modal" class="btn btn-primary">ارسال</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                     <br>
@@ -133,6 +170,12 @@
         //     input = '('+input.substring(0,3)+') '+input.substring(3,6)+' - '+input.substring(6,10);
         // }
         return input;
+    }
+
+    function changeSelect(value){
+        if(value == 1){
+            $("#FamilyModel").modal('show')
+        }
     }
 
     document.getElementById('mobileNumber').addEventListener('keyup',function(evt){
