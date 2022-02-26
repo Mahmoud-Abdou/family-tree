@@ -30,7 +30,7 @@ Route::get('/first-login', [FirstAuthenticatedSessionController::class, 'create'
 
 Route::post('/first-login', [FirstAuthenticatedSessionController::class, 'store'])
                 ->middleware('guest')
-                ->name('first_login');
+                ->name('first_login.store');
 
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->middleware('guest')

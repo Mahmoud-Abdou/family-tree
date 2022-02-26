@@ -21,7 +21,7 @@
 
                     <x-auth-validation-errors dir="rtl" class="alert alert-danger mb-4" role="alert" :errors="$errors" />
 
-                    <form dir="rtl" class="mt-4" method="POST" action="{{ route('first_login') }}">
+                    <form dir="rtl" class="mt-4" method="POST" action="{{ route('first_login.store') }}">
                         @csrf
 
                         <div class="form-group">
