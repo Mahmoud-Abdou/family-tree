@@ -851,8 +851,8 @@ function setInputFilter(textbox, inputFilter) {
     });
 }
 
-// setInputFilter(document.getElementById("mobileNumber"), function(value) {
-//     return /^\d*$/.test(value);
-// });
+setInputFilter(document.getElementById("mobileNumber"), function(value) {
+    return /^\d*$/.test(value);
+});
 
 // End Restricts input

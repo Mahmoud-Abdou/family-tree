@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\AppHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\Family;
 use App\Models\Person;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -46,25 +48,37 @@ class RegisteredUserController extends Controller
             'mobile' => $request->mobile,
             'password' => $request->password,
             'accept_terms' => $request->terms == 'on',
-            'status' => \App\Helpers\AppHelper::GeneralSettings('app_registration') ? 'active' : 'registered', // or registered
+            'status' => AppHelper::GeneralSettings('app_registration') ? 'active' : 'registered', // or registered
         ]);
 
         Person::create([
             'user_id' => $user->id,
             'first_name' => $user->name,
             'father_name' => $request->father_name,
+            'has_family' => $request->has_family == '1',
             'gender' => $request->gender,
         ]);
 
-        $user->assignRole(\App\Helpers\AppHelper::GeneralSettings('default_user_role'));
+//        if ($request->has_family == '1') {
+//            Family::create([
+//                'name' => ' عائلة ' . $user->name,
+//                'father_id' => $request->gender == 'male' ? $user->profile->id : null,
+//                'mother_id' => $request->gender == 'female' ? $user->profile->id : null,
+//            ]);
+//        }
+
+        $user->assignRole(AppHelper::GeneralSettings('default_user_role'));
 
         event(new Registered($user));
 
-        if(\App\Helpers\AppHelper::GeneralSettings('app_registration')) {
+        AppHelper::AddLog('Register User', class_basename($user), $user->id);
+
+        if(AppHelper::GeneralSettings('app_registration')) {
             Auth::login($user);
+
+            return redirect(RouteServiceProvider::HOME);
         }
 
-        \App\Helpers\AppHelper::AddLog('Register User', class_basename($user), $user->id);
-        return redirect(RouteServiceProvider::HOME)->with('success', 'تم الاشتراك بنجاح، و سيتم تفعيل حسابكم قريباً..');
+        return redirect()->route('login')->with('warning', 'تم الاشتراك بنجاح، و سيتم تفعيل حسابكم قريباً..');
     }
 }

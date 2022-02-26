@@ -31,7 +31,7 @@ class UpdatePersonRequest extends FormRequest
             'prefix' => ['nullable', 'string'],
             'job' => ['nullable', 'string'],
             'bio' => ['nullable'],
-            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
             'gender' => ['required', 'in:male,female'],
             'has_family' => ['required', 'in:false,true'],
             'birth_place' => ['nullable', 'string'],

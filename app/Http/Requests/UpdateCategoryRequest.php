@@ -27,8 +27,8 @@ class UpdateCategoryRequest extends FormRequest
             'name_en' => ['required'],
             'name_ar' => ['required'],
             'type' => ['required', 'in:general,media,video,event,news,newborn,marriages'],
-            'icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
             'color' => ['nullable']
         ];
     }

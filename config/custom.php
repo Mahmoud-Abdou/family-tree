@@ -25,7 +25,7 @@ return [
         'families' => ['slug' => 'families', 'name' => 'Families', 'name_ar' => 'العائلات'],
         'marriages' => ['slug' => 'marriages', 'name' => 'Marriages', 'name_ar' => 'الزواجات'],
         'newborns' => ['slug' => 'newborns', 'name' => 'Newborns', 'name_ar' => 'المواليد'],
-        'death' => ['slug' => 'death', 'name' => 'Death', 'name_ar' => 'الوفيات'],
+        'deaths' => ['slug' => 'deaths', 'name' => 'Deaths', 'name_ar' => 'الوفيات'],
         'media' => ['slug' => 'media', 'name' => 'Media', 'name_ar' => 'معرض الصور'],
         'events' => ['slug' => 'events', 'name' => 'Events', 'name_ar' => 'المناسبات'],
         'searching' => ['slug' => 'searching', 'name' => 'Searching', 'name_ar' => 'عملية البحث'],
@@ -81,11 +81,11 @@ return [
             ['name' => 'newborns.update', 'name_ar' => 'تعديل ولادة', 'description' => 'تعديل ولادة'],
             ['name' => 'newborns.delete', 'name_ar' => 'حذف ولادة', 'description' => 'حذف ولادة'],
         ],
-        'death' => [
-            ['name' => 'death.read', 'name_ar' => 'مشاهدة الوفيات', 'description' => 'مشاهدة الوفيات'],
-            ['name' => 'death.create', 'name_ar' => 'اضافة وفاة', 'description' => 'اضافة وفاة'],
-            ['name' => 'death.update', 'name_ar' => 'تعديل وفاة', 'description' => 'تعديل وفاة'],
-            ['name' => 'death.delete', 'name_ar' => 'حذف وفاة', 'description' => 'حذف وفاة'],
+        'deaths' => [
+            ['name' => 'deaths.read', 'name_ar' => 'مشاهدة الوفيات', 'description' => 'مشاهدة الوفيات'],
+            ['name' => 'deaths.create', 'name_ar' => 'اضافة وفاة', 'description' => 'اضافة وفاة'],
+            ['name' => 'deaths.update', 'name_ar' => 'تعديل وفاة', 'description' => 'تعديل وفاة'],
+            ['name' => 'deaths.delete', 'name_ar' => 'حذف وفاة', 'description' => 'حذف وفاة'],
         ],
         'media' => [
             ['name' => 'media.read', 'name_ar' => 'مشاهدة الوسائط', 'description' => 'مشاهدة الوسائط'],
@@ -131,6 +131,7 @@ return [
 
     // main menu
     'main_menu' => [
+        ['id' => 0, 'title' => 'Search', 'title_ar' => 'البحث', 'link' => 'search', 'icon' => 'ri-search-line', 'permission' => null, 'child' => null],
         ['id' => 1, 'title' => 'Profile', 'title_ar' => 'الرئيسية', 'link' => 'home', 'icon' => 'ri-home-line', 'permission' => null, 'child' => null],
 //        ['id' => 2, 'title' => 'Family', 'title_ar' => 'العائلة', 'link' => 'home', 'icon' => 'ri-group-2-line', 'permission' => '', 'child' => null],
         ['id' => 3, 'title' => 'About Family', 'title_ar' => 'نبذة عن العائلة', 'link' => 'about', 'icon' => 'ri-information-line', 'permission' => null, 'child' => null],
