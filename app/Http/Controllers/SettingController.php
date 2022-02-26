@@ -60,9 +60,9 @@ class SettingController extends Controller
             'app_description_ar' => ['required'],
             'app_about_ar' => ['required'],
             'app_terms_ar' => ['required'],
-            'app_icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
-            'app_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
-            'family_tree_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'app_icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
+            'app_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
+            'family_tree_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
             'default_user_role' => ['required', 'exists:roles,id'],
         ]);
 

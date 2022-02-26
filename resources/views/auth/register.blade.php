@@ -21,7 +21,7 @@
 
                     <x-auth-validation-errors dir="rtl" class="alert alert-danger mb-4" role="alert" :errors="$errors" />
 
-                    <form dir="rtl" class="mt-4" method="POST" action="{{ route('register') }}">
+                    <form name="registerForm" dir="rtl" class="mt-4" method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="form-group">
@@ -30,38 +30,45 @@
                         </div>
                         <div class="form-group">
                             <label for="father_name">{{ __('اسم الأب') }}</label>
-                            <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="2" placeholder="{{ __('اسم الأب') }}" value="{{ old('father_name') }}" required autofocus>
+                            <input type="text" name="father_name" class="form-control mb-0" id="father_name" tabindex="2" placeholder="{{ __('اسم الأب') }}" value="{{ old('father_name') }}" required>
                         </div>
                         <div class="form-group">
                             <label for="gender">{{ __('النوع') }}</label>
-                            <select id="gender" name="gender" tabindex="3" class="form-control mb-0" value="{{ old('gender') }}" required autofocus>
-                                <option value="male">{{ __('ذكر') }}</option>
-                                <option value="female">{{ __('أنثى') }}</option>
+                            <select id="gender" name="gender" tabindex="3" class="form-control mb-0" required>
+                                <option value="male"{{ old('gender') == 'male' ? 'selected' : '' }}>{{ __('ذكر') }}</option>
+                                <option value="female"{{ old('gender') == 'female' ? 'selected' : '' }}>{{ __('أنثى') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="has_family">الحالة الاجتماعية</label>
+                            <select id="has_family" name="has_family" tabindex="4" class="form-control mb-0" required>
+                                <option value="0"{{ old('has_family') == '0' ? 'selected' : ''  }}>غير متزوج</option>
+                                <option value="1"{{ old('has_family') == '1' ? 'selected' : ''  }}>متزوج</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="mobileNumber">{{ __('رقم الجوال') }}</label>
-                            <input type="number" name="mobile" class="form-control numeric mb-0" id="mobileNumber" tabindex="4" placeholder="أدخل رقم الجوال"  required>
+                            <input type="text" name="mobile" class="form-control numeric mb-0" id="mobileNumber" tabindex="5" placeholder="أدخل رقم الجوال" value="{{ old('mobile') }}"  required>
                         </div>
                         <div class="form-group">
                             <label for="email">{{ __('البريد الإلكتروني') }}</label>
-                            <input type="email" name="email" class="form-control mb-0" id="email" tabindex="5" placeholder="أدخل البريد الإلكتروني" value="{{ old('email') }}" required>
+                            <input type="email" name="email" class="form-control mb-0" id="email" tabindex="6" placeholder="أدخل البريد الإلكتروني" value="{{ old('email') }}" required>
                         </div>
                         <div class="form-group">
                             <label for="password">{{ __('كلمة المرور') }}</label>
-                            <input type="password" name="password" class="form-control mb-0" id="password" tabindex="6" placeholder="{{ __('كلمة المرور') }}" required autocomplete="new-password">
+                            <input type="password" name="password" class="form-control mb-0" id="password" tabindex="7" placeholder="{{ __('كلمة المرور') }}" required autocomplete="new-password">
                         </div>
                         <div class="form-group">
                             <label for="password_confirmation">{{ __('تأكيد كلمة المرور') }}</label>
-                            <input type="password" name="password_confirmation" class="form-control mb-0" id="password_confirmation" tabindex="7" placeholder="{{ __('تأكيد كلمة المرور') }}" required>
+                            <input type="password" name="password_confirmation" class="form-control mb-0" id="password_confirmation" tabindex="8" placeholder="{{ __('تأكيد كلمة المرور') }}" required>
                         </div>
                         <div class="d-inline-block w-100">
                             <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1 float-right my-2">
-                                <input type="checkbox" name="terms" class="custom-control-input" id="terms" required {{ old('terms') == 'on' ? 'checked' : '' }} >
+                                <input type="checkbox" name="terms" class="custom-control-input" id="terms" tabindex="9" required {{ old('terms') == 'on' ? 'checked' : '' }} >
                                 <label class="custom-control-label" for="terms"> عند الاشتراك فانت توافق على </label>
                                 <a href="#" class="mx-1" data-toggle="modal" data-target="#termsModal">شروط الاستخدام </a>
                             </div>
-                            <button type="submit" class="btn btn-primary float-left py-3 px-5" tabindex="9">اشتراك</button>
+                            <button type="submit" class="btn btn-primary float-left py-3 px-5" tabindex="10">اشتراك</button>
                         </div>
                         <div class="sign-info">
                             <span class="dark-color d-inline-block line-height-2">لديك حساب بالفعل؟
@@ -105,3 +112,32 @@
         </div>
     </div>
 </div>
+
+<script>
+    function phoneFormat(input){
+        // Strip all characters from the input except digits
+        input = input.replace(/\D/g,'');
+
+        // Trim the remaining input to ten characters, to preserve phone number format
+        input = input.substring(0,10);
+
+        // Based upon the length of the string, we add formatting as necessary
+        // var size = input.length;
+        // if(size == 0){
+        //     input = input;
+        // }else if(size < 4){
+        //     input = '('+input;
+        // }else if(size < 7){
+        //     input = '('+input.substring(0,3)+') '+input.substring(3,6);
+        // }else{
+        //     input = '('+input.substring(0,3)+') '+input.substring(3,6)+' - '+input.substring(6,10);
+        // }
+        return input;
+    }
+
+    document.getElementById('mobileNumber').addEventListener('keyup',function(evt){
+        var phoneNumber = document.getElementById('mobileNumber');
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        phoneNumber.value = phoneFormat(phoneNumber.value);
+    });
+</script>
