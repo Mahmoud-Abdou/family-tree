@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Models\City;
 use App\Models\Media;
+use App\Models\News;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -89,6 +90,16 @@ class EventController extends Controller
 
         $event = Event::create($request->all());
 
+        $news_data = [];
+        $news_data['owner_id'] = $request['owner_id'];
+        $news_data['city_id'] = 1;
+        $news_data['category_id'] = $request['category_id'];
+        $news_data['approved'] = 0;
+        $news_data['title'] = $request['title'];
+        $news_data['body'] = $request['body'];
+        $news = News::create($news_data);
+
+
         \App\Helpers\AppHelper::AddLog('Event Create', class_basename($event), $event->id);
         return redirect()->route('events.index')->with('success', 'تم اضافة مناسبة جديدة .');
     }
@@ -103,7 +114,7 @@ class EventController extends Controller
     {
         $menuTitle = $event->title;
         $pageTitle = 'القائمة الرئيسية';
-        $lastEvents = Event::latest()->take(5)->get();
+        $lastEvents = Event::active()->latest()->take(5)->get();
 
         return view('web_app.events.show', compact('menuTitle', 'pageTitle', 'event', 'lastEvents'));
     }

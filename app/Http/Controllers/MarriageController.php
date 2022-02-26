@@ -114,7 +114,10 @@ class MarriageController extends Controller
             $new_family['gf_family_id'] = $request['family_id'];
             $new_family['status'] = 1;
             $new_family = Family::create($new_family);
-
+            
+            $father->has_family = 1;
+            $father->save();
+            
             $marriage = Marriage::create($request->all());
 
             $request['city_id'] = 1;

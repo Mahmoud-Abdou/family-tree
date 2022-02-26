@@ -78,7 +78,7 @@ class NewbornController extends Controller
             return redirect()->back()->with('error', 'حدث خطا');
         }
         if(!isset(auth()->user()->profile->belongsToFamily)){
-            return redirect()->back()->with('error', 'حدث خطا');
+            return redirect()->back()->with('error', 'لا يمكنك اضافة مولود لانك غير متزوج ');
         }
         // TODO: related to father family id.
         if (auth()->user()->profile->has_family && isset(auth()->user()->profile->ownFamily[0])) {
