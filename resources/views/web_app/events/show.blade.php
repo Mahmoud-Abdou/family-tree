@@ -74,11 +74,11 @@
                                                         @endcan
                                                     @endif
 
-                                                    <a href="#" data-toggle="tooltip" data-placement="top"
+                                                    <!-- <a href="#" data-toggle="tooltip" data-placement="top"
                                                        title="اضافة الى المفضلة"
                                                        data-original-title="اضافة الى المفضلة">
                                                         <i class="ri-heart-line"></i>
-                                                    </a>
+                                                    </a> -->
 
                                                     <span data-toggle="tooltip" data-placement="top" title="التبليغ عن الخبر"
                                                           data-original-title="التبليغ عن الخبر">

@@ -25,10 +25,14 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'partner_email' => ['required_if:has_family,1'],
+            'partner_first_name' => ['required_if:has_family,1'],
+            'partner_father_name' => ['required_if:has_family,1'],
+            'partner_mobile' => ['required_if:has_family,1'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'mobile' => ['required', 'unique:users'],
-//            'mobile' => ['required', 'numeric', 'unique:users'],
+        //    'mobile' => ['required', 'numeric', 'unique:users'],
             'password' => ['required', 'confirmed', PasswordRule::defaults()],
         ];
     }

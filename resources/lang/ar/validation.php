@@ -108,7 +108,7 @@ return [
     'prohibits' => 'The :attribute field prohibits :other from being present.',
     'regex' => ':attribute التنسيق غير صالح.',
     'required' => ':attribute الحقل مطلوب.',
-    'required_if' => 'The :attribute field is required when :other is :value.',
+    'required_if' => 'الحقل :attribute مطلوب إذا كنت متزوج.',
     'required_unless' => 'The :attribute field is required unless :other is in :values.',
     'required_with' => 'The :attribute field is required when :values is present.',
     'required_with_all' => 'The :attribute field is required when :values are present.',
@@ -128,7 +128,6 @@ return [
     'uploaded' => 'فشل تحميل الملف.',
     'url' => 'يجب أن تكون القيمة عنوان URL صالحًا.',
     'uuid' => 'يجب أن تكون القيمة UUID صالحة.',
-
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -182,6 +181,11 @@ return [
         'husband_id' => 'الزوج',
         'wife' => 'الزوجة',
         'wife_id' => 'الزوجة',
+        'partner_email' => "بريد الزوج/ة",
+        'partner_first_name' => "اسم الزوج/ة",
+        'partner_father_name' => "اسم اب الزوج/ة",
+        'partner_mobile' => "رقم جوال الزوج/ة",
+
     ],
 
 ];
