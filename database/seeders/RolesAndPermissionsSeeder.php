@@ -36,11 +36,11 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // or may be done by chaining
         Role::create(['name' => 'Moderator', 'name_ar' => 'مسؤول', 'description' => 'مسؤول عن بعض العمليات'])
-            ->givePermissionTo(['users.read', 'users.update', 'users.activate', 'cities.read', 'cities.create', 'cities.update', 'cities.delete', 'categories.read', 'categories.create', 'categories.update', 'categories.delete']);
+            ->givePermissionTo(['users.read', 'users.update', 'users.activate', 'cities.read', 'cities.create', 'cities.update', 'cities.delete', 'categories.read', 'categories.create', 'categories.update', 'categories.delete', 'dashboard.read', 'reports.read']);
 
         // this can be done as separate statements
         Role::create(['name' => 'Viewer', 'name_ar' => 'مستخدم', 'description' => 'مستخدم بصلاحيات شخصية'])
-            ->givePermissionTo(['events.read', 'events.update', 'news.read', 'news.update', 'newborns.read', 'newborns.update', 'death.read', 'death.update', 'media.read', 'media.update']);
+            ->givePermissionTo(['events.read', 'events.update', 'news.read', 'news.update', 'newborns.read', 'newborns.update', 'deaths.read', 'death.update', 'media.read', 'media.update', 'reports.create', 'comments.read', 'comments.create', 'marriages.read', 'marriages.create']);
 
         // create super admin user
         $user = User::create([
