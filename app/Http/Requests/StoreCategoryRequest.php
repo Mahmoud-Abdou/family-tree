@@ -26,7 +26,7 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name_en' => ['required'],
             'name_ar' => ['required'],
-            'type' => ['required', 'in:general,media,video,event,news,newborn,marriages'],
+            'type' => ['required', 'in:general,media,video,event,news,newborn,marriages,deaths'],
             'icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
             'color' => ['nullable']

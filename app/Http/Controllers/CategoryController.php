@@ -81,8 +81,8 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        $request->slug = Str::slug($request->name_en);
         $category->fill($request->all());
-        $category->slug = Str::slug($request->name_en);
 
         if ($request->hasfile('icon')) {
             $category->icon = $this->ImageUpload($request->file('icon'), $category->photoPath, $category->slug.'-icon');
