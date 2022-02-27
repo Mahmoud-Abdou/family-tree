@@ -126,6 +126,12 @@ return [
             ['name' => 'comments.create', 'name_ar' => 'كتابة التعليقات', 'description' => 'كتابة التعليقات'],
             ['name' => 'comments.update', 'name_ar' => 'تعديل التعليقات', 'description' => 'تعديل التعليقات'],
             ['name' => 'comments.delete', 'name_ar' => 'حذف التعليقات', 'description' => 'حذف التعليقات'],
+        ],
+        'reports' => [
+            ['name' => 'reports.read', 'name_ar' => 'قراءة الشكاوي', 'description' => 'قراءة الشكاوي'],
+            ['name' => 'reports.create', 'name_ar' => 'كتابة الشكاوي', 'description' => 'كتابة الشكاوي'],
+            ['name' => 'reports.update', 'name_ar' => 'تعديل الشكاوي', 'description' => 'تعديل الشكاوي'],
+            ['name' => 'reports.delete', 'name_ar' => 'حذف الشكاوي', 'description' => 'حذف الشكاوي'],
         ]
     ],
 
