@@ -64,7 +64,7 @@ class MarriageController extends Controller
         }
         $family_id = auth()->user()->profile->family_id;
         $male = Person::where('family_id', $family_id)
-                        ->where('has_family', 0)
+//                        ->where('has_family', 0)
                         ->where('is_live', 1)
                         ->where('gender', 'male')
                         ->get();
@@ -86,11 +86,24 @@ class MarriageController extends Controller
     public function store(StoreMarriageRequest $request)
     {
         try{
+            $father = Person::where('id', $request['husband_id'])->first();
+            $wife = Person::where('id', $request['wife_id'])->first();
+
+            $new_family = [];
+            $new_family['name'] = 'عائلة ' . $father->first_name;
+            $new_family['father_id'] = $father->id;
+            $new_family['mother_id'] = $wife->id;
+            $new_family['children_count'] = 0;
+            $new_family['gf_family_id'] = isset(auth()->user()->profile->belongsToFamily) ? auth()->user()->profile->belongsToFamily->id : null;
+            $new_family['status'] = 1;
+            $new_family = Family::create($new_family);
+
+            $father->has_family = 1;
+            $wife->has_family = 1;
+            $father->save();
+
             $request['owner_id'] = auth()->id();
-            if (!isset(auth()->user()->profile->belongsToFamily)) {
-                return redirect()->back()->with('error', 'حدث خطا');
-            }
-            $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+            $request['family_id'] = $new_family->id;
             $request['date'] = Carbon::parse($request['date']);
 
             $category_id = Category::where('type', 'marriages')->first();
@@ -103,20 +116,6 @@ class MarriageController extends Controller
             else{
                 $request['image_id'] = null;
             }
-
-            $father = Person::where('id', $request['husband_id'])->first();
-
-            $new_family = [];
-            $new_family['name'] = 'عائلة ' . $father->first_name;
-            $new_family['father_id'] = $request['husband_id'];
-            $new_family['mother_id'] = $request['wife_id'];
-            $new_family['children_count'] = 0;
-            $new_family['gf_family_id'] = $request['family_id'];
-            $new_family['status'] = 1;
-            $new_family = Family::create($new_family);
-
-            $father->has_family = 1;
-            $father->save();
 
             $marriage = Marriage::create($request->all());
 
@@ -150,9 +149,12 @@ class MarriageController extends Controller
      */
     public function show($marriage_id)
     {
-        $menuTitle = 'عرض الزواج';
-        $pageTitle = 'القائمة الرئيسية';
         $marriage = Marriage::findOrFail($marriage_id);
+        if (!isset($marriage)) {
+            return back();
+        }
+        $menuTitle = $marriage->title;
+        $pageTitle = 'القائمة الرئيسية';
         $lastMarriage = Marriage::latest()->take(5)->get();
 
         return view('web_app.marriages.show', compact('menuTitle', 'pageTitle', 'marriage', 'lastMarriage'));
@@ -166,7 +168,10 @@ class MarriageController extends Controller
      */
     public function edit(Marriage $marriage)
     {
-        $menuTitle = 'تعديل حالة زواج';
+        if (!isset($marriage)) {
+            return back();
+        }
+        $menuTitle = ' تعديل حالة زواج ' . $marriage->title;
         $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.marriages.update', compact('menuTitle', 'pageTitle', 'marriage'));

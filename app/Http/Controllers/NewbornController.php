@@ -77,7 +77,7 @@ class NewbornController extends Controller
         if(!isset(auth()->user()->profile)){
             return redirect()->back()->with('error', 'حدث خطا');
         }
-        if(!isset(auth()->user()->profile->belongsToFamily)){
+        if(!auth()->user()->profile->has_family){
             return redirect()->back()->with('error', 'لا يمكنك اضافة مولود لانك غير متزوج ');
         }
         // TODO: related to father family id.
@@ -130,9 +130,12 @@ class NewbornController extends Controller
      */
     public function show($newborn_id)
     {
-        $menuTitle = 'عرض المولود';
-        $pageTitle = 'القائمة الرئيسية';
         $newborn = Newborn::where('id', $newborn_id)->first();
+        if (!isset($newborn)) {
+            return back();
+        }
+        $menuTitle = $newborn->title;
+        $pageTitle = 'القائمة الرئيسية';
         $lastNewborn = Newborn::latest()->take(5)->get();
 
         return view('web_app.newborns.show', compact('menuTitle', 'pageTitle', 'newborn', 'lastNewborn'));
@@ -146,7 +149,10 @@ class NewbornController extends Controller
      */
     public function edit(Newborn $newborn)
     {
-        $menuTitle = 'تعديل مولود';
+        if (!isset($newborn)) {
+            return back();
+        }
+        $menuTitle = ' تعديل مولود ' . $newborn->title;
         $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.newborns.update', compact('menuTitle', 'pageTitle', 'newborn'));

@@ -13,6 +13,7 @@
                 <div class="col-lg-12">
 
                     @include('partials.messages')
+                    @include('partials.errors-messages')
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
@@ -43,7 +44,7 @@
                                         <select name="category_id" id="category_id" class="form-control mb-0" required>
                                             <option>اختر النوع</option>
                                             @foreach($categories as $category)
-                                                @if($category->id == $news->category->id)
+                                                @if($category->id == $news->category_id)
                                                     <option value="{{$category->id}}" selected>{{ $category->name_ar }}</option>
                                                 @else
                                                     <option value="{{$category->id}}">{{ $category->name_ar }}</option>

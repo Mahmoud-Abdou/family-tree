@@ -132,7 +132,7 @@ class EventController extends Controller
         if (!isset($event)) {
             return back();
         }
-        $menuTitle = 'تعديل مناسبة';
+        $menuTitle = ' تعديل مناسبة '. $event->title;
         $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'event')->get();

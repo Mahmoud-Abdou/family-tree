@@ -1046,3 +1046,10 @@ body.two-sidebar.sidebar-main .iq-sidebar-logo { width: 60px }
     width: fit-content;
     object-fit: cover;
 }
+
+.card-size-lo {
+    height: 160px;
+    width: 100% !important;
+    object-fit: cover;
+}
+

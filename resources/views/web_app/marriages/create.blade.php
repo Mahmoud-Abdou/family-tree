@@ -27,16 +27,16 @@
                             <div class="form-group col-lg-6">
                                 <label for="husband_id">اسم الزوج</label>
                                 <select name="husband_id" id="husband_id" class="js-basic-multiple form-control mb-0" required autofocus>
-                                    <option>اختر الزوج</option>
+                                    <option disabled>اختر الزوج</option>
                                     @foreach($male as $person)
-                                        <option value="{{$person->id}}">{{ $person->first_name }}</option>
+                                        <option value="{{$person->id}}" {{ $person->id == auth()->id() ? 'selected' : '' }}>{{ $person->first_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="wife_id">اسم الزوجة</label>
                                 <select name="wife_id" id="wife_id" class="js-basic-multiple form-control mb-0" required autofocus>
-                                    <option>اختر الزوجة</option>
+                                    <option disabled>اختر الزوجة</option>
                                     @foreach($female as $person)
                                         <option value="{{$person->id}}">{{ $person->first_name }}</option>
                                     @endforeach

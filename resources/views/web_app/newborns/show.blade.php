@@ -109,28 +109,24 @@
                         <div class="iq-card-body p-0">
 
                             @if($lastNewborn->count() > 0)
-                                <div id="marriageSlider" class="slick-slider">
+                                <div id="newbornSlider" class="slick-slider">
                                     @foreach($lastNewborn as $e)
-                                        <div class="product_item col-lg-4 col-md-6 col-sm-12">
-                                            <div class="product-miniature-lo">
-                                                <div class="thumbnail-container-lo">
-                                                    <a href="{{ route('newborns.show', $e) }}">
-                                                        <img src="{{ isset($e->image->file) ? $e->image->file : url('default.png') }}" alt="{{ $e->title }}" class="img-fluid">
-                                                    </a>
-                                                </div>
-                                                <div class="product-description-lo">
-                                                    <h4>{{ $e->title }}</h4>
-                                                    <p class="mb-0">{!! $e->short_body !!}</p>
-                                                    <hr>
-                                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                                        <div class="product-action">
-                                                            <div class="wishlist mx-3">
-                                                                <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ"><i class="ri-timer-2-line"> </i> {{ date('Y-m-d', strtotime($e->event_date)) }}</p>
-                                                            </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <a href="{{ route('newborns.show', $e) }}">
+                                                <div class="card iq-mb-3 shadow iq-bg-primary-hover">
+                                                    <img src="{{ isset($e->image->file) ? $e->image->file : url('default.png') }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $e->title }}">
+                                                    <div class="card-body card-size-lo">
+                                                        <h4 class="card-title">{{ $e->title }}</h4>
+                                                        <hr />
+                                                        <p class="card-text">{!! $e->short_body !!}</p>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <div class="d-flex justify-content-between" dir="ltr">
+                                                            <p class="card-text m-0"><i class="ri-timer-2-fill"> </i><small class="text-muted">{{ date('Y-m-d', strtotime($e->date)) }}</small></p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     @endforeach
                                 </div>

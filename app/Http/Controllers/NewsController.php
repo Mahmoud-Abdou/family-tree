@@ -131,7 +131,7 @@ class NewsController extends Controller
         if (!isset($news)) {
             return back();
         }
-        $menuTitle = 'تعديل خبر';
+        $menuTitle = ' تعديل خبر '. $news->title;
         $pageTitle = 'القائمة الرئيسية';
         $cities = City::where('status', 1)->get();
         $categories = Category::where('type', 'news')->get();

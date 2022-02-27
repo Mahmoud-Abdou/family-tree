@@ -133,9 +133,12 @@ class DeathController extends Controller
      */
     public function show($death_id)
     {
-        $menuTitle = 'عرض المتوفي';
-        $pageTitle = 'القائمة الرئيسية';
         $death = Death::where('id', $death_id)->first();
+        if (!isset($death)) {
+            return back();
+        }
+        $menuTitle = $death->title;
+        $pageTitle = 'القائمة الرئيسية';
         $death['type'] = 'deaths';
         $lastDeaths = Death::latest()->take(5)->get();
 
@@ -150,7 +153,10 @@ class DeathController extends Controller
      */
     public function edit(Death $death)
     {
-        $menuTitle = 'تعديل حالة وفاة';
+        if (!isset($death)) {
+            return back();
+        }
+        $menuTitle = ' تعديل حالة وفاة '. $death->title;
         $pageTitle = 'القائمة الرئيسية';
 
         return view('web_app.deaths.update', compact('menuTitle', 'pageTitle', 'death'));

@@ -96,7 +96,7 @@
                             <a href="{{ route('deaths.show', $row->id) }}">
                                 <div class="card iq-mb-3 shadow iq-bg-primary-hover">
                                     <img src="{{ isset($row->image->file) ? $row->image->file : url('default.png') }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $row->title }}">
-                                    <div class="card-body">
+                                    <div class="card-body card-size-lo">
                                         <h4 class="card-title">{{ $row->title }}</h4>
                                         <hr />
                                         <p class="card-text">{!! $row->short_body !!}</p>

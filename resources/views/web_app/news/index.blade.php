@@ -127,7 +127,7 @@
                             <a href="{{ route('news.show', $row->id) }}">
                                 <div class="card iq-mb-3 shadow iq-bg-primary-hover">
 {{--                                    <img src="{{ isset($row->image->file) ? $row->image->file : url('default.png') }}" class="card-img-top img-fluid w-auto card-img-lo" alt="{{ $row->title }}">--}}
-                                    <div class="card-body">
+                                    <div class="card-body card-size-lo">
 {{--                                        <a class="float-right my-auto" href="{{ route('search.result', [$row->owner->name, $row->owner->id]) }}"><img class="avatar-30 rounded-circle img-fluid float-right m-1"--}}
 {{--                                                src="{{ $row->owner->profile->photo }}" alt="">{{ $row->owner->name }}</a>--}}
                                         <h4 class="card-title">{{ $row->title }}</h4>

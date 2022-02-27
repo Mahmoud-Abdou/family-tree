@@ -35,7 +35,7 @@
 
                                     <div class="form-group col-lg-6">
                                         <label for="date">تاريخ الولادات</label>
-                                        <input type="date" name="date" class="form-control mb-0" value="{{ $newborn->date->format('Y-m-d')  }}" id="date" required>
+                                        <input type="date" name="date" class="form-control mb-0" value="{{ date('Y-m-d', strtotime($newborn->date)) }}" id="date" required>
                                     </div>
 
                                     <div class="form-group col-lg-6 pt-3">
