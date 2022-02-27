@@ -113,13 +113,12 @@
                             <span class="office">${data.wife}</span>
                         </div>--}}
 
-                        <div class="title"><i class=${data.fatherSymbol}> </i> ${data.name}</div>
-                        <div class="content"> <i class=${data.motherSymbol}> </i>${data.wife}</div>
+                        <div class="title"><i class="${data.fatherSymbol} float-right"> </i> ${data.name}</div>
+                        <div class="content"> <i class="${data.motherSymbol} float-right"> </i>${data.wife}</div>
                     `;
                 };
 
                 var oc = $('#family-tree-div').orgchart({
-                    {{--'data' : "{{ url('get-family-tree') }}",--}}
                     'data' : datascource,
                     'direction': 't2b',
                     'nodeContent': 'title',

@@ -20,7 +20,7 @@
                             <h5 class="float-left my-auto"><i class="ri-price-tag-2-lines"> </i> {{ $menuTitle }}</h5>
                         </div>
 
-                        <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.categories.update', $category->id) }}" enctype="multipart/form-data">
+                        <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.categories.update', $category->slug) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 

@@ -8,9 +8,8 @@ return [
     // report types
     'report-types' => ['deaths', 'newborns', 'events', 'news', 'marriages', 'media'],
 
-
     // Categories types
-    'category-types' => ['general', 'media', 'video', 'event', 'news', 'newborn', 'marriages', 'deaths'],
+    'category-types' => ['general', 'event', 'newborn', 'marriages', 'deaths', 'news'], // 'media', 'video',
 
     //all roles
     'roles' => [

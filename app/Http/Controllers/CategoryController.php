@@ -105,6 +105,6 @@ class CategoryController extends Controller
     {
         $category->delete();
         \App\Helpers\AppHelper::AddLog('Category Delete', class_basename($category), $category->id);
-        return redirect()->route('admin.cities.index')->with('success', 'تم حذف بيانات التصنيف بنجاح.');
+        return redirect()->route('admin.categories.index')->with('success', 'تم حذف بيانات التصنيف بنجاح.');
     }
 }

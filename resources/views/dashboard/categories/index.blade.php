@@ -57,11 +57,11 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                         @can('categories.read|categories.update')
-                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('admin.categories.show', $category->id) }}"><i class="ri-information-fill"> </i></a>
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.categories.edit', $category->id) }}"><i class="ri-edit-2-fill"> </i></a>
+                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('admin.categories.show', $category->slug) }}"><i class="ri-information-fill"> </i></a>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.categories.edit', $category->slug) }}"><i class="ri-edit-2-fill"> </i></a>
                                                         @endcan
                                                         @can('categories.delete')
-                                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
+                                                        <form action="{{ route('admin.categories.destroy', $category->slug) }}" method="POST">
                                                             @csrf
                                                             @method('DELETE')
 

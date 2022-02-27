@@ -62,7 +62,7 @@ return [
         'array' => 'The :attribute must have :value items or more.',
     ],
     'image' => 'يجب أن يكون الملف المحدد صورة.',
-    'in' => 'The selected :attribute is invalid.',
+    'in' => 'القيمة المحددة :attribute غير صحيحة.',
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => 'The :attribute must be an integer.',
     'ip' => 'The :attribute must be a valid IP address.',
@@ -185,7 +185,7 @@ return [
         'partner_first_name' => "اسم الزوج/ة",
         'partner_father_name' => "اسم اب الزوج/ة",
         'partner_mobile' => "رقم جوال الزوج/ة",
-
+        'type' => 'النوع',
     ],
 
 ];
