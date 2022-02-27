@@ -158,7 +158,7 @@
                             <div class="card-footer text-muted">
                                 <div class="row flex inline-flex justify-content-between p-2 mx-2">
                                     <button type="submit" class="btn px-5 btn-primary rounded-pill " tabindex="5"><i class="ri-save-2-fill"> </i>حفظ</button>
-                                    <div class="text-muted my-auto">
+                                    <div class="text-muted my-2">
                                         <i class="ri-time-fill mx-2"></i>
                                         آخر تعديل تم في
                                         <span class="mx-2">{{ $person->updated_at }}</span>
@@ -206,9 +206,9 @@
                             <div class="card-footer text-muted">
                                 <div class="row flex inline-flex justify-content-between p-2 mx-2">
                                     <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
-                                    <p class="my-auto mx-4">ملاحظة: عند تعديل بيانات الدخول سيتم تسجيل خروج من النظام.</p>
+                                    <p class="my-2">ملاحظة: عند تعديل بيانات الدخول سيتم تسجيل خروج من النظام.</p>
 
-                                    <div class="text-muted my-auto">
+                                    <div class="text-muted my-2">
                                         <i class="ri-time-fill mx-2"></i>
                                         آخر تعديل تم في
                                         <span class="mx-2">{{ $user->updated_at }}</span>

@@ -6,14 +6,12 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-// window.Echo.channel("News").listen(".news-app", e => {
-//     console.log(e);
-// });
+window.Echo.channel("News").listen(".news-app", e => {
+    // console.log(e);
+});
 
 Echo.channel(`News`)
     .listen('SendNewsNotification', (e) => {
         // console.log(e);
         // alert("SDA");
     });
-
-// console.log("asdasdasd");

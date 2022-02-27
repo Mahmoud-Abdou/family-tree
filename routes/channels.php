@@ -7,6 +7,5 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('News', function ($news) {
-    // dd("asd");
     return true;
 });

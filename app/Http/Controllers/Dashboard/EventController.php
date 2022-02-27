@@ -102,7 +102,7 @@ class EventController extends Controller
     public function show(Event $event)
     {
         $menuTitle = $event->title;
-        $pageTitle = 'القائمة الرئيسية';
+        $pageTitle = 'لوحة التحكم';
         $lastEvents = Event::latest()->take(5)->get();
 
         return view('dashboard.Events.show', compact('menuTitle', 'pageTitle', 'event', 'lastEvents'));
