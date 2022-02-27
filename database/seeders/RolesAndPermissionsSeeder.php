@@ -40,7 +40,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // this can be done as separate statements
         Role::create(['name' => 'Viewer', 'name_ar' => 'مستخدم', 'description' => 'مستخدم بصلاحيات شخصية'])
-            ->givePermissionTo(['events.read', 'events.update', 'news.read', 'news.update', 'newborns.read', 'newborns.update', 'deaths.read', 'death.update', 'media.read', 'media.update', 'reports.create', 'comments.read', 'comments.create', 'marriages.read', 'marriages.create']);
+            ->givePermissionTo(['events.read', 'events.update', 'news.read', 'news.update', 'newborns.read', 'newborns.update', 'deaths.read', 'deaths.update', 'media.read', 'media.update', 'reports.create', 'comments.read', 'comments.create', 'marriages.read', 'marriages.create']);
 
         // create super admin user
         $user = User::create([
