@@ -32,8 +32,9 @@
                                     <a class="btn-link text-secondary font-size-16" href="#">
                                         {{ $comment->owner->name }}
                                     </a>
-                                    <p class="text-muted text-sm"><i class="ri-calendar-event-line"> </i>
-                                        : {{ date('Y-m-d', strtotime($comment->created_at)) }}
+                                    <p class="text-muted text-sm">
+                                        {{ $comment->created_at->diffForHumans() }} :
+                                        <i class="ri-timer-line"></i>
                                     </p>
                                 </div>
                                 <h5>{{ $comment->body }}</h5>

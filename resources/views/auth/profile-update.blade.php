@@ -150,7 +150,7 @@
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="birth_date">تاريخ الميلاد</label>
-                                        <input type="date" name="birth_date" class="form-control mb-0" id="birth_date" value="{{ $person->birth_date }}">
+                                        <input type="date" name="birth_date" class="form-control mb-0" id="birth_date" value="{{ isset($person->birth_date) ? $person->birth_date : '' }}">
                                     </div>
                                 </div>
                             </div>

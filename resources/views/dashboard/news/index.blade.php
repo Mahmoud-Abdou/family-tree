@@ -159,7 +159,7 @@
                                                             <form method="POST" action="{{ route('admin.news.activate') }}">
                                                                 @csrf
                                                                 <input type="hidden" name="news_id" value="{{ $row->id }}">
-                                                                <button type="submit" class="btn btn-outline-success rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
+                                                                <button type="submit" class="btn btn-outline-success m-1 rounded-pill"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                             </form>
                                                         @endif
 
