@@ -87,7 +87,39 @@ class MarriageController extends Controller
     {
         try{
             $father = Person::where('id', $request['husband_id'])->first();
-            $wife = Person::where('id', $request['wife_id'])->first();
+            if($request['wife_id'] == 'add'){
+                $partner_person = User::where('email', $request['partner_email'])->orWhere('mobile', $request['partner_mobile'])->first();
+
+                if ($partner_person == null) {
+                    $partner_user = User::create([
+                        'name' => $request->partner_first_name,
+                        'email' => $request->partner_email,
+                        'mobile' => $request->partner_mobile,
+                        'password' => '123456789',
+                        'accept_terms' => 1,
+                        'status' => 'registered'
+                    ]);
+
+                    $wife = Person::create([
+                        'user_id' => $partner_user->id,
+                        'first_name' => $request->partner_first_name,
+                        'father_name' => $request->partner_father_name,
+                        'has_family' => 1,
+                        'gender' => 'female' ,
+                    ]);
+                }
+                else{
+                    return redirect()->back()->with('error', 'هذالبريد موجود.');
+                }
+            }
+            else{
+                $wife = Person::where('id', $request['wife_id'])->first();
+                if($wife == null){
+                    return redirect()->back()->with('error', 'اختر زوجة.');
+                }
+            }
+
+            $request['wife_id'] = $wife->id;
 
             $new_family = [];
             $new_family['name'] = 'عائلة ' . $father->first_name;
@@ -101,6 +133,7 @@ class MarriageController extends Controller
             $father->has_family = 1;
             $wife->has_family = 1;
             $father->save();
+            $wife->save();
 
             $request['owner_id'] = auth()->id();
             $request['family_id'] = $new_family->id;

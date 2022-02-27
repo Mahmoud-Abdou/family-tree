@@ -35,13 +35,15 @@
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="wife_id">اسم الزوجة</label>
-                                <select name="wife_id" id="wife_id" class="js-basic-multiple form-control mb-0" required autofocus>
-                                    <option disabled>اختر الزوجة</option>
+                                <select onchange="changeSelect(this.value)" name="wife_id" id="wife_id" class="js-basic-multiple form-control mb-0" required autofocus>
+                                    <option disabled selected>اختر الزوجة</option>
+                                    <option value="add"> اضافة زوجة</option>
                                     @foreach($female as $person)
                                         <option value="{{$person->id}}">{{ $person->first_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            
 
                             <div class="form-group col-lg-12">
                                 <label for="title">العنوان</label>
@@ -76,13 +78,49 @@
 
                         </div>
                     </div>
-
+                    
                     <div class="card-footer text-muted">
                         <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
                     </div>
-                    </form>
+                    
+                </div>
+                    <div class="modal fade" id="FamilyModel" tabindex="-1" role="dialog" aria-labelledby="FamilyModelLabel" style="display: none;"  aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="FamilyModelLabel"><i class="ri-user-fill"> </i>ادخال بيانات الزوجة </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
 
+                                    <div class="form-group col-lg-12">
+                                        <label for="partner_first_name">{{ __('الاسم') }}</label>
+                                        <input type="text" name="partner_first_name" class="form-control mb-0" id="partner_first_name" value="{{ old('partner_first_name') }}" placeholder="أدخل  الأسم">
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="partner_father_name">{{ __('اسم الأب') }}</label>
+                                        <input type="text" name="partner_father_name" class="form-control mb-0" id="partner_father_name" value="{{ old('partner_father_name') }}" placeholder="أدخل أسم الأب ">
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="partner_email">{{ __('البريد الإلكتروني') }}</label>
+                                        <input type="email" name="partner_email" class="form-control mb-0" id="partner_email" value="{{ old('partner_email') }}" placeholder="أدخل البريد الإلكتروني">
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <label for="partnerMobile">{{ __('رقم الجوال') }}</label>
+                                        <input type="text" name="partner_mobile" class="form-control numeric mb-0" id="partnerMobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}" >
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" data-dismiss="modal" class="btn btn-primary w-100 py-2">موافق</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </form>
 
                 </div>
             </div>
@@ -90,7 +128,7 @@
     </div>
 @endsection
 @section('add-scripts')
-    <script src="{{ secure_asset('assets/js/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/js/tinymce/tinymce.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -110,6 +148,12 @@
                 width: '100%',
             });
         });
+
+        function changeSelect(value){
+            if(value == 'add'){
+                $("#FamilyModel").modal('show')
+            }
+        }
     </script>
 
     <script>
