@@ -36,6 +36,7 @@ class NewbornController extends Controller
      */
     public function index(Request $request)
     {
+
         $menuTitle = 'المواليد';
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 15;
@@ -60,7 +61,14 @@ class NewbornController extends Controller
         $menuTitle = 'اضافة مولود';
         $pageTitle = 'القائمة الرئيسية';
 
-        return view('web_app.newborns.create', compact('menuTitle', 'pageTitle'));
+        if(auth()->user()->profile->gender == 'male'){
+            $wives = auth()->user()->profile->wives;
+        }
+        else{
+            $wives = [auth()->user()->profile];
+        }
+
+        return view('web_app.newborns.create', compact('menuTitle', 'pageTitle', 'wives'));
     }
 
     /**
@@ -81,11 +89,17 @@ class NewbornController extends Controller
             return redirect()->back()->with('error', 'لا يمكنك اضافة مولود لانك غير متزوج ');
         }
         // TODO: related to father family id.
-        if (auth()->user()->profile->has_family && isset(auth()->user()->profile->ownFamily[0])) {
-            $request['family_id'] = auth()->user()->profile->ownFamily[0]->id;
-        } else {
-            $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+        // if (auth()->user()->profile->has_family && isset(auth()->user()->profile->ownFamily[0])) {
+        //     $request['family_id'] = auth()->user()->profile->ownFamily[0]->id;
+        // } else {
+        //     $request['family_id'] = auth()->user()->profile->belongsToFamily->id;
+        // }
+
+        $request['family_id'] = Family::where('mother_id', $request['wife_id'])->first();
+        if($request['family_id'] == null){
+            return redirect()->back()->with('error', 'حدث خطا');
         }
+        $request['family_id'] = $request['family_id']->id;
 
         if ($request->hasFile('image')) {
             $media = new Media;
@@ -94,7 +108,14 @@ class NewbornController extends Controller
             $request['image_id'] = $media->id;
         }
 
-//        $news = News::create($request->all());
+        //        $news = News::create($request->all());
+
+        if(auth()->user()->profile->gender == 'male'){
+            $request['father_name'] = auth()->user()->profile->first_name;
+        }
+        else{
+            $request['father_name'] = auth()->user()->husband->first_name;
+        }
 
         $person = [];
         $person['user_id'] = 1;

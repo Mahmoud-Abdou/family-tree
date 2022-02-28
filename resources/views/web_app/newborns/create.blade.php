@@ -40,10 +40,14 @@
                                     <label for="first_name">الاسم</label>
                                     <input type="text" name="first_name" class="form-control mb-0" id="first_name" value="{{ old('first_name') }}" required >
                                 </div>
-
                                 <div class="form-group col-lg-4">
-                                    <label for="father_name">اسم الاب</label>
-                                    <input type="text" name="father_name" class="form-control mb-0" id="father_name" value="{{ old('father_name') }}" required >
+                                    <label for="wife_id">الزوجة</label>
+                                    <select name="wife_id" id="wife_id" class="form-control mb-0" required>
+                                        <option disabled>اختر الزوجة</option>
+                                        @foreach($wives as $wife)
+                                            <option value="{{$wife->id}}" {{ old('wife_id') == $wife->id ? 'selected' : '' }}>{{ $wife->first_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="form-group col-lg-4">

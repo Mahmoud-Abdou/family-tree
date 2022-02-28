@@ -277,4 +277,35 @@ class UserController extends Controller
         \App\Helpers\AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
     }
+
+    public function addNewPerson(Request $request)
+    {
+        $user = User::where('email', $request->email)
+                    ->orWhere('mobile', $request->mobile)
+                    ->first();
+        if($user != null){
+            return back()->with('error', 'هذاالفرد موجود !');
+        }
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'password' => '123456789',
+            'accept_terms' => 1,
+            'status' => 'registered',
+        ]);
+
+        $person = Person::create([
+            'user_id' => $user->id,
+            'first_name' => $request->name,
+            'father_name' => auth()->user()->profile->first_name,
+            'has_family' => 0,
+            'family_id' => $request['family_id'],
+            'gender' => $request->gender,
+        ]);
+        
+
+        \App\Helpers\AppHelper::AddLog('New User', class_basename($person), $person->id);
+        return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
+    }
 }

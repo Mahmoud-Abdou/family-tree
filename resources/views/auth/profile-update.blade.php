@@ -108,7 +108,7 @@
                                             <br>
                                             <div class="d-inline-flex">
                                                 <div class="custom-control custom-radio mx-4">
-                                                    <input type="radio" id="yes_has_family" name="has_family" value="true" class="custom-control-input" {{ $person->has_family ? 'checked' : '' }}>
+                                                    <input onclick="openMainWifeModel()" type="radio" id="yes_has_family" name="has_family" value="true" class="custom-control-input" {{ $person->has_family ? 'checked' : '' }}>
                                                     <label class="custom-control-label" for="yes_has_family"> متزوج/ة </label>
                                                 </div>
                                                 <div class="custom-control custom-radio mx-4">
@@ -165,8 +165,77 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal fade" id="familyModal" tabindex="-1" role="dialog" aria-labelledby="familyModalLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content shadow">
+                                    <div class="modal-header bg-primary">
+                                        <h5 class="modal-title" id="familyModalLabel"><i class="ri-group-2-fill"> </i>اضافة فرد للعائلة</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    
+                                        <div class="modal-body">
+                                            <input id="familyId" type="hidden" name="family_id">
+
+                                            <div class="form-group">
+                                                <label for="selectUser">ابحث و اختر الشخص، ليتم اضافته</label>
+                                                <select id="selectUser" name="wife_id" class="js-states form-control" style="width: 100%;">
+                                                    <option value="add">اختر زوجة او اضف</option>
+                                                    @foreach($female as $per)
+                                                        <option value="{{$per->id}}">{{$per->full_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <br>
+                                                <br>
+                                                <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#newPersonModal" onclick="openWifeModel()"><i class="ri-add-fill"> </i>اضف شخص غير موجود</button>
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" data-dismiss="modal" class="btn btn-primary w-100 py-2">موافق</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="newFamilyModel" tabindex="-1" role="dialog" aria-labelledby="NewFamilyModelLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="NewFamilyModelLabel"><i class="ri-user-fill"> </i>ادخال بيانات الزوج/ة </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_first_name">{{ __('الاسم') }}</label>
+                                            <input type="text" name="partner_first_name" class="form-control mb-0" id="partner_first_name" value="{{ old('partner_first_name') }}" placeholder="أدخل اﻷسم ">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_father_name">{{ __('اسم الأب') }}</label>
+                                            <input type="text" name="partner_father_name" class="form-control mb-0" id="partner_father_name" value="{{ old('partner_father_name') }}" placeholder="أدخل أسم اﻷب ">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_email">{{ __('البريد الإلكتروني') }}</label>
+                                            <input type="email" name="partner_email" class="form-control mb-0" id="partner_email" value="{{ old('partner_email') }}" placeholder="أدخل البريد الإلكتروني">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partnerMobile">{{ __('رقم الجوال') }}</label>
+                                            <input type="text" name="partner_mobile" class="form-control numeric mb-0" id="partnerMobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}" >
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" data-dismiss="modal" class="btn btn-primary w-100 py-2">موافق</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="tab-pane fade" id="manage-secret" role="tabpanel">
@@ -215,9 +284,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                    
+                </form>
             </div>
             </div>
         </div>
@@ -249,5 +319,13 @@
         $('#remove_photo_btn').click(function(){
             $('#remove_photo').val('true');
         });
+
+        function openMainWifeModel(){
+            $("#familyModal").modal('show')
+        }
+        function openWifeModel(){
+            $("#familyModal").modal('hide')
+            $("#newFamilyModel").modal('show')
+        }
     </script>
 @endsection

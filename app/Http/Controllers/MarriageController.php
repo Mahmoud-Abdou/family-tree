@@ -62,6 +62,19 @@ class MarriageController extends Controller
         if(!isset(auth()->user()->profile)){
             return redirect()->back()->with('error', 'حدث خطا');
         }
+        if(auth()->user()->profile->gender == 'female'){
+            if(!isset(auth()->user()->profile->wifeOwnFamily)){
+                return redirect()->back()->with('error', 'حدث خطا');
+            }
+            $husband_id = auth()->user()->profile->wifeOwnFamily->father_id;
+        }
+        else{
+            $husband_id = auth()->user()->profile->id;
+        }
+
+        $family_ids = Family::where('father_id', $husband_id)->pluck('id');
+        // dd($family_ids); 
+        
         $family_id = auth()->user()->profile->family_id;
         $male = Person::where('family_id', $family_id)
 //                        ->where('has_family', 0)
@@ -72,6 +85,7 @@ class MarriageController extends Controller
         $female = Person::where('is_live', 1)
                         ->where('gender', 'female')
                         ->where('has_family', 0)
+                        ->whereNotIn('family_id', $family_ids)
                         ->get();
 
         return view('web_app.marriages.create', compact('menuTitle', 'pageTitle', 'male', 'female'));
