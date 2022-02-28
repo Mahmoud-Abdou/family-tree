@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('profile/family', [UserController::class, 'updateFamily'])->name('user.family');
     Route::put('profile/foster_family', [UserController::class, 'addFosterFamily'])->name('user.foster_family');
     Route::put('profile/new_foster_family', [UserController::class, 'addNewFosterFamily'])->name('user.new_foster_family');
+    Route::put('profile/new_person', [UserController::class, 'addNewPerson'])->name('user.new_person');
 
     Route::resource('events', EventController::class);
     Route::resource('news', NewsController::class);

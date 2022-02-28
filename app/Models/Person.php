@@ -73,12 +73,16 @@ class Person extends Model
     public function belongsToFamily()
     {
         return $this->belongsTo('App\Models\Family', 'family_id', 'id');
-//        return $this->hasOne('App\Models\Family', 'id', 'family_id');
+        //        return $this->hasOne('App\Models\Family', 'id', 'family_id');
     }
 
     public function ownFamily()
     {
         return $this->hasMany('App\Models\Family', 'father_id', 'id');
+    }
+    public function wifeOwnFamily()
+    {
+        return $this->hasOne('App\Models\Family', 'mother_id', 'id');
     }
 
     public function husband()
