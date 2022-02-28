@@ -200,9 +200,9 @@
                         @csrf
                         <input id="roleUserId" type="hidden" name="user_id">
 
-                        <label for="roles">الصلاحية</label>
+                        <label for="roles">حدد الدور لاعطاء الصلاحيات</label>
                         <select class="form-control" id="roles" name="role_id">
-                            <option disabled="">حدد الصلاحية</option>
+                            <option disabled selected>حدد الدور</option>
                             @foreach($rolesData as $role)
                             <option value="{{ $role->id }}">{{ $role->name_ar }}</option>
                             @endforeach
