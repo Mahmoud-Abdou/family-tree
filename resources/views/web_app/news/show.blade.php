@@ -42,6 +42,12 @@
                                                     </p>
                                                 </div>
 
+                                                <div class="wishlist mx-3">
+                                                    <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ">
+                                                        <i class="ri-heart-line"> </i> {{ $news->likes->count() }}
+                                                    </p>
+                                                </div>
+                            
                                                 <div class="wishlist d-inline-flex mx-1 float-right">
                                                     @if($news->owner_id == auth()->id())
                                                         @can('news.update')
@@ -76,6 +82,11 @@
                                                         @endif
                                                     </span>
 
+                                                    <span data-toggle="tooltip" data-placement="top" title="مشاركة الخبر عبر WhatsApp" data-original-title="مشاركة الخبر عبر WhatsApp">
+                                                        <a href="https://api.whatsapp.com/send?text={{url()->full()}}" target="_blank" >
+                                                            <i class="ri-whatsapp-fill"> </i>
+                                                        </a>
+                                                    </span>
                                                     <span data-toggle="tooltip" data-placement="top" title="التبليغ عن الخبر" data-original-title="التبليغ عن الخبر">
                                                         <a href="#" data-toggle="modal" data-placement="top" data-target="#reportModal">
                                                             <i class="ri-alarm-warning-line"> </i>
