@@ -13,13 +13,16 @@
 
                 <div class="col-lg-12">
                     @include('partials.messages')
-
+                    
                     <div class="card iq-mb-3 shadow">
                         <div class="card-header d-inline-flex justify-content-between">
                             <h5><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
                             <button type="button" class="btn btn-outline-secondary rounded-pill" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
                                 <i class="ri-filter-2-line"> </i>البحث في النتائج
                             </button>
+                            @can('admin.users.create')
+                                <a href="{{ route('admin.users.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                            @endcan
                         </div>
                         <div class="card-header collapse" id="collapseFilters">
                             <form method="GET" action="{{ route('admin.users.index') }}">
@@ -125,33 +128,36 @@
                                     @if($usersData->count() > 0)
                                         @foreach($usersData as $user)
                                             <tr>
-                                                <td><a href="{{ route('admin.users.show', $user->id) }}">{{ $user->name }}</a></td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->mobile }}</td>
-                                                <td>@isset($user->city) {{ $user->city->name_ar }} @else - @endisset</td>
+                                                <td><a href="{{ route('admin.users.show', $user->id) }}">@isset($user->user) {{ $user->user->name }} @else {{ $user->first_name }} @endisset</a></td>
+                                                <td>@isset($user->user) {{ $user->user->email }} @else - @endisset</td>
+                                                <td>@isset($user->user) {{ $user->user->mobile }} @else - @endisset</td>
+                                                <td>@isset($user->user) {{ $user->user->city->name_ar }} @else - @endisset</td>
                                                 <td>
-                                                    {!! $user->statusHtml() !!}
+                                                    @isset($user->user) {!! $user->user->statusHtml() !!} @else - @endisset 
                                                 </td>
                                                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                     <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('admin.users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
                                                     @can('users.update')
-                                                    @if($user->status == 'registered' || $user->status == 'blocked')
+                                                    @if(isset($user->user) && ($user->user->status == 'registered' || $user->user->status == 'blocked'))
                                                         <form method="POST" action="{{ route('admin.users.activate') }}">
                                                             @csrf
-                                                            <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                            <input type="hidden" name="user_id" value="{{ $user->user->id }}">
                                                             <button type="submit" class="btn btn-outline-success rounded-pill m-1"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                         </form>
                                                     @endif
-                                                    @if($user->status == 'active')
-                                                        <button type="button" class="btn btn-outline-warning rounded-pill m-1" data-toggle="modal" data-target="#roleModal" onclick="modalRole({{ $user->id }})"><i class="ri-guide-line"> </i>الصلاحيات</button>
+                                                    @if(isset($user->user) && $user->user->status == 'active')
+                                                        <button type="button" class="btn btn-outline-warning rounded-pill m-1" data-toggle="modal" data-target="#roleModal" onclick="modalRole({{ $user->user->id }})"><i class="ri-guide-line"> </i>الصلاحيات</button>
                                                     @endif
                                                     @endcan
                                                     @can('users.delete')
-                                                        @if($user->status == 'active')
-                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->id }})"><i class="ri-delete-back-fill"></i></button>
+                                                        @if(isset($user->user) && $user->user->status == 'active')
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->user->id }})"><i class="ri-delete-back-fill"></i></button>
                                                         @endif
+                                                    @endcan
+                                                    @can('users.update')
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.users.edit', $user->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                     @endcan
                                                     </div>
                                                 </td>

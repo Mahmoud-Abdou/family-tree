@@ -186,6 +186,7 @@ return [
         'partner_father_name' => "اسم اب الزوج/ة",
         'partner_mobile' => "رقم جوال الزوج/ة",
         'type' => 'النوع',
+        'has_family' => 'الحالة الاجتماعية',
     ],
 
 ];
