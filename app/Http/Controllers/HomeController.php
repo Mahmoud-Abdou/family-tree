@@ -185,6 +185,11 @@ class HomeController extends Controller
         return view('search-single', compact('menuTitle', 'pageTitle', 'searchWord', 'user', 'person'));
     }
 
+    public function admin()
+    {
+        return redirect()->route('admin.dashboard');
+    }
+
     public function dashboard()
     {
         $appMenu = config('custom.app_menu');

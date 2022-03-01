@@ -190,7 +190,7 @@
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="7" class="text-center"> لا توجد بيانات </td>
+                                                <td colspan="7" class="text-center"><p class="p-5"> لا توجد بيانات </p></td>
                                             </tr>
                                         @endif
                                         </tbody>
@@ -254,7 +254,7 @@
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="6" class="text-center"> لا توجد بيانات </td>
+                                                <td colspan="6" class="text-center"><p class="p-5"> لا توجد بيانات </p></td>
                                             </tr>
                                         @endif
                                         </tbody>

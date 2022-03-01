@@ -8,13 +8,34 @@ use Illuminate\Http\Request;
 class FamilyController extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:families.read')->only(['index', 'show']);
+        $this->middleware('permission:families.create')->only(['create', 'store']);
+        $this->middleware('permission:families.update')->only(['edit', 'update']);
+        $this->middleware('permission:families.delete')->only('destroy');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'الأسر';
+        $pageTitle = 'لوحة التحكم';
+        $families = Family::paginate(20);
+
+        return view('dashboard.families.index', compact(
+            'appMenu', 'pageTitle', 'menuTitle', 'families'
+        ));
     }
 
     /**

@@ -267,7 +267,7 @@ class MarriageController extends Controller
     public function destroy(Marriage $marriage)
     {
         if(auth()->id() != $marriage->owner_id){
-            return redirect()->route('marriages.index')->with('error', 'لا يمكنك التعديل');
+            return redirect()->route('marriages.index')->with('error', 'لا يمكنك الحذف');
         }
         $marriage->image->DeleteFile($marriage->image);
         $marriage->image->delete();

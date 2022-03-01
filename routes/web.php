@@ -56,3 +56,10 @@ Route::middleware(['auth'])->group(function () {
 Route::fallback(function () {
     return redirect('/');
 });
+
+Route::get('test', function () {
+
+    $user = \App\Models\User::find(2);
+
+    dd($user, $user->profile->belongsToFamily, $user->profile->ownFamily);
+});

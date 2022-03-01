@@ -17,7 +17,7 @@
 
                     <div class="card iq-mb-3">
                     <div class="card-header">
-                        <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
+                        <h5 class="float-left my-auto"><i class="ri-guide-fill"> </i> {{ $menuTitle }}</h5>
                     </div>
 
                     <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.roles.update', $role->id) }}">

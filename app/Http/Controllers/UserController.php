@@ -69,7 +69,16 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'إضافة مستخدم';
+        $pageTitle = 'لوحة التحكم';
+
+        $roles = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
+        $cities = \App\Models\City::all();
+
+        return view('dashboard.users.create', compact(
+            'appMenu', 'pageTitle', 'menuTitle', 'roles', 'cities'
+        ));
     }
 
     /**
@@ -303,7 +312,7 @@ class UserController extends Controller
             'family_id' => $request['family_id'],
             'gender' => $request->gender,
         ]);
-        
+
 
         \App\Helpers\AppHelper::AddLog('New User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');

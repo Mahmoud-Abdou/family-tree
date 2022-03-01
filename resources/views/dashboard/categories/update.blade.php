@@ -17,7 +17,7 @@
 
                     <div class="card iq-mb-3">
                         <div class="card-header">
-                            <h5 class="float-left my-auto"><i class="ri-price-tag-2-lines"> </i> {{ $menuTitle }}</h5>
+                            <h5 class="float-left my-auto"><i class="ri-price-tag-2-line"> </i> {{ $menuTitle }}</h5>
                         </div>
 
                         <form dir="rtl" class="mt-4" method="POST" action="{{ route('admin.categories.update', $category->slug) }}" enctype="multipart/form-data">

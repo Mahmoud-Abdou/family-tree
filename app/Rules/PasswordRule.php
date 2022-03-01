@@ -42,7 +42,7 @@ class PasswordRule implements Rule, DataAwareRule, ValidatorAwareRule
      *
      * @var bool
      */
-    protected $mixedCase = true;
+    protected $mixedCase = false;
 
     /**
      * If the password requires at least one letter.
@@ -63,14 +63,14 @@ class PasswordRule implements Rule, DataAwareRule, ValidatorAwareRule
      *
      * @var bool
      */
-    protected $symbols = true;
+    protected $symbols = false;
 
     /**
      * If the password should has not been compromised in data leaks.
      *
      * @var bool
      */
-    protected $uncompromised = true;
+    protected $uncompromised = false;
 
     /**
      * The number of times a password can appear in data leaks before being consider compromised.

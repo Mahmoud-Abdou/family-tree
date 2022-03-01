@@ -37,13 +37,13 @@
                                 </div>
 
                                 <div class="form-group col-lg-4">
-                                    <label for="first_name">الاسم</label>
+                                    <label for="first_name">الاسم المولود</label>
                                     <input type="text" name="first_name" class="form-control mb-0" id="first_name" value="{{ old('first_name') }}" required >
                                 </div>
                                 <div class="form-group col-lg-4">
-                                    <label for="wife_id">الزوجة</label>
+                                    <label for="wife_id">حدد الأم</label>
                                     <select name="wife_id" id="wife_id" class="form-control mb-0" required>
-                                        <option disabled>اختر الزوجة</option>
+                                        <option disabled>اختر الأم</option>
                                         @foreach($wives as $wife)
                                             <option value="{{$wife->id}}" {{ old('wife_id') == $wife->id ? 'selected' : '' }}>{{ $wife->first_name }}</option>
                                         @endforeach
@@ -51,7 +51,7 @@
                                 </div>
 
                                 <div class="form-group col-lg-4">
-                                    <label>النوع</label>
+                                    <label>نوع المولود</label>
                                     <br>
                                     <div class="d-inline-flex">
                                         <div class="custom-control custom-radio mx-4">
@@ -79,7 +79,7 @@
                                         </div>
                                     </div>
                                     <div id="image-content" class="file-upload-content d-none">
-                                        <img class="file-upload-image" src="" alt="Event Image" />
+                                        <img class="file-upload-image" src="" alt="الصورة" />
                                         <div class="image-title-wrap">
                                             <button type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
                                         </div>

@@ -75,6 +75,7 @@ class ProfileController extends Controller
                         ->where('has_family', 0)
                         ->whereNotIn('family_id', $family_ids)
                         ->get();
+
         return view('auth.profile-update', compact('menuTitle', 'pageTitle', 'user', 'person', 'female'));
     }
 

@@ -52,7 +52,7 @@
                                             </div>
                                         </div>
                                         <div id="image-content" class="file-upload-content d-block">
-                                            <img class="file-upload-image" src="{{ isset($newborn->image->file) ? $newborn->image->file : url('default.png') }}" alt="Newborn Image" />
+                                            <img class="file-upload-image" src="{{ isset($newborn->image->file) ? $newborn->image->file : url('default.png') }}" alt="الصورة" />
                                             <div class="image-title-wrap">
                                                 <button id="removeImageBtn" type="button" class="remove-image">حذف <span class="image-title">الصورة المرفوعة</span></button>
                                             </div>

@@ -17,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
 
+    Route::get('/', [HomeController::class, 'admin'])->name('index');
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
     Route::group(['middleware' => ['permission:dashboard.read|dashboard.update']], function () {
-        Route::resource('users', UserController::class)->only(['index', 'show']);
+//        Route::resource('users', UserController::class)->only(['index', 'show']);
+        Route::resource('users', UserController::class);
         Route::post('users-activate', [UserController::class, 'activate'])->name('users.activate');
         Route::resource('roles', RoleController::class);
         Route::post('update-role', [UserController::class, 'roleAssign'])->name('users.roleAssign');
@@ -40,7 +42,7 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
     });
 
     Route::group(['middleware' => ['role:Super Admin']], function () {
-        Route::resource('users', UserController::class)->except(['index', 'show']);
+//        Route::resource('users', UserController::class)->except(['index', 'show']);
         Route::get('settings', ['\App\Http\Controllers\SettingController', 'show'])->name('settings.show');
         Route::put('settings/update', ['\App\Http\Controllers\SettingController', 'update'])->name('settings.update');
         Route::get('log', ['\App\Http\Controllers\ActivityController', 'index'])->name('log.index');

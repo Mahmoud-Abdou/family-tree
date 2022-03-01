@@ -29,7 +29,7 @@
                     @endforeach
                 </div>
             @endif
-            
+
 
         </div>
         <div class="card-footer">
@@ -76,7 +76,7 @@
                             @endforeach
                         </div>
                     @endif
-                    
+
 
                 </div>
                 <div class="card-footer">
@@ -113,7 +113,7 @@
                             </select>
                             <br>
                             <br>
-                            <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#newPersonModal" onclick="modalNewPerson({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضف شخص غير موجود</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#newPersonModal" onclick="modalNewPerson({{ isset($ownFamily->id) ? $ownFamily->id : null }})"><i class="ri-add-fill"> </i>اضف شخص غير موجود</button>
 
                         </div>
                     </div>
