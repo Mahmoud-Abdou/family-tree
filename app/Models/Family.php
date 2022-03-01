@@ -94,11 +94,11 @@ class Family extends Model
     {
         switch ($this->status) {
             case 1:
-                return '<span class="badge iq-bg-success">Active</span>';
+                return '<span class="badge badge-pill badge-success p-3"> </span>';
             case 0:
-                return '<span class="badge iq-bg-danger">Not Active</span>';
+                return '<span class="badge badge-pill badge-amber p-3"> </span>';
             default:
-                return '<span class="badge iq-bg-warning">Pending</span>';
+                return '<span class="badge badge-pill badge-danger p-3"> </span>';
         }
     }
 

@@ -47,8 +47,8 @@
                     </div>
                     @if(auth()->user()->profile->id == $ownFamily->father->id || auth()->user()->profile->id == $ownFamily->mother->id)
                     <div class="iq-card-header-toolbar d-flex align-items-center">
-                        <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة فرد للعائلة</button>
-                        <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#fosterFamilyModal" onclick="modalFosterFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضافة اخ في الرضاعة للعائلة</button>
+                        <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>فرد للعائلة</button>
+                        <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#fosterFamilyModal" onclick="modalFosterFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>أخ في الرضاعة</button>
                     </div>
                     @endif
                 </div>
@@ -194,11 +194,11 @@
                             <br>
                             <div class="d-inline-flex">
                                 <div class="custom-control custom-radio mx-4">
-                                    <input type="radio" id="male" name="gender" value="male" class="custom-control-input" {{ $person->gender == 'male' ? 'checked' : '' }}>
+                                    <input type="radio" id="male" name="gender" value="male" class="custom-control-input" {{ old('gender') == 'male' ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="male"> ذكر </label>
                                 </div>
                                 <div class="custom-control custom-radio mx-4">
-                                    <input type="radio" id="female" name="gender" value="female" class="custom-control-input" {{ $person->gender == 'female' ? 'checked' : '' }}>
+                                    <input type="radio" id="female" name="gender" value="female" class="custom-control-input" {{ old('gender') == 'female' ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="female"> أنثى </label>
                                 </div>
                             </div>
@@ -247,11 +247,11 @@
                             <br>
                             <div class="d-inline-flex">
                                 <div class="custom-control custom-radio mx-4">
-                                    <input type="radio" id="male" name="gender" value="male" class="custom-control-input" {{ $person->gender == 'male' ? 'checked' : '' }}>
+                                    <input type="radio" id="male" name="gender" value="male" class="custom-control-input" {{ old('gender') == 'male' ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="male"> ذكر </label>
                                 </div>
                                 <div class="custom-control custom-radio mx-4">
-                                    <input type="radio" id="female" name="gender" value="female" class="custom-control-input" {{ $person->gender == 'female' ? 'checked' : '' }}>
+                                    <input type="radio" id="female" name="gender" value="female" class="custom-control-input" {{ old('gender') == 'female' ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="female"> أنثى </label>
                                 </div>
                             </div>

@@ -76,8 +76,11 @@ class RegisteredUserController extends Controller
                     'user_id' => $partner_user->id,
                     'first_name' => $request->partner_first_name,
                     'father_name' => $request->partner_father_name,
-                    'has_family' => $request->gender == 'male' ? 0 : 1,
+                    'grand_father_name' => $request->partner_grand_father_name,
+                    'surname' => $request->partner_surname,
                     'gender' => $request->gender == 'male' ? 'female' : 'male',
+                    'has_family' => $request->has_family == '1',
+//                    'has_family' => $request->gender == 'male' ? 0 : 1,
                 ]);
             }
 

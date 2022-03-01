@@ -43,11 +43,11 @@
                                                 </div>
 
                                                 <div class="wishlist mx-3">
-                                                    <p data-toggle="tooltip" data-placement="top" title="التاريخ" data-original-title="التاريخ">
+                                                    <p data-toggle="tooltip" data-placement="top" title="عداد المفضلة" data-original-title="التاريخ">
                                                         <i class="ri-heart-line"> </i> {{ $news->likes->count() }}
                                                     </p>
                                                 </div>
-                            
+
                                                 <div class="wishlist d-inline-flex mx-1 float-right">
                                                     @if($news->owner_id == auth()->id())
                                                         @can('news.update')
@@ -107,12 +107,6 @@
                         @endif
                     </div>
                 </div>
-
-{{--                <div class="col-lg-12">--}}
-{{--                    <div class="iq-card shadow-sm">--}}
-{{--                        @include('web_app.News.comments')--}}
-{{--                    </div>--}}
-{{--                </div>--}}
 
             </div>
         </div>

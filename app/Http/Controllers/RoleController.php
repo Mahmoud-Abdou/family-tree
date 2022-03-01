@@ -78,12 +78,7 @@ class RoleController extends Controller
 
         $role->syncPermissions($request->permissions);
 
-        if(!$role){
-            return back('roles.index')->with('error', 'حصل خطأ في البيانات.');
-        }
-
         \App\Helpers\AppHelper::AddLog('ٍRole Create', class_basename($role), $role->id);
-
         return redirect()->route('admin.roles.index')->with('success', 'تم انشاء صلاحية جديدة و يمكنك استخدامها.');
     }
 
@@ -124,7 +119,6 @@ class RoleController extends Controller
         $role->syncPermissions($request->permissions);
 
         \App\Helpers\AppHelper::AddLog('ٍRole Updateْ', class_basename($role), $role->id);
-
         return redirect()->route('admin.roles.index')->with('success', 'تم تعديل الصلاحية المحددة بنجاح.');
     }
 
@@ -136,7 +130,6 @@ class RoleController extends Controller
         $role->delete();
 
         \App\Helpers\AppHelper::AddLog('ٍRole Delete', class_basename($role), $role->id);
-
         return redirect()->route('admin.roles.index')->with('success', 'تم حذف الصلاحية المحددة بنجاح.');
     }
 }

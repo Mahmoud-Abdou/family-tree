@@ -96,6 +96,14 @@
                                             <input type="text" name="partner_father_name" class="form-control mb-0" id="partner_father_name" value="{{ old('partner_father_name') }}">
                                         </div>
                                         <div class="form-group col-lg-12">
+                                            <label for="partner_grand_father_name">{{ __('اسم الجد') }}</label>
+                                            <input type="text" name="partner_grand_father_name" class="form-control mb-0" id="partner_grand_father_name" value="{{ old('partner_grand_father_name') }}">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_surname">{{ __('العائلة') }}</label>
+                                            <input type="text" name="partner_surname" class="form-control mb-0" id="partner_surname" value="{{ old('partner_surname') }}">
+                                        </div>
+                                        <div class="form-group col-lg-12">
                                             <label for="partner_email">{{ __('البريد الإلكتروني') }}</label>
                                             <input type="email" name="partner_email" class="form-control mb-0" id="partner_email" value="{{ old('partner_email') }}" placeholder="أدخل البريد الإلكتروني">
                                         </div>

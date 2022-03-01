@@ -13,16 +13,18 @@
 
                 <div class="col-lg-12">
                     @include('partials.messages')
-                    
+
                     <div class="card iq-mb-3 shadow">
                         <div class="card-header d-inline-flex justify-content-between">
                             <h5><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
-                            <button type="button" class="btn btn-outline-secondary rounded-pill" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
-                                <i class="ri-filter-2-line"> </i>البحث في النتائج
-                            </button>
-                            @can('admin.users.create')
-                                <a href="{{ route('admin.users.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
-                            @endcan
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary rounded-pill mx-2" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                                    <i class="ri-filter-2-line"> </i>البحث في النتائج
+                                </button>
+                                @can('admin.users.create')
+                                    <a href="{{ route('admin.users.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                                @endcan
+                            </div>
                         </div>
                         <div class="card-header collapse" id="collapseFilters">
                             <form method="GET" action="{{ route('admin.users.index') }}">
@@ -133,7 +135,7 @@
                                                 <td>@isset($user->user) {{ $user->user->mobile }} @else - @endisset</td>
                                                 <td>@isset($user->user) {{ $user->user->city->name_ar }} @else - @endisset</td>
                                                 <td>
-                                                    @isset($user->user) {!! $user->user->statusHtml() !!} @else - @endisset 
+                                                    @isset($user->user) {!! $user->user->statusHtml() !!} @else - @endisset
                                                 </td>
                                                 <td>{{ $user->created_at->format('Y-m-d') }}</td>
                                                 <td>
