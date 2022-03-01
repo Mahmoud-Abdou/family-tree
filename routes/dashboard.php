@@ -39,10 +39,14 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::resource('reports', ReportController::class);
         Route::resource('media', MediaController::class);
         Route::get('read-notification', [HomeController::class, 'read_notification']);
+
+        Route::post('update_user', [UserController::class, 'update_user'])->name('users.update_user');
+
+        
     });
 
     Route::group(['middleware' => ['role:Super Admin']], function () {
-//        Route::resource('users', UserController::class)->except(['index', 'show']);
+    //    Route::resource('users', UserController::class)->except(['index', 'show']);
         Route::get('settings', ['\App\Http\Controllers\SettingController', 'show'])->name('settings.show');
         Route::put('settings/update', ['\App\Http\Controllers\SettingController', 'update'])->name('settings.update');
         Route::get('log', ['\App\Http\Controllers\ActivityController', 'index'])->name('log.index');

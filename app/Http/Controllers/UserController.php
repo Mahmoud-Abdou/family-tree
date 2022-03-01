@@ -7,8 +7,11 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\FosterBrother;
 use App\Models\Person;
+use App\Models\Family;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\Rule;
+
 
 class UserController extends Controller
 {
@@ -25,6 +28,8 @@ class UserController extends Controller
         $this->middleware('permission:users.update')->only(['edit', 'update', 'roleAssign']);
         $this->middleware('permission:users.delete')->only('destroy');
         $this->middleware('permission:users.activate')->only('activate');
+        $this->middleware('permission:users.update_user')->only('update_user');
+        
     }
 
     /**
@@ -46,13 +51,21 @@ class UserController extends Controller
         $perEmail = isset($_GET['email']) ? $_GET['email'] : null;
 
 //        $usersData = User::simplePaginate($perPage);
-        $usersData = User::where([
-            ['city_id', $perCity ? '=' : '<>', $perCity],
-            ['role_id', $perRole ? '=' : '<>', $perRole],
-            ['status', $perStatus ? '=' : '<>', $perStatus],
-            ['mobile', $perMobile ? '=' : '<>', $perMobile],
-            ['email', $perEmail ? '=' : '<>', $perEmail]
-        ])->paginate($perPage);
+        // $usersData = Person::leftJoin('users', 'persons.user_id', 'users.id')
+        // //     ->where([
+        // //     ['users.city_id', $perCity ? '=' : '<>', $perCity],
+        // //     ['users.role_id', $perRole ? '=' : '<>', $perRole],
+        // //     ['users.status', $perStatus ? '=' : '<>', $perStatus],
+        // //     ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
+        // //     ['users.email', $perEmail ? '=' : '<>', $perEmail]
+        // // ])
+        // ->where('persons.user_id')
+        // ->get();
+        $usersData = Person::with('user')//->get()
+        // ->select('users.*','persons.first_name', 'persons.id as person_id')
+        ->paginate($perPage);
+
+        // dd($usersData[1]->user->city);
 
         $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
@@ -73,11 +86,23 @@ class UserController extends Controller
         $menuTitle = 'إضافة مستخدم';
         $pageTitle = 'لوحة التحكم';
 
+        $female = Person::where('gender', 'female')
+                        ->where('has_family', 0)
+                        ->get();
+
+        $persons = \App\Models\Person::where('has_family', 1)
+                                        ->where('gender', 'male')
+                                        ->get();
+
+        $mothers = Person::where('gender', 'female')
+                        ->where('has_family', 1)
+                        ->get();
+        
         $roles = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
 
         return view('dashboard.users.create', compact(
-            'appMenu', 'pageTitle', 'menuTitle', 'roles', 'cities'
+            'appMenu', 'pageTitle', 'menuTitle', 'roles', 'cities', 'female', 'persons', 'mothers'
         ));
     }
 
@@ -89,7 +114,65 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        if(!isset($request['is_alive'])){
+            $request['is_alive'] = 'off';
+        }
+        if($request['gender'] == 'female'){
+            $request['has_family'] = 'false';
+        }
+        $father = Person::where('id', $request->father_id)->first();
+        $family = Family::where('father_id', $request->father_id)
+                        ->where('mother_id', $request->mother_id)
+                        ->first();
+        
+        if($family == null){
+            return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
+        }
+        $person = Person::create([
+            'first_name' => $request->name,
+            'father_name' => $father->first_name,
+            'has_family' => $request->has_family == "true",
+            'family_id' => $family->id,
+            'gender' => $request->gender,
+            'is_live' => $request->is_alive == 'off',
+            'death_date' => $request->death_date,
+        ]);
+
+        if($request['has_family'] == 'true' && $request['gender'] == 'male'){
+            if($request['wife_id'] == 'add'){
+                $request->validate([
+                    'partner_first_name' => ['required'],
+                    'partner_father_name' => ['required'],
+                    'partner_gender' => ['required', 'confirmed', Rule::in(['male', 'female'])],
+                ]);
+                if(!isset($request['partner_is_alive'])){
+                    $request['partner_is_alive'] = 'off';
+                }
+                $wife = new Person;
+                $wife->first_name = $request->partner_first_name;
+                $wife->father_name = $request->partner_father_name;
+                $wife->gender = $request->partner_gender;
+                $wife->has_family = 1;
+                $wife->is_live = $request->partner_is_alive == 'off';
+                $wife->save();
+                $wife_id = $wife->id;
+            }
+            else{
+                $wife = Person::where('id', $request['wife_id'])->first();
+                $wife->has_family = 1;
+                $wife->save();
+                $wife_id = $request['wife_id'];
+            }
+            Family::create([
+                'name' => ' عائلة ' . ($person->first_name),
+                'father_id' => $person->id,
+                'mother_id' => $wife_id,
+                'gf_family_id' => $family->id,
+            ]);
+        }
+        return redirect()->route('admin.users.index')->with('success', 'تم اضافة الشخص بنجاح');
+
+
     }
 
     /**
@@ -98,14 +181,15 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($person_id)
     {
         $appMenu = config('custom.app_menu');
         $pageTitle = 'لوحة التحكم';
-        $menuTitle = $user->name;
-        $person = $user->profile;
+        $person = Person::where('id', $person_id)->first();
+        $menuTitle = $person->full_name;
+        $user = $person;
         $rolesData = Role::where('name', '!=', 'Super Admin')->get();
-        if ($user->profile->has_family) {
+        if ($person->has_family) {
             $allPersons = \App\Models\Person::where('family_id', null)->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
         } else {
             $allPersons = [];
@@ -121,9 +205,15 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($person_id)
     {
-        //
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'تعديل المستخدم';
+        $pageTitle = 'لوحة التحكم';
+        // dd($person_id);
+        $person = Person::where('id', $person_id)->first();
+        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person'));
+    
     }
 
     /**
@@ -316,5 +406,25 @@ class UserController extends Controller
 
         \App\Helpers\AppHelper::AddLog('New User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
+    }
+
+    public function update_user(Request $request)
+    {
+        $request->validate([
+            'name' => ['required'],
+            'person_id' => ['required', 'exists:persons,id'],
+        ]);
+
+        $person = Person::where('id', $request['person_id'])->first();
+        $person->first_name = $request['name'];
+        if(isset($request['is_alive'])){
+            $person->is_live = 0;
+            $person->death_date = $request['death_date'];
+        }
+        else
+            $person->is_live = 1;
+        $person->save();
+        return back()->with('success', 'تم تعديل المستخدم بنجاح');
+
     }
 }
