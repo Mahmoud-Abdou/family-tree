@@ -29,7 +29,7 @@ class UserController extends Controller
         $this->middleware('permission:users.delete')->only('destroy');
         $this->middleware('permission:users.activate')->only('activate');
         $this->middleware('permission:users.update_user')->only('update_user');
-        
+
     }
 
     /**
@@ -65,8 +65,6 @@ class UserController extends Controller
         // ->select('users.*','persons.first_name', 'persons.id as person_id')
         ->paginate($perPage);
 
-        // dd($usersData[1]->user->city);
-
         $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
 
@@ -97,7 +95,7 @@ class UserController extends Controller
         $mothers = Person::where('gender', 'female')
                         ->where('has_family', 1)
                         ->get();
-        
+
         $roles = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
 
@@ -124,7 +122,7 @@ class UserController extends Controller
         $family = Family::where('father_id', $request->father_id)
                         ->where('mother_id', $request->mother_id)
                         ->first();
-        
+
         if($family == null){
             return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
         }
@@ -151,6 +149,8 @@ class UserController extends Controller
                 $wife = new Person;
                 $wife->first_name = $request->partner_first_name;
                 $wife->father_name = $request->partner_father_name;
+                $wife->grand_father_name = $request->partner_grand_father_name;
+                $wife->surname = $request->partner_surname;
                 $wife->gender = $request->partner_gender;
                 $wife->has_family = 1;
                 $wife->is_live = $request->partner_is_alive == 'off';
@@ -171,8 +171,6 @@ class UserController extends Controller
             ]);
         }
         return redirect()->route('admin.users.index')->with('success', 'تم اضافة الشخص بنجاح');
-
-
     }
 
     /**
@@ -213,7 +211,7 @@ class UserController extends Controller
         // dd($person_id);
         $person = Person::where('id', $person_id)->first();
         return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person'));
-    
+
     }
 
     /**

@@ -239,8 +239,8 @@
                 <form method="POST" action="{{ route('admin.users.activate') }}">
                     <div class="modal-body">
                         @csrf
-                        @method('DELETE')
                         <input id="blockUserId" type="hidden" name="user_id">
+                        <input type="hidden" name="type" value="delete">
 
                         <p>سيتم حظر المستخدم و لن يتمكن من الدخول الى النظام.</p>
                     </div>
@@ -263,7 +263,7 @@
                     </button>
                 </div>
 
-                <form method="POST" action="{{ route('admin.users.activate') }}">
+                <form method="POST" action="">
                     <div class="modal-body">
                         @csrf
                         <input id="accountUserId" type="hidden" name="person_id">

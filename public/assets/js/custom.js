@@ -515,7 +515,7 @@ Index Of Script
         Form Validation
         -----------------------------------------------------------------------*/
 
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        // starter JavaScript for disabling form submissions if there are invalid fields
         (function() {
             'use strict';
             window.addEventListener('load', function() {
@@ -834,25 +834,25 @@ $('.image-upload-wrap').bind('dragleave', function () {
 });
 
 // Restricts input for the set of matched elements to the given inputFilter function.
-function setInputFilter(textbox, inputFilter) {
-    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
-        textbox.addEventListener(event, function() {
-            if (inputFilter(this.value)) {
-                this.oldValue = this.value;
-                this.oldSelectionStart = this.selectionStart;
-                this.oldSelectionEnd = this.selectionEnd;
-            } else if (this.hasOwnProperty("oldValue")) {
-                this.value = this.oldValue;
-                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-            } else {
-                this.value = "";
-            }
-        });
-    });
-}
+// function setInputFilter(textbox, inputFilter) {
+//     ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+//         textbox.addEventListener(event, function() {
+//             if (inputFilter(this.value)) {
+//                 this.oldValue = this.value;
+//                 this.oldSelectionStart = this.selectionStart;
+//                 this.oldSelectionEnd = this.selectionEnd;
+//             } else if (this.hasOwnProperty("oldValue")) {
+//                 this.value = this.oldValue;
+//                 this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+//             } else {
+//                 this.value = "";
+//             }
+//         });
+//     });
+// }
 
-setInputFilter(document.getElementById("mobileNumber"), function(value) {
-    return /^\d*$/.test(value);
-});
+// setInputFilter(document.getElementById("mobileNumber"), function(value) {
+//     return /^\d*$/.test(value);
+// });
 
 // End Restricts input

@@ -18,8 +18,14 @@
                         @csrf
 
                         <div class="card iq-mb-3 shadow">
-                        <div class="card-header">
+                        <div class="card-header d-inline-flex justify-content-between">
                             <h5 class="float-left my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
+                            <button id="addWithOutFamily" type="button" class="btn btn-outline-secondary rounded-pill mx-2">
+                                اضافة شخص بدون عائلة
+                            </button>
+                            <button id="addWithFamily" type="button" class="btn btn-outline-secondary rounded-pill mx-2 d-none">
+                                اضافة شخص مع عائلة
+                            </button>
                         </div>
 
                             <div class="card-body">
@@ -134,6 +140,14 @@
                                             <input type="text" name="partner_father_name" class="form-control mb-0" id="partner_father_name" value="{{ old('partner_father_name') }}" placeholder="أدخل اسم الاب">
                                         </div>
                                         <div class="form-group col-lg-12">
+                                            <label for="partner_grand_father_name">{{ __('اسم الجد') }}</label>
+                                            <input type="text" name="partner_grand_father_name" class="form-control mb-0" id="partner_grand_father_name" value="{{ old('partner_grand_father_name') }}" placeholder="اسم الجد">
+                                        </div>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_surname">{{ __('اللقب') }}</label>
+                                            <input type="text" name="partner_surname" class="form-control mb-0" id="partner_surname" value="{{ old('partner_surname') }}" placeholder="أدخل اللقب">
+                                        </div>
+                                        <div class="form-group col-lg-12">
                                             <label for="partner_email">{{ __('البريد الإلكتروني') }}</label>
                                             <input type="email" name="partner_email" class="form-control mb-0" id="partner_email" value="{{ old('partner_email') }}" placeholder="أدخل البريد الإلكتروني">
                                         </div>
@@ -142,16 +156,16 @@
                                             <input type="text" name="partner_mobile" class="form-control numeric mb-0" id="partnerMobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}"  >
                                         </div>
 
-                                        <div class="form-group col-lg-8">
-                                            <label>الحالة</label>
-                                            <br>
+                                        <div class="form-group col-lg-12">
+                                            <label>حدد هذا الخيار اذا كان الشخص متوفي</label>
                                             <div class="d-inline-flex">
                                                 <div class="custom-control custom-radio mx-4">
-                                                    <input type="checkbox" id="partner_is_alive" name="partner_is_alive" class="custom-control-input" >
+                                                    <input type="checkbox" id="partner_is_alive" name="partner_is_alive" class="custom-control-input">
                                                     <label class="custom-control-label" for="partner_is_alive"> متوفي </label>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
 
                                     <div class="modal-footer">
@@ -219,6 +233,16 @@
     function openWifeModel() {
         $("#FamilyModel").modal('show')
     }
+
+    $("#addWithOutFamily").click(() => {
+        $("#addWithOutFamily").addClass('d-none');
+        $("#addWithFamily").removeClass('d-none');
+    });
+
+    $("#addWithFamily").click(() => {
+        $("#addWithFamily").addClass('d-none');
+        $("#addWithOutFamily").removeClass('d-none');
+    });
 
 </script>
 @endsection
