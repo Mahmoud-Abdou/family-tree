@@ -41,7 +41,8 @@ Route::prefix('admin')->as('admin.')->middleware(['auth'])->group(function () {
         Route::get('read-notification', [HomeController::class, 'read_notification']);
 
         Route::post('update_user', [UserController::class, 'update_user'])->name('users.update_user');
-
+        Route::post('add_person_user', [UserController::class, 'add_person_user'])->name('users.add_person_user');
+        
         
     });
 

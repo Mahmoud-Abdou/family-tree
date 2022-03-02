@@ -262,13 +262,21 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-
-                <form method="POST" action="">
+                
+                <form method="POST" action="{{ route('admin.users.add_person_user') }}">
                     <div class="modal-body">
                         @csrf
                         <input id="accountUserId" type="hidden" name="person_id">
+                        <div class="form-group col-lg-12">
+                            <label for="email">{{ __('البريد الإلكتروني') }}</label>
+                            <input type="email" name="email" class="form-control mb-0" id="new_email" value="{{ old('partner_email') }}" placeholder="أدخل البريد الإلكتروني">
+                        </div>
+                        <div class="form-group col-lg-12">
+                            <label for="partnerMobile">{{ __('رقم الجوال') }}</label>
+                            <input type="text" name="mobile" class="form-control numeric mb-0" id="new_mobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}"  required>
+                        </div>
+                        <!-- <p>سيتم انشاء بيانات الدخول للمستخدم.</p> -->
 
-                        <p>سيتم انشاء بيانات الدخول للمستخدم.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary py-2 px-4" data-dismiss="modal">الغاء</button>
