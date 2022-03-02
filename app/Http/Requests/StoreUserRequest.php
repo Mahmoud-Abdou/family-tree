@@ -27,11 +27,14 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'father_id' => ['required', 'exists:persons,id'],
-            'mother_id' => ['required', 'exists:persons,id'],
+            'father_id' => ['required_if:type,withFamily', 'exists:persons,id'],
+            'mother_id' => ['required_if:type,withFamily', 'exists:persons,id'],
 //            'wife_id' => ['required'],
-            'gender' => ['required', Rule::in(['male', 'female'])],
-            'has_family' => ['required'],
+            'gender' => ['required_if:type,withFamily', Rule::in(['male', 'female'])],
+            'has_family' => ['required_if:type,withFamily'],
+            'father_name' => ['required_if:type,noFamily'],
+            'grand_father_name' => ['required_if:type,noFamily'],
+//          
         ];
     }
 }

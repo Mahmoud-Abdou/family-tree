@@ -112,63 +112,95 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        if(!isset($request['is_alive'])){
-            $request['is_alive'] = 'off';
-        }
-        if($request['gender'] == 'female'){
-            $request['has_family'] = 'false';
-        }
-        $father = Person::where('id', $request->father_id)->first();
-        $family = Family::where('father_id', $request->father_id)
-                        ->where('mother_id', $request->mother_id)
-                        ->first();
+        if($request->type == 'withFamily'){
 
-        if($family == null){
-            return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
-        }
-        $person = Person::create([
-            'first_name' => $request->name,
-            'father_name' => $father->first_name,
-            'has_family' => $request->has_family == "true",
-            'family_id' => $family->id,
-            'gender' => $request->gender,
-            'is_live' => $request->is_alive == 'off',
-            'death_date' => $request->death_date,
-        ]);
-
-        if($request['has_family'] == 'true' && $request['gender'] == 'male'){
-            if($request['wife_id'] == 'add'){
-                $request->validate([
-                    'partner_first_name' => ['required'],
-                    'partner_father_name' => ['required'],
-                    'partner_gender' => ['required', 'confirmed', Rule::in(['male', 'female'])],
-                ]);
-                if(!isset($request['partner_is_alive'])){
-                    $request['partner_is_alive'] = 'off';
+            if(!isset($request['is_alive'])){
+                $request['is_alive'] = 'off';
+            }
+            if($request['gender'] == 'female'){
+                $request['has_family'] = 'false';
+            }
+            $father = Person::where('id', $request->father_id)->first();
+            $family = Family::where('father_id', $request->father_id)
+                            ->where('mother_id', $request->mother_id)
+                            ->first();
+    
+            if($family == null){
+                return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
+            }
+            $person = Person::create([
+                'first_name' => $request->name,
+                'father_name' => $father->first_name,
+                'has_family' => $request->has_family == "true",
+                'family_id' => $family->id,
+                'gender' => $request->gender,
+                'is_live' => $request->is_alive == 'off',
+                'death_date' => $request->death_date,
+            ]);
+    
+            if($request['has_family'] == 'true' && $request['gender'] == 'male'){
+                if($request['wife_id'] == 'add'){
+                    $request->validate([
+                        'partner_first_name' => ['required'],
+                        'partner_father_name' => ['required'],
+                        'partner_gender' => ['required', 'confirmed', Rule::in(['male', 'female'])],
+                    ]);
+                    if(!isset($request['partner_is_alive'])){
+                        $request['partner_is_alive'] = 'off';
+                    }
+                    $wife = new Person;
+                    $wife->first_name = $request->partner_first_name;
+                    $wife->father_name = $request->partner_father_name;
+                    $wife->grand_father_name = $request->partner_grand_father_name;
+                    $wife->surname = $request->partner_surname;
+                    $wife->gender = $request->partner_gender;
+                    $wife->has_family = 1;
+                    $wife->is_live = $request->partner_is_alive == 'off';
+                    $wife->save();
+                    $wife_id = $wife->id;
                 }
-                $wife = new Person;
-                $wife->first_name = $request->partner_first_name;
-                $wife->father_name = $request->partner_father_name;
-                $wife->grand_father_name = $request->partner_grand_father_name;
-                $wife->surname = $request->partner_surname;
-                $wife->gender = $request->partner_gender;
-                $wife->has_family = 1;
-                $wife->is_live = $request->partner_is_alive == 'off';
-                $wife->save();
-                $wife_id = $wife->id;
+                else{
+                    $wife = Person::where('id', $request['wife_id'])->first();
+                    $wife->has_family = 1;
+                    $wife->save();
+                    $wife_id = $request['wife_id'];
+                }
+                Family::create([
+                    'name' => ' عائلة ' . ($person->first_name),
+                    'father_id' => $person->id,
+                    'mother_id' => $wife_id,
+                    'gf_family_id' => $family->id,
+                ]);
             }
-            else{
-                $wife = Person::where('id', $request['wife_id'])->first();
-                $wife->has_family = 1;
-                $wife->save();
-                $wife_id = $request['wife_id'];
+        }
+        else{
+            if(!isset($request['no_family_is_alive'])){
+                $request['no_family_is_alive'] = 'off';
             }
+            $person = Person::create([
+                'first_name' => $request->name,
+                'father_name' => $request->father_name,
+                'grand_father_name' => $request->grand_father_name,
+                'has_family' => 1,
+                'gender' => 'male',
+                'is_live' => $request->no_family_is_alive == 'off',
+                'death_date' => $request->no_family_death_date,
+            ]);
+            $wife = Person::create([
+                'first_name' => 'زوجة' . $request->name,
+                'father_name' => $request->father_name,
+                'has_family' => 1,
+                'gender' => 'female',
+                'is_live' => $request->no_family_is_alive == 'off',
+                'death_date' => $request->no_family_death_date,
+            ]);
+
             Family::create([
                 'name' => ' عائلة ' . ($person->first_name),
                 'father_id' => $person->id,
-                'mother_id' => $wife_id,
-                'gf_family_id' => $family->id,
+                'mother_id' => $wife->id,
             ]);
+
         }
         return redirect()->route('admin.users.index')->with('success', 'تم اضافة الشخص بنجاح');
     }
@@ -423,6 +455,27 @@ class UserController extends Controller
             $person->is_live = 1;
         $person->save();
         return back()->with('success', 'تم تعديل المستخدم بنجاح');
+
+    }
+
+    public function add_person_user(Request $request)
+    {
+        $request->validate([
+            'person_id' => ['required', 'exists:persons,id'],
+            'email' => ['required'],
+            'mobile' => ['required'],
+        ]);
+
+        $person = Person::where('id', $request->person_id)->first();
+        $user = new User;
+        $user->name = $person->first_name;
+        $user->email = $request->email;
+        $user->mobile = $request->mobile;
+        $user->password = '123456789';
+        $user->save();
+        $person->user_id = $user->id;
+        $person->save();
+        return back()->with('success', 'تم انشاء المستخدم بنجاح');
 
     }
 }
