@@ -13,7 +13,7 @@
 
                 <div class="col-sm-12">
 
-                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
                         <div class="card-header d-flex justify-content-between">
                             <div class="iq-header-title">
                                 <h4 class="card-title"><i class="ri-group-2-fill"> </i>{{ $menuTitle }}</h4>
@@ -36,7 +36,7 @@
                             <h6 class="text-center">الأولاد</h6>
                             <div class="list-group text-center">
                                 @foreach($family->members as $member)
-                                    <a href="{{ route('admin.users.show', $member->user->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
+                                    <a href="{{ route('admin.users.show', $member->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                                 @endforeach
                             </div>
 
@@ -81,6 +81,7 @@
                         <div class="form-group">
                             <label for="selectUser">ابحث و اختر الشخص، ليتم اضافته</label>
                             <select id="selectUser" name="user_id" class="js-states form-control" style="width: 100%;">
+                                <option disabled selected>ابحث و حدد الشخص</option>
                                 @foreach($allPersons as $per)
                                     <option value="{{$per->id}}">{{$per->full_name}}</option>
                                 @endforeach
@@ -120,6 +121,7 @@
                             <div class="form-group">
                                 <label for="selectUser2">ابحث و اختر الشخص، ليتم اضافته</label>
                                 <select id="selectUser2" name="person_id" class="js-states form-control" style="width: 100%;">
+                                    <option disabled selected>ابحث و حدد الشخص</option>
                                     @foreach($fosterPersonsData as $foster)
                                         <option value="{{$foster->id}}">{{$foster->full_name}}</option>
                                     @endforeach

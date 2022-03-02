@@ -78,7 +78,14 @@ class Person extends Model
 
     public function ownFamily()
     {
-        return $this->hasMany('App\Models\Family', 'father_id', 'id');
+        switch (strtolower($this->gender)) {
+            case 'male':
+                return $this->hasMany('App\Models\Family', 'father_id', 'id');
+            case 'female':
+                return $this->hasMany('App\Models\Family', 'mother_id', 'id');
+            default:
+                return null;
+        }
     }
 
     public function wifeOwnFamily()

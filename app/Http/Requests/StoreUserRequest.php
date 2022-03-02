@@ -29,7 +29,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'father_id' => ['required', 'exists:persons,id'],
             'mother_id' => ['required', 'exists:persons,id'],
-            'wife_id' => ['required'],
+//            'wife_id' => ['required'],
             'gender' => ['required', Rule::in(['male', 'female'])],
             'has_family' => ['required'],
         ];

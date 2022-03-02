@@ -151,16 +151,17 @@
                                                     @endif
                                                     @if(isset($user->user) && $user->user->status == 'active')
                                                         <button type="button" class="btn btn-outline-warning rounded-pill m-1" data-toggle="modal" data-target="#roleModal" onclick="modalRole({{ $user->user->id }})"><i class="ri-guide-line"> </i>الصلاحيات</button>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.users.edit', $user->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                     @endif
                                                     @endcan
                                                     @can('users.delete')
                                                         @if(isset($user->user) && $user->user->status == 'active')
-                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->user->id }})"><i class="ri-delete-back-fill"></i></button>
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->user->id }})"><i class="ri-delete-back-fill"> </i></button>
                                                         @endif
                                                     @endcan
-                                                    @can('users.update')
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.users.edit', $user->id) }}"><i class="ri-edit-2-fill"> </i></a>
-                                                    @endcan
+                                                        @if(!isset($user->user))
+                                                            <button type="button" class="btn btn-outline-secondary rounded-pill m-1" data-toggle="modal" data-target="#accountModal" onclick="modalAccount({{ $user->id }})"><i class="ri-lock-password-fill"> </i> انشاء مستخدم </button>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>
@@ -197,7 +198,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content shadow">
                 <div class="modal-header bg-warning">
-                    <h5 class="modal-title" id="roleModalLabel">تحديد صلاحيات المستخدم</h5>
+                    <h5 class="modal-title" id="roleModalLabel"><i class="ri-guide-line"> </i>تحديد صلاحيات المستخدم</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -229,7 +230,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content shadow">
                 <div class="modal-header bg-danger">
-                    <h5 class="modal-title" id="blockModalLabel">حظر المستخدم</h5>
+                    <h5 class="modal-title text-white" id="blockModalLabel"><i class="ri-delete-back-2-fill"> </i>حظر المستخدم</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -238,14 +239,40 @@
                 <form method="POST" action="{{ route('admin.users.activate') }}">
                     <div class="modal-body">
                         @csrf
+                        @method('DELETE')
                         <input id="blockUserId" type="hidden" name="user_id">
-                        <input type="hidden" name="type" value="delete">
 
                         <p>سيتم حظر المستخدم و لن يتمكن من الدخول الى النظام.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
                         <button id="roleFormBtn" type="submit" class="btn btn-danger">حظر المستخدم</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-secondary">
+                    <h5 class="modal-title text-white" id="accountModalLabel"><i class="ri-lock-password-fill"> </i>انشاء بيانات الدخول للمستخدم</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('admin.users.activate') }}">
+                    <div class="modal-body">
+                        @csrf
+                        <input id="accountUserId" type="hidden" name="person_id">
+
+                        <p>سيتم انشاء بيانات الدخول للمستخدم.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary py-2 px-4" data-dismiss="modal">الغاء</button>
+                        <button id="roleFormBtn" type="submit" class="btn btn-info py-2 px-4">حفظ</button>
                     </div>
                 </form>
             </div>
@@ -263,6 +290,9 @@
         }
         function modalBlock(userId) {
             $('#blockUserId').val(userId);
+        }
+        function modalAccount(userId) {
+            $('#accountUserId').val(userId);
         }
     </script>
 @endsection

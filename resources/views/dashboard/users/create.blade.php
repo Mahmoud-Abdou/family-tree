@@ -26,11 +26,11 @@
                                 <div class="row">
                                     <div class="form-group col-lg-6">
                                         <label for="name">{{ __('الاسم') }}</label>
-                                        <input type="text" name="name" class="form-control mb-0" id="name" tabindex="1" placeholder="{{ __('الاسم') }}" value="{{ old('name') }}" required autofocus>
+                                        <input type="text" name="name" class="form-control mb-0" id="name" placeholder="{{ __('الاسم') }}" value="{{ old('name') }}" required autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="gender">{{ __('النوع') }}</label>
-                                        <select id="gender" name="gender" tabindex="3" class="form-control mb-0" required>
+                                        <select id="gender" name="gender" class="form-control mb-0" required>
                                             <option value="male"{{ old('gender') == 'male' ? 'selected' : '' }}>{{ __('ذكر') }}</option>
                                             <option value="female"{{ old('gender') == 'female' ? 'selected' : '' }}>{{ __('أنثى') }}</option>
                                         </select>
@@ -41,7 +41,7 @@
                                         <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
                                             <option disabled selected>حدد الأب</option>
                                             @foreach($persons as $per)
-                                                <option value="{{$per->id}}">{{$per->full_name}}</option>
+                                                <option value="{{ $per->id }}" {{ old('father_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -51,7 +51,7 @@
                                         <select id="mother_id" name="mother_id" class="js-states form-control" style="width: 100%;">
                                             <option disabled selected>حدد الأم</option>
                                             @foreach($mothers as $per)
-                                                <option value="{{$per->id}}">{{$per->full_name}}</option>
+                                                <option value="{{$per->id}}" {{ old('mother_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -81,9 +81,9 @@
                                         <select id="wife_id" name="wife_id" class="js-states form-control"
                                                 style="width: 100%;">
                                             <option value="add" disabled selected>اختر زوجة </option>
-                                            <option value="add" selected>اضف زوجة </option>
+{{--                                            <option value="add">اضف زوجة </option>--}}
                                             @foreach($female as $per)
-                                                <option value="{{$per->id}}">{{$per->full_name}}</option>
+                                                <option value="{{$per->id}}" {{ old('wife_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
                                         <button type="button" data-dismiss="modal"

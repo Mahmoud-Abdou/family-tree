@@ -16,7 +16,7 @@
             <h6 class="text-center">الأولاد</h6>
             <div class="list-group text-center">
                 @foreach($person->belongsToFamily->members as $member)
-                    <a href="{{ route('admin.users.show', $member->user->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
+                    <a href="{{ route('admin.users.show', $member->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                 @endforeach
             </div>
 
@@ -63,7 +63,7 @@
                     <h6 class="text-center">الأولاد</h6>
                     <div class="list-group text-center">
                         @foreach($ownFamily->members as $member)
-                        <a href="{{ route('admin.users.show', $member->user->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
+                        <a href="{{ route('admin.users.show', $member->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                         @endforeach
                     </div>
 

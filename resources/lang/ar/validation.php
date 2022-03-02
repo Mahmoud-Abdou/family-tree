@@ -187,6 +187,11 @@ return [
         'partner_mobile' => "رقم جوال الزوج/ة",
         'type' => 'النوع',
         'has_family' => 'الحالة الاجتماعية',
+        'mother' => 'الأم',
+        'mother_id' => 'الأم',
+        'father' => 'الأب',
+        'father_id' => 'الأب',
+        'is_live' => 'الحالة',
     ],
 
 ];

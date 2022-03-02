@@ -10,7 +10,6 @@
                 <div class="iq-card-body">
                     <div class="about-info m-0 p-0">
                         <div class="row">
-{{--                            <div class="col-12"><p>المعلومات الشخصية</p></div>--}}
                             <div class="col-3"><i class="ri-user-fill"> </i>:</div>
                             <div class="col-9">{{ $profile->full_name }}</div>
                             <div class="col-3"><i class="ri-user-smile-fill"> </i>:</div>
@@ -19,12 +18,14 @@
                             <div class="col-9">{{ $profile->age }}</div>
                             <div class="col-3"><i class="ri-award-fill"> </i>:</div>
                             <div class="col-9">{{ $profile->job }}</div>
+                            @isset($profile->user)
+                            <div class="col-3"><i class="ri-map-pin-2-fill"> </i>:</div>
+                            <div class="col-9">{{ isset($profile->user->city) ? $profile->user->city->name_ar : '-' }}</div>
                             <div class="col-3"><i class="ri-mail-fill"> </i>:</div>
                             <div class="col-9"><a href="mailto:{{ $profile->user->email }}"> {{ $profile->user->email }} </a></div>
                             <div class="col-3"><i class="ri-phone-fill"> </i>:</div>
                             <div class="col-9"><a href="tel:{{ $profile->user->mobile }}">{{ $profile->user->mobile }}</a></div>
-                            <div class="col-3"><i class="ri-map-pin-2-fill"> </i>:</div>
-                            <div class="col-9">{{ isset($profile->user->city) ? $profile->user->city->name_ar : '-' }}</div>
+                            @endisset
                         </div>
                     </div>
                 </div>
