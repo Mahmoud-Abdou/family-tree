@@ -9,8 +9,12 @@
         <div class="iq-card-body">
             <h6 class="text-center">الوالدان</h6>
             <div class="list-group list-group-horizontal text-center">
-                <a href="{{ route('admin.users.show', $person->belongsToFamily->father->user->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $person->belongsToFamily->father->full_name }}</a>
-                <a href="{{ route('admin.users.show', $person->belongsToFamily->mother->user->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $person->belongsToFamily->mother->full_name }}</a>
+                <a href="{{ route('admin.users.show', $person->belongsToFamily->father->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $person->belongsToFamily->father->full_name }}</a>
+                @isset($person->belongsToFamily->mother)
+                    <a href="{{ route('admin.users.show', $person->belongsToFamily->mother->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $person->belongsToFamily->mother->full_name }}</a>
+                @else
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-danger">-----</a>
+                @endisset
             </div>
             <br>
             <h6 class="text-center">الأولاد</h6>
@@ -45,7 +49,7 @@
                     <div class="iq-header-title">
                         <h4 class="card-title"><i class="ri-group-2-fill"> </i>العائلة</h4>
                     </div>
-                    @if(auth()->user()->profile->id == $ownFamily->father->id || auth()->user()->profile->id == $ownFamily->mother->id)
+                    @if(auth()->user()->profile->id == $ownFamily->father->id || (isset($ownFamily->mother) && auth()->user()->profile->id == $ownFamily->mother->id))
                     <div class="iq-card-header-toolbar d-flex align-items-center">
                         <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>فرد للعائلة</button>
                         <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#fosterFamilyModal" onclick="modalFosterFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>أخ في الرضاعة</button>
@@ -56,8 +60,16 @@
                 <div class="iq-card-body">
                     <h6 class="text-center">الوالدان</h6>
                     <div class="list-group list-group-horizontal text-center">
-                        <a href="{{ route('admin.users.show', $ownFamily->father->user->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
-                        <a href="{{ route('admin.users.show', $ownFamily->mother->user->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $ownFamily->mother->full_name }}</a>
+                        @isset($ownFamily->father)
+                        <a href="{{ route('admin.users.show', $ownFamily->father->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
+                        @else
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
+                        @endisset
+                        @isset($ownFamily->mother)
+                            <a href="{{ route('admin.users.show', $ownFamily->mother->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $ownFamily->mother->full_name }}</a>
+                        @else
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-danger">{{ isset($ownFamily->mother) ? $ownFamily->mother->full_name : '-----' }}</a>
+                        @endisset
                     </div>
                     <br>
                     <h6 class="text-center">الأولاد</h6>

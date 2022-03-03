@@ -1053,3 +1053,4 @@ body.two-sidebar.sidebar-main .iq-sidebar-logo { width: 60px }
     object-fit: cover;
 }
 
+#passwordBoxWrap { margin: -40px 5px !important; }

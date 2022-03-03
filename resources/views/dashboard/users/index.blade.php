@@ -151,8 +151,8 @@
                                                     @endif
                                                     @if(isset($user->user) && $user->user->status == 'active')
                                                         <button type="button" class="btn btn-outline-warning rounded-pill m-1" data-toggle="modal" data-target="#roleModal" onclick="modalRole({{ $user->user->id }})"><i class="ri-guide-line"> </i>الصلاحيات</button>
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.users.edit', $user->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                     @endif
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.users.edit', $user->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                     @endcan
                                                     @can('users.delete')
                                                         @if(isset($user->user) && $user->user->status == 'active')
@@ -262,17 +262,17 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                
+
                 <form method="POST" action="{{ route('admin.users.add_person_user') }}">
                     <div class="modal-body">
                         @csrf
                         <input id="accountUserId" type="hidden" name="person_id">
                         <div class="form-group col-lg-12">
-                            <label for="email">{{ __('البريد الإلكتروني') }}</label>
+                            <label for="new_email">{{ __('البريد الإلكتروني') }}</label>
                             <input type="email" name="email" class="form-control mb-0" id="new_email" value="{{ old('partner_email') }}" placeholder="أدخل البريد الإلكتروني">
                         </div>
                         <div class="form-group col-lg-12">
-                            <label for="partnerMobile">{{ __('رقم الجوال') }}</label>
+                            <label for="new_mobile">{{ __('رقم الجوال') }}</label>
                             <input type="text" name="mobile" class="form-control numeric mb-0" id="new_mobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}"  required>
                         </div>
                         <!-- <p>سيتم انشاء بيانات الدخول للمستخدم.</p> -->

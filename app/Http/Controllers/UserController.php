@@ -124,7 +124,7 @@ class UserController extends Controller
             $family = Family::where('father_id', $request->father_id)
                             ->where('mother_id', $request->mother_id)
                             ->first();
-    
+
             if($family == null){
                 return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
             }
@@ -137,7 +137,7 @@ class UserController extends Controller
                 'is_live' => $request->is_alive == 'off',
                 'death_date' => $request->death_date,
             ]);
-    
+
             if($request['has_family'] == 'true' && $request['gender'] == 'male'){
                 if($request['wife_id'] == 'add'){
                     $request->validate([
@@ -200,8 +200,8 @@ class UserController extends Controller
                 'father_id' => $person->id,
                 'mother_id' => $wife->id,
             ]);
-
         }
+
         return redirect()->route('admin.users.index')->with('success', 'تم اضافة الشخص بنجاح');
     }
 
@@ -209,7 +209,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show($person_id)
     {
@@ -233,29 +233,57 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit($person_id)
     {
-        $appMenu = config('custom.app_menu');
-        $menuTitle = 'تعديل المستخدم';
-        $pageTitle = 'لوحة التحكم';
-        // dd($person_id);
         $person = Person::where('id', $person_id)->first();
-        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person'));
+        $appMenu = config('custom.app_menu');
+        $menuTitle = 'تعديل المستخدم: '.$person->first_name;
+        $pageTitle = 'لوحة التحكم';
 
+        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateUserRequest  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Person  $person
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, Person $person)
     {
-        //
+        $request->validate([
+            'first_name' => ['required'],
+            'father_name' => ['required'],
+            'grand_father_name' => ['nullable'],
+            'surname' => ['nullable'],
+            'gender' => ['required'],
+            'has_family' => ['required'],
+            'is_live' => ['nullable'],
+        ]);
+
+        $person->first_name = $request->first_name;
+        $person->father_name = $request->father_name;
+        $person->grand_father_name = $request->grand_father_name;
+        $person->surname = $request->surname;
+        $person->gender = $request->gender;
+        $person->has_family = $request->has_family == 'true';
+        $person->is_live = $request->is_alive != 'on';
+        $person->death_date = $request->death_date;
+
+        if ($person->has_family) {
+
+        }
+        if ($person->isDirty()) {
+            $person->save();
+
+            \App\Helpers\AppHelper::AddLog('Block User', class_basename($person), $person->id);
+            return redirect()->route('admin.users.index')->with('success', 'تم تعديل بيانات المستخدم بنجاح');
+        }
+
+        return redirect()->route('admin.users.index');
     }
 
     /**
@@ -274,7 +302,6 @@ class UserController extends Controller
         $user->save();
 
         \App\Helpers\AppHelper::AddLog('Block User', class_basename($user), $user->id);
-
         return back()->with('success', 'تم حظر المستخدم بنجاح');
     }
 
@@ -322,7 +349,6 @@ class UserController extends Controller
         $user->save();
 
         \App\Helpers\AppHelper::AddLog('Role User', class_basename($user), $user->id);
-
         return back()->with('warning', 'تم تعديل صلاحيات المستخدم بنجاح');
     }
 
@@ -455,7 +481,6 @@ class UserController extends Controller
             $person->is_live = 1;
         $person->save();
         return back()->with('success', 'تم تعديل المستخدم بنجاح');
-
     }
 
     public function add_person_user(Request $request)
@@ -476,6 +501,5 @@ class UserController extends Controller
         $person->user_id = $user->id;
         $person->save();
         return back()->with('success', 'تم انشاء المستخدم بنجاح');
-
     }
 }

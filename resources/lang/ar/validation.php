@@ -192,6 +192,7 @@ return [
         'father' => 'الأب',
         'father_id' => 'الأب',
         'is_live' => 'الحالة',
+        'children_count' => 'عدد الأولاد',
     ],
 
 ];

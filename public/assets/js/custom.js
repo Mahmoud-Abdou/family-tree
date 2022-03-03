@@ -733,10 +733,19 @@ const $tableID = $('#table');
         return false;
     })
 
-
     /*---------------------------------------------------------------------
      validate form wizard
     -----------------------------------------------------------------------*/
+    function showPassword() {
+        var x = document.getElementById("passwordBox");
+        if (x.type === "password") {
+            x.type = "text";
+            document.getElementById("passwordBoxBtn").innerHTML = '<i class="ri-eye-fill"> </i>';
+        } else {
+            x.type = "password";
+            document.getElementById("passwordBoxBtn").innerHTML = '<i class="ri-eye-close-fill"> </i>';
+        }
+    }
 
     var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),

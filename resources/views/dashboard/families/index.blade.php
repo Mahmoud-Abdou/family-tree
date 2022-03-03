@@ -80,8 +80,8 @@
                                             <tr>
                                                 <td><a href="{{ route('admin.families.show', $family->id) }}">{{ $family->name }}</a></td>
                                                 <td>{{ $family->father->full_name }}</td>
-                                                <td>{{ $family->mother->full_name }}</td>
-                                                <td>{{ isset($family->gfFamilies->father) ? $family->gfFamilies->father->full_name : '-' }}</td>
+                                                <td>{{ isset($family->mother) ? $family->mother->full_name : 'لا يوجد' }}</td>
+                                                <td>{{ isset($family->gfFamilies->father) ? $family->gfFamilies->father->full_name : 'لا يوجد' }}</td>
                                                 <td>{{ $family->members->count() }}</td>
                                                 <td>{!! $family->statusHtml() !!}</td>
                                                 <td>
@@ -157,6 +157,6 @@
     <script>
         function modalDelete(famId) {
             $('#formDelete').attr('action', famId);
-        };
+        }
     </script>
 @endsection

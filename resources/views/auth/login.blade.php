@@ -26,15 +26,16 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="email">@lang('auth.username')</label>
+                            <label for="email"><i class="ri-user-fill"> </i> @lang('auth.username')</label>
                             <input type="text" name="email" class="form-control mb-0" id="email" tabindex="1" placeholder="" value="{{ old('email') }}" required autofocus>
                         </div>
                         <div class="form-group">
-                            <label for="password">@lang('auth.passwordField')</label>
+                            <label for="passwordBox"><i class="ri-lock-password-fill"> </i> @lang('auth.passwordField')</label>
                             @if (Route::has('password.request'))
                                 <a href="{{ route('password.request') }}" class="float-right">@lang('auth.forgot_password')</a>
                             @endif
-                            <input type="password" name="password" class="form-control mb-0" id="password" tabindex="2" placeholder="******" required autocomplete="current-password">
+                            <input type="password" name="password" class="form-control mb-0" id="passwordBox" tabindex="2" placeholder="****" required>
+                            <span id="passwordBoxWrap" class="float-right position-relative"><span id="passwordBoxBtn" class="btn font-size-18" onClick="showPassword()"><i class="ri-eye-close-fill"> </i></span></span>
                         </div>
                         <div class="d-inline-block w-100">
                             <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1 float-right">

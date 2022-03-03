@@ -18,19 +18,25 @@
                             <div class="iq-header-title">
                                 <h4 class="card-title"><i class="ri-group-2-fill"> </i>{{ $menuTitle }}</h4>
                             </div>
-{{--                            @if(auth()->user()->profile->id == $family->father->id || auth()->user()->profile->id == $family->mother->id)--}}
                                 <div class="iq-card-header-toolbar d-flex align-items-center">
                                     <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#familyModal" onclick="modalFamily({{ $family->id }})"><i class="ri-add-fill"> </i>فرد للعائلة</button>
                                     <button type="button" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#fosterFamilyModal" onclick="modalFosterFamily({{ $family->id }})"><i class="ri-add-fill"> </i>أخ في الرضاعة</button>
                                 </div>
-{{--                            @endif--}}
                         </div>
 
                         <div class="iq-card-body">
                             <h6 class="text-center">الوالدان</h6>
                             <div class="list-group list-group-horizontal text-center">
-                                <a href="{{ route('admin.users.show', $family->father->user->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $family->father->full_name }}</a>
-                                <a href="{{ route('admin.users.show', $family->mother->user->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $family->mother->full_name }}</a>
+                                @isset($family->father)
+                                    <a href="{{ route('admin.users.show', $family->father->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $family->father->full_name }}</a>
+                                @else
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{ $family->father->full_name }}</a>
+                                @endisset
+                                @isset($family->mother)
+                                        <a href="{{ route('admin.users.show', $family->mother->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $family->mother->full_name }}</a>
+                                @else
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-danger">{{ isset($family->mother) ? $family->mother->full_name : '-----' }}</a>
+                                @endisset
                             </div>
                             <br>
                             <h6 class="text-center">الأولاد</h6>

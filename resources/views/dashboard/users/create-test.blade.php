@@ -132,7 +132,7 @@
 
                                         <div class="form-group col-lg-12">
                                             <label for="partner_first_name">{{ __('الاسم') }}</label>
-                                            <input type="text" name="partner_first_name" class="form-control mb-0" id="partner_first_name" value="{{ old('partner_first_name') }}" placeholder="أدخل اﻷسم ">
+                                            <input type="text" name="partner_first_name" class="form-control mb-0" id="partner_first_name" value="{{ old('partner_first_name') }}"placeholder="أدخل اﻷسم ">
                                         </div>
                                         <div class="form-group col-lg-12">
                                             <label for="partner_father_name">{{ __('اسم الأب') }}</label>
@@ -290,7 +290,6 @@
             $('#death_date').removeClass('d-none').addClass('d-block');
         else
             $('#death_date').removeClass('d-block').addClass('d-none');
-
     }
 
     function noFamilyShowDate(){

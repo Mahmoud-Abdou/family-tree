@@ -33,23 +33,25 @@
                                         <label for="selectFather">ابحث و حدد الأب</label>
                                         <select id="selectFather" name="father_id" class="js-states form-control" style="width: 100%;">
                                             @foreach($fathers as $father)
-                                                <option value="{{$father->id}}">{{$father->full_name}}</option>
+                                                <option value="{{$father->id}} {{ old('father_id') == $father->id ? 'selected' : '' }}">{{$father->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="selectMother">ابحث و حدد الأم</label>
                                         <select id="selectMother" name="mother_id" class="js-states form-control" style="width: 100%;">
+                                            <option value="none">لا يوجد</option>
                                             @foreach($mothers as $mother)
-                                                <option value="{{$mother->id}}">{{$mother->full_name}}</option>
+                                                <option value="{{$mother->id}} {{ old('mother_id') == $mother->id ? 'selected' : '' }}">{{$mother->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="selectGrandFather">ابحث و حدد عائلة الجد</label>
                                         <select id="selectGrandFather" name="gf_family_id" class="js-states form-control" style="width: 100%;">
+                                            <option value="none" selected>لا يوجد</option>
                                             @foreach($families as $fam)
-                                                <option value="{{$fam->id}}">{{$fam->name}}</option>
+                                                <option value="{{$fam->id}} {{ old('gf_family_id') == $fam->id ? 'selected' : '' }}">{{$fam->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -82,6 +84,7 @@
             $('#selectFather').select2({
                 placeholder: 'حدد الأب',
                 closeOnSelect: true,
+                tags: true,
                 dir: 'rtl',
                 language: 'ar',
                 width: '100%',
@@ -90,6 +93,7 @@
             $('#selectMother').select2({
                 placeholder: 'حدد الأم',
                 closeOnSelect: true,
+                tags: true,
                 dir: 'rtl',
                 language: 'ar',
                 width: '100%',
@@ -98,6 +102,7 @@
             $('#selectGrandFather').select2({
                 placeholder: 'حدد الجد',
                 closeOnSelect: true,
+                tags: true,
                 dir: 'rtl',
                 language: 'ar',
                 width: '100%',

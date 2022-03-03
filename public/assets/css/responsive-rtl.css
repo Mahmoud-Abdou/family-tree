@@ -213,6 +213,7 @@
     body.iq-page-menu-horizontal .iq-navbar-custom.d-flex {display: block !important;}
     .iq-top-navbar .iq-sub-dropdown { float: left; left: -162px;}
     .iq-top-navbar .search-box { float: left; left: -114px; }
+    #passwordBoxWrap { margin: -50px 5px !important; }
 }
 @media(max-width:479px) {
     .display-1 { font-size: 2.0rem; font-weight: 500; }
