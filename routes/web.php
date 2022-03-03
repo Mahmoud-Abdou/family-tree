@@ -57,9 +57,11 @@ Route::fallback(function () {
     return redirect('/');
 });
 
-Route::get('test', function () {
+//Route::get('test', function () {
 
-    $user = \App\Models\User::find(2);
+//    $users = \App\Models\User::where('status', 'active')->pluck('email')->toArray();
+//    $users = \App\Models\User::where('status', 'active')->get()->toArray();
 
-    dd($user, $user->profile->belongsToFamily, $user->profile->ownFamily);
-});
+//    return view('vendor.mail.html.message');
+//    return view('emails.layout');
+//});

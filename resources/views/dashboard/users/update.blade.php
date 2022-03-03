@@ -15,7 +15,7 @@
                     @include('partials.messages')
                     @include('partials.errors-messages')
 
-                    
+
                     <div class="card iq-mb-3 shadow">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
@@ -40,7 +40,7 @@
                                         <label for="surname">{{ __('اللقب') }}</label>
                                         <input type="text" name="surname" class="form-control mb-0" id="surname" value="{{ $person->surname }}" placeholder="أدخل اللقب">
                                     </div>
-                                    
+
                                     <div class="form-group col-lg-8 my-3">
                                         <label>حدد هذا الخيار اذا كان الشخص متوفي</label>
                                         <div class="d-inline-flex">
@@ -84,17 +84,17 @@
                                         <label for="job">الوظيفة</label>
                                         <input type="text" name="job" class="form-control mb-0"  placeholder="الوظيفة" value="{{ $person->job }}"  autofocus>
                                     </div>
-                                    @if($person->user)
+                                    @isset($person->user)
 
-                                        <div class="form-group col-lg-8">
-                                            <label for="new_email">{{ __('البريد الإلكتروني') }}</label>
-                                            <input type="email" name="email" class="form-control mb-0" id="new_email" value="{{ $person->user->email }}" placeholder="أدخل البريد الإلكتروني">
-                                        </div>
-                                        <div class="form-group col-lg-8">
+                                        <div class="form-group col-lg-6">
                                             <label for="new_mobile">{{ __('رقم الجوال') }}</label>
                                             <input type="text" name="mobile" class="form-control numeric mb-0" id="new_mobile" placeholder="أدخل رقم الجوال" value="{{ $person->user->mobile }}" >
                                         </div>
-                                    @endif
+                                        <div class="form-group col-lg-6">
+                                            <label for="new_email">{{ __('البريد الإلكتروني') }}</label>
+                                            <input type="email" name="email" class="form-control mb-0" id="new_email" value="{{ $person->user->email }}" placeholder="أدخل البريد الإلكتروني">
+                                        </div>
+                                    @endisset
 
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
         }
 
     }
-    
+
 
 </script>
 @endsection
