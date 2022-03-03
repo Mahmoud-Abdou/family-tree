@@ -67,16 +67,16 @@
                                         <div class="d-inline-flex ">
                                             <div class="custom-control custom-radio mx-4" onclick="openMainWifeModel()">
                                                 <input type="radio"
-                                                        id="yes_has_family" name="has_family" value="true"
+                                                        id="no_family_yes_has_family" name="no_family_has_family" value="true"
                                                         class="custom-control-input" >
-                                                <label class="custom-control-label" for="yes_has_family">
+                                                <label class="custom-control-label" for="no_family_yes_has_family">
                                                     متزوج/ة </label>
                                             </div>
                                             <div class="custom-control custom-radio mx-4" onclick="closeMainWifeModel()">
-                                                <input type="radio" id="no_has_family" name="has_family"
+                                                <input type="radio" id="no_family_no_has_family" name="no_family_has_family"
                                                         value="false"
                                                         class="custom-control-input" >
-                                                <label class="custom-control-label" for="no_has_family"> غير
+                                                <label class="custom-control-label" for="no_family_no_has_family"> غير
                                                     متزوج/ة </label>
                                             </div>
                                         </div>
@@ -109,8 +109,30 @@
                                     </div>
                                     <div class="form-group col-lg-6 d-none" id="death_date">
                                         <label for="date">تاريخ الوفاه</label>
-                                        <input type="date" name="death_date" class="form-control mb-0" id="date" value="{{ old('date') }}">
+                                        <input type="date" name="death_date" class="form-control mb-0"value="{{ old('death_date') }}">
                                     </div>
+                                    <div class="form-group col-lg-6 d-none" id="death_place">
+                                        <label for="death_place">مكان الوفاه</label>
+                                        <input type="date" name="death_place" class="form-control mb-0" value="{{ old('death_place') }}">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="surname">اللقب (اختياري)</label>
+                                        <input type="text" name="surname" class="form-control mb-0" id="surname" placeholder="اللقب" value="{{ old('surname') }}"  autofocus>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="birth_date"> تاريخ الميلاد (اختياري)</label>
+                                        <input type="date" name="birth_date" class="form-control mb-0" id="birth_date" placeholder="تاريخ الميلاد" value="{{ old('birth_date') }}"  autofocus>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="birth_place">محل الميلاد (اختياري)</label>
+                                        <input type="text" name="birth_place" class="form-control mb-0" id="birth_place" placeholder="محل الميلاد" value="{{ old('birth_place') }}"  autofocus>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="job">الوظيفة (اختياري)</label>
+                                        <input type="text" name="job" class="form-control mb-0" id="job" placeholder="الوظيفة" value="{{ old('job') }}"  autofocus>
+                                    </div>
+
+
                                 </div>
                             </div>
 
@@ -240,7 +262,29 @@
                                     </div>
                                     <div class="form-group col-lg-6 d-none" id="no_family_death_date">
                                         <label for="date">تاريخ الوفاه</label>
-                                        <input type="date" name="no_family_death_date" class="form-control mb-0" id="date" value="{{ old('date') }}">
+                                        <input type="date" name="death_date" class="form-control mb-0" id="date" value="{{ old('death_date') }}">
+                                    </div>
+                                    <div class="form-group col-lg-6 d-none" id="no_family_death_place">
+                                        <label for="death_place">مكان الوفاه</label>
+                                        <input type="text" name="death_place" class="form-control mb-0" value="{{ old('death_place') }}">
+                                    </div>
+                                    
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="no_family_surname">اللقب (اختياري)</label>
+                                        <input type="text" name="no_family_surname" class="form-control mb-0" id="no_family_surname" placeholder="اللقب" value="{{ old('surname') }}"  autofocus>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="no_family_birth_date"> تاريخ الميلاد (اختياري)</label>
+                                        <input type="date" name="no_family_birth_date" class="form-control mb-0" id="no_family_birth_date" placeholder="تاريخ الميلاد" value="{{ old('birth_date') }}"  autofocus>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="no_family_birth_place">محل الميلاد (اختياري)</label>
+                                        <input type="text" name="no_family_birth_place" class="form-control mb-0" id="no_family_birth_place" placeholder="محل الميلاد" value="{{ old('birth_place') }}"  autofocus>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="no_family_job">الوظيفة (اختياري)</label>
+                                        <input type="text" name="no_family_job" class="form-control mb-0" id="no_family_job" placeholder="الوظيفة" value="{{ old('job') }}"  autofocus>
                                     </div>
                                 </div>
                             </div>
@@ -264,6 +308,7 @@
         $('#father_id').select2({
             placeholder: 'حدد الاب',
             closeOnSelect: true,
+            tags: true,
             dir: 'rtl',
             language: 'ar',
             width: '100%',
@@ -271,6 +316,7 @@
         $('#mother_id').select2({
             placeholder: 'حدد الام',
             closeOnSelect: true,
+            tags: true,
             dir: 'rtl',
             language: 'ar',
             width: '100%',
@@ -286,18 +332,26 @@
     });
 
     function showDate(){
-        if($('#death_date').hasClass('d-none'))
+        if($('#death_date').hasClass('d-none')){
             $('#death_date').removeClass('d-none').addClass('d-block');
-        else
+            $('#death_place').removeClass('d-none').addClass('d-block');
+        }
+        else{
             $('#death_date').removeClass('d-block').addClass('d-none');
+            $('#death_place').removeClass('d-block').addClass('d-none');
+        }
 
     }
 
     function noFamilyShowDate(){
-        if($('#no_family_death_date').hasClass('d-none'))
+        if($('#no_family_death_date').hasClass('d-none')){
             $('#no_family_death_date').removeClass('d-none').addClass('d-block');
-        else
+            $('#no_family_death_place').removeClass('d-none').addClass('d-block');
+        }
+        else{
             $('#no_family_death_date').removeClass('d-block').addClass('d-none');
+            $('#no_family_death_place').removeClass('d-block').addClass('d-none');
+        }
 
     }
 
