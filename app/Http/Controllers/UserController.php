@@ -113,7 +113,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         if($request->type == 'withFamily'){
-
+            
             if(!isset($request['is_alive'])){
                 $request['is_alive'] = 'off';
             }
@@ -121,6 +121,25 @@ class UserController extends Controller
                 $request['has_family'] = 'false';
             }
             $father = Person::where('id', $request->father_id)->first();
+            $mother = Person::where('id', $request->mother_id)->first();
+            if($mother == null){
+                $mother_name = explode(' ', $request->mother_id);
+                $mother = Person::create([
+                    'first_name' => $mother_name[0],
+                    'father_name' => isset($mother_name[1]) ? $mother_name[1] : $father->father_name,
+                    'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                    'has_family' => 1,
+                    'gender' => 'female',
+                    'is_live' => $request->is_alive == 'off',
+                    'death_date' => $request->death_date,
+                ]);
+                Family::create([
+                    'name' => ' عائلة ' . ($father->first_name),
+                    'father_id' => $father->id,
+                    'mother_id' => $mother->id,
+                ]);
+                $request->mother_id = $mother->id;
+            }
             $family = Family::where('father_id', $request->father_id)
                             ->where('mother_id', $request->mother_id)
                             ->first();
@@ -136,6 +155,11 @@ class UserController extends Controller
                 'gender' => $request->gender,
                 'is_live' => $request->is_alive == 'off',
                 'death_date' => $request->death_date,
+                'death_place' => $request->death_place,
+                'surname' => $request->surname,
+                'birth_date' => $request->birth_date,
+                'birth_place' => $request->birth_place,
+                'job' => $request->job,
             ]);
 
             if($request['has_family'] == 'true' && $request['gender'] == 'male'){
@@ -185,21 +209,28 @@ class UserController extends Controller
                 'gender' => 'male',
                 'is_live' => $request->no_family_is_alive == 'off',
                 'death_date' => $request->no_family_death_date,
+                'death_place' => $request->no_family_death_place,
+                'surname' => $request->no_family_surname,
+                'birth_date' => $request->no_family_birth_date,
+                'birth_place' => $request->no_family_birth_place,
+                'job' => $request->no_family_job,
             ]);
-            $wife = Person::create([
-                'first_name' => 'زوجة' . $request->name,
-                'father_name' => $request->father_name,
-                'has_family' => 1,
-                'gender' => 'female',
-                'is_live' => $request->no_family_is_alive == 'off',
-                'death_date' => $request->no_family_death_date,
-            ]);
-
-            Family::create([
-                'name' => ' عائلة ' . ($person->first_name),
-                'father_id' => $person->id,
-                'mother_id' => $wife->id,
-            ]);
+            if($request->has_family == 'true'){
+                $wife = Person::create([
+                    'first_name' => 'زوجة' . $request->name,
+                    'father_name' => $request->father_name,
+                    'has_family' => 1,
+                    'gender' => 'female',
+                    'is_live' => $request->no_family_is_alive == 'off',
+                    'death_date' => $request->no_family_death_date,
+                ]);
+    
+                Family::create([
+                    'name' => ' عائلة ' . ($person->first_name),
+                    'father_id' => $person->id,
+                    'mother_id' => $wife->id,
+                ]);
+            }
         }
 
         return redirect()->route('admin.users.index')->with('success', 'تم اضافة الشخص بنجاح');
@@ -467,20 +498,38 @@ class UserController extends Controller
     public function update_user(Request $request)
     {
         $request->validate([
-            'name' => ['required'],
+            'first_name' => ['required'],
             'person_id' => ['required', 'exists:persons,id'],
         ]);
-
         $person = Person::where('id', $request['person_id'])->first();
-        $person->first_name = $request['name'];
+        $person->first_name = $request['first_name'];
+        $person->father_name = $request['father_name'];
+        $person->grand_father_name = $request['grand_father_name'];
+        $person->surname = $request['surname'];
+        $person->birth_date = $request['birth_date'];
+        $person->birth_place = $request['birth_place'];
+        $person->job = $request['job'];
         if(isset($request['is_alive'])){
             $person->is_live = 0;
             $person->death_date = $request['death_date'];
+            $person->death_place = $request['death_place'];
         }
         else
             $person->is_live = 1;
         $person->save();
-        return back()->with('success', 'تم تعديل المستخدم بنجاح');
+        if(isset($person->user)){
+            $request->validate([
+                'email' => ['required'],
+                'mobile' => ['required'],
+            ]);
+            $user = $person->user;
+            $user->email = $request->email;
+            $user->mobile = $request->mobile;
+            $user->name = $request->first_name;
+            $user->save();
+        }
+        
+        return redirect()->route('admin.users.index')->with('success', 'تم تعديل المستخدم بنجاح');
     }
 
     public function add_person_user(Request $request)
