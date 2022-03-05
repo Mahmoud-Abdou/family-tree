@@ -137,7 +137,7 @@
                                                 <td>
                                                     @isset($user->user) {!! $user->user->statusHtml() !!} @else - @endisset
                                                 </td>
-                                                <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                                                <td dir="ltr">{{ $user->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                     <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('admin.users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>

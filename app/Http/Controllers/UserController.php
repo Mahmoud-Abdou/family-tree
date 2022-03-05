@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -9,9 +10,9 @@ use App\Models\FosterBrother;
 use App\Models\Person;
 use App\Models\Family;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule;
-
 
 class UserController extends Controller
 {
@@ -25,11 +26,10 @@ class UserController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:users.read')->only(['index', 'show']);
         $this->middleware('permission:users.create')->only(['create', 'store']);
-        $this->middleware('permission:users.update')->only(['edit', 'update', 'roleAssign']);
+        $this->middleware('permission:users.update')->only(['edit', 'update', 'roleAssign', 'update_user']);
         $this->middleware('permission:users.delete')->only('destroy');
         $this->middleware('permission:users.activate')->only('activate');
-        $this->middleware('permission:users.update_user')->only('update_user');
-
+//        $this->middleware('permission:users.update_user')->only('update_user');
     }
 
     /**
@@ -51,21 +51,32 @@ class UserController extends Controller
         $perEmail = isset($_GET['email']) ? $_GET['email'] : null;
 
 //        $usersData = User::simplePaginate($perPage);
-        // $usersData = Person::leftJoin('users', 'persons.user_id', 'users.id')
-        // //     ->where([
-        // //     ['users.city_id', $perCity ? '=' : '<>', $perCity],
-        // //     ['users.role_id', $perRole ? '=' : '<>', $perRole],
-        // //     ['users.status', $perStatus ? '=' : '<>', $perStatus],
-        // //     ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
-        // //     ['users.email', $perEmail ? '=' : '<>', $perEmail]
-        // // ])
-        // ->where('persons.user_id')
-        // ->get();
-        $usersData = Person::with('user')//->get()
-        // ->select('users.*','persons.first_name', 'persons.id as person_id')
-        ->paginate($perPage);
+//        $usersData = Person::with(['user'])->select(['users.*', 'persons.*'])->where([
+//            ['users.city_id', $perCity ? '=' : '<>', $perCity],
+//            ['users.role_id', $perRole ? '=' : '<>', $perRole],
+//            ['users.status', $perStatus ? '=' : '<>', $perStatus],
+//            ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
+//            ['users.email', $perEmail ? '=' : '<>', $perEmail]
+//        ])->paginate($perPage);
 
-        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
+        $usersData = Person::join('users', 'users.id', '=', 'persons.user_id')
+            ->whereRaw('users.id = persons.user_id')
+//            ->where('users.mobile', 'like' , '%'. $perMobile .'%')
+//            ->where('users.email', 'like' , '%'. $perEmail .'%')
+//            ->where('users.city_id', 'like' , '%'. $perCity .'%')
+//            ->where('users.role_id', 'like' , '%'. $perRole .'%')
+//            ->where('users.status', 'like' , '%'. $perStatus .'%')
+            ->where([
+                ['users.city_id', $perCity ? '=' : '<>', $perCity],
+                ['users.role_id', $perRole ? '=' : '<>', $perRole],
+                ['users.status', $perStatus ? '=' : '<>', $perStatus],
+                ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
+                ['users.email', $perEmail ? '=' : '<>', $perEmail]
+            ])
+            ->paginate($perPage);
+
+        $rolesData = \Spatie\Permission\Models\Role::all()->reverse()->values();
+//        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
 
         return view('dashboard.users.index', compact(
@@ -112,8 +123,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        dd($request->all());
         if($request->type == 'withFamily'){
-            
+
             if(!isset($request['is_alive'])){
                 $request['is_alive'] = 'off';
             }
@@ -224,7 +236,7 @@ class UserController extends Controller
                     'is_live' => $request->no_family_is_alive == 'off',
                     'death_date' => $request->no_family_death_date,
                 ]);
-    
+
                 Family::create([
                     'name' => ' عائلة ' . ($person->first_name),
                     'father_id' => $person->id,
@@ -310,7 +322,7 @@ class UserController extends Controller
         if ($person->isDirty()) {
             $person->save();
 
-            \App\Helpers\AppHelper::AddLog('Block User', class_basename($person), $person->id);
+            AppHelper::AddLog('Block User', class_basename($person), $person->id);
             return redirect()->route('admin.users.index')->with('success', 'تم تعديل بيانات المستخدم بنجاح');
         }
 
@@ -332,7 +344,7 @@ class UserController extends Controller
         $user->status = 'blocked';
         $user->save();
 
-        \App\Helpers\AppHelper::AddLog('Block User', class_basename($user), $user->id);
+        AppHelper::AddLog('Block User', class_basename($user), $user->id);
         return back()->with('success', 'تم حظر المستخدم بنجاح');
     }
 
@@ -352,12 +364,12 @@ class UserController extends Controller
 
         if ($request->has('type') && $request->type == 'delete') {
             $user->status = 'blocked';
-            \App\Helpers\AppHelper::AddLog('Block User', class_basename($user), $user->id);
+            AppHelper::AddLog('Block User', class_basename($user), $user->id);
             $user->save();
             return back()->with('error', 'تم حظر المستخدم بنجاح');
         } else {
             $user->status = 'active';
-            \App\Helpers\AppHelper::AddLog('Activate User', class_basename($user), $user->id);
+            AppHelper::AddLog('Activate User', class_basename($user), $user->id);
             $user->save();
 
             return back()->with('success', 'تم تنشيط حساب المستخدم بنجاح');
@@ -379,7 +391,7 @@ class UserController extends Controller
         $user->role_id = $request->role_id;
         $user->save();
 
-        \App\Helpers\AppHelper::AddLog('Role User', class_basename($user), $user->id);
+        AppHelper::AddLog('Role User', class_basename($user), $user->id);
         return back()->with('warning', 'تم تعديل صلاحيات المستخدم بنجاح');
     }
 
@@ -406,7 +418,7 @@ class UserController extends Controller
         $profile->family_id = $request->family_id;
         $profile->save();
 
-        \App\Helpers\AppHelper::AddLog('Family User', class_basename($user), $user->id);
+        AppHelper::AddLog('Family User', class_basename($user), $user->id);
         return back()->with('warning', 'تم تعديل عائلة المستخدم بنجاح');
     }
     public function addFosterFamily(Request $request)
@@ -430,7 +442,7 @@ class UserController extends Controller
         $foster_brother->person_id = $request->person_id;
         $foster_brother->save();
 
-        \App\Helpers\AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
+        AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
     }
 
@@ -460,7 +472,7 @@ class UserController extends Controller
         $foster_brother->person_id = $person->id;
         $foster_brother->save();
 
-        \App\Helpers\AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
+        AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
     }
 
@@ -490,8 +502,7 @@ class UserController extends Controller
             'gender' => $request->gender,
         ]);
 
-
-        \App\Helpers\AppHelper::AddLog('New User', class_basename($person), $person->id);
+        AppHelper::AddLog('New User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
     }
 
@@ -528,7 +539,7 @@ class UserController extends Controller
             $user->name = $request->first_name;
             $user->save();
         }
-        
+
         return redirect()->route('admin.users.index')->with('success', 'تم تعديل المستخدم بنجاح');
     }
 
@@ -547,8 +558,10 @@ class UserController extends Controller
         $user->mobile = $request->mobile;
         $user->password = '123456789';
         $user->save();
+
         $person->user_id = $user->id;
         $person->save();
+
         return back()->with('success', 'تم انشاء المستخدم بنجاح');
     }
 }

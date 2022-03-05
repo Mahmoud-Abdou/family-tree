@@ -24,7 +24,6 @@
                             <button onclick="showFamilyModel(1)" id="addWithOutFamily" type="button" class="btn btn-outline-secondary rounded-pill mx-2">
                                 اضافة شخص بدون عائلة
                             </button>
-
                         </div>
 
                             <div class="card-body">
@@ -44,7 +43,7 @@
                                     <div class="form-group col-lg-6">
                                         <label for="father_id">{{ __('اسم الأب') }}</label>
                                         <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
-                                            <option disabled selected>حدد الأب</option>
+{{--                                            <option disabled selected>حدد الأب</option>--}}
                                             @foreach($persons as $per)
                                                 <option value="{{ $per->id }}" {{ old('father_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
@@ -54,7 +53,8 @@
                                     <div class="form-group col-lg-6">
                                         <label for="mother_id">{{ __('اسم الام') }}</label>
                                         <select id="mother_id" name="mother_id" class="js-states form-control" style="width: 100%;">
-                                            <option disabled selected>حدد الأم</option>
+{{--                                            <option disabled selected>حدد الأم</option>--}}
+                                            <option value="none">لا يوجد</option>
                                             @foreach($mothers as $per)
                                                 <option value="{{$per->id}}" {{ old('mother_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
@@ -83,10 +83,9 @@
                                     </div>
                                     <div id="wifeForm" class="d-none form-group col-lg-6" >
                                         <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
-                                        <select id="wife_id" name="wife_id" class="js-states form-control"
-                                                style="width: 100%;">
-                                            <option value="add" disabled selected>اختر زوجة </option>
-                                        {{--                                            <option value="add">اضف زوجة </option>--}}
+                                        <select id="wife_id" name="wife_id" class="js-states form-control" style="width: 100%;">
+{{--                                            <option disabled selected>اختر زوجة </option>--}}
+                                            <option value="none">لا يوجد</option>
                                             @foreach($female as $per)
                                                 <option value="{{$per->id}}" {{ old('wife_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
@@ -108,12 +107,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-lg-6 d-none" id="death_date">
-                                        <label for="date">تاريخ الوفاه</label>
-                                        <input type="date" name="death_date" class="form-control mb-0"value="{{ old('death_date') }}">
+                                        <label for="death_date_input">تاريخ الوفاه (اختياري)</label>
+                                        <input type="date" name="death_date" id="death_date_input" class="form-control mb-0" value="{{ old('death_date') }}">
                                     </div>
                                     <div class="form-group col-lg-6 d-none" id="death_place">
-                                        <label for="death_place">مكان الوفاه</label>
-                                        <input type="date" name="death_place" class="form-control mb-0" value="{{ old('death_place') }}">
+                                        <label for="death_place_input">مكان الوفاه (اختياري)</label>
+                                        <input type="text" name="death_place" id="death_place_input" class="form-control mb-0" value="{{ old('death_place') }}">
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="surname">اللقب (اختياري)</label>
@@ -132,7 +131,6 @@
                                         <input type="text" name="job" class="form-control mb-0" id="job" placeholder="الوظيفة" value="{{ old('job') }}"  autofocus>
                                     </div>
 
-
                                 </div>
                             </div>
 
@@ -141,6 +139,7 @@
                             </div>
                         </div>
                         <br>
+
                         <div class="modal fade" id="FamilyModel" tabindex="-1" role="dialog" aria-labelledby="FamilyModelLabel" style="display: none;" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -268,7 +267,7 @@
                                         <label for="death_place">مكان الوفاه</label>
                                         <input type="text" name="death_place" class="form-control mb-0" value="{{ old('death_place') }}">
                                     </div>
-                                    
+
 
                                     <div class="form-group col-lg-6">
                                         <label for="no_family_surname">اللقب (اختياري)</label>
@@ -306,7 +305,7 @@
 <script>
     $(document).ready(function() {
         $('#father_id').select2({
-            placeholder: 'حدد الاب',
+            placeholder: 'حدد الأب',
             closeOnSelect: true,
             tags: true,
             dir: 'rtl',
@@ -321,7 +320,6 @@
             language: 'ar',
             width: '100%',
         });
-
         $('#wife_id').select2({
             placeholder: 'حدد الزوجة',
             closeOnSelect: true,
@@ -340,7 +338,6 @@
             $('#death_date').removeClass('d-block').addClass('d-none');
             $('#death_place').removeClass('d-block').addClass('d-none');
         }
-
     }
 
     function noFamilyShowDate(){
@@ -364,7 +361,6 @@
             $('#NoFamilyId').removeClass('d-none').addClass('d-block');
             $('#WithFamily').removeClass('d-block').addClass('d-none');
         }
-
     }
 
     function changeSelect(value){

@@ -30,11 +30,11 @@ class StoreUserRequest extends FormRequest
             'father_id' => ['required_if:type,withFamily', 'exists:persons,id'],
             'mother_id' => ['required_if:type,withFamily'],
 //            'wife_id' => ['required'],
-            'gender' => ['required_if:type,withFamily', Rule::in(['male', 'female'])],
-            'has_family' => ['required_if:type,withFamily'],
+            'gender' => ['required', Rule::in(['male', 'female'])],
+//            'has_family' => ['required_if:type,withFamily'],
+            'has_family' => ['required'],
             'father_name' => ['required_if:type,noFamily'],
             'grand_father_name' => ['required_if:type,noFamily'],
-//          
         ];
     }
 }

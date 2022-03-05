@@ -36,7 +36,7 @@ class UpdatePersonRequest extends FormRequest
             'has_family' => ['required', 'in:false,true'],
             'birth_place' => ['nullable', 'string'],
             'birth_date' => ['nullable', 'date', 'date_format:Y-m-d'],
-            'wife_id' => ['required'],
+            'wife_id' => ['nullable'],
         ];
     }
 }
