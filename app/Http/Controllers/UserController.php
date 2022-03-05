@@ -123,7 +123,6 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        dd($request->all());
         if($request->type == 'withFamily'){
 
             if(!isset($request['is_alive'])){
