@@ -6,9 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Filters\TextFilter;
+use App\Filters\IDFilter;
+use App\Filters\OwnerFilter;
+use App\Filters\DateFilter;
+use Pricecurrent\LaravelEloquentFilters\Filterable;
+use App\Filters\OwnerRelativesFilter;
+
 class Person extends Model
 {
     use HasFactory, SoftDeletes;
+    use Filterable;
 
     public $photoPath = '/uploads/persons/';
 
@@ -170,6 +178,31 @@ class Person extends Model
         }
 
         return $missedData;
+    }
+
+    public function filters($request_filter)
+    {
+        $filters = [];
+        if(isset($request_filter['owner_name'])){
+            $filters[] = new OwnerFilter($request_filter['owner_name'], 'name', 'user');
+        }
+        if(isset($request_filter['owner_phone'])){
+            $filters[] = new OwnerFilter($request_filter['owner_phone'], 'mobile', 'user');
+        }
+        if(isset($request_filter['owner_email'])){
+            $filters[] = new OwnerFilter($request_filter['owner_email'], 'email', 'user');
+        }
+        if(isset($request_filter['status'])){
+            $filters[] = new OwnerFilter($request_filter['status'], 'status', 'user');
+        }
+        if(isset($request_filter['city'])){
+            $filters[] = new OwnerFilter($request_filter['city'], 'city_id', 'user');
+        }
+        if(isset($request_filter['role'])){
+            $filters[] = new OwnerFilter($request_filter['role'], 'role_id', 'user');
+        }
+
+        return $filters;
     }
 
 }

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule;
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 
 class UserController extends Controller
 {
@@ -37,51 +38,58 @@ class UserController extends Controller
      *
      * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $appMenu = config('custom.app_menu');
         $menuTitle = 'المستخدمين';
         $pageTitle = 'لوحة التحكم';
 
-        $perPage = isset($_GET['per-page']) ? $_GET['per-page'] : 10;
-        $perCity = isset($_GET['city']) && $_GET['city'] != 'all' ? $_GET['city'] : null;
-        $perRole = isset($_GET['role']) && $_GET['role'] != 'all' ? $_GET['role'] : null;
-        $perStatus = isset($_GET['status']) && $_GET['status'] != 'all' ? $_GET['status'] : null;
-        $perMobile = isset($_GET['mobile']) ? $_GET['mobile'] : null;
-        $perEmail = isset($_GET['email']) ? $_GET['email'] : null;
+        $perPage = isset($request['filters']) ? $request['filters']['perPage'] : 10;
+        // $perCity = isset($_GET['city']) && $_GET['city'] != 'all' ? $_GET['city'] : null;
+        // $perRole = isset($_GET['role']) && $_GET['role'] != 'all' ? $_GET['role'] : null;
+        // $perStatus = isset($_GET['status']) && $_GET['status'] != 'all' ? $_GET['status'] : null;
+        // $perMobile = isset($_GET['mobile']) ? $_GET['mobile'] : null;
+        // $perEmail = isset($_GET['email']) ? $_GET['email'] : null;
 
-//        $usersData = User::simplePaginate($perPage);
-//        $usersData = Person::with(['user'])->select(['users.*', 'persons.*'])->where([
-//            ['users.city_id', $perCity ? '=' : '<>', $perCity],
-//            ['users.role_id', $perRole ? '=' : '<>', $perRole],
-//            ['users.status', $perStatus ? '=' : '<>', $perStatus],
-//            ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
-//            ['users.email', $perEmail ? '=' : '<>', $perEmail]
-//        ])->paginate($perPage);
+        $persons = new Person;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
 
-//        $usersData = Person::join('users', 'users.id', '=', 'persons.user_id')
-//            ->whereRaw('users.id = persons.user_id')
-////            ->where('users.mobile', 'like' , '%'. $perMobile .'%')
-////            ->where('users.email', 'like' , '%'. $perEmail .'%')
-////            ->where('users.city_id', 'like' , '%'. $perCity .'%')
-////            ->where('users.role_id', 'like' , '%'. $perRole .'%')
-////            ->where('users.status', 'like' , '%'. $perStatus .'%')
-//            ->where([
-//                ['users.city_id', $perCity ? '=' : '<>', $perCity],
-//                ['users.role_id', $perRole ? '=' : '<>', $perRole],
-//                ['users.status', $perStatus ? '=' : '<>', $perStatus],
-//                ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
-//                ['users.email', $perEmail ? '=' : '<>', $perEmail]
-//            ])
-//            ->paginate($perPage);
+        $filters_array = $persons->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $persons = $persons->filter($filters);
+        $usersData = $persons->paginate($perPage);
 
-//        $usersData = DB::table('persons')
-//            ->leftJoin('users', 'persons.user_id', '=', 'users.id')
-//            ->select('persons.*', 'users.mobile', 'users.email', 'users.city_id')
-//            ->where('status', $perStatus)
-//            ->paginate($perPage);
+        // $usersData = User::simplePaginate($perPage);
+        // $usersData = Person::with(['user'])->select(['users.*', 'persons.*'])->where([
+        //     ['users.city_id', $perCity ? '=' : '<>', $perCity],
+        //     ['users.role_id', $perRole ? '=' : '<>', $perRole],
+        //     ['users.status', $perStatus ? '=' : '<>', $perStatus],
+        //     ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
+        //     ['users.email', $perEmail ? '=' : '<>', $perEmail]
+        // ])->paginate($perPage);
 
-        $usersData = Person::paginate($perPage);
+        // $usersData = Person::join('users', 'users.id', '=', 'persons.user_id')
+        //     ->whereRaw('users.id = persons.user_id')
+        //     ->where('users.mobile', 'like' , '%'. $perMobile .'%')
+        //     ->where('users.email', 'like' , '%'. $perEmail .'%')
+        //     ->where('users.city_id', 'like' , '%'. $perCity .'%')
+        //     ->where('users.role_id', 'like' , '%'. $perRole .'%')
+        //     ->where('users.status', 'like' , '%'. $perStatus .'%')
+        //     ->where([
+        //         ['users.city_id', $perCity ? '=' : '<>', $perCity],
+        //         ['users.role_id', $perRole ? '=' : '<>', $perRole],
+        //         ['users.status', $perStatus ? '=' : '<>', $perStatus],
+        //         ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
+        //         ['users.email', $perEmail ? '=' : '<>', $perEmail]
+        //     ])
+        //     ->paginate($perPage);
+
+        // $usersData = DB::table('persons')
+        //     ->leftJoin('users', 'persons.user_id', '=', 'users.id')
+        //     ->select('persons.*', 'users.mobile', 'users.email', 'users.city_id')
+        //     ->where('status', $perStatus)
+        //     ->paginate($perPage);
+
 
         $rolesData = \Spatie\Permission\Models\Role::all()->reverse()->values();
 //        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
@@ -140,28 +148,49 @@ class UserController extends Controller
                 $request['has_family'] = 'false';
             }
             $father = Person::where('id', $request->father_id)->first();
-            $mother = Person::where('id', $request->mother_id)->first();
-            if($mother == null){
-                $mother_name = explode(' ', $request->mother_id);
-                $mother = Person::create([
-                    'first_name' => $mother_name[0],
-                    'father_name' => isset($mother_name[1]) ? $mother_name[1] : $father->father_name,
-                    'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+            if($father == null){
+                $father_name = explode(' ', $request->mother_id);
+                $father = Person::create([
+                    'first_name' => $father_name[0],
+                    'father_name' => isset($father_name[1]) ? $father_name[1] : $father->father_name,
+                    'grand_father_name' => isset($father_name[2]) ? $father_name[2] : null,
                     'has_family' => 1,
                     'gender' => 'female',
                     'is_live' => $request->is_alive == 'off',
                     'death_date' => $request->death_date,
                 ]);
-                Family::create([
+                $request->father_id = $father->id;
+            }
+            if($request->mother_id == 'none'){
+                $family = Family::create([
                     'name' => ' عائلة ' . ($father->first_name),
                     'father_id' => $father->id,
-                    'mother_id' => $mother->id,
+                    'mother_id' => null,
                 ]);
-                $request->mother_id = $mother->id;
+            }else{
+                $mother = Person::where('id', $request->mother_id)->first();
+                if($mother == null){
+                    $mother_name = explode(' ', $request->mother_id);
+                    $mother = Person::create([
+                        'first_name' => $mother_name[0],
+                        'father_name' => isset($mother_name[1]) ? $mother_name[1] : $father->father_name,
+                        'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                        'has_family' => 1,
+                        'gender' => 'female',
+                        'is_live' => $request->is_alive == 'off',
+                        'death_date' => $request->death_date,
+                    ]);
+                    Family::create([
+                        'name' => ' عائلة ' . ($father->first_name),
+                        'father_id' => $father->id,
+                        'mother_id' => $mother->id,
+                    ]);
+                    $request->mother_id = $mother->id;
+                }
+                $family = Family::where('father_id', $request->father_id)
+                                ->where('mother_id', $request->mother_id)
+                                ->first();
             }
-            $family = Family::where('father_id', $request->father_id)
-                            ->where('mother_id', $request->mother_id)
-                            ->first();
 
             if($family == null){
                 return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
@@ -202,11 +231,26 @@ class UserController extends Controller
                     $wife->save();
                     $wife_id = $wife->id;
                 }
+                elseif($request['wife_id'] == 'none'){
+                    $wife_id = null;
+                }
                 else{
                     $wife = Person::where('id', $request['wife_id'])->first();
+                    if($wife == null){
+                        $mother_name = explode(' ', $request->wife_id);
+                        $wife = Person::create([
+                            'first_name' => $mother_name[0],
+                            'father_name' => isset($mother_name[1]) ? $mother_name[1] : $father->father_name,
+                            'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                            'has_family' => 1,
+                            'gender' => 'female',
+                            'is_live' => $request->is_alive == 'off',
+                            'death_date' => $request->death_date,
+                        ]);
+                    }
                     $wife->has_family = 1;
                     $wife->save();
-                    $wife_id = $request['wife_id'];
+                    $wife_id = $wife->id;
                 }
                 Family::create([
                     'name' => ' عائلة ' . ($person->first_name),
