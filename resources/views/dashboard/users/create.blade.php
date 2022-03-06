@@ -61,22 +61,22 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-lg-6" >
+                                    <div class="form-group col-lg-8" >
                                         <label>الحالة الاجتماعية</label>
                                         <br>
                                         <div class="d-inline-flex ">
                                             <div class="custom-control custom-radio mx-4" onclick="openMainWifeModel()">
                                                 <input type="radio"
-                                                        id="no_family_yes_has_family" name="no_family_has_family" value="true"
+                                                        id="family_yes_has_family" name="has_family" value="true"
                                                         class="custom-control-input" >
-                                                <label class="custom-control-label" for="no_family_yes_has_family">
+                                                <label class="custom-control-label" for="family_yes_has_family">
                                                     متزوج/ة </label>
                                             </div>
                                             <div class="custom-control custom-radio mx-4" onclick="closeMainWifeModel()">
-                                                <input type="radio" id="no_family_no_has_family" name="no_family_has_family"
+                                                <input type="radio" id="family_no_has_family" name="has_family"
                                                         value="false"
                                                         class="custom-control-input" >
-                                                <label class="custom-control-label" for="no_family_no_has_family"> غير
+                                                <label class="custom-control-label" for="family_no_has_family"> غير
                                                     متزوج/ة </label>
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="form-group col-lg-6 py-3">
+                                    <div class="form-group col-lg-8 py-3">
                                         <label>حدد هذا الخيار اذا كان الشخص متوفي</label>
                                         <div class="d-inline-flex">
                                             <div class="custom-control custom-radio mx-4">
@@ -323,6 +323,7 @@
         $('#wife_id').select2({
             placeholder: 'حدد الزوجة',
             closeOnSelect: true,
+            tags: true,
             dir: 'rtl',
             language: 'ar',
             width: '100%',

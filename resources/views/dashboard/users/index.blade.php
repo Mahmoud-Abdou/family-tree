@@ -27,19 +27,18 @@
                             </div>
                         </div>
                         <div class="card-header collapse" id="collapseFilters">
-                            <form method="GET" action="{{ route('admin.users.index') }}">
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
                                         <label for="email-filter">بحث بالبريد الالكتروني</label>
-                                        <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['email']) ? $_GET['email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
+                                        <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
                                     </div>
                                 </div>
 
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
                                         <label for="mobile-filter">بحث برقم الجوال</label>
-                                        <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['mobile']) ? $_GET['mobile'] : '' }}" placeholder="بحث برقم الجوال">
+                                        <input type="text" class="form-control" name="mobile" id="mobile-filter" value="{{ isset($_GET['filters']['owner_mobile']) ? $_GET['filters']['owner_mobile'] : '' }}" placeholder="بحث برقم الجوال">
                                     </div>
                                 </div>
 
@@ -48,10 +47,11 @@
                                     <label for="status-filter">بحث بالحالة</label>
                                     <select class="form-control" name="status" id="status-filter">
                                         <option disabled="">حدد الحالة</option>
-                                        <option {{ isset($_GET['status']) && $_GET['status'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
-                                        <option {{ isset($_GET['status']) && $_GET['status'] == 'registered' ? 'selected=""' : '' }} value="registered">مسجل جديد</option>
-                                        <option {{ isset($_GET['status']) && $_GET['status'] == 'active' ? 'selected=""' : '' }} value="active">نشط</option>
-                                        <option {{ isset($_GET['status']) && $_GET['status'] == 'blocked' ? 'selected=""' : '' }} value="blocked">محظور</option>
+                                        <option value="">الكل</option>
+                                        <option {{ isset($_GET['filters']['status']) && $_GET['filters']['status'] == 'registered' ? 'selected=""' : '' }} value="registered">غير مفعل</option>
+                                        <option {{ isset($_GET['filters']['status']) && $_GET['filters']['status'] == 'active' ? 'selected=""' : '' }} value="active"> مفعل</option>
+                                        <option {{ isset($_GET['filters']['status']) && $_GET['filters']['status'] == 'blocked' ? 'selected=""' : '' }} value="blocked">محظور</option>
+                                        <option {{ isset($_GET['filters']['status']) && $_GET['filters']['status'] == 'deleted' ? 'selected=""' : '' }} value="deleted">محذوف</option>
                                     </select>
                                     </div>
                                 </div>
@@ -61,9 +61,9 @@
                                     <label for="city-filter">بحث بالمدينة</label>
                                     <select class="form-control" name="city" id="city-filter">
                                         <option disabled="">حدد المدينة</option>
-                                        <option {{ isset($_GET['city']) && $_GET['city'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
+                                        <option value="">الكل</option>
                                         @foreach($cities as $city)
-                                            <option {{ isset($_GET['city']) && $city->id == $_GET['city'] ? 'selected=""' : '' }} value="{{ $city->id }}">{{ $city->name_ar }}</option>
+                                            <option {{ isset($_GET['filters']['city']) && $city->id == $_GET['filters']['city'] ? 'selected=""' : '' }} value="{{ $city->id }}">{{ $city->name_ar }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-tooltip">
@@ -77,9 +77,9 @@
                                     <label for="role-filter">بحث بالصلاحية</label>
                                     <select class="form-control" name="role" id="role-filter">
                                         <option disabled="">حدد الصلاحية</option>
-                                        <option {{ isset($_GET['role']) && $_GET['role'] == 'all' ? 'selected=""' : '' }} value="all">الكل</option>
+                                        <option value="">الكل</option>
                                         @foreach($rolesData as $role)
-                                            <option {{ isset($_GET['role']) && $role->id == $_GET['role'] ? 'selected=""' : '' }} value="{{ $role->id }}">{{ $role->name_ar }}</option>
+                                            <option {{ isset($_GET['filters']['role']) && $role->id == $_GET['filters']['role'] ? 'selected=""' : '' }} value="{{ $role->id }}">{{ $role->name_ar }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-tooltip">
@@ -92,12 +92,12 @@
                                     <div class="form-group my-auto">
                                     <label for="per-page-filter">عدد النتائج في الصفحة</label>
                                     <select class="form-control" name="per-page" id="per-page-filter">
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 10 ? 'selected=""' : '' }} value="10">10</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 20 ? 'selected=""' : '' }} value="20">20</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 30 ? 'selected=""' : '' }} value="20">30</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 50 ? 'selected=""' : '' }} value="50">50</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 70 ? 'selected=""' : '' }} value="50">70</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 100 ? 'selected=""' : '' }} value="100">100</option>
+                                        <option {{ isset($_GET['filters']['perPage']) && $_GET['filters']['perPage'] == 10 ? 'selected=""' : '' }} value="10">10</option>
+                                        <option {{ isset($_GET['filters']['perPage']) && $_GET['filters']['perPage'] == 20 ? 'selected=""' : '' }} value="20">20</option>
+                                        <option {{ isset($_GET['filters']['perPage']) && $_GET['filters']['perPage'] == 30 ? 'selected=""' : '' }} value="20">30</option>
+                                        <option {{ isset($_GET['filters']['perPage']) && $_GET['filters']['perPage'] == 50 ? 'selected=""' : '' }} value="50">50</option>
+                                        <option {{ isset($_GET['filters']['perPage']) && $_GET['filters']['perPage'] == 70 ? 'selected=""' : '' }} value="50">70</option>
+                                        <option {{ isset($_GET['filters']['perPage']) && $_GET['filters']['perPage'] == 100 ? 'selected=""' : '' }} value="100">100</option>
                                     </select>
                                     <div class="invalid-tooltip">
                                         حدد عدد المستخدمين في الصفحة الواحدة
@@ -106,10 +106,9 @@
                                 </div>
 
                                 <div class="col-md-2 mt-2">
-                                    <button type="submit" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
+                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
                                 </div>
                             </div>
-                            </form>
                         </div>
                         <div class="card-body p-0">
 
@@ -179,7 +178,7 @@
                                 <hr class="pt-0 mt-0" />
                             @endif
 
-                            <div class="d-flex justify-content-around">{{ $usersData->links() }}</div>
+                            <div class="d-flex justify-content-around">{{ $usersData->appends($_GET)->links() }}</div>
 
                         </div>
 
@@ -301,6 +300,36 @@
         }
         function modalAccount(userId) {
             $('#accountUserId').val(userId);
+        }
+
+        function filter_data(){
+            email_filter = $('#email-filter').val();
+            mobile_filter = $('#mobile-filter').val();
+            city_filter = $('#city-filter').val();
+            status_filter = $('#status-filter').val();
+            role_filter = $('#role-filter').val();
+            per_page_filter = $('#per-page-filter').val();
+            quary_string = "";
+            
+            if(email_filter){
+                quary_string += `filters[owner_email]=${email_filter}&`;
+            }
+            if(mobile_filter){
+                quary_string += `filters[owner_phone]=${mobile_filter}&`;
+            }
+            if(city_filter){
+                quary_string += `filters[city]=${city_filter}&`;
+            }
+            if(status_filter){
+                quary_string += `filters[status]=${status_filter}&`;
+            }
+            if(role_filter){
+                quary_string += `filters[role]=${role_filter}&`;
+            }
+            if(per_page_filter){
+                quary_string += `filters[perPage]=${per_page_filter}&`;
+            }
+            window.location = 'users?' + quary_string;
         }
     </script>
 @endsection
