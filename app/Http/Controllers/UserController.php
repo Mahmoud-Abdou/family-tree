@@ -59,38 +59,6 @@ class UserController extends Controller
         $persons = $persons->filter($filters);
         $usersData = $persons->paginate($perPage);
 
-        // $usersData = User::simplePaginate($perPage);
-        // $usersData = Person::with(['user'])->select(['users.*', 'persons.*'])->where([
-        //     ['users.city_id', $perCity ? '=' : '<>', $perCity],
-        //     ['users.role_id', $perRole ? '=' : '<>', $perRole],
-        //     ['users.status', $perStatus ? '=' : '<>', $perStatus],
-        //     ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
-        //     ['users.email', $perEmail ? '=' : '<>', $perEmail]
-        // ])->paginate($perPage);
-
-        // $usersData = Person::join('users', 'users.id', '=', 'persons.user_id')
-        //     ->whereRaw('users.id = persons.user_id')
-        //     ->where('users.mobile', 'like' , '%'. $perMobile .'%')
-        //     ->where('users.email', 'like' , '%'. $perEmail .'%')
-        //     ->where('users.city_id', 'like' , '%'. $perCity .'%')
-        //     ->where('users.role_id', 'like' , '%'. $perRole .'%')
-        //     ->where('users.status', 'like' , '%'. $perStatus .'%')
-        //     ->where([
-        //         ['users.city_id', $perCity ? '=' : '<>', $perCity],
-        //         ['users.role_id', $perRole ? '=' : '<>', $perRole],
-        //         ['users.status', $perStatus ? '=' : '<>', $perStatus],
-        //         ['users.mobile', $perMobile ? '=' : '<>', $perMobile],
-        //         ['users.email', $perEmail ? '=' : '<>', $perEmail]
-        //     ])
-        //     ->paginate($perPage);
-
-        // $usersData = DB::table('persons')
-        //     ->leftJoin('users', 'persons.user_id', '=', 'users.id')
-        //     ->select('persons.*', 'users.mobile', 'users.email', 'users.city_id')
-        //     ->where('status', $perStatus)
-        //     ->paginate($perPage);
-
-
         $rolesData = \Spatie\Permission\Models\Role::all()->reverse()->values();
 //        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
