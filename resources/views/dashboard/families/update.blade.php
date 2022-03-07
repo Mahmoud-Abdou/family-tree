@@ -56,16 +56,11 @@
                                         <label for="familyChildrenMale">الأولاد (الذكور)</label>
                                         <select id="familyChildrenMale" name="family_children_m[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
                                             @foreach($fathers as $child)
-                                                @if($boys->count() > 0)
-                                                    @foreach($boys as $boy)
-                                                        @if($child->id  == $boy->id)
-                                                            <option value="{{$boy->id}}" selected>{{$boy->full_name}}</option>
-                                                        @else
-                                                            <option value="{{$child->id}}">{{$child->full_name}}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
+                                                @if($boys->contains('id', $child->id))
+                                                    <option value="{{$child->id}}" selected>{{$child->full_name}}</option>
+                                                @else
                                                     <option value="{{$child->id}}">{{$child->full_name}}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -73,8 +68,12 @@
                                     <div class="form-group col-lg-6">
                                         <label for="familyChildrenFemale">الأولاد (الإناث)</label>
                                         <select id="familyChildrenFemale" name="family_children_f[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
-                                            @foreach($girls as $girl)
-                                                <option value="{{$girl->id}}" selected>{{$girl->full_name}}</option>
+                                            @foreach($mothers as $child)
+                                                @if($girls->contains('id', $child->id))
+                                                    <option value="{{$child->id}}" selected>{{$child->full_name}}</option>
+                                                @else
+                                                    <option value="{{$child->id}}">{{$child->full_name}}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>

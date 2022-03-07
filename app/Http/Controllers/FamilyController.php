@@ -259,7 +259,7 @@ class FamilyController extends Controller
     {
         $request->validate([
             'name' => ['nullable'],
-            'father_id' => ['required'],
+//            'father_id' => ['required'],
             'mother_id' => ['required'],
             'children_count' => ['numeric'],
             'gf_family_id' => ['nullable'],
