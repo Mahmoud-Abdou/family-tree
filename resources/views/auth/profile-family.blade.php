@@ -125,7 +125,7 @@
                             </select>
                             <br>
                             <br>
-                            <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#newPersonModal" onclick="modalNewPerson({{ isset($ownFamily->id) ? $ownFamily->id : null }})"><i class="ri-add-fill"> </i>اضف شخص غير موجود</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#newPersonModal" onclick="modalNewPerson()"><i class="ri-add-fill"> </i>اضف شخص غير موجود</button>
 
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                             </select>
                             <br>
                             <br>
-                            <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#newFosterFamilyModal" onclick="modalNewFosterFamily({{ $ownFamily->id }})"><i class="ri-add-fill"> </i>اضف شخص غير موجود</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-1" data-toggle="modal" data-target="#newFosterFamilyModal" onclick="modalNewFosterFamily()"><i class="ri-add-fill"> </i>اضف شخص غير موجود</button>
 
                         </div>
                     </div>
@@ -259,12 +259,12 @@
                             <br>
                             <div class="d-inline-flex">
                                 <div class="custom-control custom-radio mx-4">
-                                    <input type="radio" id="male" name="gender" value="male" class="custom-control-input" {{ old('gender') == 'male' ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="male"> ذكر </label>
+                                    <input type="radio" id="male_new" name="gender" value="male" class="custom-control-input" {{ old('gender') == 'male' ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="male_new"> ذكر </label>
                                 </div>
                                 <div class="custom-control custom-radio mx-4">
-                                    <input type="radio" id="female" name="gender" value="female" class="custom-control-input" {{ old('gender') == 'female' ? 'checked' : '' }}>
-                                    <label class="custom-control-label" for="female"> أنثى </label>
+                                    <input type="radio" id="female_new" name="gender" value="female" class="custom-control-input" {{ old('gender') == 'female' ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="female_new"> أنثى </label>
                                 </div>
                             </div>
                         </div>
@@ -289,11 +289,11 @@
         function modalFosterFamily(familyId) {
             $('#fosterFamilyId').val(familyId);
         }
-        function modalNewFosterFamily(familyId) {
-            $('#newFosterFamilyId').val(familyId);
+        function modalNewFosterFamily() {
+            $('#newFosterFamilyId').val($('#fosterFamilyId').val());
         }
-        function modalNewPerson(familyId) {
-            $('#newPersonFamilyId').val(familyId);
+        function modalNewPerson() {
+            $('#newPersonFamilyId').val($('#familyId').val());
         }
 
         $(document).ready(function() {

@@ -133,6 +133,17 @@ class Person extends Model
     {
         return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
     }
+    public function getRelationFullNameAttribute()
+    {
+        $full_name = $this->first_name . ' ';
+        if(isset($this->belongsToFamily->father)){
+            $full_name .= $this->belongsToFamily->father->first_name . ' ';
+            if(isset($this->belongsToFamily->father->belongsToFamily->father)){
+                $full_name .= $this->belongsToFamily->father->belongsToFamily->father->first_name . ' ';
+            }
+        }
+        return $full_name;
+    }
 
     public function getFullNameLong()
     {
