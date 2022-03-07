@@ -87,18 +87,18 @@
                                     </div>
                                     <div id="wifeForm" class="d-none form-group col-lg-6" >
                                         <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
-                                        <select id="wife_id" name="wife_id" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
+                                        <select id="wife_id" name="wife_id[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
 {{--                                            <option disabled selected>اختر زوجة </option>--}}
                                             <option value="none">لا يوجد</option>
                                             @foreach($female as $per)
                                                 <option value="{{$per->id}}" {{ old('wife_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
-                                        <button type="button" data-dismiss="modal"
+                                        <!-- <button type="button" data-dismiss="modal"
                                                 class="btn btn-primary rounded-pill m-2 py-2 px-3" data-toggle="modal"
                                                 data-target="#newPersonModal" onclick="openWifeModel()"><i
                                                 class="ri-add-fill"> </i>اضف زوجة غير موجود
-                                        </button>
+                                        </button> -->
                                     </div>
 
                                     <div class="form-group col-lg-6 py-3">
