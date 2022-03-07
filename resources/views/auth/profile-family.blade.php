@@ -231,7 +231,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content shadow">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title" id="newPersonModalLabel"><i class="ri-group-2-fill"> </i>اضافة اخ في الرضاعة للعائلة</h5>
+                    <h5 class="modal-title" id="newPersonModalLabel"><i class="ri-group-2-fill"> </i>اضافة فرد للعائلة</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>

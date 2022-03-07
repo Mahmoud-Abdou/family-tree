@@ -195,6 +195,10 @@ class UserController extends Controller
             if($family == null){
                 return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
             }
+            $childern = (int)$family->children_count;
+            $family->children_count = $childern + 1;
+            $family->save();
+
             $person = Person::create([
                 'first_name' => $request->name,
                 'father_name' => $father->first_name,
@@ -552,6 +556,10 @@ class UserController extends Controller
             'family_id' => $request['family_id'],
             'gender' => $request->gender,
         ]);
+
+        $family = Family::where('id', $request->family_id)->first();
+        $family->children_count = (int)$family->children_count + 1;
+        $family->save();
 
         AppHelper::AddLog('New User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
