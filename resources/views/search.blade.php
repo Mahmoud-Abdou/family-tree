@@ -43,7 +43,7 @@
                                     <tbody>
                                     @if($searchResult->count() > 0)
                                         @foreach($searchResult as $data)
-                                            <tr class="clickable-row" data-href="{{ route('search.result', [$searchWord, $data->user->id]) }}" style="cursor: pointer;">
+                                            <tr class="clickable-row" data-href="{{ route('search.result', [$searchWord, $data->id]) }}" style="cursor: pointer;">
                                                 <td><img src="{{ $data->photo }}" width="40" class="rounded-circle ml-3" alt="لا توجد صورة"></td>
                                                 <td>{{ $data->full_name }}</td>
                                                 <td>{{ $data->genderName() }}</td>

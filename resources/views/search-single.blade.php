@@ -52,7 +52,7 @@
 
                 <div class="col-lg-12">
                     <div class="tab-content">
-                        @include('auth.profile-family', ['ownFamily' => $user->profile->OwnFamily, 'family' => $user->profile->belongsToFamily, 'personsData' => []])
+                        @include('auth.profile-family', ['ownFamily' => $person->OwnFamily, 'family' => $person->belongsToFamily, 'personsData' => []])
 
                         @include('auth.profile-profile', ['profile' => $person])
                     </div>

@@ -2,6 +2,10 @@
 
 @section('page-title', $pageTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-group-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الأسر', 'link' => route('admin.families.index')],['title' => $menuTitle, 'link' => route('admin.families.index')],]])
 @endsection
@@ -27,7 +31,7 @@
                                 <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="familyName">اسم العائلة</label>
-                                        <input type="text" name="name" id="familyName" value="{{ old('name') }}" class="d-block w-100">
+                                        <input type="text" name="name" id="familyName" value="{{ old('name') }}" class="d-block w-100" style="height: 40px;">
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="selectFather">ابحث و حدد الأب</label>
@@ -46,6 +50,25 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="familyChildrenMale">الأولاد (الذكور)</label>
+                                        <select id="familyChildrenMale" name="family_children_m[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
+                                            @foreach($fathers as $child)
+                                                <option value="{{$child->id}}">{{$child->full_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="familyChildrenFemale">الأولاد (الإناث)</label>
+                                        <select id="familyChildrenFemale" name="family_children_f[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
+                                            @foreach($mothers as $child)
+                                                <option value="{{$child->id}}">{{$child->full_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="form-group col-lg-6">
                                         <label for="selectGrandFather">ابحث و حدد عائلة الجد</label>
                                         <select id="selectGrandFather" name="gf_family_id" class="js-states form-control" style="width: 100%;">
@@ -55,10 +78,11 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="children">عدد الأولاد</label>
-                                        <input type="number" name="children_count" id="children" class="d-block w-100" value="{{ old('children_count') }}">
-                                    </div>
+{{--                                    <div class="form-group col-lg-6">--}}
+{{--                                        <label for="children">عدد الأولاد</label>--}}
+{{--                                        <input type="number" name="children_count" id="children" class="d-block w-100" value="{{ old('children_count') }}" style="height: 40px;">--}}
+{{--                                    </div>--}}
+
                                 </div>
 
                             </div>
@@ -84,6 +108,7 @@
             $('#selectFather').select2({
                 placeholder: 'حدد الأب',
                 closeOnSelect: true,
+                allowClear: true,
                 tags: true,
                 dir: 'rtl',
                 language: 'ar',
@@ -93,6 +118,7 @@
             $('#selectMother').select2({
                 placeholder: 'حدد الأم',
                 closeOnSelect: true,
+                allowClear: true,
                 tags: true,
                 dir: 'rtl',
                 language: 'ar',
@@ -102,11 +128,33 @@
             $('#selectGrandFather').select2({
                 placeholder: 'حدد الجد',
                 closeOnSelect: true,
+                allowClear: true,
+                tags: false,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+
+            $('#familyChildrenMale').select2({
+                placeholder: 'أضف الأولاد',
+                closeOnSelect: true,
+                allowClear: true,
                 tags: true,
                 dir: 'rtl',
                 language: 'ar',
                 width: '100%',
             });
+
+            $('#familyChildrenFemale').select2({
+                placeholder: 'أضف البنات',
+                closeOnSelect: true,
+                allowClear: true,
+                tags: true,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+
         });
     </script>
 @endsection

@@ -76,7 +76,7 @@ class FamilyController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => ['required'],
+            'name' => ['nullable'],
             'father_id' => ['required'],
             'mother_id' => ['required'],
             'children_count' => ['nullable', 'numeric'],
@@ -87,7 +87,7 @@ class FamilyController extends Controller
         if (!isset($father)) {
             $fatherName = explode(" ", $data['father_id']);
             if (!isset($fatherName[1])) {
-                return back()->with('error', 'يوجد خطأ في اسم الأب');
+                return back()->with('error', ' يوجد خطأ في اسم الأب (الاسم ثلالثي)');
             }
 
             $father = Person::create([
@@ -139,19 +139,66 @@ class FamilyController extends Controller
                     'status' => true,
                 ]);
 
+                // fix father family id
                 $father->family_id = $gfFamily->id;
                 $father->save();
             }
         }
 
         $family = Family::create([
-            'name' => $data['name'],
+            'name' => isset($data['name']) ? $data['name'] : 'أسرة '. $father->first_name,
             'father_id' => $father->id,
             'mother_id' => isset($mother) ? $mother->id : null,
             'children_count' => isset($data['children_count']) ? $data['children_count'] : 0,
             'gf_family_id' => isset($gfFamily) ? $gfFamily->id : null,
             'status' => true
         ]);
+
+        // add family children
+        if (isset($request->family_children_m)) {
+            foreach ($request->family_children_m as $children) {
+                $boy = Person::find($children);
+
+                if (isset($boy)) {
+                    $boy->family_id = $family->id;
+                    $boy->save();
+                } else {
+                    Person::create([
+                        'first_name' => $children,
+                        'father_name' => $father->first_name,
+                        'grand_father_name' => $father->father_name,
+                        'surname' => $father->grand_father_name,
+                        'gender' => 'male',
+                        'has_family' => false,
+                        'family_id' => $family->id,
+                    ]);
+                }
+            }
+        }
+        if (isset($request->family_children_f)) {
+            foreach ($request->family_children_f as $children) {
+                $girl = Person::find($children);
+
+                if (isset($girl)) {
+                    $girl->family_id = $family->id;
+                    $girl->save();
+                } else {
+                    Person::create([
+                        'first_name' => $children,
+                        'father_name' => $father->first_name,
+                        'grand_father_name' => $father->father_name,
+                        'surname' => $father->grand_father_name,
+                        'gender' => 'female',
+                        'has_family' => false,
+                        'family_id' => $family->id,
+                    ]);
+                }
+            }
+        }
+
+        // fix children count
+        $family->children_count = $family->members->count();
+        $family->save();
 
         \App\Helpers\AppHelper::AddLog('Family Create', class_basename($family), $family->id);
         return redirect()->route('admin.families.index')->with('success', 'تم اضافة أسرة جديدة بنجاح.');
@@ -190,11 +237,14 @@ class FamilyController extends Controller
         $menuTitle = 'تعديل أسرة: '.$family->name;
         $pageTitle = 'لوحة التحكم';
 
+        $fathers = Person::where('gender', '=', 'male')->get();
         $mothers = Person::where('gender', '=', 'female')->get();
         $families = Family::all()->except($family->id);
+        $boys = Person::where('gender', '=', 'male')->where('family_id', '=', $family->id)->get();
+        $girls = Person::where('gender', '=', 'female')->where('family_id', '=', $family->id)->get();
 
         return view('dashboard.families.update', compact(
-            'appMenu', 'pageTitle', 'menuTitle', 'mothers', 'families', 'family'
+            'appMenu', 'pageTitle', 'menuTitle', 'fathers', 'mothers', 'families', 'family', 'boys', 'girls'
         ));
     }
 
@@ -208,7 +258,7 @@ class FamilyController extends Controller
     public function update(Request $request, family $family)
     {
         $request->validate([
-            'name' => ['required'],
+            'name' => ['nullable'],
             'father_id' => ['required'],
             'mother_id' => ['required'],
             'children_count' => ['numeric'],
@@ -231,8 +281,62 @@ class FamilyController extends Controller
             }
         }
 
-        $family->name = $request->name;
-        $family->father_id = $request->father_id;
+        // update family children
+        if (isset($request->family_children_m)) {
+            $boys = Person::where([['gender', '=', 'male'], ['family_id', '=', $family->id]])->get();
+            foreach ($boys as $b) {
+                $b->family_id = null;
+                $b->save();
+            }
+
+            foreach ($request->family_children_m as $children) {
+                $boy = Person::find($children);
+
+                if (isset($boy)) {
+                    $boy->family_id = $family->id;
+                    $boy->save();
+                } else {
+                    Person::create([
+                        'first_name' => $children,
+                        'father_name' => $family->father->first_name,
+                        'grand_father_name' => $family->father->father_name,
+                        'surname' => $family->father->grand_father_name,
+                        'gender' => 'male',
+                        'has_family' => false,
+                        'family_id' => $family->id,
+                    ]);
+                }
+            }
+        }
+        if (isset($request->family_children_f)) {
+            $girls = Person::where([['gender', '=', 'female'], ['family_id', '=', $family->id]])->get();
+            foreach ($girls as $g) {
+                $g->family_id = null;
+                $g->save();
+            }
+
+            foreach ($request->family_children_f as $children) {
+                $girl = Person::find($children);
+
+                if (isset($girl)) {
+                    $girl->family_id = $family->id;
+                    $girl->save();
+                } else {
+                    Person::create([
+                        'first_name' => $children,
+                        'father_name' => $family->father->first_name,
+                        'grand_father_name' => $family->father->father_name,
+                        'surname' => $family->father->grand_father_name,
+                        'gender' => 'female',
+                        'has_family' => false,
+                        'family_id' => $family->id,
+                    ]);
+                }
+            }
+        }
+
+        $family->name = isset($request->name) ? $request->name : $family->name;
+//        $family->father_id = $request->father_id;
         $family->mother_id = isset($mother) ? $mother->id : null;
         $family->gf_family_id = $request->gf_family_id != 'none' ? $request->gf_family_id : null;
         $family->children_count = $family->members->count();

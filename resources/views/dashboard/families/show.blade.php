@@ -2,6 +2,10 @@
 
 @section('page-title', $pageTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-group-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الأسر', 'link' => route('admin.families.index')], ['title' => $menuTitle, 'link' => route('admin.families.index')],]])
 @endsection
@@ -86,8 +90,7 @@
 
                         <div class="form-group">
                             <label for="selectUser">ابحث و اختر الشخص، ليتم اضافته</label>
-                            <select id="selectUser" name="user_id" class="js-states form-control" style="width: 100%;">
-                                <option disabled selected>ابحث و حدد الشخص</option>
+                            <select id="selectUser" name="user_id" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
                                 @foreach($allPersons as $per)
                                     <option value="{{$per->id}}">{{$per->full_name}}</option>
                                 @endforeach
@@ -267,8 +270,10 @@
 
         $(document).ready(function() {
             $('#selectUser').select2({
-                placeholder: 'حدد الفرد',
+                placeholder: 'ابحث و حدد الشخص',
                 closeOnSelect: true,
+                allowClear: true,
+                tags: true,
                 dir: 'rtl',
                 language: 'ar',
                 width: '100%',
@@ -277,6 +282,7 @@
             $('#selectUser2').select2({
                 placeholder: 'حدد الفرد',
                 closeOnSelect: true,
+                allowClear: true,
                 dir: 'rtl',
                 language: 'ar',
                 width: '100%',

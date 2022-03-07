@@ -2,6 +2,10 @@
 
 @section('page-title', $pageTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => 'المستخدمين', 'link' => route('admin.users.index')],['title' => $menuTitle, 'link' => route('admin.users.index')],]])
 @endsection
@@ -61,7 +65,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-lg-8" >
+                                    <div class="form-group col-lg-6" >
                                         <label>الحالة الاجتماعية</label>
                                         <br>
                                         <div class="d-inline-flex ">
@@ -83,7 +87,7 @@
                                     </div>
                                     <div id="wifeForm" class="d-none form-group col-lg-6" >
                                         <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
-                                        <select id="wife_id" name="wife_id" class="js-states form-control" style="width: 100%;">
+                                        <select id="wife_id" name="wife_id" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
 {{--                                            <option disabled selected>اختر زوجة </option>--}}
                                             <option value="none">لا يوجد</option>
                                             @foreach($female as $per)
@@ -97,7 +101,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="form-group col-lg-8 py-3">
+                                    <div class="form-group col-lg-6 py-3">
                                         <label>حدد هذا الخيار اذا كان الشخص متوفي</label>
                                         <div class="d-inline-flex">
                                             <div class="custom-control custom-radio mx-4">
@@ -307,14 +311,16 @@
         $('#father_id').select2({
             placeholder: 'حدد الأب',
             closeOnSelect: true,
+            allowClear: true,
             tags: true,
             dir: 'rtl',
             language: 'ar',
             width: '100%',
         });
         $('#mother_id').select2({
-            placeholder: 'حدد الام',
+            placeholder: "حدد الام",
             closeOnSelect: true,
+            allowClear: true,
             tags: true,
             dir: 'rtl',
             language: 'ar',
@@ -323,6 +329,7 @@
         $('#wife_id').select2({
             placeholder: 'حدد الزوجة',
             closeOnSelect: true,
+            allowClear: true,
             tags: true,
             dir: 'rtl',
             language: 'ar',

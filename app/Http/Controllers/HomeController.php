@@ -165,7 +165,7 @@ class HomeController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'البحث';
         if ($searchWord) {
-            $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name'], $searchWord)->paginate(20);
+            $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name', 'surname'], $searchWord)->paginate(20);
         } else {
             $searchResult = \App\Models\Person::where('first_name', $searchWord)->paginate(20);
         }
@@ -176,13 +176,14 @@ class HomeController extends Controller
 
     public function searchSingle($word, $data_id)
     {
-        $user = User::findOrFail($data_id);
+//        $user = User::findOrFail($data_id);
+//        $person = $user->profile;
+        $person = Person::findOrFail($data_id);
         $searchWord = session()->has('searchWord') ? session('searchWord') : $word;
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = session()->has('searchWord') ? session('searchWord') : 'نتائج البحث';
-        $person = $user->profile;
 
-        return view('search-single', compact('menuTitle', 'pageTitle', 'searchWord', 'user', 'person'));
+        return view('search-single', compact('menuTitle', 'pageTitle', 'searchWord', 'person'));
     }
 
     public function admin()
