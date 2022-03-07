@@ -58,10 +58,13 @@ class UserController extends Controller
         $filters = EloquentFilters::make($filters_array);
         $persons = $persons->filter($filters);
         $usersData = $persons->paginate($perPage);
-
-        $rolesData = \Spatie\Permission\Models\Role::all()->reverse()->values();
-//        $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
+
+        if (auth()->user()->hasRole('Super Admin')) {
+            $rolesData = \Spatie\Permission\Models\Role::all()->reverse()->values();
+        } else {
+            $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
+        }
 
         return view('dashboard.users.index', compact(
             'appMenu', 'pageTitle', 'menuTitle', 'usersData', 'rolesData', 'cities'
@@ -80,16 +83,13 @@ class UserController extends Controller
         $pageTitle = 'لوحة التحكم';
 
         $female = Person::where('gender', 'female')
-                        ->where('has_family', 0)
-                        ->get();
+            ->where('has_family', 0)->get();
 
         $persons = \App\Models\Person::where('has_family', 1)
-                                        ->where('gender', 'male')
-                                        ->get();
+            ->where('gender', 'male')->get();
 
         $mothers = Person::where('gender', 'female')
-                        ->where('has_family', 1)
-                        ->get();
+            ->where('has_family', 1)->get();
 
         $roles = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get()->reverse()->values();
         $cities = \App\Models\City::all();
@@ -344,13 +344,10 @@ class UserController extends Controller
         $person->is_live = $request->is_alive != 'on';
         $person->death_date = $request->death_date;
 
-        if ($person->has_family) {
-
-        }
         if ($person->isDirty()) {
             $person->save();
 
-            AppHelper::AddLog('Block User', class_basename($person), $person->id);
+            AppHelper::AddLog('Update Person', class_basename($person), $person->id);
             return redirect()->route('admin.users.index')->with('success', 'تم تعديل بيانات المستخدم بنجاح');
         }
 
@@ -445,7 +442,7 @@ class UserController extends Controller
         $profile = $user->profile;
         $profile->family_id = $request->family_id;
         $profile->save();
-        
+
         $family = Family::where('id', $request->family_id)->first();
         if (is_null($family)) {
             return back()->with('error', 'حدث خطأ!');

@@ -216,12 +216,10 @@ class FamilyController extends Controller
         $menuTitle = $family->name;
         $pageTitle = 'لوحة التحكم';
 
-        $allPersons = Person::where('family_id', null)
-            ->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix'])->except([$family->father_id, $family->mother_id]);
-        $fosterPersons = Person::where('family_id', null)->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
+        $allPersons = Person::get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix'])->except([$family->father_id, $family->mother_id]);
 
         return view('dashboard.families.show', compact(
-            'appMenu', 'pageTitle', 'menuTitle', 'family', 'allPersons', 'fosterPersons'
+            'appMenu', 'pageTitle', 'menuTitle', 'family', 'allPersons'
         ));
     }
 
@@ -365,5 +363,53 @@ class FamilyController extends Controller
         }
 
         return redirect()->route('admin.families.index');
+    }
+
+    public function addChildren(Request $request)
+    {
+        $family = Family::findOrFail($request->family_id);
+
+        if (!isset($family)) {
+            return back()->with('error', 'حدثت مشكلة.');
+        }
+
+        if ($request->has('type')) {
+            Person::create([
+                'first_name' => $request->name,
+                'father_name' => $family->father->first_name,
+                'grand_father_name' => $family->father->father_name,
+                'surname' => $family->father->grand_father_name,
+                'gender' => $request->gender,
+                'has_family' => false,
+                'family_id' => $family->id,
+            ]);
+
+            $family->children_count++;
+            $family->save();
+
+            return back()->with('success', 'تم إضافة فرد للأسرة بنجاح.');
+        }
+
+        if (isset($request->users)) {
+            $oldChildren = Person::where('family_id', '=', $family->id)->get();
+            foreach ($oldChildren as $old) {
+                $old->family_id = null;
+                $old->save();
+            }
+
+            foreach ($request->users as $children) {
+                $child = Person::find($children);
+
+                if (isset($child)) {
+                    $child->family_id = $family->id;
+                    $child->save();
+                }
+            }
+        }
+
+        $family->children_count = $family->members->count();
+        $family->save();
+
+        return back()->with('success', 'تم اضافة الأبناء بنجاح.');
     }
 }
