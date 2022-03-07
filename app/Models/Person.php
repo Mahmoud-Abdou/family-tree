@@ -127,7 +127,6 @@ class Person extends Model
             }
             return 'غير متزوج';
         }
-
     }
 
     public function getFullNameAttribute()

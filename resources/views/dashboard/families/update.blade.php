@@ -2,6 +2,10 @@
 
 @section('page-title', $pageTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-group-2-line"> </i>'.$menuTitle, 'slots' => [['title' => 'الأسر', 'link' => route('admin.families.index')],['title' => $menuTitle, 'link' => route('admin.families.index')],]])
 @endsection
@@ -28,11 +32,11 @@
                                 <div class="row">
                                     <div class="form-group col-lg-12">
                                         <label for="familyName">اسم العائلة</label>
-                                        <input type="text" name="name" id="familyName" value="{{ $family->name }}" class="d-block w-100">
+                                        <input type="text" name="name" id="familyName" value="{{ $family->name }}" class="d-block w-100" style="height: 40px;">
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="selectFather">الأب</label>
-                                        <select id="selectFather" name="father_id" class="js-states form-control" style="width: 100%;">
+                                        <select id="selectFather" name="father_id" class="js-states form-control" style="width: 100%;" disabled>
 {{--                                            @foreach($fathers as $father)--}}
                                                 <option value="{{$family->father->id}}" selected>{{$family->father->full_name}}</option>
 {{--                                            @endforeach--}}
@@ -47,6 +51,34 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="familyChildrenMale">الأولاد (الذكور)</label>
+                                        <select id="familyChildrenMale" name="family_children_m[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
+                                            @foreach($fathers as $child)
+                                                @if($boys->count() > 0)
+                                                    @foreach($boys as $boy)
+                                                        @if($child->id  == $boy->id)
+                                                            <option value="{{$boy->id}}" selected>{{$boy->full_name}}</option>
+                                                        @else
+                                                            <option value="{{$child->id}}">{{$child->full_name}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                    <option value="{{$child->id}}">{{$child->full_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="familyChildrenFemale">الأولاد (الإناث)</label>
+                                        <select id="familyChildrenFemale" name="family_children_f[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
+                                            @foreach($girls as $girl)
+                                                <option value="{{$girl->id}}" selected>{{$girl->full_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="form-group col-lg-6">
                                         <label for="selectGrandFather">ابحث و حدد عائلة الجد</label>
                                         <select id="selectGrandFather" name="gf_family_id" class="js-states form-control" style="width: 100%;">
@@ -56,10 +88,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-{{--                                    <div class="form-group col-lg-6">--}}
-{{--                                        <label for="children">عدد الأولاد</label>--}}
-{{--                                        <input type="number" name="children_count" id="children" class="d-block w-100" value="{{ $family->children_count }}">--}}
-{{--                                    </div>--}}
                                 </div>
 
                             </div>
@@ -106,6 +134,27 @@
                 language: 'ar',
                 width: '100%',
             });
+
+            $('#familyChildrenMale').select2({
+                placeholder: 'أضف الأولاد',
+                closeOnSelect: true,
+                allowClear: true,
+                tags: true,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+
+            $('#familyChildrenFemale').select2({
+                placeholder: 'أضف البنات',
+                closeOnSelect: true,
+                allowClear: true,
+                tags: true,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+
         });
     </script>
 @endsection
