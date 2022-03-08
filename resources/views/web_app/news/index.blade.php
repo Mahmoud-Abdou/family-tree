@@ -19,7 +19,7 @@
                             <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                             <div>
                                 <button type="button" class="btn btn-outline-secondary rounded-pill mx-2" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
-                                    <i class="ri-filter-2-line"> </i>البحث في النتائج
+                                    <i class="ri-filter-2-line"> </i>البحث
                                 </button>
                                 @can('newborns.create')
                                     <a href="{{ route('news.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>

@@ -75,7 +75,7 @@
 
                     <div class="card-footer text-muted">
                         <div class="row flex inline-flex p-2 mx-2">
-                            <button type="submit" class="btn px-5 btn-primary rounded-pill w-25"><i class="ri-save-2-fill"> </i>حفظ</button>
+                            <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ</button>
                         </div>
                     </div>
                     </form>
