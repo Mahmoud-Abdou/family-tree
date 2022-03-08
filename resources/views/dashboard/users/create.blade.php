@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="wifeForm" class="d-none form-group col-lg-6" >
+                                    <div id="wifeForm" class="d-none form-group col-lg-6">
                                         <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
                                         <select id="wife_id" name="wife_id[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
                                             <option value="none">لا يوجد</option>
@@ -353,7 +353,6 @@
             $('#no_family_death_date').removeClass('d-block').addClass('d-none');
             $('#no_family_death_place').removeClass('d-block').addClass('d-none');
         }
-
     }
 
     function showFamilyModel(value){
@@ -372,6 +371,7 @@
             $("#FamilyModel").modal('show')
         }
     }
+
     function closeMainWifeModel() {
         $("#wifeForm").removeClass('d-block').addClass('d-none');
     }

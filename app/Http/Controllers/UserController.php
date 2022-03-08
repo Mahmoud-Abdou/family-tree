@@ -315,8 +315,10 @@ class UserController extends Controller
         $appMenu = config('custom.app_menu');
         $menuTitle = 'تعديل المستخدم: '.$person->first_name;
         $pageTitle = 'لوحة التحكم';
+        $female = Person::where('gender', 'female')
+            ->where('has_family', 0)->get();
 
-        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person'));
+        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person', 'female'));
     }
 
     /**
@@ -337,6 +339,34 @@ class UserController extends Controller
             'has_family' => ['required'],
             'is_live' => ['nullable'],
         ]);
+
+        if($request['has_family'] == 'true' && $request['gender'] == 'male'){
+            foreach($request['wife_id'] as $row_wife_id){
+                $wife = Person::where('id', $row_wife_id)->first();
+                if($wife == null){
+                    $mother_name = explode(' ', $row_wife_id);
+                    $wife = Person::create([
+                        'first_name' => $mother_name[0],
+                        'father_name' => isset($mother_name[1]) ? $mother_name[1] : '',
+                        'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                        'has_family' => 1,
+                        'gender' => 'female',
+                        'is_live' => $request->is_alive == 'off',
+                        'death_date' => null,
+                    ]);
+                } else {
+                    $wife->has_family = 1;
+                    $wife->save();
+                }
+
+                Family::create([
+                    'name' => ' عائلة ' . ($person->first_name),
+                    'father_id' => $person->id,
+                    'mother_id' => $wife->id,
+                    'gf_family_id' => null,
+                ]);
+            }
+        }
 
         $person->first_name = $request->first_name;
         $person->father_name = $request->father_name;
@@ -360,20 +390,27 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(User $user)
+    public function destroy()
     {
-        if (is_null($user)) {
+        $person = Person::findOrFail(request()->person_id);
+
+        if (is_null($person)) {
             return back()->with('error', 'حدث خطأ!');
         }
 
-        $user->status = 'blocked';
-        $user->save();
+        if (auth()->id() == $person->user->id) {
+            return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
+        }
 
-        AppHelper::AddLog('Block User', class_basename($user), $user->id);
-        return back()->with('success', 'تم حظر المستخدم بنجاح');
+        if (isset($person->user)) {
+            $person->user->delete();
+        }
+
+        AppHelper::AddLog('Person Delete', class_basename($person), $person->id);
+        $person->delete();
+        return back()->with('success', 'تم حذف الشخص بنجاح');
     }
 
     /**

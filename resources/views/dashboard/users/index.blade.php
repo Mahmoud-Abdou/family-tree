@@ -157,6 +157,7 @@
                                                         @if(isset($user->user) && $user->user->status == 'active')
                                                             <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->user->id }})"><i class="ri-delete-back-fill"> </i></button>
                                                         @endif
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#deleteModal" onclick="modalDelete('{{ $user->id }}', '{{ route('admin.users.destroy', $user->id) }}')">X</button>
                                                     @endcan
                                                         @if(!isset($user->user))
                                                             <button type="button" class="btn btn-outline-secondary rounded-pill m-1" data-toggle="modal" data-target="#accountModal" onclick="modalAccount({{ $user->id }})"><i class="ri-lock-password-fill"> </i> انشاء مستخدم </button>
@@ -252,6 +253,33 @@
         </div>
     </div>
 
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white" id="deleteModalLabel">X حذف الشخص</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <form id="deleteForm" method="POST" action="">
+                    <div class="modal-body">
+                        @csrf
+                        @method('DELETE')
+                        <input id="deletePersonId" type="hidden" name="person_id">
+                        <br>
+                        <p>سيتم حذف الشخص بشكل كامل.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                        <button id="roleFormBtn" type="submit" class="btn btn-danger">حذف الشخص</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="accountModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content shadow">
@@ -297,6 +325,10 @@
         }
         function modalBlock(userId) {
             $('#blockUserId').val(userId);
+        }
+        function modalDelete(personId, url) {
+            $('#deletePersonId').val(personId);
+            $('#deleteForm').attr('action', url);
         }
         function modalAccount(userId) {
             $('#accountUserId').val(userId);

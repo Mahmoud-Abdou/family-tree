@@ -36,10 +36,10 @@
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="selectFather">الأب</label>
-                                        <select id="selectFather" name="father_id" class="js-states form-control" style="width: 100%;" disabled>
-{{--                                            @foreach($fathers as $father)--}}
-                                                <option value="{{$family->father->id}}" selected>{{$family->father->full_name}}</option>
-{{--                                            @endforeach--}}
+                                        <select id="selectFather" name="father_id" class="js-states form-control" style="width: 100%;">
+                                            @foreach($fathers as $father)
+                                                <option value="{{$father->id}}" {{$family->father->id == $father->id ? 'selected' : ''}}>{{$father->full_name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-6">

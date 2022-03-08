@@ -176,7 +176,7 @@ class Person extends Model
 
     public function getFullNameLong()
     {
-        return $this->prefix . ' ' . $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
+        return $this->prefix . ' ' . $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name . ' ' . $this->surname;
     }
 
 //    public function getGenderAttribute($gender)
