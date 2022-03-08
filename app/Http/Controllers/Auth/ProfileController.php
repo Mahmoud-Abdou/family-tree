@@ -44,19 +44,17 @@ class ProfileController extends Controller
 
         $wives_ids = Family::where('father_id', $husband_id)->pluck('mother_id');
         $wives_ids[] = $husband_id;
+        $allPersons = [];
         if ($user->profile->has_family) {
             $allPersons = \App\Models\Person::where('family_id', null)
-                                            ->whereNotIn('id', $wives_ids)
-                                            ->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
-        } else {
-            $allPersons = [];
+                ->whereNotIn('id', $wives_ids)
+                ->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
         }
-        $fosterPersons = \App\Models\Person::get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
 
         if ($person->completeData() > 1) {
             session()->flash('warning', 'الملف الشخصي غير مكتمل، يجب استكمال البيانات.');
         }
-        return view('auth.profile', compact('menuTitle', 'pageTitle', 'user', 'person', 'allPersons', 'fosterPersons'));
+        return view('auth.profile', compact('menuTitle', 'pageTitle', 'user', 'person', 'allPersons'));
     }
 
     public function edit()
@@ -70,10 +68,10 @@ class ProfileController extends Controller
         $family_ids = Family::where('father_id', $husband_id)->pluck('id');
 
         $female = Person::where('is_live', 1)
-                        ->where('gender', 'female')
-                        ->where('has_family', 0)
-                        ->whereNotIn('family_id', $family_ids)
-                        ->get();
+            ->where('gender', 'female')
+            ->where('has_family', 0)
+            ->whereNotIn('family_id', $family_ids)
+            ->get();
 
         return view('auth.profile-update', compact('menuTitle', 'pageTitle', 'user', 'person', 'female'));
     }
@@ -154,8 +152,6 @@ class ProfileController extends Controller
             ]);
             $user->password = $request->password;
         }
-
-
 
         $user->mobile = $request->mobile;
         $user->email = $request->email;

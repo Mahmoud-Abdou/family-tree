@@ -43,7 +43,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            
+
 
                             <div class="form-group col-lg-12">
                                 <label for="title">العنوان</label>
@@ -78,11 +78,11 @@
 
                         </div>
                     </div>
-                    
+
                     <div class="card-footer text-muted">
                         <button type="submit" class="btn px-5 btn-primary rounded-pill"><i class="ri-save-2-fill"> </i>حفظ </button>
                     </div>
-                    
+
                 </div>
                     <div class="modal fade" id="FamilyModel" tabindex="-1" role="dialog" aria-labelledby="FamilyModelLabel" style="display: none;"  aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -128,7 +128,7 @@
     </div>
 @endsection
 @section('add-scripts')
-    <script src="{{ asset('assets/js/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ secure_asset('assets/js/tinymce/tinymce.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {

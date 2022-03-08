@@ -59,16 +59,12 @@
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 2 ? 'selected=""' : '' }} value="2">اخبار الشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 3 ? 'selected=""' : '' }} value="3">اخبار اخر 3 اشهر</option>
                                         <option {{ isset($_GET['filters']['date']) && $_GET['filters']['date'] == 4 ? 'selected=""' : '' }} value="4">اخبار اخر 6 اشهر</option>
-
                                     </select>
                                     <div class="invalid-tooltip">
                                         بحث بالتاريخ
                                     </div>
                                     </div>
                                 </div>
-
-
-
 
                                 <div class="form-group col-lg-4">
                                         <br>

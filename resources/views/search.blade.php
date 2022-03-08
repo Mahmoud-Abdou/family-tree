@@ -12,7 +12,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow">
                         <div class="card-header d-flex inline-flex justify-content-between">
                             <h5 class="my-auto mx-1"><i class="ri-search-2-line"> </i>{{ $menuTitle }}</h5>
 

@@ -56,12 +56,3 @@ Route::middleware(['auth'])->group(function () {
 Route::fallback(function () {
     return redirect('/');
 });
-
-//Route::get('test', function () {
-
-//    $users = \App\Models\User::where('status', 'active')->pluck('email')->toArray();
-//    $users = \App\Models\User::where('status', 'active')->get()->toArray();
-
-//    return view('vendor.mail.html.message');
-//    return view('emails.layout');
-//});

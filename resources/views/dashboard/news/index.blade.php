@@ -14,7 +14,7 @@
                 <div class="col-lg-12">
                     @include('partials.messages')
 
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow-sm">
                         <div class="card-header d-inline-flex justify-content-between">
                             <h5 class="float-left my-auto"><i class="ri-newspaper-line"> </i> {{ $menuTitle }}</h5>
                             <button type="button" class="btn btn-outline-secondary rounded-pill" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">

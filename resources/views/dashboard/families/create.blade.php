@@ -78,10 +78,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-{{--                                    <div class="form-group col-lg-6">--}}
-{{--                                        <label for="children">عدد الأولاد</label>--}}
-{{--                                        <input type="number" name="children_count" id="children" class="d-block w-100" value="{{ old('children_count') }}" style="height: 40px;">--}}
-{{--                                    </div>--}}
 
                                 </div>
 

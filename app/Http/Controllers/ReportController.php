@@ -83,7 +83,6 @@ class ReportController extends Controller
      */
     public function show($report_id)
     {
-        // dd("sda");
         $report = Report::where('id', $report_id)->first();
         return $report->showReportData($report);
     }

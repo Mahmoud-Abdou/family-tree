@@ -2,6 +2,10 @@
 
 @section('page-title', $menuTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => $menuTitle, 'link' => route('profile')],]])
 @endsection
@@ -10,6 +14,11 @@
     <div id="content-page" class="content-page">
         <div class="container-fluid">
             <div class="row">
+
+                <div class="col-sm-12">
+                    @include('partials.messages')
+                    @include('partials.errors-messages')
+                </div>
 
                 <div class="col-sm-12">
                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
@@ -67,7 +76,7 @@
 
                         @include('auth.profile-favorite', ['favorites' => $user->favorite])
 
-                        @include('auth.profile-family', ['ownFamily' => $user->profile->OwnFamily, 'family' => $user->profile->belongsToFamily, 'personsData' => $allPersons, 'fosterPersonsData' => $fosterPersons])
+                        @include('auth.profile-family', ['ownFamily' => $user->profile->OwnFamily, 'family' => $user->profile->belongsToFamily, 'personsData' => $allPersons])
 
                         @include('auth.profile-profile', ['profile' => $person])
                     </div>

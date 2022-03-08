@@ -14,7 +14,7 @@
                 <div class="col-lg-12">
                     @include('partials.messages')
 
-                    <div class="card iq-mb-3 shadow">
+                    <div class="card iq-mb-3 shadow-sm">
                         <div class="card-header d-inline-flex justify-content-between">
                             <h5><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
                             <div>
@@ -310,7 +310,7 @@
             role_filter = $('#role-filter').val();
             per_page_filter = $('#per-page-filter').val();
             quary_string = "";
-            
+
             if(email_filter){
                 quary_string += `filters[owner_email]=${email_filter}&`;
             }

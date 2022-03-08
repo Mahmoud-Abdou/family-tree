@@ -12,7 +12,7 @@
             <div class="row">
 
                 <div class="col-sm-12">
-                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card iq-card-block iq-card-stretch iq-card-height shadow">
                         <div class="iq-card-body profile-page p-0">
                             <div class="profile-header">
                                 <div class="cover-container">
@@ -52,7 +52,7 @@
 
                 <div class="col-lg-12">
                     <div class="tab-content">
-                        @include('auth.profile-family', ['ownFamily' => $person->OwnFamily, 'family' => $person->belongsToFamily, 'personsData' => []])
+                        @include('auth.profile-family', ['ownFamily' => $person->OwnFamily, 'family' => $person->belongsToFamily, 'personsData' => $allPersons])
 
                         @include('auth.profile-profile', ['profile' => $person])
                     </div>

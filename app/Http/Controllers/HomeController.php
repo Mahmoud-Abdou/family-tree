@@ -176,14 +176,23 @@ class HomeController extends Controller
 
     public function searchSingle($word, $data_id)
     {
-//        $user = User::findOrFail($data_id);
-//        $person = $user->profile;
         $person = Person::findOrFail($data_id);
         $searchWord = session()->has('searchWord') ? session('searchWord') : $word;
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = session()->has('searchWord') ? session('searchWord') : 'نتائج البحث';
 
-        return view('search-single', compact('menuTitle', 'pageTitle', 'searchWord', 'person'));
+        $wives_ids = $person->wives->pluck('id');
+        $children_ids = $person->children->pluck('id');
+
+        $allPersons = [];
+        if ($person->has_family) {
+            $allPersons = \App\Models\Person::where('family_id', null)
+                ->whereNotIn('id', $wives_ids)
+                ->whereNotIn('id', $children_ids)
+                ->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
+        }
+
+        return view('search-single', compact('menuTitle', 'pageTitle', 'searchWord', 'person', 'allPersons'));
     }
 
     public function admin()
