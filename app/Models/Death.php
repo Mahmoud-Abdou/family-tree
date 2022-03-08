@@ -44,13 +44,13 @@ class Death extends Model
     public function getNotificationBodyAttribute()
     {
         $text = strip_tags($this->body);
-        return substr($text, 0, 20) . ' ....';
+        return mb_substr($text, 0, 20,'utf-8') . ' ....';
     }
 
     public function getShortBodyAttribute()
     {
         $text = strip_tags($this->body);
-        return substr($text, 0, 160) . ' ....';
+        return mb_substr($text, 0, 160,'utf-8') . ' ....';
     }
 
     public function person()

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-//use App\Models\User;
+use App\Models\User;
 use App\Models\News;
 use App\Models\City;
 use App\Models\Category;
-//use App\Events\NewsEvent;
+use App\Events\NotificationEvent;
 use Illuminate\Http\Request;
 //use Carbon\Carbon;
 //use App\Filters\OwnerFilter;
@@ -170,6 +170,19 @@ class NewsController extends Controller
         $news->approved = true;
         $news->approved_by = auth()->id();
         $news->save();
+
+        $event['operation_type'] = 'store';
+        $event_notification = [];
+        $event_notification['title'] = 'تم اضافة مناسبة';
+        $event_notification['body'] = $news->notification_body;
+        $event_notification['mail_body'] = $news->short_body;
+        $event_notification['content'] = $news;
+        $event_notification['url'] = 'news/' . $news->id;
+        $event_notification['operation'] = 'store';
+        $event_notification['is_mail'] = 1;
+
+        $users = User::where('status', 'active')->get();
+        event(new NotificationEvent($event_notification, $users));
 
         return back()->with('success', 'تم تنشيط الخبر بنجاح');
     }

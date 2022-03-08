@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\Setting;
 
 class EventNotification extends Notification
 {
@@ -29,8 +30,10 @@ class EventNotification extends Notification
      */
     public function via($notifiable)
     {
+        if(isset($this->event['is_mail']) && $this->event['is_mail'] == 1){
+            return ['database', 'mail'];
+        }
         return ['database'];
-        // return ['database', 'mail'];
     }
 
     /**
@@ -41,12 +44,12 @@ class EventNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $data = [];
+        $data['event'] = $this->event; 
+        $data['settings'] = Setting::first(); 
         return (new MailMessage)
-                    // ->line('The introduction to the notification.')
-                    // ->action('Notification Action', url('/'))
-                    // ->line('Thank you for using our application!')
                     ->subject('Family Tree')
-                    ->view('components.app-mail', $this->event);
+                    ->view('emails.news-mail', $data);
     }
 
     /**
