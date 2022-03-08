@@ -106,15 +106,35 @@ class Person extends Model
         return $this->hasOneThrough('App\Models\Person', 'App\Models\Family', 'mother_id', 'id', 'id', 'father_id');
     }
 
-    public function wives() // wife
+    public function wives()
     {
         return $this->hasManyThrough('App\Models\Person', 'App\Models\Family', 'father_id', 'id', 'id', 'mother_id');
+    }
+
+    public function father()
+    {
+        return $this->hasOneThrough('App\Models\Person', 'App\Models\Family', 'id', 'id', 'family_id', 'father_id');
+    }
+
+    public function mother()
+    {
+        return $this->hasOneThrough('App\Models\Person', 'App\Models\Family', 'id', 'id', 'family_id', 'mother_id');
+    }
+
+    public function children()
+    {
+        return $this->hasManyThrough('App\Models\Person', 'App\Models\Family', 'father_id', 'family_id', 'id', 'id');
+    }
+
+    public function brothers()
+    {
+        return $this->hasManyThrough('App\Models\Person', 'App\Models\Family', 'id', 'family_id', 'family_id', 'id');
     }
 
     // accessories
     public function getPhotoAttribute($value)
     {
-        return asset($this->photoPath) . '/' . $value;
+        return secure_asset($this->photoPath) . '/' . $value;
     }
 
     public function getStatusAttribute()
@@ -133,6 +153,15 @@ class Person extends Model
     {
         return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
     }
+
+    public function get4Name()
+    {
+        $father = $this->father;
+        $grandFather = $father->father;
+        $ggFather = isset($grandFather) ? $grandFather->father : null;
+        return $this->first_name . ' ' . $father->first_name . ' ' . (isset($grandFather) ? $grandFather->first_name : '') . ' ' . (isset($ggFather) ? $ggFather->first_name : '');
+    }
+
     public function getRelationFullNameAttribute()
     {
         $full_name = $this->first_name . ' ';
@@ -147,7 +176,7 @@ class Person extends Model
 
     public function getFullNameLong()
     {
-        return $this->prefix . ' ' . $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
+        return $this->prefix . ' ' . $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name . ' ' . $this->surname;
     }
 
 //    public function getGenderAttribute($gender)

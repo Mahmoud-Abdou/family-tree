@@ -73,8 +73,7 @@ class MarriageController extends Controller
         }
 
         $family_ids = Family::where('father_id', $husband_id)->pluck('id');
-        // dd($family_ids); 
-        
+
         $family_id = auth()->user()->profile->family_id;
         $male = Person::where('family_id', $family_id)
 //                        ->where('has_family', 0)

@@ -28,7 +28,6 @@ class SendNotification
      */
     public function handle(NotificationEvent $event)
     {
-        // dd($event);
         Notification::send($event->users, new EventNotification($event->event));
     }
 }

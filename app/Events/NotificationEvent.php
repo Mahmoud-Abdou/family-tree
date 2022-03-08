@@ -26,7 +26,6 @@ class NotificationEvent
     {
         $this->users = $users;
         $this->event = $event;
-        // dd("ASd");
     }
 
     /**

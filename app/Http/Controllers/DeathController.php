@@ -43,7 +43,6 @@ class DeathController extends Controller
         $page_limit = 15;
         $deaths = new Death;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        // dd($filters_data);
         // $filters_data['relatives'] = 1;
         $filters_array = $deaths->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);

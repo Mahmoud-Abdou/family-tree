@@ -2,6 +2,10 @@
 
 @section('page-title', $pageTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => 'المستخدمين', 'link' => route('admin.users.index')],['title' => $menuTitle, 'link' => route('admin.users.create')],]])
 @endsection
@@ -14,7 +18,6 @@
 
                     @include('partials.messages')
                     @include('partials.errors-messages')
-
 
                     <div class="card iq-mb-3 shadow">
                         <div class="card-header">
@@ -39,6 +42,31 @@
                                     <div class="form-group col-lg-6">
                                         <label for="surname">{{ __('اللقب') }}</label>
                                         <input type="text" name="surname" class="form-control mb-0" id="surname" value="{{ $person->surname }}" placeholder="أدخل اللقب">
+                                    </div>
+
+                                    <div class="form-group col-lg-6" >
+                                        <label>الحالة الاجتماعية</label>
+                                        <br>
+                                        <div class="d-inline-flex">
+                                            <div class="custom-control custom-radio mx-4" onclick="openMainWifeModel()">
+                                                <input type="radio" id="yes_has_family" name="has_family" value="true"
+                                                       class="custom-control-input" {{ $person->has_family ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="yes_has_family">متزوج/ة </label>
+                                            </div>
+                                            <div class="custom-control custom-radio mx-4" onclick="closeMainWifeModel()">
+                                                <input type="radio" id="no_has_family" name="has_family"
+                                                       value="false" class="custom-control-input" {{ !$person->has_family ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="no_has_family"> غير متزوج/ة </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="wifeForm" class="form-group col-lg-6 {{ $person->has_family ? 'd-block' : 'd-none' }}">
+                                        <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
+                                        <select id="wife_id" name="wife_id[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
+                                            @foreach($female as $per)
+                                                <option value="{{$per->id}}" {{ $per->ownFamily->contains('mother_id', $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                     <div class="form-group col-lg-8 my-3">
@@ -116,6 +144,18 @@
 
 <script>
 
+    $(document).ready(function() {
+        $('#wife_id').select2({
+            placeholder: 'حدد الزوجة',
+            closeOnSelect: true,
+            allowClear: true,
+            tags: true,
+            dir: 'rtl',
+            language: 'ar',
+            width: '100%',
+        });
+    });
+
     $("#yes_has_family").click(() => {
         $("#wifeSection").removeClass('d-none');
     });
@@ -133,8 +173,8 @@
             $('#death_date').removeClass('d-block').addClass('d-none');
             $('#death_place').removeClass('d-block').addClass('d-none');
         }
-
     }
+
     function noUserShowDate(){
         if($('#no_user_death_date').hasClass('d-none')){
             $('#no_user_death_date').removeClass('d-none').addClass('d-block');
@@ -144,9 +184,19 @@
             $('#no_user_death_date').removeClass('d-block').addClass('d-none');
             $('#no_user_death_place').removeClass('d-block').addClass('d-none');
         }
-
     }
 
+    function closeMainWifeModel() {
+        $("#wifeForm").removeClass('d-block').addClass('d-none');
+    }
+
+    function openMainWifeModel() {
+        $("#wifeForm").removeClass('d-none').addClass('d-block');
+    }
+
+    function openWifeModel() {
+        $("#FamilyModel").modal('show')
+    }
 
 </script>
 @endsection

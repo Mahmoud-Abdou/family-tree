@@ -41,12 +41,12 @@ class Category extends Model
 
     public function getImageAttribute($image)
     {
-        return asset($this->photoPath). '/' . $image;
+        return secure_asset($this->photoPath). '/' . $image;
     }
 
     public function getIconAttribute($icon)
     {
-        return asset($this->photoPath). '/' . $icon;
+        return secure_asset($this->photoPath). '/' . $icon;
     }
 
     public function getTypeArAttribute(){

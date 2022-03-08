@@ -15,12 +15,16 @@
                     @include('partials.messages')
 
                     <div class="card iq-mb-3 shadow-sm">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                        <div class="card-header d-inline-flex justify-content-between">
                             <h5 class="float-left my-auto"><i class="ri-user-smile-line"> </i> {{ $menuTitle }}</h5>
-                            <span class="ml-5"><i class="ri-filter-2-line"> </i>البحث في النتائج</span>
-                            @can('newborns.create')
-                                <a href="{{ route('newborns.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
-                            @endcan
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary rounded-pill mx-2" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                                    <i class="ri-filter-2-line"> </i>البحث في النتائج
+                                </button>
+                                @can('newborns.create')
+                                    <a href="{{ route('newborns.create') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-add-fill"> </i>اضافة</a>
+                                @endcan
+                            </div>
                         </div>
                         <div class="collapse" id="collapseFilters">
                             <div class="card-body">

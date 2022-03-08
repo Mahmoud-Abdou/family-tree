@@ -14,7 +14,7 @@
                 <div class="col-lg-12">
                     @include('partials.messages')
 
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow-sm">
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-map-2-line"> </i> {{ $menuTitle }}</h5>
                             @can('cities.create')

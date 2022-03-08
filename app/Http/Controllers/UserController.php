@@ -107,14 +107,17 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $family = null;
         if($request->type == 'withFamily'){
 
             if(!isset($request['is_alive'])){
                 $request['is_alive'] = 'off';
             }
+
             if($request['gender'] == 'female'){
                 $request['has_family'] = 'false';
             }
+
             $father = Person::where('id', $request->father_id)->first();
             if($father == null){
                 $father_name = explode(' ', $request->mother_id);
@@ -129,6 +132,7 @@ class UserController extends Controller
                 ]);
                 $request->father_id = $father->id;
             }
+
             if($request->mother_id == 'none'){
                 $family = Family::create([
                     'name' => ' عائلة ' . ($father->first_name),
@@ -148,24 +152,23 @@ class UserController extends Controller
                         'is_live' => $request->is_alive == 'off',
                         'death_date' => $request->death_date,
                     ]);
-                    Family::create([
+                    $family = Family::create([
                         'name' => ' عائلة ' . ($father->first_name),
                         'father_id' => $father->id,
                         'mother_id' => $mother->id,
                     ]);
                     $request->mother_id = $mother->id;
                 }
-                $family = Family::where('father_id', $request->father_id)
-                                ->where('mother_id', $request->mother_id)
-                                ->first();
+//                $family = Family::where('father_id', $request->father_id)
+//                    ->where('mother_id', $request->mother_id)
+//                    ->first();
             }
 
+//            $family = Family::where('id', $family->id)->first();
             if($family == null){
                 return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
             }
 
-            $family = Family::where('id', $family->id)
-                            ->first();
             $childern = (int)$family->children_count;
             $family->children_count = $childern + 1;
             $family->save();
@@ -312,8 +315,10 @@ class UserController extends Controller
         $appMenu = config('custom.app_menu');
         $menuTitle = 'تعديل المستخدم: '.$person->first_name;
         $pageTitle = 'لوحة التحكم';
+        $female = Person::where('gender', 'female')
+            ->where('has_family', 0)->get();
 
-        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person'));
+        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person', 'female'));
     }
 
     /**
@@ -334,6 +339,34 @@ class UserController extends Controller
             'has_family' => ['required'],
             'is_live' => ['nullable'],
         ]);
+
+        if($request['has_family'] == 'true' && $request['gender'] == 'male'){
+            foreach($request['wife_id'] as $row_wife_id){
+                $wife = Person::where('id', $row_wife_id)->first();
+                if($wife == null){
+                    $mother_name = explode(' ', $row_wife_id);
+                    $wife = Person::create([
+                        'first_name' => $mother_name[0],
+                        'father_name' => isset($mother_name[1]) ? $mother_name[1] : '',
+                        'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                        'has_family' => 1,
+                        'gender' => 'female',
+                        'is_live' => $request->is_alive == 'off',
+                        'death_date' => null,
+                    ]);
+                } else {
+                    $wife->has_family = 1;
+                    $wife->save();
+                }
+
+                Family::create([
+                    'name' => ' عائلة ' . ($person->first_name),
+                    'father_id' => $person->id,
+                    'mother_id' => $wife->id,
+                    'gf_family_id' => null,
+                ]);
+            }
+        }
 
         $person->first_name = $request->first_name;
         $person->father_name = $request->father_name;
@@ -357,20 +390,27 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(User $user)
+    public function destroy()
     {
-        if (is_null($user)) {
+        $person = Person::findOrFail(request()->person_id);
+
+        if (is_null($person)) {
             return back()->with('error', 'حدث خطأ!');
         }
 
-        $user->status = 'blocked';
-        $user->save();
+        if (auth()->id() == $person->user->id) {
+            return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
+        }
 
-        AppHelper::AddLog('Block User', class_basename($user), $user->id);
-        return back()->with('success', 'تم حظر المستخدم بنجاح');
+        if (isset($person->user)) {
+            $person->user->delete();
+        }
+
+        AppHelper::AddLog('Person Delete', class_basename($person), $person->id);
+        $person->delete();
+        return back()->with('success', 'تم حذف الشخص بنجاح');
     }
 
     /**
@@ -433,33 +473,32 @@ class UserController extends Controller
     // update or add user to family
     public function updateFamily(Request $request)
     {
-        $user = User::find($request->user_id);
-
-        if (is_null($user)) {
-            return back()->with('error', 'حدث خطأ!');
-        }
-
-        $profile = $user->profile;
-        $profile->family_id = $request->family_id;
-        $profile->save();
-
         $family = Family::where('id', $request->family_id)->first();
         if (is_null($family)) {
             return back()->with('error', 'حدث خطأ!');
         }
-        $childern = (int)$family->children_count;
-        $family->children_count = $childern + 1;
+
+        if (isset($request->users)) {
+            foreach ($request->users as $children) {
+                $child = Person::find($children);
+                $child->family_id = $family->id;
+                $child->save();
+            }
+        }
+
+        $family->children_count = (int)$family->children_count + 1;
         $family->save();
 
-        AppHelper::AddLog('Family User', class_basename($user), $user->id);
+        AppHelper::AddLog('Family User', class_basename($family), $family->id);
         return back()->with('warning', 'تم تعديل عائلة المستخدم بنجاح');
     }
+
     public function addFosterFamily(Request $request)
     {
         $person = Person::find($request->person_id);
         $foster_brother = FosterBrother::where('person_id', $request->person_id)
-                                        ->where('family_id', $request->family_id)
-                                        ->first();
+            ->where('family_id', $request->family_id)
+            ->first();
 
         if (is_null($person)) {
             return back()->with('error', 'حدث خطأ!');
@@ -481,15 +520,23 @@ class UserController extends Controller
 
     public function addNewFosterFamily(Request $request)
     {
+        $request->validate([
+            'first_name' => ['required'],
+            'father_name' => ['required'],
+            'gender' => ['required'],
+        ]);
+
         $person = new Person;
         $person->first_name = $request->first_name;
         $person->father_name = $request->father_name;
+        $person->grand_father_name = $request->grand_father_name;
+        $person->surname = $request->surname;
         $person->gender = $request->gender;
         $person->save();
 
         $foster_brother = FosterBrother::where('person_id', $person->id)
-                                        ->where('family_id', $request->family_id)
-                                        ->first();
+            ->where('family_id', $request->family_id)
+            ->first();
 
         if (is_null($person)) {
             return back()->with('error', 'حدث خطأ!');
@@ -505,41 +552,38 @@ class UserController extends Controller
         $foster_brother->person_id = $person->id;
         $foster_brother->save();
 
-        AppHelper::AddLog('Family Foster Brother User', class_basename($person), $person->id);
+        AppHelper::AddLog('Foster Brother User', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
     }
 
     public function addNewPerson(Request $request)
     {
-        $user = User::where('email', $request->email)
-                    ->orWhere('mobile', $request->mobile)
-                    ->first();
-        if($user != null){
-            return back()->with('error', 'هذاالفرد موجود !');
-        }
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'mobile' => $request->mobile,
-            'password' => '123456789',
-            'accept_terms' => 1,
-            'status' => 'registered',
+        $request->validate([
+            'name' => ['required'],
+            'gender' => ['required'],
         ]);
 
+        $family = Family::findOrFail($request->family_id);
+
+        if (!isset($family)) {
+            return back()->with('error', 'حدثت مشكلة.');
+        }
+
         $person = Person::create([
-            'user_id' => $user->id,
+            'user_id' => null,
             'first_name' => $request->name,
-            'father_name' => auth()->user()->profile->first_name,
+            'father_name' => $family->father->first_name,
+            'grand_father_name' => $family->father->father_name,
+            'surname' => $family->father->grand_father_name,
             'has_family' => 0,
-            'family_id' => $request['family_id'],
+            'family_id' => $family->id,
             'gender' => $request->gender,
         ]);
 
-        $family = Family::where('id', $request->family_id)->first();
         $family->children_count = (int)$family->children_count + 1;
         $family->save();
 
-        AppHelper::AddLog('New User', class_basename($person), $person->id);
+        AppHelper::AddLog('Add Person', class_basename($person), $person->id);
         return back()->with('success', 'تم تعديل عائلة المستخدم بنجاح');
     }
 
@@ -589,6 +633,7 @@ class UserController extends Controller
         ]);
 
         $person = Person::where('id', $request->person_id)->first();
+
         $user = new User;
         $user->name = $person->first_name;
         $user->email = $request->email;

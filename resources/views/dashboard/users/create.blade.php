@@ -17,18 +17,20 @@
                 <div class="col-lg-12">
                     @include('partials.messages')
                     @include('partials.errors-messages')
+                </div>
 
+                <div class="col-lg-12">
                     <form class="d-block" dir="rtl" method="POST" action="{{ route('admin.users.store') }}" id="WithFamily">
                         @csrf
                         <input type="hidden" name="type" value="withFamily" >
 
                         <div class="card iq-mb-3 shadow">
-                        <div class="card-header d-inline-flex justify-content-between">
-                            <h5 class="float-left my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
-                            <button onclick="showFamilyModel(1)" id="addWithOutFamily" type="button" class="btn btn-outline-secondary rounded-pill mx-2">
-                                اضافة شخص بدون عائلة
-                            </button>
-                        </div>
+                            <div class="card-header d-inline-flex justify-content-between">
+                                <h5 class="float-left my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
+                                <button onclick="showFamilyModel(1)" id="addWithOutFamily" type="button" class="btn btn-outline-secondary rounded-pill mx-2">
+                                    اضافة شخص بدون عائلة
+                                </button>
+                            </div>
 
                             <div class="card-body">
                                 <div class="row">
@@ -47,7 +49,7 @@
                                     <div class="form-group col-lg-6">
                                         <label for="father_id">{{ __('اسم الأب') }}</label>
                                         <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
-{{--                                            <option disabled selected>حدد الأب</option>--}}
+                                            <option disabled selected>حدد الأب</option>
                                             @foreach($persons as $per)
                                                 <option value="{{ $per->id }}" {{ old('father_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
@@ -68,37 +70,31 @@
                                     <div class="form-group col-lg-6" >
                                         <label>الحالة الاجتماعية</label>
                                         <br>
-                                        <div class="d-inline-flex ">
+                                        <div class="d-inline-flex">
                                             <div class="custom-control custom-radio mx-4" onclick="openMainWifeModel()">
                                                 <input type="radio"
                                                         id="family_yes_has_family" name="has_family" value="true"
-                                                        class="custom-control-input" >
+                                                        class="custom-control-input">
                                                 <label class="custom-control-label" for="family_yes_has_family">
                                                     متزوج/ة </label>
                                             </div>
                                             <div class="custom-control custom-radio mx-4" onclick="closeMainWifeModel()">
                                                 <input type="radio" id="family_no_has_family" name="has_family"
                                                         value="false"
-                                                        class="custom-control-input" >
+                                                        class="custom-control-input">
                                                 <label class="custom-control-label" for="family_no_has_family"> غير
                                                     متزوج/ة </label>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="wifeForm" class="d-none form-group col-lg-6" >
+                                    <div id="wifeForm" class="d-none form-group col-lg-6">
                                         <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
                                         <select id="wife_id" name="wife_id[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
-{{--                                            <option disabled selected>اختر زوجة </option>--}}
                                             <option value="none">لا يوجد</option>
                                             @foreach($female as $per)
                                                 <option value="{{$per->id}}" {{ old('wife_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
-                                        <!-- <button type="button" data-dismiss="modal"
-                                                class="btn btn-primary rounded-pill m-2 py-2 px-3" data-toggle="modal"
-                                                data-target="#newPersonModal" onclick="openWifeModel()"><i
-                                                class="ri-add-fill"> </i>اضف زوجة غير موجود
-                                        </button> -->
                                     </div>
 
                                     <div class="form-group col-lg-6 py-3">
@@ -357,7 +353,6 @@
             $('#no_family_death_date').removeClass('d-block').addClass('d-none');
             $('#no_family_death_place').removeClass('d-block').addClass('d-none');
         }
-
     }
 
     function showFamilyModel(value){
@@ -376,6 +371,7 @@
             $("#FamilyModel").modal('show')
         }
     }
+
     function closeMainWifeModel() {
         $("#wifeForm").removeClass('d-block').addClass('d-none');
     }
