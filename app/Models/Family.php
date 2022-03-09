@@ -6,10 +6,13 @@ use App\Casts\Json;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Pricecurrent\LaravelEloquentFilters\Filterable;
+use App\Filters\OwnerFilter;
 
 class Family extends Model
 {
     use HasFactory, SoftDeletes;
+    use Filterable;
 
     public static function boot()
     {
@@ -119,5 +122,22 @@ class Family extends Model
 
         }
     }
+
+    public function filters($request_filter)
+    {
+        $filters = [];
+        if(isset($request_filter['father_name'])){
+            $filters[] = new OwnerFilter($request_filter['father_name'], 'first_name', 'father');
+        }
+        if(isset($request_filter['mother_name'])){
+            $filters[] = new OwnerFilter($request_filter['mother_name'], 'first_name', 'mother');
+        }
+        if(isset($request_filter['grand_father_name'])){
+            $filters[] = new OwnerFilter($request_filter['grand_father_name'], 'father_name', 'father');
+        }
+
+        return $filters;
+    }
+
 
 }
