@@ -222,6 +222,9 @@ class Person extends Model
     public function filters($request_filter)
     {
         $filters = [];
+        if(isset($request_filter['name'])){
+            $filters[] = new TextFilter($request_filter['name'], \DB::raw('CONCAT_WS(" ", `father_name`, `first_name`, `grand_father_name`)'));
+        }
         if(isset($request_filter['owner_name'])){
             $filters[] = new OwnerFilter($request_filter['owner_name'], 'name', 'user');
         }
