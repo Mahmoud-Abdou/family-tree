@@ -34,6 +34,18 @@
                                         <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['name']) ? $_GET['filters']['name'] : '' }}" placeholder="بحث  بالاسم">
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <label for="father-filter">بحث باسم الاب</label>
+                                        <input type="text" class="form-control" name="father_name" id="father-filter" value="{{ isset($_GET['filters']['father_name']) ? $_GET['filters']['father_name'] : '' }}" placeholder="بحث باسم الاب">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <label for="gfather-filter">بحث باسم الجد</label>
+                                        <input type="text" class="form-control" name="grand_father_name" id="gfather-filter" value="{{ isset($_GET['filters']['grand_father_name']) ? $_GET['filters']['grand_father_name'] : '' }}" placeholder="بحث باسم الجد">
+                                    </div>
+                                </div>
 
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
@@ -343,6 +355,8 @@
 
         function filter_data(){
             name_filter = $('#name-filter').val();
+            father_filter = $('#father-filter').val();
+            gfather_filter = $('#gfather-filter').val();
             email_filter = $('#email-filter').val();
             mobile_filter = $('#mobile-filter').val();
             city_filter = $('#city-filter').val();
@@ -353,6 +367,12 @@
 
             if(name_filter){
                 quary_string += `filters[name]=${name_filter}&`;
+            }
+            if(gfather_filter){
+                quary_string += `filters[grand_father_name]=${gfather_filter}&`;
+            }
+            if(father_filter){
+                quary_string += `filters[father_name]=${father_filter}&`;
             }
             if(email_filter){
                 quary_string += `filters[owner_email]=${email_filter}&`;

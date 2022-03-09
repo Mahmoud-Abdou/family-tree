@@ -223,7 +223,13 @@ class Person extends Model
     {
         $filters = [];
         if(isset($request_filter['name'])){
-            $filters[] = new TextFilter($request_filter['name'], \DB::raw('CONCAT_WS(" ", `father_name`, `first_name`, `grand_father_name`)'));
+            $filters[] = new TextFilter($request_filter['name'], 'first_name');
+        }
+        if(isset($request_filter['father_name'])){
+            $filters[] = new OwnerFilter($request_filter['father_name'], 'first_name', 'father');
+        }
+        if(isset($request_filter['grand_father_name'])){
+            $filters[] = new OwnerFilter($request_filter['grand_father_name'], 'father_name', 'father');
         }
         if(isset($request_filter['owner_name'])){
             $filters[] = new OwnerFilter($request_filter['owner_name'], 'name', 'user');
