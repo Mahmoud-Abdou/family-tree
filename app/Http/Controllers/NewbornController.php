@@ -41,6 +41,7 @@ class NewbornController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $page_limit = 15;
         $newborns = new Newborn;
+
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
 
         $filters_array = $newborns->filters($filters_data);

@@ -50,7 +50,6 @@
             .img-responsive img {width:100%!important;max-width: 100%!important;height: auto!important;margin: auto;}
             .center-float {float: none!important;margin:auto!important;}
             .center-text{text-align: center!important;}
-            .right-text{text-align: right!important;}
             .container-padding {width: 100%!important;padding-left: 15px!important;padding-right: 15px!important;}
             .container-padding10 {width: 100%!important;padding-left: 10px!important;padding-right: 10px!important;}
             .hide-mobile {display: none!important;}
@@ -88,17 +87,17 @@
 
 <div   style="display:none; font-size:0px; line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden; visibility:hidden; mso-hide:all;"></div>
 
-<table border="0" dir="rtl" align="center" cellpadding="0" cellspacing="0" width="100%" style="width:100%;max-width:100%;">
+<table border="0" align="center" cellpadding="0" cellspacing="0" width="100%" style="width:100%;max-width:100%;">
     <tr><!-- Outer Table -->
         <td align="center"  bgcolor="#f0f0f0" data-composer>
 
             <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="width:100%;max-width:100%;" >
                 <!-- lotus-header-1 -->
                 <tr>
-                    <td align="center" bgcolor="#ffffff"  class="container-padding">
+                    <td align="center" bgcolor="#f3f7fd"  class="container-padding">
 
                         <!-- Content -->
-                        <table border="0" bgcolor="#f3f7fd" align="center" cellpadding="0" cellspacing="0" role="presentation" class="row" width="580" style="width:580px;max-width:580px;">
+                        <table border="0"  align="center" cellpadding="0" cellspacing="0" role="presentation" class="row" width="580" style="width:580px;max-width:580px;">
                             <tr>
                                 <td height="40" style="font-size:40px;line-height:40px;" >&nbsp;</td>
                             </tr>
@@ -115,9 +114,9 @@
                                                     </tr>
                                                 </table>
                                                 <!-- column -->
-                                                <table border="0"  align="center" cellpadding="0" cellspacing="0" role="presentation" class="row" width="280" style="width:280px;max-width:280px;">
+                                                <table border="0"  align="right" cellpadding="0" cellspacing="0" role="presentation" class="row" width="280" style="width:280px;max-width:280px;">
                                                     <tr  >
-                                                        <td align="center" class="center-text">
+                                                        <td align="left" class="center-text">
                                                             <img style="width:72px;border:0px;display: inline!important;" src="{{ asset($settings->app_logo) }}" width="72" border="0"       alt="logo">
                                                         </td>
                                                     </tr>
@@ -140,30 +139,25 @@
                                 <td height="40" style="font-size:40px;line-height:40px;" >&nbsp;</td>
                             </tr>
                             <tr  >
-                                <td   align="right" style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:28px;line-height:52px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding-right: 20px;">
+                                <td class="center-text"  align="center" style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:42px;line-height:52px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;">
 
                                     <div  >
-                                        اهلا وسهلا 
-                                    </div>
-
-                                </td>
-                            </tr>
-                            <tr  >
-                                <td   align="right" style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:52px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding-right: 20px;">
-
-                                    <div  >
-                                        لقد تلقينا طلبًا لإعادة تعيين كلمة المرور الخاصة بك.
-                                        <br>
-                                        إذا لم تقدم الطلب ، فتجاهل هذه الرسالة فقط.
-                                        <br>
-                                        خلاف ذلك ، يمكنك إعادة تعيين كلمة المرور الخاصة بك باستخدام هذا الرابط:
-                                        
+                                        اهلا وسهلا بك في {{ $settings->app_title_ar }}
                                     </div>
 
                                 </td>
                             </tr>
                             <tr  >
                                 <td height="20" style="font-size:20px;line-height:20px;" >&nbsp;</td>
+                            </tr>
+                            <tr  >
+                                <td class="center-text"  align="center" style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:16px;line-height:26px;font-weight:300;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;">
+
+                                    <div  >
+                                        {{ $settings->app_about_ar }}
+                                    </div>
+
+                                </td>
                             </tr>
                             <tr  >
                                 <td height="40" style="font-size:40px;line-height:40px;" >&nbsp;</td>
@@ -173,43 +167,15 @@
                                     <!-- Header Button -->
                                     <table border="0" cellspacing="0" cellpadding="0" role="presentation" align="center" class="center-float">
                                         <tr>
-                                            <td align="center"  bgcolor="#0084ff" style="border-radius: 6px;">
+                                            <td align="center"    bgcolor="#d6df58" style="border-radius: 6px;">
                                                
-                                                <a href="{{ $url }}" target="_blank"    style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color:#ffffff;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>إعادة تعيين كلمة المرور</span></a>
+                                                <a href="{{ Config::get('app.url') }}" target="_blank"    style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>{{ $settings->app_title_en }}</span></a>
 
                                             </td>
                                         </tr>
                                     </table>
                                 </td>
                             </tr>
-                            <tr  >
-                                <td align="right" style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:52px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding-right: 20px;">
-
-                                    <div  >
-                                        <br>
-                                        ستنتهي صلاحية رابط إعادة تعيين كلمة المرور هذا خلال 60 دقيقة.
-                                        <br>
-                                        إذا لم تطلب إعادة تعيين كلمة المرور ، فلا داعي لاتخاذ أي إجراء آخر.
-                                        <br>
-                                        تحيات،
-                                        <br>
-                                        فريق عائلة الصهيل،
-                                        <hr>
-                                    </div>
-
-                                </td>
-                            </tr>
-                            <tr  >
-                                <td align="right" style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:52px;font-weight:400;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding-right: 20px;">
-
-                                    <div  >
-                                    إذا كنت تواجه مشكلة في النقر فوق الزر "إعادة تعيين كلمة المرور" ، فانسخ عنوان  أدناه والصقه في متصفح الويب لديك:
-                                    <a href="{{ $url }}" align="left" style="font-size:20px;color: #3869d4;text-decoration:underline;" >{{ $url }}</a>
-                                </div>
-
-                                </td>
-                            </tr>
-                            
                             <tr>
                                 <td height="40" style="font-size:40px;line-height:40px;" >&nbsp;</td>
                             </tr>

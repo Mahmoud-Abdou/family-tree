@@ -24,9 +24,6 @@ class OwnerFilter extends AbstractEloquentFilter
     public function apply(Builder $query): Builder
     {
         if($this->quary_type == 'like'){
-            // dd($query->whereHas($this->quary_with, function (Builder $owner_query) {
-            //     $owner_query->where($this->column, 'like', "%{$this->value}%");
-            // })->first());
             return $query->whereHas($this->quary_with, function (Builder $owner_query) {
                 $owner_query->where($this->column, 'like', "%{$this->value}%");
             });

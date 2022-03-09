@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="form-group col-lg-12">
                                             <label for="partnerMobile">{{ __('رقم الجوال') }}</label>
-                                            <input type="text" name="partner_mobile" class="form-control numeric mb-0" id="partnerMobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}"  required>
+                                            <input type="text" name="partner_mobile" class="form-control numeric mb-0" id="partnerMobile" placeholder="أدخل رقم الجوال" value="{{ old('partner_mobile') }}"  >
                                         </div>
 
                                     </div>

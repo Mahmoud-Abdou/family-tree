@@ -30,6 +30,13 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
+                                        <label for="name-filter">بحث  بالاسم</label>
+                                        <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['filters']['name']) ? $_GET['filters']['name'] : '' }}" placeholder="بحث  بالاسم">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
                                         <label for="email-filter">بحث بالبريد الالكتروني</label>
                                         <input type="email" class="form-control" name="email" id="email-filter" value="{{ isset($_GET['filters']['owner_email']) ? $_GET['filters']['owner_email'] : '' }}" placeholder="بحث بالبريد الالكتروني">
                                     </div>
@@ -335,6 +342,7 @@
         }
 
         function filter_data(){
+            name_filter = $('#name-filter').val();
             email_filter = $('#email-filter').val();
             mobile_filter = $('#mobile-filter').val();
             city_filter = $('#city-filter').val();
@@ -343,6 +351,9 @@
             per_page_filter = $('#per-page-filter').val();
             quary_string = "";
 
+            if(name_filter){
+                quary_string += `filters[name]=${name_filter}&`;
+            }
             if(email_filter){
                 quary_string += `filters[owner_email]=${email_filter}&`;
             }

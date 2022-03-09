@@ -27,12 +27,24 @@
                             </div>
                         </div>
                         <div class="card-header collapse" id="collapseFilters">
-                            <form method="GET" action="{{ route('admin.families.index') }}">
                             <div class="row">
+                                
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
-                                        <label for="name-filter">بحث بالاسم</label>
-                                        <input type="text" class="form-control" name="name" id="name-filter" value="{{ isset($_GET['name-filter']) ? $_GET['name-filter'] : '' }}" placeholder="بحث بالاسم">
+                                        <label for="father-filter">بحث باسم الاب</label>
+                                        <input type="text" class="form-control" name="father_name" id="father-filter" value="{{ isset($_GET['filters']['father_name']) ? $_GET['filters']['father_name'] : '' }}" placeholder="بحث باسم الاب">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <label for="mother-filter">بحث باسم الام</label>
+                                        <input type="text" class="form-control" name="mother_name" id="mother-filter" value="{{ isset($_GET['filters']['mother_name']) ? $_GET['filters']['mother_name'] : '' }}" placeholder="بحث باسم الام">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group my-auto">
+                                        <label for="gfather-filter">بحث باسم الجد</label>
+                                        <input type="text" class="form-control" name="grand_father_name" id="gfather-filter" value="{{ isset($_GET['filters']['grand_father_name']) ? $_GET['filters']['grand_father_name'] : '' }}" placeholder="بحث باسم الجد">
                                     </div>
                                 </div>
 
@@ -40,12 +52,12 @@
                                     <div class="form-group my-auto">
                                     <label for="per-page-filter">عدد النتائج في الصفحة</label>
                                     <select class="form-control" name="per-page" id="per-page-filter">
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 10 ? 'selected=""' : '' }} value="10">10</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 20 ? 'selected=""' : '' }} value="20">20</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 30 ? 'selected=""' : '' }} value="20">30</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 50 ? 'selected=""' : '' }} value="50">50</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 70 ? 'selected=""' : '' }} value="50">70</option>
-                                        <option {{ isset($_GET['per-page']) && $_GET['per-page'] == 100 ? 'selected=""' : '' }} value="100">100</option>
+                                        <option {{ isset($_GET['filters']['per-page']) && $_GET['filters']['per-page'] == 10 ? 'selected=""' : '' }} value="10">10</option>
+                                        <option {{ isset($_GET['filters']['per-page']) && $_GET['filters']['per-page'] == 20 ? 'selected=""' : '' }} value="20">20</option>
+                                        <option {{ isset($_GET['filters']['per-page']) && $_GET['filters']['per-page'] == 30 ? 'selected=""' : '' }} value="20">30</option>
+                                        <option {{ isset($_GET['filters']['per-page']) && $_GET['filters']['per-page'] == 50 ? 'selected=""' : '' }} value="50">50</option>
+                                        <option {{ isset($_GET['filters']['per-page']) && $_GET['filters']['per-page'] == 70 ? 'selected=""' : '' }} value="50">70</option>
+                                        <option {{ isset($_GET['filters']['per-page']) && $_GET['filters']['per-page'] == 100 ? 'selected=""' : '' }} value="100">100</option>
                                     </select>
                                     <div class="invalid-tooltip">
                                         حدد عدد النتائج في الصفحة الواحدة
@@ -54,10 +66,9 @@
                                 </div>
 
                                 <div class="col-md-2 mt-2 my-auto">
-                                    <button type="submit" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
+                                    <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
                                 </div>
                             </div>
-                            </form>
                         </div>
                         <div class="card-body p-0">
 
@@ -157,6 +168,28 @@
     <script>
         function modalDelete(famId) {
             $('#formDelete').attr('action', famId);
+        }
+
+        function filter_data(){
+            father_filter = $('#father-filter').val();
+            gfather_filter = $('#gfather-filter').val();
+            mother_filter = $('#mother-filter').val();
+            per_page_filter = $('#per-page-filter').val();
+            quary_string = "";
+
+            if(gfather_filter){
+                quary_string += `filters[grand_father_name]=${gfather_filter}&`;
+            }
+            if(father_filter){
+                quary_string += `filters[father_name]=${father_filter}&`;
+            }
+            if(mother_filter){
+                quary_string += `filters[mother_name]=${mother_filter}&`;
+            }
+            if(per_page_filter){
+                quary_string += `filters[perPage]=${per_page_filter}&`;
+            }
+            window.location = 'families?' + quary_string;
         }
     </script>
 @endsection

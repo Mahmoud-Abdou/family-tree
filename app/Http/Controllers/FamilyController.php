@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Family;
 use App\Models\Person;
+use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
 use Illuminate\Http\Request;
 
 class FamilyController extends Controller
@@ -27,20 +28,28 @@ class FamilyController extends Controller
      *
      * @return bool|\Illuminate\Auth\Access\Response|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
         $appMenu = config('custom.app_menu');
         $menuTitle = 'الأسر';
         $pageTitle = 'لوحة التحكم';
 
         // filters
-        $perPage = isset($_GET['per-page']) ? $_GET['per-page'] : 10;
+        $perPage = isset($_GET['perPage']) ? $_GET['perPage'] : 10;
 //        $perCity = isset($_GET['city']) && $_GET['city'] != 'all' ? $_GET['city'] : null;
-        $perName = isset($_GET['name']) ? $_GET['name'] : null;
+        // $perName = isset($_GET['name']) ? $_GET['name'] : null;
+        $filters_data = isset($request['filters']) ? $request['filters'] : [];
+        // dd($filters_data);
+        
+        $families = new Family;
+        $filters_array = $families->filters($filters_data);
+        $filters = EloquentFilters::make($filters_array);
+        $families = $families->filter($filters);
+        $families = $families->paginate($perPage);
 
-        $families = Family::where([
-            ['name', $perName ? '=' : '<>', $perName],
-        ])->paginate($perPage);
+        // $families = Family::where([
+        //     ['name', $perName ? '=' : '<>', $perName],
+        // ])->paginate($perPage);
 
         return view('dashboard.families.index', compact(
             'appMenu', 'pageTitle', 'menuTitle', 'families'

@@ -38,7 +38,7 @@ class Report extends Model
     public function getShortBodyAttribute()
     {
         $text = strip_tags($this->body);
-        return substr($text, 0, 160) . ' ....';
+        return mb_substr($text, 0, 160,'utf-8') . ' ....';
     }
 
 

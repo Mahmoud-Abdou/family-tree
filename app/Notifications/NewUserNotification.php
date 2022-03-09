@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\Setting;
 
 class NewUserNotification extends Notification
 {
@@ -29,8 +30,8 @@ class NewUserNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
-//        return ['mail', 'database'];
+        // return ['database'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -41,10 +42,12 @@ class NewUserNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $data = [];
+        $data['user'] = $this->user; 
+        $data['settings'] = Setting::first(); 
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->subject('Family Tree')
+                    ->view('emails.welcome-mail', $data);
     }
 
     /**
