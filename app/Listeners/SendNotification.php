@@ -8,17 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\EventNotification;
 
-class SendNotification
+class SendNotification implements ShouldQueue
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Handle the event.
@@ -30,4 +21,5 @@ class SendNotification
     {
         Notification::send($event->users, new EventNotification($event->event));
     }
+
 }
