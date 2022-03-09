@@ -120,13 +120,13 @@ class UserController extends Controller
 
             $father = Person::where('id', $request->father_id)->first();
             if($father == null){
-                $father_name = explode(' ', $request->mother_id);
+                $father_name = explode(' ', $request->father_id);
                 $father = Person::create([
                     'first_name' => $father_name[0],
-                    'father_name' => isset($father_name[1]) ? $father_name[1] : $father->father_name,
+                    'father_name' => isset($father_name[1]) ? $father_name[1] : ' ',
                     'grand_father_name' => isset($father_name[2]) ? $father_name[2] : null,
                     'has_family' => 1,
-                    'gender' => 'female',
+                    'gender' => 'male',
                     'is_live' => $request->is_alive == 'off',
                     'death_date' => $request->death_date,
                 ]);
@@ -159,15 +159,18 @@ class UserController extends Controller
                     ]);
                     $request->mother_id = $mother->id;
                 }
-//                $family = Family::where('father_id', $request->father_id)
-//                    ->where('mother_id', $request->mother_id)
-//                    ->first();
+                $mother->has_family = 1;
+                $mother->save();
+                $family = Family::where('father_id', $request->father_id)
+                    ->where('mother_id', $request->mother_id)
+                    ->first();
             }
 
-//            $family = Family::where('id', $family->id)->first();
             if($family == null){
                 return redirect()->back()->with('error', 'هناك مشكلة في العائلة');
             }
+            $family = Family::where('id', $family->id)->first();
+
 
             $childern = (int)$family->children_count;
             $family->children_count = $childern + 1;
@@ -315,10 +318,21 @@ class UserController extends Controller
         $appMenu = config('custom.app_menu');
         $menuTitle = 'تعديل المستخدم: '.$person->first_name;
         $pageTitle = 'لوحة التحكم';
-        $female = Person::where('gender', 'female')
-            ->where('has_family', 0)->get();
+        $wives = $person->wives->pluck('id');
+        $children = $person->children->pluck('id');
+        $female = Person::where('gender', 'female')->where(function ($q) use ($wives) {
+                        $q->where('has_family', 0)->orWhereIn('id', $wives);
+                    })
+                    ->WhereNotIn('id', $children)
+                    ->get();
 
-        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person', 'female'));
+        $persons = \App\Models\Person::where('has_family', 1)
+            ->where('gender', 'male')->get();
+
+        $mothers = Person::where('gender', 'female')
+            ->where('has_family', 1)->get();
+
+        return view('dashboard.users.update', compact('appMenu', 'menuTitle', 'pageTitle', 'person', 'female', 'persons', 'mothers'));
     }
 
     /**
@@ -332,13 +346,12 @@ class UserController extends Controller
     {
         $request->validate([
             'first_name' => ['required'],
-            'father_name' => ['required'],
-            'grand_father_name' => ['nullable'],
             'surname' => ['nullable'],
             'gender' => ['required'],
             'has_family' => ['required'],
             'is_live' => ['nullable'],
         ]);
+        
 
         if($request['has_family'] == 'true' && $request['gender'] == 'male'){
             foreach($request['wife_id'] as $row_wife_id){
@@ -369,8 +382,6 @@ class UserController extends Controller
         }
 
         $person->first_name = $request->first_name;
-        $person->father_name = $request->father_name;
-        $person->grand_father_name = $request->grand_father_name;
         $person->surname = $request->surname;
         $person->gender = $request->gender;
         $person->has_family = $request->has_family == 'true';
@@ -452,7 +463,7 @@ class UserController extends Controller
 
         $user->removeRole($user->role_id);
         $user->assignRole($request->role_id);
-//        $user->syncRoles($request->role_id);
+        // $user->syncRoles($request->role_id);
         $user->role_id = $request->role_id;
         $user->save();
 
@@ -594,9 +605,121 @@ class UserController extends Controller
             'person_id' => ['required', 'exists:persons,id'],
         ]);
         $person = Person::where('id', $request['person_id'])->first();
+
+        if(isset($request['father_id'])){
+            $father = Person::where('id', $request['father_id'])->first();
+            if($father == null){
+                $father_name = explode(' ', $request->father_id);
+                $father = Person::create([
+                    'first_name' => $father_name[0],
+                    'father_name' => isset($father_name[1]) ? $father_name[1] : ' ',
+                    'grand_father_name' => isset($father_name[2]) ? $father_name[2] : null,
+                    'has_family' => 1,
+                    'gender' => 'male',
+                ]);
+            }
+            $person->belongsToFamily->father_id = $father->id;
+            $person->belongsToFamily->save();
+        }
+        if(isset($request['mother_id'])){
+            $mother = Person::where('id', $request['mother_id'])->first();
+            if($mother == null){
+                if($request->mother_id == 'none'){
+                    $person->belongsToFamily->mother_id = null;
+                    $person->belongsToFamily->save();   
+                }
+                else{
+                    $mother_name = explode(' ', $request->mother_id);
+                    $mother = Person::create([
+                        'first_name' => $mother_name[0],
+                        'father_name' => isset($mother_name[1]) ? $mother_name[1] : $father->father_name,
+                        'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                        'has_family' => 1,
+                        'gender' => 'female',
+                        'is_live' => $request->is_alive == 'off',
+                        'death_date' => $request->death_date,
+                    ]);
+                    $person->belongsToFamily->mother_id = $mother->id;
+                    $person->belongsToFamily->save(); 
+                }
+            }
+            else{
+                if(!isset($person->mother) || $person->mother->id != $request['mother_id']){
+                    if(isset($person->mother)){
+                        $person->mother->has_family = 0;
+                        $person->mother->save();
+                    }
+
+                    $person->belongsToFamily->mother_id = $request['mother_id'];
+                    $person->belongsToFamily->save();
+                }
+            }
+        }
+
+        if($request['has_family'] == 'true'){
+            if(isset($person->wives)){
+                foreach($person->wives as $row_person_wife){
+                    $test = 0;
+                    foreach($request['wife_id'] as $row_wife_id){
+                        if($row_wife_id == $row_person_wife->id){
+                            $test = 1;
+                        }
+                    }
+                    if($test == 0){
+                        $row_person_wife->has_family = 1;
+                        $row_person_wife->save();
+
+                        
+                        $wife_family = Family::where('mother_id', $row_person_wife->id)
+                                            ->where('father_id', $person->id)
+                                            ->first();
+                                            
+                        if($wife_family != null){
+                            $childern = Person::where('family_id', $wife_family->id);
+                            $childern->update(['family_id' => null]);
+                            
+                            $wife_family->delete();
+                        }
+                    }
+                }
+            }
+            foreach($request['wife_id'] as $row_wife_id){
+                if($row_wife_id == 'none'){
+                    $wife_id = null;
+                }
+                else{
+                    $wife = Person::where('id', $row_wife_id)->first();
+                    if($wife == null){
+                        $mother_name = explode(' ', $row_wife_id);
+                        $wife = Person::create([
+                            'first_name' => $mother_name[0],
+                            'father_name' => isset($mother_name[1]) ? $mother_name[1] : $person->father_name,
+                            'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                            'has_family' => 1,
+                            'gender' => 'female',
+                            'is_live' => $request->is_alive == 'off',
+                            'death_date' => $request->death_date,
+                        ]);
+                    }
+                    $wife->has_family = 1;
+                    $wife->save();
+                    $wife_id = $wife->id;
+                }
+                $family = Family::where('father_id', $person->id)
+                                ->where('mother_id', $wife_id)
+                                ->first();
+                if($family == null || $wife_id == null){
+                    Family::create([
+                        'name' => ' عائلة ' . ($person->first_name),
+                        'father_id' => $person->id,
+                        'mother_id' => $wife_id,
+                    ]);
+                }
+            }
+            
+        }
+
         $person->first_name = $request['first_name'];
-        $person->father_name = $request['father_name'];
-        $person->grand_father_name = $request['grand_father_name'];
         $person->surname = $request['surname'];
         $person->birth_date = $request['birth_date'];
         $person->birth_place = $request['birth_place'];

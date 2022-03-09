@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('add-styles')
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/select2-rtl.min.css') }}"/>
 @endsection
 
 @section('breadcrumb')
@@ -32,13 +32,24 @@
                                         <input type="text" name="first_name" class="form-control mb-0" id="first_name" placeholder="{{ __('الاسم') }}" value="{{ $person->first_name }}" required autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="father_name">{{ __('اسم الأب') }}</label>
-                                        <input type="text" name="father_name" class="form-control mb-0" id="father_name" value="{{ $person->father_name }}" placeholder="أدخل اسم الاب">
+                                        <label for="father_id">{{ __('اسم الأب') }}</label>
+                                        <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
+                                            <option disabled selected>حدد الأب</option>
+                                            @foreach($persons as $per)
+                                                <option value="{{ $per->id }}" {{ (isset($person->father) && $person->father->id == $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="grand_father_name">{{ __('اسم الجد') }}</label>
-                                        <input type="text" name="grand_father_name" class="form-control mb-0" id="grand_father_name" value="{{ $person->grand_father_name }}" placeholder="اسم الجد">
+                                        <label for="mother_id">{{ __('اسم الام') }}</label>
+                                        <select id="mother_id" name="mother_id" class="js-states form-control" style="width: 100%;">
+                                            <option value="none">لا يوجد</option>
+                                            @foreach($mothers as $per)
+                                                <option value="{{$per->id}}" {{ (isset($person->mother) && $person->mother->id == $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    
                                     <div class="form-group col-lg-6">
                                         <label for="surname">{{ __('اللقب') }}</label>
                                         <input type="text" name="surname" class="form-control mb-0" id="surname" value="{{ $person->surname }}" placeholder="أدخل اللقب">
@@ -64,7 +75,7 @@
                                         <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
                                         <select id="wife_id" name="wife_id[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
                                             @foreach($female as $per)
-                                                <option value="{{$per->id}}" {{ $per->ownFamily->contains('mother_id', $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                                <option value="{{$per->id}}" {{ $person->ownFamily->contains('mother_id', $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -154,8 +165,27 @@
             language: 'ar',
             width: '100%',
         });
+        $('#father_id').select2({
+            placeholder: 'حدد الأب',
+            closeOnSelect: true,
+            allowClear: true,
+            tags: true,
+            dir: 'rtl',
+            language: 'ar',
+            width: '100%',
+        });
+        $('#mother_id').select2({
+            placeholder: "حدد الام",
+            closeOnSelect: true,
+            allowClear: true,
+            tags: true,
+            dir: 'rtl',
+            language: 'ar',
+            width: '100%',
+        });
     });
 
+    
     $("#yes_has_family").click(() => {
         $("#wifeSection").removeClass('d-none');
     });
