@@ -182,7 +182,7 @@ class NewsController extends Controller
         $event_notification['is_mail'] = 1;
 
         $users = User::where('status', 'active')->get();
-        event(new NotificationEvent($event_notification, $users));
+        event((new NotificationEvent($event_notification, $users)));
 
         return back()->with('success', 'تم تنشيط الخبر بنجاح');
     }
