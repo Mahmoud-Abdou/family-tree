@@ -61,7 +61,11 @@ class HomeController extends Controller
     public function familyTreeRender(Request $request)
     {
         if($request->ajax()){
-            $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+            $FirstOne = \App\Models\Person::where('id', \App\Helpers\AppHelper::GeneralSettings('oldest_person'))->first();
+            if (!isset($FirstOne)) {
+                $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+            }
+
             $main_families = $FirstOne->ownFamily;
 //        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
             $families = [];

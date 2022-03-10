@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('add-styles')
-
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
 @endsection
 
 @section('breadcrumb')
@@ -139,6 +139,22 @@
                                             <p>عند تفعيل هذا الخيار سيتم تفعيل التعليقات على الأخبار حسب الصلاحيات.</p>
                                         </div>
                                     </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="oldest_person">حدد الجد الأكبر</label>
+                                        <select id="oldest_person" name="oldest_person" class="js-states form-control" style="width: 100%;">
+{{--                                            <option disabled selected>حدد الجد الأكبر</option>--}}
+                                            @foreach($fathers as $father)
+                                                <option value="{{ $father->id }}" {{ $settingData->oldest_person == $father->id ? 'selected' : '' }}>{{$father->full_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="full_name_count">عدد الأسماء التي سيتم عرضها</label>
+                                        <input type="number" class="form-control" name="full_name_count" id="full_name_count" value="{{ $settingData->full_name_count }}">
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -169,23 +185,32 @@
     <script src="{{ secure_asset('assets/js/tinymce/tinymce.min.js') }}"></script>
 
     <script>
-        // TODO: fix error SyntaxError: Unexpected token '<' tinymce
-        tinymce.init({
-            selector: 'textarea',
-            plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount nonbreaking',
-            // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount fullscreen nonbreaking',
-            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor',
-            // toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor | fullscreen',
-            toolbar_mode: 'floating',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Al Falak World',
-            fullscreen_new_window : true,
-            fullscreen_settings : {
-                theme_advanced_path_location : "top"
-            },
-            language : "{{ app()->getLocale() }}",
-            menubar: false,
-            statusbar: false
+        $(document).ready(function() {
+            $('#father_id').select2({
+                placeholder: 'حدد الجد الأكبر',
+                closeOnSelect: true,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+
+            tinymce.init({
+                selector: 'textarea',
+                plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount nonbreaking',
+                // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount fullscreen nonbreaking',
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor',
+                // toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor | fullscreen',
+                toolbar_mode: 'floating',
+                tinycomments_mode: 'embedded',
+                tinycomments_author: 'Al Falak World',
+                fullscreen_new_window : true,
+                fullscreen_settings : {
+                    theme_advanced_path_location : "top"
+                },
+                language : "{{ app()->getLocale() }}",
+                menubar: false,
+                statusbar: false
+            });
         });
     </script>
 @endsection

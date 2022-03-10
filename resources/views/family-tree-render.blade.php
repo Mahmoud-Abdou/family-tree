@@ -106,7 +106,7 @@
 
             function renderData(data) {
                 var datascource = data;
-                // console.log(data)
+
                 var nodeTemplate = function(data) {
                     return `
 {{--                        <div class="wife-node">

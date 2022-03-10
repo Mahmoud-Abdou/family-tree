@@ -37,9 +37,10 @@ class SettingController extends Controller
         $pageTitle = 'لوحة التحكم';
         $settingData = Setting::first();
         $rolesData = \Spatie\Permission\Models\Role::where('name', '!=', 'Super Admin')->get();
+        $fathers = \App\Models\Person::where('gender', 'male')->get();
 
         return view('dashboard.settings', compact(
-            'appMenu', 'pageTitle', 'menuTitle', 'settingData', 'rolesData'
+            'appMenu', 'pageTitle', 'menuTitle', 'settingData', 'rolesData', 'fathers'
         ));
     }
 
@@ -64,11 +65,9 @@ class SettingController extends Controller
             'app_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
             'family_tree_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:20000'],
             'default_user_role' => ['required', 'exists:roles,id'],
+            'oldest_person' => ['required', 'exists:persons,id'],
+            'full_name_count' => ['required', 'numeric'],
         ]);
-
-//        if (!$validatedData) {
-//            return back()->with('error', 'فشل تحديث البيانات');
-//        }
 
         $setting->family_name_ar = $request->family_name_ar;
 //        $setting->family_name_en = $request->family_name_en;
@@ -95,6 +94,8 @@ class SettingController extends Controller
         $setting->app_registration = $request->app_registration == 'on';
         $setting->app_first_registration = $request->app_first_registration == 'on';
         $setting->app_comments = $request->app_comments == 'on';
+        $setting->oldest_person = $request->oldest_person;
+        $setting->full_name_count = $request->full_name_count;
 
         if ($setting->isDirty()) {
             $setting->save();

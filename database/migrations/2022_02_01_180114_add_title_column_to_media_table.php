@@ -14,8 +14,7 @@ class AddTitleColumnToMediaTable extends Migration
     public function up()
     {
         Schema::table('media', function (Blueprint $table) {
-            $table->string('title')
-                ->after('file');
+            $table->string('title')->after('file');
         });
     }
 

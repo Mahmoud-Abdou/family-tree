@@ -172,6 +172,8 @@ class Person extends Model
 
     public function getCompleteName($name = "", $num = 0, $father = null)
     {
+        $nameCount = \App\Helpers\AppHelper::GeneralSettings('full_name_count');
+        if ($nameCount < 4) $nameCount = 4;
         $fullName = $name;
         if ($num == 0) {
             $fullName = $this->first_name;
@@ -187,7 +189,7 @@ class Person extends Model
             }
         }
 
-        if ($num < 5) {
+        if ($num < $nameCount) {
             return $this->getCompleteName($fullName, $num + 1, $fatherName);
         } else {
             return $fullName;
