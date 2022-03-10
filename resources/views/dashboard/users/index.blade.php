@@ -148,7 +148,7 @@
                                     @if($usersData->count() > 0)
                                         @foreach($usersData as $user)
                                             <tr>
-                                                <td><a href="{{ route('admin.users.show', $user->id) }}">{{ $user->relation_full_name }}</a></td>
+                                                <td><a href="{{ route('admin.users.show', $user->id) }}">{{ $user->full_name }}</a></td>
                                                 <td>@isset($user->user) {{ $user->user->email }} @else - @endisset</td>
                                                 <td>@isset($user->user) {{ $user->user->mobile }} @else - @endisset</td>
                                                 <td>@isset($user->user) {{ $user->user->city->name_ar }} @else - @endisset</td>

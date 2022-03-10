@@ -35,7 +35,9 @@ class Setting extends Model
         'default_user_role',
         'app_registration',
         'app_first_registration',
-        'app_comments'
+        'app_comments',
+        'full_name_count',
+        'oldest_person'
     ];
 
     // accessories

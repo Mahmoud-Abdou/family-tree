@@ -265,9 +265,8 @@
                                     </div>
                                     <div class="form-group col-lg-6 d-none" id="no_family_death_place">
                                         <label for="death_place">مكان الوفاه</label>
-                                        <input type="text" name="death_place" class="form-control mb-0" value="{{ old('death_place') }}">
+                                        <input type="text" name="death_place" class="form-control mb-0" id="death_place" value="{{ old('death_place') }}">
                                     </div>
-
 
                                     <div class="form-group col-lg-6">
                                         <label for="no_family_surname">اللقب (اختياري)</label>

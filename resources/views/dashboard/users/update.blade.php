@@ -32,6 +32,10 @@
                                         <input type="text" name="first_name" class="form-control mb-0" id="first_name" placeholder="{{ __('الاسم') }}" value="{{ $person->first_name }}" required autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
+                                        <label for="surname">{{ __('اللقب') }} (اختياري)</label>
+                                        <input type="text" name="surname" class="form-control mb-0" id="surname" value="{{ $person->surname }}" placeholder="أدخل اللقب">
+                                    </div>
+                                    <div class="form-group col-lg-6">
                                         <label for="father_id">{{ __('اسم الأب') }}</label>
                                         <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
                                             <option disabled selected>حدد الأب</option>
@@ -48,11 +52,6 @@
                                                 <option value="{{$per->id}}" {{ (isset($person->mother) && $person->mother->id == $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
-                                    </div>
-                                    
-                                    <div class="form-group col-lg-6">
-                                        <label for="surname">{{ __('اللقب') }}</label>
-                                        <input type="text" name="surname" class="form-control mb-0" id="surname" value="{{ $person->surname }}" placeholder="أدخل اللقب">
                                     </div>
 
                                     <div class="form-group col-lg-6" >
@@ -112,19 +111,19 @@
                                     @endif
 
                                     <div class="form-group col-lg-6">
-                                        <label for="birth_date"> تاريخ الميلاد </label>
+                                        <label for="birth_date"> تاريخ الميلاد (اختياري)</label>
                                         <input type="date" name="birth_date" class="form-control mb-0"  placeholder="تاريخ الميلاد" value="{{$person->birth_date }}"  autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="birth_place">محل الميلاد </label>
-                                        <input type="text" name="birth_place" class="form-control mb-0"  placeholder="محل الميلاد" value="{{ $person->birth_place }}"  autofocus>
+                                        <label for="birth_place">مكان الميلاد (اختياري)</label>
+                                        <input type="text" name="birth_place" class="form-control mb-0"  placeholder="مكان الميلاد" value="{{ $person->birth_place }}"  autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="job">الوظيفة</label>
-                                        <input type="text" name="job" class="form-control mb-0"  placeholder="الوظيفة" value="{{ $person->job }}"  autofocus>
+                                        <label for="job">الوظيفة (اختياري)</label>
+                                        <input id="job" type="text" name="job" class="form-control mb-0" placeholder="الوظيفة" value="{{ $person->job }}"  autofocus>
                                     </div>
-                                    @isset($person->user)
 
+                                    @isset($person->user)
                                         <div class="form-group col-lg-6">
                                             <label for="new_mobile">{{ __('رقم الجوال') }}</label>
                                             <input type="text" name="mobile" class="form-control numeric mb-0" id="new_mobile" placeholder="أدخل رقم الجوال" value="{{ $person->user->mobile }}" >
@@ -185,7 +184,7 @@
         });
     });
 
-    
+
     $("#yes_has_family").click(() => {
         $("#wifeSection").removeClass('d-none');
     });
