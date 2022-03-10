@@ -30,7 +30,6 @@ class UserController extends Controller
         $this->middleware('permission:users.update')->only(['edit', 'update', 'roleAssign', 'update_user']);
         $this->middleware('permission:users.delete')->only('destroy');
         $this->middleware('permission:users.activate')->only('activate');
-//        $this->middleware('permission:users.update_user')->only('update_user');
     }
 
     /**
@@ -351,7 +350,7 @@ class UserController extends Controller
             'has_family' => ['required'],
             'is_live' => ['nullable'],
         ]);
-        
+
 
         if($request['has_family'] == 'true' && $request['gender'] == 'male'){
             foreach($request['wife_id'] as $row_wife_id){
@@ -618,15 +617,19 @@ class UserController extends Controller
                     'gender' => 'male',
                 ]);
             }
-            $person->belongsToFamily->father_id = $father->id;
-            $person->belongsToFamily->save();
+
+            $person->family_id = $father->family->id;;
+            $person->save();
+
+//            $person->belongsToFamily->father_id = $father->id;
+//            $person->belongsToFamily->save();
         }
         if(isset($request['mother_id'])){
             $mother = Person::where('id', $request['mother_id'])->first();
             if($mother == null){
                 if($request->mother_id == 'none'){
                     $person->belongsToFamily->mother_id = null;
-                    $person->belongsToFamily->save();   
+                    $person->belongsToFamily->save();
                 }
                 else{
                     $mother_name = explode(' ', $request->mother_id);
@@ -639,8 +642,12 @@ class UserController extends Controller
                         'is_live' => $request->is_alive == 'off',
                         'death_date' => $request->death_date,
                     ]);
-                    $person->belongsToFamily->mother_id = $mother->id;
-                    $person->belongsToFamily->save(); 
+
+                    $person->family_id = $mother->family->id;;
+                    $person->save();
+
+//                    $person->belongsToFamily->mother_id = $mother->id;
+//                    $person->belongsToFamily->save();
                 }
             }
             else{
@@ -669,15 +676,15 @@ class UserController extends Controller
                         $row_person_wife->has_family = 1;
                         $row_person_wife->save();
 
-                        
+
                         $wife_family = Family::where('mother_id', $row_person_wife->id)
                                             ->where('father_id', $person->id)
                                             ->first();
-                                            
+
                         if($wife_family != null){
                             $childern = Person::where('family_id', $wife_family->id);
                             $childern->update(['family_id' => null]);
-                            
+
                             $wife_family->delete();
                         }
                     }
@@ -716,7 +723,7 @@ class UserController extends Controller
                     ]);
                 }
             }
-            
+
         }
 
         $person->first_name = $request['first_name'];

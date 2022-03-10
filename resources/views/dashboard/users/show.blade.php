@@ -41,6 +41,9 @@
                                         <div class="col-sm-12 col-md-6">
                                             <ul class="nav nav-pills d-flex align-items-end float-right profile-feed-items p-0 m-0">
                                                 <li>
+                                                    <a class="nav-link iq-bg-warning border border-warning" href="{{ route('admin.users.edit', $person->id) }}">تعديل</a>
+                                                </li>
+                                                <li>
                                                     <a class="nav-link " data-toggle="pill" href="#profile-family">العائلة</a>
                                                 </li>
                                                 <li>

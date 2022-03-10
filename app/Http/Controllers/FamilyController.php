@@ -36,20 +36,13 @@ class FamilyController extends Controller
 
         // filters
         $perPage = isset($_GET['perPage']) ? $_GET['perPage'] : 10;
-//        $perCity = isset($_GET['city']) && $_GET['city'] != 'all' ? $_GET['city'] : null;
-        // $perName = isset($_GET['name']) ? $_GET['name'] : null;
         $filters_data = isset($request['filters']) ? $request['filters'] : [];
-        // dd($filters_data);
-        
+
         $families = new Family;
         $filters_array = $families->filters($filters_data);
         $filters = EloquentFilters::make($filters_array);
         $families = $families->filter($filters);
         $families = $families->paginate($perPage);
-
-        // $families = Family::where([
-        //     ['name', $perName ? '=' : '<>', $perName],
-        // ])->paginate($perPage);
 
         return view('dashboard.families.index', compact(
             'appMenu', 'pageTitle', 'menuTitle', 'families'
@@ -132,32 +125,10 @@ class FamilyController extends Controller
         }
 
         $gfFamily = Family::find($data['gf_family_id']);
-        if (!isset($gfFamily)) {
-            if ($data['gf_family_id'] != 'none') {
-                $gfFamilyName = explode(" ", $data['gf_family_id']);
-
-                $gfPerson = Person::create([
-                    'first_name' => $gfFamilyName[0],
-                    'father_name' => $gfFamilyName[1],
-                    'grand_father_name' => isset($gfFamilyName[2]) ? $gfFamilyName[2] : '',
-                    'surname' => isset($gfFamilyName[3]) ? $gfFamilyName[3] : '',
-                    'gender' => 'male',
-                    'has_family' => true,
-                ]);
-
-                $gfFamily = Family::create([
-                    'name' => 'أسرة '. $gfPerson->first_name,
-                    'father_id' => $gfPerson->id,
-                    'mother_id' => null,
-                    'children_count' => 1,
-                    'gf_family_id' => null,
-                    'status' => true,
-                ]);
-
-                // fix father family id
-                $father->family_id = $gfFamily->id;
-                $father->save();
-            }
+        if (isset($gfFamily)) {
+            // fix father family id
+            $father->family_id = $gfFamily->id;
+            $father->save();
         }
 
         $family = Family::create([
@@ -390,7 +361,6 @@ class FamilyController extends Controller
         $family->name = isset($request->name) ? $request->name : $family->name;
         $family->father_id = $father->id;
         $family->mother_id = isset($mother) ? $mother->id : null;
-//        $family->gf_family_id = $request->gf_family_id != 'none' ? $request->gf_family_id : null;
         $family->gf_family_id = isset($grandFatherFamily) ? $grandFatherFamily->id : null;
         $family->children_count = $family->members->count();
 

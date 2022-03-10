@@ -96,6 +96,16 @@ class Person extends Model
         }
     }
 
+    public function family()
+    {
+        switch (strtolower($this->gender)) {
+            case 'female':
+                return $this->hasOne('App\Models\Family', 'mother_id', 'id');
+            default:
+                return $this->hasOne('App\Models\Family', 'father_id', 'id');
+        }
+    }
+
     public function wifeOwnFamily()
     {
         return $this->hasOne('App\Models\Family', 'mother_id', 'id');
@@ -151,15 +161,37 @@ class Person extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
+        return $this->getCompleteName("", 0);
+//        return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
     }
 
-    public function get4Name()
+    public function getFathers()
     {
-        $father = $this->father;
-        $grandFather = $father->father;
-        $ggFather = isset($grandFather) ? $grandFather->father : null;
-        return $this->first_name . ' ' . $father->first_name . ' ' . (isset($grandFather) ? $grandFather->first_name : '') . ' ' . (isset($ggFather) ? $ggFather->first_name : '');
+        return $this->father()->with('getFathers');
+    }
+
+    public function getCompleteName($name = "", $num = 0, $father = null)
+    {
+        $fullName = $name;
+        if ($num == 0) {
+            $fullName = $this->first_name;
+            $fatherName = $this;
+        } else {
+            $fatherName = $father;
+            if (isset($fatherName)) {
+                $fatherName = $fatherName->father()->first();
+            }
+
+            if (isset($fatherName)) {
+                $fullName .= " {$fatherName->first_name}";
+            }
+        }
+
+        if ($num < 5) {
+            return $this->getCompleteName($fullName, $num + 1, $fatherName);
+        } else {
+            return $fullName;
+        }
     }
 
     public function getRelationFullNameAttribute()

@@ -9,6 +9,7 @@ use App\Models\Person;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use function Symfony\Component\String\length;
 
 class HomeController extends Controller
 {
@@ -161,13 +162,24 @@ class HomeController extends Controller
         if (request()->method() == "POST") {
             return redirect()->route('search.show', $request->search);
         }
-        $searchWord = request()->has('search') ? $request->search : $word;
+
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'البحث';
-        if ($searchWord) {
-            $searchResult = \App\Models\Person::whereLike(['first_name', 'father_name', 'grand_father_name', 'surname'], $searchWord)->paginate(20);
-        } else {
-            $searchResult = \App\Models\Person::where('first_name', $searchWord)->paginate(20);
+
+        $searchWord = request()->has('search') ? $request->search : $word;
+        $searchResult = \App\Models\Person::where('first_name', $searchWord)->paginate(20);
+
+        if($searchWord != "") {
+            $searchLevel = explode(" ", $searchWord);
+            $searchLevel[1] = isset($searchLevel[1]) ? $searchLevel[1] : '';
+            $searchLevel[2] = isset($searchLevel[2]) ? $searchLevel[2] : '';
+            $searchLevel[3] = isset($searchLevel[3]) ? $searchLevel[3] : '';
+
+            $searchResult = \App\Models\Person::whereLike('first_name', $searchLevel[0])
+                ->whereLike('father_name', $searchLevel[1])
+                ->whereLike('grand_father_name', $searchLevel[2])
+                ->whereLike('surname', $searchLevel[2])
+                ->paginate(20);
         }
 
         session()->put('searchWord', $searchWord);
@@ -189,7 +201,7 @@ class HomeController extends Controller
             $allPersons = \App\Models\Person::where('family_id', null)
                 ->whereNotIn('id', $wives_ids)
                 ->whereNotIn('id', $children_ids)
-                ->get(['id', 'first_name', 'father_name', 'grand_father_name', 'prefix']);
+                ->get(['id', 'first_name', 'father_name', 'grand_father_name', 'surname','prefix']);
         }
 
         return view('search-single', compact('menuTitle', 'pageTitle', 'searchWord', 'person', 'allPersons'));
