@@ -74,7 +74,7 @@
                                         <select id="selectGrandFather" name="gf_family_id" class="js-states form-control" style="width: 100%;">
                                             <option value="none" selected>لا يوجد</option>
                                             @foreach($families as $fam)
-                                                <option value="{{$fam->id}} {{ old('gf_family_id') == $fam->id ? 'selected' : '' }}">{{$fam->name}}</option>
+                                                <option value="{{$fam->id}} {{ old('gf_family_id') == $fam->id ? 'selected' : '' }}">{{$fam->father->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
