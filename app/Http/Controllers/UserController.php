@@ -580,25 +580,20 @@ class UserController extends Controller
         // if (auth()->id() == $person->user->id) {
         //     return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
         // }
-        $collectionOld = collect($person->ownFamily->pluck('id'));
-        $collectionNew = [];
 
-        $deleteItems = $collectionOld->diff($collectionNew);
-        foreach ($deleteItems as $oldFamily) {
-            $fam = Family::where('id', $oldFamily)->first();
-            foreach ($fam->members as $famMember) {
-                $famMember->family_id = null;
-                $famMember->save();
+        if ($person->has_family) {
+            foreach ($person->ownFamily as $f) {
+                foreach ($f->members as $m) {
+                    $m->family_id = null;
+                    $m->save();
+                }
+                if (isset($f->mother)) {
+                    $f->mother->has_family = 0;
+                    $f->mother->save();
+                }
+                $f->delete();
             }
-
-            if(isset($fam->mother)){
-                $fam->mother->has_family = 0;
-                $fam->mother->save();
-            }
-            $fam->delete();
         }
-
-
         if (isset($person->user)) {
             $person->user->delete();
         }
