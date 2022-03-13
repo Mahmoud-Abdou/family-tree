@@ -23,8 +23,9 @@
                         <div class="card-header">
                             <h5 class="float-left my-auto"><i class="ri-user-2-fill"> </i> {{ $menuTitle }}</h5>
                         </div>
-                        <form dir="rtl" method="POST" action="{{ route('admin.users.update_user') }}">
+                        <form dir="rtl" method="POST" action="{{ route('admin.users.update', $person->id) }}">
                             @csrf
+                            @method('PUT')
                             <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-lg-6">
@@ -32,9 +33,13 @@
                                         <input type="text" name="first_name" class="form-control mb-0" id="first_name" placeholder="{{ __('الاسم') }}" value="{{ $person->first_name }}" required autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="surname">{{ __('اللقب') }} (اختياري)</label>
-                                        <input type="text" name="surname" class="form-control mb-0" id="surname" value="{{ $person->surname }}" placeholder="أدخل اللقب">
+                                        <label for="gender">{{ __('النوع') }}</label>
+                                        <select id="gender" name="gender" class="form-control mb-0" required>
+                                            <option value="male" {{ $person->gender == 'male' ? 'checked' : '' }}>{{ __('ذكر') }}</option>
+                                            <option value="female" {{ $person->gender == 'female' ? 'checked' : '' }}>{{ __('أنثى') }}</option>
+                                        </select>
                                     </div>
+
                                     <div class="form-group col-lg-6">
                                         <label for="father_id">{{ __('اسم الأب') }}</label>
                                         <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
@@ -78,6 +83,15 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div id="husbandForm" class="d-none form-group col-lg-6">
+                                        <label for="selectHusband">ابحث و اختر الزوج، ليتم اضافته</label>
+                                        <select id="selectHusband" name="husband_id" class="js-states form-control" style="width: 100%;">
+                                            <option value="none">لا يوجد</option>
+                                            @foreach($male as $per)
+                                                <option value="{{$per->id}}" {{ old('husband_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
                                     <div class="form-group col-lg-8 my-3">
                                         <label>حدد هذا الخيار اذا كان الشخص متوفي</label>
@@ -87,6 +101,16 @@
                                                 <label class="custom-control-label" for="is_alive"> متوفي </label>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="surname">{{ __('اللقب') }} (اختياري)</label>
+                                        <input type="text" name="surname" class="form-control mb-0" id="surname" value="{{ $person->surname }}" placeholder="أدخل اللقب">
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label for="job">الوظيفة (اختياري)</label>
+                                        <input id="job" type="text" name="job" class="form-control mb-0" placeholder="الوظيفة" value="{{ $person->job }}"  autofocus>
                                     </div>
 
                                     <input type="hidden" name="person_id" value="{{ $person->id }}">
@@ -102,25 +126,21 @@
                                     @else
                                         <div class="form-group col-lg-6 d-block" id="no_user_death_date">
                                             <label for="date">تاريخ الوفاه</label>
-                                            <input type="date" name="death_date" class="form-control mb-0" value="{{ $person->death_date }}">
+                                            <input id="date" type="date" name="death_date" class="form-control mb-0" value="{{ $person->death_date }}">
                                         </div>
                                         <div class="form-group col-lg-6 d-block" id="no_user_death_place">
                                             <label for="death_place">مكان الوفاه</label>
-                                            <input type="text" name="death_place" class="form-control mb-0" value="{{ $person->death_place }}">
+                                            <input id="death_place" type="text" name="death_place" class="form-control mb-0" value="{{ $person->death_place }}">
                                         </div>
                                     @endif
 
                                     <div class="form-group col-lg-6">
                                         <label for="birth_date"> تاريخ الميلاد (اختياري)</label>
-                                        <input type="date" name="birth_date" class="form-control mb-0"  placeholder="تاريخ الميلاد" value="{{$person->birth_date }}"  autofocus>
+                                        <input id="birth_date" type="date" name="birth_date" class="form-control mb-0"  placeholder="تاريخ الميلاد" value="{{$person->birth_date }}"  autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="birth_place">مكان الميلاد (اختياري)</label>
-                                        <input type="text" name="birth_place" class="form-control mb-0"  placeholder="مكان الميلاد" value="{{ $person->birth_place }}"  autofocus>
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="job">الوظيفة (اختياري)</label>
-                                        <input id="job" type="text" name="job" class="form-control mb-0" placeholder="الوظيفة" value="{{ $person->job }}"  autofocus>
+                                        <input id="birth_place" type="text" name="birth_place" class="form-control mb-0"  placeholder="مكان الميلاد" value="{{ $person->birth_place }}"  autofocus>
                                     </div>
 
                                     @isset($person->user)
@@ -182,6 +202,15 @@
             language: 'ar',
             width: '100%',
         });
+        $('#selectHusband').select2({
+            placeholder: 'حدد الزوج',
+            closeOnSelect: true,
+            allowClear: true,
+            tags: true,
+            dir: 'rtl',
+            language: 'ar',
+            width: '100%',
+        });
     });
 
 
@@ -217,11 +246,31 @@
 
     function closeMainWifeModel() {
         $("#wifeForm").removeClass('d-block').addClass('d-none');
+        $("#husbandForm").removeClass('d-block').addClass('d-none');
     }
 
     function openMainWifeModel() {
-        $("#wifeForm").removeClass('d-none').addClass('d-block');
+        var gender = $('#gender').val();
+        var isChecked = $('#yes_has_family').prop('checked');
+        var isChecked2 = $('#family_yes_has_family').prop('checked');
+        if (isChecked || isChecked2) {
+            if (gender === 'male') {
+                $("#wifeForm").removeClass('d-none').addClass('d-block');
+            } else {
+                $("#husbandForm").removeClass('d-none').addClass('d-block');
+            }
+        }
     }
+
+    $("#gender").on('change', function() {
+        if ($(this).val() === 'female'){
+            $("#wifeForm").removeClass('d-block').addClass('d-none');
+            $("#husbandForm").removeClass('d-none').addClass('d-block');
+        } else {
+            $("#husbandForm").removeClass('d-block').addClass('d-none');
+            $("#wifeForm").removeClass('d-none').addClass('d-block');
+        }
+    });
 
     function openWifeModel() {
         $("#FamilyModel").modal('show')

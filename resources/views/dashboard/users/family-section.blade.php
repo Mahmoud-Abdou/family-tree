@@ -59,21 +59,21 @@
                     <h6 class="text-center">الوالدان</h6>
                     <div class="list-group list-group-horizontal text-center">
                         @isset($ownFamily->father)
-                        <a href="{{ route('search.result', [$ownFamily->father->first_name, $ownFamily->father->id]) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
+                        <a href="{{ route('admin.users.show', $ownFamily->father->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
                         @else
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-primary">{{ $ownFamily->father->full_name }}</a>
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-primary"> لا يوجد </a>
                         @endisset
                         @isset($ownFamily->mother)
-                            <a href="{{ route('search.result', [$ownFamily->mother->first_name, $ownFamily->mother->id]) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $ownFamily->mother->full_name }}</a>
+                            <a href="{{ route('admin.users.show', $ownFamily->mother->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $ownFamily->mother->full_name }}</a>
                         @else
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-danger">{{ isset($ownFamily->mother) ? $ownFamily->mother->full_name : '-----' }}</a>
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-danger"> لا يوجد </a>
                         @endisset
                     </div>
                     <br>
                     <h6 class="text-center">الأولاد</h6>
                     <div class="list-group text-center">
                         @foreach($ownFamily->members as $member)
-                        <a href="{{ route('search.result', [$member->first_name, $member->id]) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
+                        <a href="{{ route('admin.users.show', $member->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                         @endforeach
                     </div>
 
@@ -82,11 +82,10 @@
                         <h6 class="text-center">الاخوة في الرضاعة</h6>
                         <div class="list-group text-center">
                             @foreach($ownFamily->fosterBrothers as $member)
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-{{ $member->person->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->person->full_name }}</a>
+                            <a href="{{ route('admin.users.show', $member->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->person->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->person->full_name }}</a>
                             @endforeach
                         </div>
                     @endif
-
 
                 </div>
                 <div class="card-footer">

@@ -184,6 +184,11 @@ class HomeController extends Controller
                 ->whereLike('grand_father_name', $searchLevel[2])
                 ->whereLike('surname', $searchLevel[2])
                 ->paginate(20);
+
+//            $searchResult = \App\Models\Person::whereLike('first_name', $searchLevel[2]);
+//            $searchResult = $searchResult->whereLike('first_name', $searchLevel[1]);
+//            $searchResult = $searchResult->whereLike('first_name', $searchLevel[0]);
+//            $searchResult = $searchResult->paginate(20);
         }
 
         session()->put('searchWord', $searchWord);

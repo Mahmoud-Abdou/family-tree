@@ -60,7 +60,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="card iq-mb-3">
+                    <div class="card iq-mb-3 shadow-sm">
                         <div class="card-header">
                             <h5 class="float-left my-auto">
                                 <i class="ri-group-2-line"> </i>

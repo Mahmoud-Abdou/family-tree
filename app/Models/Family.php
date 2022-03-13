@@ -82,15 +82,15 @@ class Family extends Model
         return $this->hasMany('App\Models\Family', 'gf_family_id', 'id');
     }
 
-    // recursive relationship
-    public function membersFamilies()
-    {
-//        return $this->hasMany('App\Models\Family', 'gf_family_id', 'id')->with('gfFamilies');
-        return $this->members();
-    }
     public function fosterBrothers()
     {
-        return $this->hasMany('App\Models\FosterBrother', 'family_id', 'id');
+        return $this->hasManyThrough('App\Models\Person','App\Models\FosterBrother', 'family_id', 'id', 'id', 'person_id');
+//        return $this->hasMany('App\Models\FosterBrother', 'family_id', 'id');
+    }
+
+    public function fosterFamily()
+    {
+        return $this->hasManyThrough('App\Models\Person','App\Models\FosterBrother', 'family_id', 'id', 'id', 'person_id');
     }
 
     public function statusHtml()

@@ -2,6 +2,10 @@
 
 @section('page-title', $pageTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => 'الملف الشخصي', 'link' => route('profile')],['title' => $menuTitle, 'link' => route('profile')]]])
 @endsection
@@ -120,37 +124,40 @@
                                                 <br>
                                                 <div class="d-inline-flex">
                                                     <div class="custom-control custom-radio mx-4" onclick="openMainWifeModel()">
-                                                        <input type="radio"
-                                                               id="yes_has_family" name="has_family" value="true"
+                                                        <input type="radio" id="yes_has_family" name="has_family" value="true"
                                                                class="custom-control-input" {{ $person->has_family ? 'checked' : '' }}>
-                                                        <label class="custom-control-label" for="yes_has_family">
-                                                            متزوج/ة </label>
+                                                        <label class="custom-control-label" for="yes_has_family">متزوج/ة </label>
                                                     </div>
                                                     <div class="custom-control custom-radio mx-4" onclick="closeMainWifeModel()">
-                                                        <input type="radio" id="no_has_family" name="has_family"
-                                                               value="false"
+                                                        <input type="radio" id="no_has_family" name="has_family" value="false"
                                                                class="custom-control-input" {{ !$person->has_family ? 'checked' : '' }}>
-                                                        <label class="custom-control-label" for="no_has_family"> غير
-                                                            متزوج/ة </label>
+                                                        <label class="custom-control-label" for="no_has_family"> غير متزوج/ة </label>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div id="wifeForm" class="d-none">
-                                                <br>
-                                                <label for="selectUser">ابحث و اختر الزوجة، ليتم اضافتها</label>
-                                                <select id="selectUser" name="wife_id" class="js-states form-control"
-                                                        style="width: 100%;">
-                                                    <option value="add" disabled selected>اختر زوجة </option>
+                                            <br>
+                                            <div id="wifeForm" class="{{ $person->gender == 'male' && $person->has_family ? '' : 'd-none' }}">
+                                                <label for="selectWife">ابحث و اختر الزوجة، ليتم اضافتها</label>
+                                                <select id="selectWife" name="wife_id[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
                                                     @foreach($female as $per)
-                                                        <option value="{{$per->id}}">{{$per->full_name}}</option>
+                                                        <option value="{{$per->id}}" {{ $person->wives->contains('id', $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
                                                     @endforeach
                                                 </select>
 {{--                                                <br>--}}
-                                                <button type="button" data-dismiss="modal"
-                                                        class="btn btn-primary rounded-pill m-2 py-2 px-3" data-toggle="modal"
-                                                        data-target="#newPersonModal" onclick="openWifeModel()"><i
-                                                        class="ri-add-fill"> </i>اضف زوجة غير موجود
+                                                <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-2 py-2 px-3" data-toggle="modal"
+                                                        data-target="#newPersonModal" onclick="openWifeModel()"><i class="ri-add-fill"> </i>اضف زوجة غير موجود
+                                                </button>
+                                            </div>
+                                            <div id="husbandForm" class="{{ $person->gender == 'female' && $person->has_family ? '' : 'd-none' }}">
+                                                <label for="selectHusband">ابحث و اختر الزوج، ليتم اضافته</label>
+                                                <select id="selectHusband" name="husband_id" class="js-states form-control" style="width: 100%;">
+                                                    @foreach($males as $per)
+                                                        <option value="{{$per->id}}" {{ isset($person->husband) && $person->husband->id == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                                    @endforeach
+                                                </select>
+{{--                                                <br>--}}
+                                                <button type="button" data-dismiss="modal" class="btn btn-primary rounded-pill m-2 py-2 px-3" data-toggle="modal"
+                                                        data-target="#newPersonModal" onclick="openWifeModel()"><i class="ri-add-fill"> </i>اضف زوج غير موجود
                                                 </button>
                                             </div>
                                         </div>
@@ -180,8 +187,7 @@
                                     <div class="row">
                                         <div class="form-group col-lg-12">
                                             <label for="bio">السيرة الذاتية</label>
-                                            <textarea class="form-control" name="bio" id="bio"
-                                                      rows="2">{!! $person->bio !!}</textarea>
+                                            <textarea class="form-control" name="bio" id="bio" rows="2">{!! $person->bio !!}</textarea>
                                         </div>
                                     </div>
 
@@ -246,13 +252,20 @@
                                                    placeholder="أدخل أسم الجد">
                                         </div>
                                         <div class="form-group col-lg-12">
-                                            <label for="partner_email">{{ __('البريد الإلكتروني') }}</label>
+                                            <label for="partner_surname">{{ __('أدخل اللقب') }}</label>
+                                            <input type="text" name="partner_surname" class="form-control mb-0"
+                                                   id="partner_surname" value="{{ old('partner_surname') }}"
+                                                   placeholder="أدخل اللقب">
+                                        </div>
+                                        <hr>
+                                        <div class="form-group col-lg-12">
+                                            <label for="partner_email">{{ __('البريد الإلكتروني') }} (اختياري) </label>
                                             <input type="email" name="partner_email" class="form-control mb-0"
                                                    id="partner_email" value="{{ old('partner_email') }}"
                                                    placeholder="أدخل البريد الإلكتروني">
                                         </div>
                                         <div class="form-group col-lg-12">
-                                            <label for="partnerMobile">{{ __('رقم الجوال') }}</label>
+                                            <label for="partnerMobile">{{ __('رقم الجوال') }} (اختياري) </label>
                                             <input type="text" name="partner_mobile" class="form-control numeric mb-0"
                                                    id="partnerMobile" placeholder="أدخل رقم الجوال"
                                                    value="{{ old('partner_mobile') }}">
@@ -337,40 +350,72 @@
     <script src="{{ secure_asset('assets/js/tinymce/tinymce.min.js') }}"></script>
 
     <script>
-        tinymce.init({
-            selector: 'textarea',
-            // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount nonbreaking',
-            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor',
-            toolbar_mode: 'floating',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Al Falak World',
-            fullscreen_new_window: true,
-            fullscreen_settings: {
-                theme_advanced_path_location: "top"
-            },
-            language: "{{ app()->getLocale() }}",
-            menubar: false,
-            statusbar: false
+        $(document).ready(function() {
+            $('#selectWife').select2({
+                placeholder: 'حدد الزوجة',
+                closeOnSelect: true,
+                allowClear: true,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+            $('#selectHusband').select2({
+                placeholder: 'حدد الزوج',
+                closeOnSelect: true,
+                allowClear: true,
+                dir: 'rtl',
+                language: 'ar',
+                width: '100%',
+            });
+
+            tinymce.init({
+                selector: 'textarea#bio',
+                // plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker advlist link image charmap print preview hr anchor pagebreak searchreplace wordcount nonbreaking',
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor',
+                toolbar_mode: 'floating',
+                tinycomments_mode: 'embedded',
+                tinycomments_author: 'Al Falak World',
+                fullscreen_new_window: true,
+                fullscreen_settings: {
+                    theme_advanced_path_location: "top"
+                },
+                language: "{{ app()->getLocale() }}",
+                menubar: false,
+                statusbar: false
+            });
         });
     </script>
 
     <script>
-        $('#remove_photo_btn').click(function () {
-            $('#remove_photo').val('true');
-        });
-
         function closeMainWifeModel() {
-            $("#wifeForm").removeClass('d-block').addClass('d-none');
+            var isChecked = $('#no_has_family').prop('checked');
+            if(isChecked) {
+                $("#wifeForm").removeClass('d-block').addClass('d-none');
+                $("#husbandForm").removeClass('d-block').addClass('d-none');
+            }
         }
 
         function openMainWifeModel() {
             // $("#familyModal").modal('show');
-            $("#wifeForm").removeClass('d-none').addClass('d-block');
+            var isChecked = $('#yes_has_family').prop('checked');
+            var isMale = $('#male').prop('checked');
+            if(isChecked) {
+                if (isMale) {
+                    $("#wifeForm").removeClass('d-none').addClass('d-block');
+                } else {
+                    $("#husbandForm").removeClass('d-none').addClass('d-block');
+                }
+            }
         }
 
         function openWifeModel() {
             $("#familyModal").modal('hide')
             $("#newFamilyModel").modal('show')
         }
+
+        $('#female').click(function () {
+            $("#wifeForm").removeClass('d-block').addClass('d-none');
+            $("#husbandForm").removeClass('d-none').addClass('d-block');
+        });
     </script>
 @endsection

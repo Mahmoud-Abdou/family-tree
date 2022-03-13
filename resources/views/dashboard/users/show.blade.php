@@ -2,6 +2,10 @@
 
 @section('page-title', $pageTitle)
 
+@section('add-styles')
+    <link rel="stylesheet" href="{{ asset('assets/css/select2-rtl.min.css') }}"/>
+@endsection
+
 @section('breadcrumb')
     @include('partials.breadcrumb', ['pageTitle' => '<i class="ri-user-2-fill"> </i>'.$menuTitle, 'slots' => [['title' => 'المستخدمين', 'link' => route('admin.users.index')], ['title' => $menuTitle, 'link' => route('admin.users.index')],]])
 @endsection
@@ -60,7 +64,7 @@
 
                 <div class="col-lg-12">
                     <div class="tab-content">
-                        @include('dashboard.users.family-section', ['ownFamily' => $person->OwnFamily, 'family' => $person->belongsToFamily, 'personsData' => $allPersons, 'fosterPersonsData' => $fosterPersons])
+                        @include('dashboard.users.family-section', ['ownFamily' => $person->ownFamily, 'family' => $person->belongsToFamily, 'personsData' => $allPersons, 'fosterPersonsData' => $fosterPersons])
 
                         @include('auth.profile-profile', ['profile' => $person])
                     </div>

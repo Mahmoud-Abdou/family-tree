@@ -124,7 +124,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2 mt-2">
+                                <div class="col-md-2 mt-4">
                                     <button type="submit" onclick="filter_data()" class="btn btn-primary rounded-pill py-2 w-100">بحث</button>
                                 </div>
                             </div>

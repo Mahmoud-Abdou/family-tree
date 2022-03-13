@@ -15,8 +15,7 @@ use App\Filters\OwnerRelativesFilter;
 
 class Person extends Model
 {
-    use HasFactory, SoftDeletes;
-    use Filterable;
+    use HasFactory, SoftDeletes, Filterable;
 
     public $photoPath = '/uploads/persons/';
 
@@ -50,6 +49,19 @@ class Person extends Model
         'verified',
         'symbol',
         'color',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'birth_date',
+        'death_place',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     /**
@@ -87,23 +99,16 @@ class Person extends Model
     public function ownFamily()
     {
         switch (strtolower($this->gender)) {
-            case 'male':
-                return $this->hasMany('App\Models\Family', 'father_id', 'id');
             case 'female':
                 return $this->hasMany('App\Models\Family', 'mother_id', 'id');
             default:
-                return null;
+                return $this->hasMany('App\Models\Family', 'father_id', 'id');
         }
     }
 
     public function family()
     {
-        switch (strtolower($this->gender)) {
-            case 'female':
-                return $this->hasOne('App\Models\Family', 'mother_id', 'id');
-            default:
-                return $this->hasOne('App\Models\Family', 'father_id', 'id');
-        }
+        return $this->hasOne('App\Models\Family', 'id', 'family_id');
     }
 
     public function wifeOwnFamily()
@@ -161,13 +166,10 @@ class Person extends Model
 
     public function getFullNameAttribute()
     {
-        return $this->getCompleteName("", 0);
-//        return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name;
-    }
-
-    public function getFathers()
-    {
-        return $this->father()->with('getFathers');
+        if (isset($this->father)) {
+            return $this->getCompleteName();
+        }
+        return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name . ' ' . $this->surname;
     }
 
     public function getCompleteName($name = "", $num = 0, $father = null)
@@ -175,6 +177,7 @@ class Person extends Model
         $nameCount = \App\Helpers\AppHelper::GeneralSettings('full_name_count');
         if ($nameCount < 4) $nameCount = 4;
         $fullName = $name;
+
         if ($num == 0) {
             $fullName = $this->first_name;
             $fatherName = $this;
@@ -221,21 +224,31 @@ class Person extends Model
 
     public function getBirthDateAttribute($date)
     {
-        return date('Y-m-d', strtotime($date));
+        if (isset($date)) {
+            return date('Y-m-d', strtotime($date));
+        }
+        return '-';
     }
 
     public function getDeathDateAttribute($date)
     {
-        return date('Y-m-d', strtotime($date));
+        if (isset($date)) {
+            return date('Y-m-d', strtotime($date));
+        }
+        return '-';
     }
 
     public function getAgeAttribute()
     {
-        if ($this->is_live){
+        if ($this->is_live && $this->birth_date != '-'){
             return \Carbon\Carbon::parse($this->birth_date)->diff(\Carbon\Carbon::now())->format('%y سنوات');
         }
 
-        return \Carbon\Carbon::parse($this->birth_date)->diff($this->death_date)->format('%y سنوات');
+        if ($this->death_date != '-' && $this->birth_date != '-'){
+            return \Carbon\Carbon::parse($this->birth_date)->diff($this->death_date)->format('%y سنوات');
+        }
+
+        return '-';
     }
 
     // functions

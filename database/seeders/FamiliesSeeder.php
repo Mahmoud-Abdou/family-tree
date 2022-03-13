@@ -18,7 +18,6 @@ class FamiliesSeeder extends Seeder
         $families = \App\Models\Family::all();
         foreach ($families as $family) {
             $family->children_count = \App\Models\Person::where('family_id', $family->id)->count();
-//            $family->family_tree = \App\Models\Family::find($family->id)->with('membersFamilies')->get()->toArray();
             $family->save();
 
             foreach ($family->members as $member) {

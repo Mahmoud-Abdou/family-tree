@@ -45,7 +45,7 @@
                         <a class="search-toggle iq-waves-effect" href="#">
                             <i class="ri-search-line"></i>
                         </a>
-                        <form method="POST" action="{{ route('search') }}" class="search-box">
+                        <form method="POST" action="{{ route('search') }}" class="search-box shadow">
                             @csrf
 
                             <div class="inline-flex">
@@ -62,7 +62,7 @@
                             @endif
                         </a>
                         <div class="iq-sub-dropdown">
-                            <div class="iq-card shadow-none m-0">
+                            <div class="iq-card shadow m-0">
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-danger p-3">
                                         <h5 class="mb-0 text-white">الاشعارات<small class="badge badge-light float-right pt-1">{{ count(auth()->user()->unreadNotifications) }}</small></h5>
@@ -104,7 +104,7 @@
                         <img src="{{ isset(auth()->user()->profile) ? auth()->user()->profile->photo : secure_asset('assets/images/user/1.jpg') }}" class="img-fluid rounded" alt="{{ auth()->user()->name }}">
                     </a>
                     <div class="iq-sub-dropdown iq-user-dropdown" style="left: 0 !important;">
-                        <div class="iq-card shadow-none m-0">
+                        <div class="iq-card shadow m-0">
                             <div class="iq-card-body p-0 ">
                                 <div class="bg-primary p-3">
                                     <h5 class="mb-0 text-white line-height">{{ isset(auth()->user()->profile) ? auth()->user()->profile->full_name : auth()->user()->name }}</h5>

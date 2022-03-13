@@ -73,7 +73,7 @@ class FamilyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -131,14 +131,18 @@ class FamilyController extends Controller
             $father->save();
         }
 
-        $family = Family::create([
-            'name' => isset($data['name']) ? $data['name'] : 'أسرة '. $father->first_name,
-            'father_id' => $father->id,
-            'mother_id' => isset($mother) ? $mother->id : null,
-            'children_count' => isset($data['children_count']) ? $data['children_count'] : 0,
-            'gf_family_id' => isset($gfFamily) ? $gfFamily->id : null,
-            'status' => true
-        ]);
+        if ($father->wives->contains($mother->id)) {
+            $family = Family::where([['father_id', $father->id], ['mother_id', $mother->id]])->first();
+        } else {
+            $family = Family::create([
+                'name' => isset($data['name']) ? $data['name'] : 'أسرة '. $father->first_name,
+                'father_id' => $father->id,
+                'mother_id' => isset($mother) ? $mother->id : null,
+                'children_count' => isset($data['children_count']) ? $data['children_count'] : 0,
+                'gf_family_id' => isset($gfFamily) ? $gfFamily->id : null,
+                'status' => true
+            ]);
+        }
 
         // add family children
         if (isset($request->family_children_m)) {
@@ -222,8 +226,8 @@ class FamilyController extends Controller
         $menuTitle = 'تعديل أسرة: '.$family->name;
         $pageTitle = 'لوحة التحكم';
 
-        $fathers = Person::where('gender', '=', 'male')->get();
-        $mothers = Person::where('gender', '=', 'female')->get();
+        $fathers = Person::where('gender', 'male')->get();
+        $mothers = Person::where('gender', 'female')->get();
         $families = Family::all()->except($family->id);
         $boys = Person::where('gender', '=', 'male')->where('family_id', '=', $family->id)->get();
         $girls = Person::where('gender', '=', 'female')->where('family_id', '=', $family->id)->get();
@@ -286,7 +290,7 @@ class FamilyController extends Controller
         }
 
         // update family children
-        if (isset($request->family_children_m)) {
+        if ($request->has('family_children_m')) {
             $boys = Person::where([['gender', '=', 'male'], ['family_id', '=', $family->id]])->get();
             foreach ($boys as $b) {
                 $b->family_id = null;
@@ -298,16 +302,18 @@ class FamilyController extends Controller
 
                 if (isset($boy)) {
                     $boy->family_id = $family->id;
+                    $boy->father_name = $father->first_name;
+                    $boy->grand_father_name = $father->father_name;
                     $boy->save();
                 } else {
                     Person::create([
                         'first_name' => $children,
                         'father_name' => $father->first_name,
                         'grand_father_name' => $father->father_name,
-                        'surname' => $father->grand_father_name,
+//                        'surname' => $father->grand_father_name,
                         'gender' => 'male',
                         'has_family' => false,
-                        'family_id' => $father->id,
+                        'family_id' => $family->id,
                     ]);
                 }
             }
@@ -319,7 +325,7 @@ class FamilyController extends Controller
             }
         }
 
-        if (isset($request->family_children_f)) {
+        if ($request->has('family_children_f')) {
             $girls = Person::where([['gender', '=', 'female'], ['family_id', '=', $family->id]])->get();
             foreach ($girls as $g) {
                 $g->family_id = null;
@@ -331,6 +337,8 @@ class FamilyController extends Controller
 
                 if (isset($girl)) {
                     $girl->family_id = $family->id;
+                    $girl->father_name = $father->first_name;
+                    $girl->grand_father_name = $father->father_name;
                     $girl->save();
                 } else {
                     Person::create([
@@ -340,7 +348,7 @@ class FamilyController extends Controller
                         'surname' => $father->grand_father_name,
                         'gender' => 'female',
                         'has_family' => false,
-                        'family_id' => $father->id,
+                        'family_id' => $family->id,
                     ]);
                 }
             }
@@ -358,13 +366,13 @@ class FamilyController extends Controller
             $father->save();
         }
 
-        $family->name = isset($request->name) ? $request->name : $family->name;
+        $family->name = $request->has('name') ? $request->name : $family->name;
         $family->father_id = $father->id;
         $family->mother_id = isset($mother) ? $mother->id : null;
         $family->gf_family_id = isset($grandFatherFamily) ? $grandFatherFamily->id : null;
         $family->children_count = $family->members->count();
-
         $family->save();
+
         \App\Helpers\AppHelper::AddLog('Family Create', class_basename($family), $family->id);
         return redirect()->route('admin.families.index')->with('success', 'تم تعديل الأسرة بنجاح.');
     }

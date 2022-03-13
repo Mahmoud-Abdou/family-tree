@@ -63,62 +63,133 @@ class ProfileController extends Controller
         $pageTitle = 'القائمة الرئيسية';
         $user = auth()->user();
         $person = $user->profile;
-        $husband_id = $person->id;
 
-        $family_ids = Family::where('father_id', $husband_id)->pluck('id');
+        $family_ids = Family::where('father_id', $person->id)->pluck('id');
 
         $female = Person::where('is_live', 1)
+            ->where('gender', 'female')
+//            ->where('has_family', 0)
+            ->whereNotIn('family_id', $family_ids)
+            ->get();
+
+        $males = Person::where('is_live', 1)
             ->where('gender', 'female')
             ->where('has_family', 0)
             ->whereNotIn('family_id', $family_ids)
             ->get();
 
-        return view('auth.profile-update', compact('menuTitle', 'pageTitle', 'user', 'person', 'female'));
+        return view('auth.profile-update', compact('menuTitle', 'pageTitle', 'user', 'person', 'female', 'males'));
     }
 
     public function update(UpdatePersonRequest $request)
     {
         $person = auth()->user()->profile;
-
         $request['has_family'] = $request->has_family == "true";
         $person->update($request->all());
 
-        if($request->wife_id == 'add'){
-            $partner_person = User::where('email', $request['partner_email'])->orWhere('mobile', $request['partner_mobile'])->first();
+        if ($request['has_family'] && $request['gender'] == 'male') {
+            if ($request->has('wife_id') && count($request->wife_id) > 0) {
+                foreach ($request->wife_id as $wif) {
+                    $partner_person = Person::find($wif);
 
-            if ($partner_person == null) {
-                $partner_user = User::create([
-                    'name' => $request->partner_first_name,
-                    'email' => $request->partner_email,
-                    'mobile' => $request->partner_mobile,
-                    'password' => '123456789',
-                    'accept_terms' => 1,
-                    'status' => 'registered'
-                ]);
+                    if (!$person->wives->contains('id', $wif)) {
+                        if (!isset($partner_person)) {
+                            if (!isset($request->partner_first_name) || !isset($request->partner_father_name)) {
+                                return back()->with('error', 'لم يتم اضافاة بيانات الزوجة!');
+                            }
+
+                            if ($request->partner_email && $request->partner_mobile) {
+                                $partner_user = User::create([
+                                    'name' => $request->partner_first_name,
+                                    'email' => $request->partner_email,
+                                    'mobile' => $request->partner_mobile,
+                                    'password' => '123456789',
+                                    'accept_terms' => 1,
+                                    'status' => 'registered'
+                                ]);
+                            }
+
+                            $partner_person = Person::create([
+                                'user_id' => isset($partner_user) ? $partner_user->id : null,
+                                'first_name' => $request->partner_first_name,
+                                'father_name' => $request->partner_father_name,
+                                'grand_father_name' => $request->partner_grand_father_name,
+                                'surname' => $request->partner_surname,
+                                'has_family' => 1,
+                                'gender' => 'female',
+                            ]);
+                        }
+
+                        $family = Family::where([['father_id', $person->id],['mother_id', $partner_person->id]])->first();
+                        if (!isset($family)) {
+                            $family = Family::create([
+                                'name' => ' عائلة ' . $person->first_name,
+                                'father_id' => $person->id,
+                                'mother_id' => isset($partner_person) ? $partner_person->id : null,
+                                'gf_family_id' => isset($person->family_id) ? $person->family_id : null,
+                            ]);
+                        }
+
+                        $family->children_count = $family->members->count();
+                        $family->save();
+                    }
+
+                    foreach ($person->wives as $oldWif) {
+                        if ($oldWif->id != $partner_person->id) {
+                            $oldFamily = Family::where([['father_id', $person->id], ['mother_id', $oldWif->id]])->first();
+//                            $oldFamily->mother_id = null;
+                            $oldFamily->status = false;
+                            $oldFamily->save();
+                        }
+                    }
+                }
+            } else {
+                return back()->with('error', 'لم يتم اضافاة بيانات الزوجة!');
+            }
+        }
+
+        if ($request['has_family'] && $request['gender'] == 'female') {
+            $partner_person = Person::find($request->husband_id);
+
+            if (!isset($partner_person)) {
+                if (!isset($request->partner_first_name) || !isset($request->partner_father_name)) {
+                    return back()->with('error', 'لم يتم اضافاة بيانات الزوج!');
+                }
+
+                if ($request->partner_email && $request->partner_mobile) {
+                    $partner_user = User::create([
+                        'name' => $request->partner_first_name,
+                        'email' => $request->partner_email,
+                        'mobile' => $request->partner_mobile,
+                        'password' => '123456789',
+                        'accept_terms' => 1,
+                        'status' => 'registered'
+                    ]);
+                }
 
                 $partner_person = Person::create([
-                    'user_id' => $partner_user->id,
+                    'user_id' => isset($partner_user) ? $partner_user->id : null,
                     'first_name' => $request->partner_first_name,
                     'father_name' => $request->partner_father_name,
+                    'grand_father_name' => $request->partner_grand_father_name,
+                    'surname' => $request->partner_surname,
                     'has_family' => 1,
-                    'gender' => 'female',
+                    'gender' => 'male',
                 ]);
             }
 
-            Family::create([
-                'name' => ' عائلة ' . ($person->first_name),
-                'father_id' => $person->id,
-                'mother_id' => $partner_person->id,
-                'gf_family_id' => $person->family_id,
-            ]);
-        }
-        else{
-            Family::create([
-                'name' => ' عائلة ' . ($person->first_name),
-                'father_id' => $person->id,
-                'mother_id' => $request->wife_id,
-                'gf_family_id' => $person->family_id,
-            ]);
+            $family = Family::where([['father_id', $partner_person->id],['mother_id', $person->id]])->first();
+            if (!isset($family)) {
+                $family = Family::create([
+                    'name' => ' عائلة ' . $partner_person->first_name,
+                    'father_id' => $partner_person->id,
+                    'mother_id' => $person->id,
+                    'gf_family_id' => isset($person->family_id) ? $person->family_id : null,
+                ]);
+            }
+
+            $family->children_count = $family->members->count();
+            $family->save();
         }
 
         if ($request->hasfile('photo')) {

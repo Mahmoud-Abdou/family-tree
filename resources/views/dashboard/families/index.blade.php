@@ -28,7 +28,7 @@
                         </div>
                         <div class="card-header collapse" id="collapseFilters">
                             <div class="row">
-                                
+
                                 <div class="col-md-2">
                                     <div class="form-group my-auto">
                                         <label for="father-filter">بحث باسم الاب</label>
@@ -90,9 +90,21 @@
                                         @foreach($families as $family)
                                             <tr>
                                                 <td><a href="{{ route('admin.families.show', $family->id) }}">{{ $family->name }}</a></td>
-                                                <td>{{ $family->father->full_name }}</td>
-                                                <td>{{ isset($family->mother) ? $family->mother->full_name : 'لا يوجد' }}</td>
-                                                <td>{{ isset($family->gfFamilies->father) ? $family->gfFamilies->father->full_name : 'لا يوجد' }}</td>
+                                                <td><a href="{{ route('admin.users.show', $family->father->id) }}">{{ $family->father->full_name }}</a></td>
+                                                <td>
+                                                    @isset($family->mother)
+                                                        <a href="{{ route('admin.users.show', $family->mother->id) }}">{{ $family->mother->full_name }}</a>
+                                                    @else
+                                                        لا يوجد
+                                                    @endisset
+                                                </td>
+                                                <td>
+                                                    @isset($family->gfFamilies->father)
+                                                        <a href="{{ route('admin.users.show', $family->gfFamilies->father->id) }}">{{ $family->gfFamilies->father->full_name }}</a>
+                                                    @else
+                                                        لا يوجد
+                                                    @endisset
+                                                </td>
                                                 <td>{{ $family->members->count() }}</td>
                                                 <td>{!! $family->statusHtml() !!}</td>
                                                 <td>

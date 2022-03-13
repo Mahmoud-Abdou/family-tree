@@ -96,6 +96,15 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div id="husbandForm" class="d-none form-group col-lg-6">
+                                        <label for="selectHusband">ابحث و اختر الزوج، ليتم اضافته</label>
+                                        <select id="selectHusband" name="husband_id" class="js-states form-control" style="width: 100%;">
+                                            <option value="none">لا يوجد</option>
+                                            @foreach($male as $per)
+                                                <option value="{{$per->id}}" {{ old('husband_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
                                     <div class="form-group col-lg-6 py-3">
                                         <label>حدد هذا الخيار اذا كان الشخص متوفي</label>
@@ -123,8 +132,8 @@
                                         <input type="date" name="birth_date" class="form-control mb-0" id="birth_date" placeholder="تاريخ الميلاد" value="{{ old('birth_date') }}"  autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="birth_place">محل الميلاد (اختياري)</label>
-                                        <input type="text" name="birth_place" class="form-control mb-0" id="birth_place" placeholder="محل الميلاد" value="{{ old('birth_place') }}"  autofocus>
+                                        <label for="birth_place">مكان الميلاد (اختياري)</label>
+                                        <input type="text" name="birth_place" class="form-control mb-0" id="birth_place" placeholder="مكان الميلاد" value="{{ old('birth_place') }}"  autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="job">الوظيفة (اختياري)</label>
@@ -277,8 +286,8 @@
                                         <input type="date" name="no_family_birth_date" class="form-control mb-0" id="no_family_birth_date" placeholder="تاريخ الميلاد" value="{{ old('birth_date') }}"  autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="no_family_birth_place">محل الميلاد (اختياري)</label>
-                                        <input type="text" name="no_family_birth_place" class="form-control mb-0" id="no_family_birth_place" placeholder="محل الميلاد" value="{{ old('birth_place') }}"  autofocus>
+                                        <label for="no_family_birth_place">مكان الميلاد (اختياري)</label>
+                                        <input type="text" name="no_family_birth_place" class="form-control mb-0" id="no_family_birth_place" placeholder="مكان الميلاد" value="{{ old('birth_place') }}"  autofocus>
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="no_family_job">الوظيفة (اختياري)</label>
@@ -330,6 +339,15 @@
             language: 'ar',
             width: '100%',
         });
+        $('#selectHusband').select2({
+            placeholder: 'حدد الزوج',
+            closeOnSelect: true,
+            allowClear: true,
+            tags: true,
+            dir: 'rtl',
+            language: 'ar',
+            width: '100%',
+        });
     });
 
     function showDate(){
@@ -373,11 +391,31 @@
 
     function closeMainWifeModel() {
         $("#wifeForm").removeClass('d-block').addClass('d-none');
+        $("#husbandForm").removeClass('d-block').addClass('d-none');
     }
 
     function openMainWifeModel() {
-        $("#wifeForm").removeClass('d-none').addClass('d-block');
+        var gender = $('#gender').val();
+        var isChecked = $('#yes_has_family').prop('checked');
+        var isChecked2 = $('#family_yes_has_family').prop('checked');
+        if (isChecked || isChecked2) {
+            if (gender === 'male') {
+                $("#wifeForm").removeClass('d-none').addClass('d-block');
+            } else {
+                $("#husbandForm").removeClass('d-none').addClass('d-block');
+            }
+        }
     }
+
+    $("#gender").on('change', function() {
+        if ($(this).val() === 'female'){
+            $("#wifeForm").removeClass('d-block').addClass('d-none');
+            $("#husbandForm").removeClass('d-none').addClass('d-block');
+        } else {
+            $("#husbandForm").removeClass('d-block').addClass('d-none');
+            $("#wifeForm").removeClass('d-none').addClass('d-block');
+        }
+    });
 
     function openWifeModel() {
         $("#FamilyModel").modal('show')

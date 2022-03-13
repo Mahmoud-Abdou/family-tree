@@ -9,9 +9,9 @@
         <div class="iq-card-body">
             <h6 class="text-center">الوالدان</h6>
             <div class="list-group list-group-horizontal text-center">
-                <a href="{{ route('admin.users.show', $person->belongsToFamily->father->id) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $person->belongsToFamily->father->full_name }}</a>
+                <a href="{{ route('search.result', [$person->belongsToFamily->father->first_name, $person->belongsToFamily->father->id]) }}" class="list-group-item list-group-item-action list-group-item-primary">{{ $person->belongsToFamily->father->full_name }}</a>
                 @isset($person->belongsToFamily->mother)
-                    <a href="{{ route('admin.users.show', $person->belongsToFamily->mother->id) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $person->belongsToFamily->mother->full_name }}</a>
+                    <a href="{{ route('search.result', [$person->belongsToFamily->mother->first_name, $person->belongsToFamily->mother->id]) }}" class="list-group-item list-group-item-action list-group-item-danger">{{ $person->belongsToFamily->mother->full_name }}</a>
                 @else
                     <a href="#" class="list-group-item list-group-item-action list-group-item-danger">-----</a>
                 @endisset
@@ -20,7 +20,7 @@
             <h6 class="text-center">الأولاد</h6>
             <div class="list-group text-center">
                 @foreach($person->belongsToFamily->members as $member)
-                    <a href="{{ route('admin.users.show', $member->id) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
+                    <a href="{{ route('search.result', [$member->first_name, $member->id]) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                 @endforeach
             </div>
 
@@ -29,7 +29,7 @@
                 <h6 class="text-center">الاخوة في الرضاعة</h6>
                 <div class="list-group text-center">
                     @foreach($person->belongsToFamily->fosterBrothers as $member)
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-{{ $member->person->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->person->full_name }}</a>
+                        <a href="{{ route('search.result', [$member->first_name, $member->id]) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->person->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->person->full_name }}</a>
                     @endforeach
                 </div>
             @endif
@@ -84,7 +84,7 @@
                         <h6 class="text-center">الاخوة في الرضاعة</h6>
                         <div class="list-group text-center">
                             @foreach($ownFamily->fosterBrothers as $member)
-                            <a href="#" class="list-group-item list-group-item-action list-group-item-{{ $member->person->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->person->full_name }}</a>
+                            <a href="{{ route('search.result', [$member->first_name, $member->id]) }}" class="list-group-item list-group-item-action list-group-item-{{ $member->gender == 'male' ? 'primary' : 'danger' }}">{{ $member->full_name }}</a>
                             @endforeach
                         </div>
                     @endif
