@@ -167,6 +167,7 @@ class Person extends Model
     public function getFullNameAttribute()
     {
         if (isset($this->father)) {
+
             return $this->getCompleteName();
         }
         return $this->first_name . ' ' . $this->father_name . ' ' . $this->grand_father_name . ' ' . $this->surname;
@@ -190,9 +191,18 @@ class Person extends Model
             if (isset($fatherName)) {
                 $fullName .= " {$fatherName->first_name}";
             }
+            else {
+                if ($num <= $nameCount) {
+                    $fullName .= " {$father->father_name}";
+                }
+                if ($num + 1 <= $nameCount) {
+                    $fullName .= " {$father->grand_father_name}";
+                }
+                return $fullName;
+            }
         }
 
-        if ($num < $nameCount) {
+        if ($num <= $nameCount) {
             return $this->getCompleteName($fullName, $num + 1, $fatherName);
         } else {
             return $fullName;

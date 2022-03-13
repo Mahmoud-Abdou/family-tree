@@ -55,7 +55,7 @@
                                     <div class="form-group col-lg-6">
                                         <label for="familyChildrenMale">الأولاد (الذكور)</label>
                                         <select id="familyChildrenMale" name="family_children_m[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
-                                            @foreach($fathers as $child)
+                                            @foreach($fathers->except($family->father_id) as $child)
                                                 @if($boys->contains('id', $child->id))
                                                     <option value="{{$child->id}}" selected>{{$child->full_name}}</option>
                                                 @else
@@ -68,7 +68,7 @@
                                     <div class="form-group col-lg-6">
                                         <label for="familyChildrenFemale">الأولاد (الإناث)</label>
                                         <select id="familyChildrenFemale" name="family_children_f[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
-                                            @foreach($mothers as $child)
+                                            @foreach($mothers->except($family->mother_id) as $child)
                                                 @if($girls->contains('id', $child->id))
                                                     <option value="{{$child->id}}" selected>{{$child->full_name}}</option>
                                                 @else

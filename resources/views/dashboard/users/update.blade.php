@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('add-styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/select2-rtl.min.css') }}"/>
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
 @endsection
 
 @section('breadcrumb')
@@ -95,7 +95,7 @@
                                     </div>
                                     <div id="husbandForm" class="form-group col-lg-6 {{ ($person->has_family && $person->gender == 'female') ? 'd-block' : 'd-none' }}">
                                         <label for="selectHusband">ابحث و اختر الزوج، ليتم اضافته</label>
-                                        <select id="selectHusband" name="husband_id" class="js-states form-control" style="width: 100%;" disabled>
+                                        <select id="selectHusband" name="husband_id" class="js-states form-control" style="width: 100%;">
                                             <option value="none">لا يوجد</option>
                                             @foreach($male as $per)
                                                 <option value="{{$per->id}}" {{ (isset($person->ownFamily) && $person->ownFamily->contains('father_id', $per->id)) ? 'selected' : '' }}>{{$per->full_name}}</option>

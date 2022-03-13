@@ -110,13 +110,13 @@
                                                 <td>
                                                     <div class="d-flex justify-center">
                                                     @can('families.show')
-                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('admin.families.show', $family->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
+                                                        <a class="btn btn-outline-info rounded-pill mx-1" href="{{ route('admin.families.show', $family->id) }}"><i class="ri-information-fill p-2"> </i>تفاصيل</a>
                                                     @endcan
                                                     @can('families.update')
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.families.edit', $family->id) }}"><i class="ri-edit-2-fill"> </i>تعديل</a>
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.families.edit', $family->id) }}"><i class="ri-edit-2-fill p-2"> </i>تعديل</a>
                                                     @endcan
                                                     @can('families.delete')
-                                                        <button type="button" class="btn btn-outline-danger rounded-pill mx-1" data-toggle="modal" data-target="#deleteModal" onclick="modalDelete(`{{ route('admin.families.destroy', $family->id) }}`)"> &nbsp; X &nbsp; </button>
+                                                        <button type="button" class="btn btn-outline-danger rounded-pill mx-1 p-2" data-toggle="modal" data-target="#deleteModal" onclick="modalDelete(`{{ route('admin.families.destroy', $family->id) }}`)"> &nbsp; X &nbsp; </button>
                                                     @endcan
                                                     </div>
                                                 </td>

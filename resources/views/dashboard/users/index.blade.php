@@ -13,6 +13,7 @@
 
                 <div class="col-lg-12">
                     @include('partials.messages')
+                    @include('partials.errors-messages')
 
                     <div class="card iq-mb-3 shadow-sm">
                         <div class="card-header d-inline-flex justify-content-between">
@@ -155,31 +156,35 @@
                                                 <td>
                                                     @isset($user->user) {!! $user->user->statusHtml() !!} @else - @endisset
                                                 </td>
-                                                <td dir="ltr">{{ $user->created_at }}</td>
+                                                <td dir="ltr">{{ Helper::formatDate($user->created_at) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-center">
-                                                    <a class="btn btn-outline-info rounded-pill m-1" href="{{ route('admin.users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
+                                                    @can('users.show')
+                                                        <a class="btn btn-outline-info rounded-pill m-1 my-auto" href="{{ route('admin.users.show', $user->id) }}"><i class="ri-information-fill"> </i>تفاصيل</a>
+                                                    @endcan
                                                     @can('users.update')
                                                     @if(isset($user->user) && ($user->user->status == 'registered' || $user->user->status == 'blocked'))
                                                         <form method="POST" action="{{ route('admin.users.activate') }}">
                                                             @csrf
                                                             <input type="hidden" name="user_id" value="{{ $user->user->id }}">
-                                                            <button type="submit" class="btn btn-outline-success rounded-pill m-1"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
+                                                            <button type="submit" class="btn btn-outline-success rounded-pill m-1 my-auto"><i class="ri-arrow-up-circle-line"> </i>تفعيل</button>
                                                         </form>
                                                     @endif
                                                     @if(isset($user->user) && $user->user->status == 'active')
-                                                        <button type="button" class="btn btn-outline-warning rounded-pill m-1" data-toggle="modal" data-target="#roleModal" onclick="modalRole({{ $user->user->id }})"><i class="ri-guide-line"> </i>الصلاحيات</button>
+                                                        <button type="button" class="btn btn-outline-warning rounded-pill m-1 my-auto" data-toggle="modal" data-target="#roleModal" onclick="modalRole({{ $user->user->id }})"><i class="ri-guide-line"> </i>الصلاحيات</button>
                                                     @endif
-                                                        <a class="btn btn-outline-warning rounded-pill mx-1" href="{{ route('admin.users.edit', $user->id) }}"><i class="ri-edit-2-fill"> </i></a>
+                                                    @endcan
+                                                    @can('users.activate')
+                                                        <a class="btn btn-outline-warning rounded-pill mx-1 my-auto" href="{{ route('admin.users.edit', $user->id) }}"><i class="ri-edit-2-fill"> </i></a>
                                                     @endcan
                                                     @can('users.delete')
                                                         @if(isset($user->user) && $user->user->status == 'active')
-                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->user->id }})"><i class="ri-delete-back-fill"> </i></button>
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1 my-auto" data-toggle="modal" data-target="#blockModal" onclick="modalBlock({{ $user->user->id }})"><i class="ri-delete-back-fill"> </i></button>
                                                         @endif
-                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1" data-toggle="modal" data-target="#deleteModal" onclick="modalDelete('{{ $user->id }}', '{{ route('admin.users.destroy', $user->id) }}')">X</button>
+                                                            <button type="button" class="btn btn-outline-danger rounded-pill m-1 my-auto" data-toggle="modal" data-target="#deleteModal" onclick="modalDelete('{{ $user->id }}', '{{ route('admin.users.destroy', $user->id) }}')">X</button>
                                                     @endcan
                                                         @if(!isset($user->user))
-                                                            <button type="button" class="btn btn-outline-secondary rounded-pill m-1" data-toggle="modal" data-target="#accountModal" onclick="modalAccount({{ $user->id }})"><i class="ri-lock-password-fill"> </i> انشاء مستخدم </button>
+                                                            <button type="button" class="btn btn-outline-secondary rounded-pill m-1 my-auto" data-toggle="modal" data-target="#accountModal" onclick="modalAccount({{ $user->id }})"><i class="ri-lock-password-fill"> </i> انشاء مستخدم </button>
                                                         @endif
                                                     </div>
                                                 </td>

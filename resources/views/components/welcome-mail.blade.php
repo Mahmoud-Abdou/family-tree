@@ -117,7 +117,7 @@
                                                 <table border="0"  align="right" cellpadding="0" cellspacing="0" role="presentation" class="row" width="280" style="width:280px;max-width:280px;">
                                                     <tr  >
                                                         <td align="left" class="center-text">
-                                                            <img style="width:72px;border:0px;display: inline!important;" src="{{ asset($settings->app_logo) }}" width="72" border="0"       alt="logo">
+                                                            <img style="width:72px;border:0px;display: inline!important;" src="{{ secure_asset($settings->app_logo) }}" width="72" border="0"       alt="logo">
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -132,7 +132,7 @@
                             </tr>
                             <tr  >
                                 <td align="center" class="center-text">
-                                    <!-- <img style="width:190px;border:0px;display: inline!important;" src="{{ asset('assets/img/emails/Email-1_Intro.png') }}" width="190" border="0"       alt="intro"> -->
+                                    <!-- <img style="width:190px;border:0px;display: inline!important;" src="{{ secure_asset('assets/img/emails/Email-1_Intro.png') }}" width="190" border="0"       alt="intro"> -->
                                 </td>
                             </tr>
                             <tr  >
@@ -168,7 +168,7 @@
                                     <table border="0" cellspacing="0" cellpadding="0" role="presentation" align="center" class="center-float">
                                         <tr>
                                             <td align="center"    bgcolor="#d6df58" style="border-radius: 6px;">
-                                               
+
                                                 <a href="{{ Config::get('app.url') }}" target="_blank"    style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>{{ $settings->app_title_en }}</span></a>
 
                                             </td>

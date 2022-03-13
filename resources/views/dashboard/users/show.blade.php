@@ -3,7 +3,7 @@
 @section('page-title', $pageTitle)
 
 @section('add-styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/select2-rtl.min.css') }}"/>
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/select2-rtl.min.css') }}"/>
 @endsection
 
 @section('breadcrumb')

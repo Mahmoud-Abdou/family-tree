@@ -558,7 +558,7 @@ class UserController extends Controller
             $person->save();
 
             AppHelper::AddLog('Update Person', class_basename($person), $person->id);
-            return back()->with('success', 'تم تعديل بيانات المستخدم بنجاح');
+            return redirect()->route('admin.users.show', $person->id)->with('success', 'تم تعديل بيانات المستخدم بنجاح');
         }
 
         return back();
@@ -948,8 +948,8 @@ class UserController extends Controller
     {
         $request->validate([
             'person_id' => ['required', 'exists:persons,id'],
-            'email' => ['required'],
-            'mobile' => ['required'],
+            'email' => ['required', 'email', 'unique:users'],
+            'mobile' => ['required', 'unique:users'],
         ]);
 
         $person = Person::where('id', $request->person_id)->first();
@@ -959,10 +959,13 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->mobile = $request->mobile;
         $user->password = '123456789';
+        $user->role_id = AppHelper::GeneralSettings('default_user_role');
         $user->save();
 
         $person->user_id = $user->id;
         $person->save();
+
+        $user->assignRole(AppHelper::GeneralSettings('default_user_role'));
 
         return back()->with('success', 'تم انشاء المستخدم بنجاح');
     }
