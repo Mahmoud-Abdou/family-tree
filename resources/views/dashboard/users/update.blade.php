@@ -35,29 +35,39 @@
                                     <div class="form-group col-lg-6">
                                         <label for="gender">{{ __('النوع') }}</label>
                                         <select id="gender" name="gender" class="form-control mb-0" required>
-                                            <option value="male" {{ $person->gender == 'male' ? 'checked' : '' }}>{{ __('ذكر') }}</option>
-                                            <option value="female" {{ $person->gender == 'female' ? 'checked' : '' }}>{{ __('أنثى') }}</option>
+                                            <option value="male" {{ $person->gender == 'male' ? 'selected' : '' }}>{{ __('ذكر') }}</option>
+                                            <option value="female" {{ $person->gender == 'female' ? 'selected' : '' }}>{{ __('أنثى') }}</option>
                                         </select>
                                     </div>
-
-                                    <div class="form-group col-lg-6">
-                                        <label for="father_id">{{ __('اسم الأب') }}</label>
-                                        <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
-                                            <option disabled selected>حدد الأب</option>
-                                            @foreach($persons as $per)
-                                                <option value="{{ $per->id }}" {{ (isset($person->father) && $person->father->id == $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="mother_id">{{ __('اسم الام') }}</label>
-                                        <select id="mother_id" name="mother_id" class="js-states form-control" style="width: 100%;">
-                                            <option value="none">لا يوجد</option>
-                                            @foreach($mothers as $per)
-                                                <option value="{{$per->id}}" {{ (isset($person->mother) && $person->mother->id == $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                    @if($person->family_id != null)
+                                        <div class="form-group col-lg-6">
+                                            <label for="father_id">{{ __('اسم الأب') }}</label>
+                                            <select id="father_id" name="father_id" class="js-states form-control" style="width: 100%;">
+                                                <option disabled selected>حدد الأب</option>
+                                                @foreach($persons as $per)
+                                                    <option value="{{ $per->id }}" {{ (isset($person->father) && $person->father->id == $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="mother_id">{{ __('اسم الام') }}</label>
+                                            <select id="mother_id" name="mother_id" class="js-states form-control" style="width: 100%;">
+                                                <option value="none">لا يوجد</option>
+                                                @foreach($mothers as $per)
+                                                    <option value="{{$per->id}}" {{ (isset($person->mother) && $person->mother->id == $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @else
+                                        <div class="form-group col-lg-6">
+                                            <label for="father_name">{{ __('اسم الأب') }}</label>
+                                            <input type="text" name="father_name" class="form-control mb-0" id="father_name" value="{{ $person->father_name }}" placeholder="أدخل اسم الاب">
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="grand_father_name">{{ __('اسم الجد') }}</label>
+                                            <input type="text" name="grand_father_name" class="form-control mb-0" id="grand_father_name" value="{{ $person->grand_father_name }}" placeholder="اسم الجد">
+                                        </div>
+                                    @endif
 
                                     <div class="form-group col-lg-6" >
                                         <label>الحالة الاجتماعية</label>
@@ -75,20 +85,20 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="wifeForm" class="form-group col-lg-6 {{ $person->has_family ? 'd-block' : 'd-none' }}">
+                                    <div id="wifeForm" class="form-group col-lg-6 {{ ($person->has_family && $person->gender == 'male') ? 'd-block' : 'd-none' }}">
                                         <label for="wife_id">ابحث و اختر الزوجة، ليتم اضافتها</label>
                                         <select id="wife_id" name="wife_id[]" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" style="width: 100%;">
                                             @foreach($female as $per)
-                                                <option value="{{$per->id}}" {{ $person->ownFamily->contains('mother_id', $per->id) ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                                <option value="{{$per->id}}" {{ (isset($person->ownFamily) && $person->ownFamily->contains('mother_id', $per->id)) ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div id="husbandForm" class="d-none form-group col-lg-6">
+                                    <div id="husbandForm" class="form-group col-lg-6 {{ ($person->has_family && $person->gender == 'female') ? 'd-block' : 'd-none' }}">
                                         <label for="selectHusband">ابحث و اختر الزوج، ليتم اضافته</label>
-                                        <select id="selectHusband" name="husband_id" class="js-states form-control" style="width: 100%;">
+                                        <select id="selectHusband" name="husband_id" class="js-states form-control" style="width: 100%;" disabled>
                                             <option value="none">لا يوجد</option>
                                             @foreach($male as $per)
-                                                <option value="{{$per->id}}" {{ old('husband_id') == $per->id ? 'selected' : '' }}>{{$per->full_name}}</option>
+                                                <option value="{{$per->id}}" {{ (isset($person->ownFamily) && $person->ownFamily->contains('father_id', $per->id)) ? 'selected' : '' }}>{{$per->full_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>

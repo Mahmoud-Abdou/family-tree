@@ -65,17 +65,15 @@ class ProfileController extends Controller
         $person = $user->profile;
 
         $family_ids = Family::where('father_id', $person->id)->pluck('id');
-
-        $female = Person::where('is_live', 1)
-            ->where('gender', 'female')
-//            ->where('has_family', 0)
-            ->whereNotIn('family_id', $family_ids)
+        
+        $female = Person::where('gender', 'female')
+            // ->where('has_family', 0)
+            // ->whereNotIn('family_id', $family_ids)
             ->get();
-
-        $males = Person::where('is_live', 1)
-            ->where('gender', 'female')
-            ->where('has_family', 0)
-            ->whereNotIn('family_id', $family_ids)
+        // dd($family_ids);
+        $males = Person::where('gender', 'male')
+            // ->where('has_family', 0)
+            // ->whereNotIn('family_id', $family_ids)
             ->get();
 
         return view('auth.profile-update', compact('menuTitle', 'pageTitle', 'user', 'person', 'female', 'males'));
@@ -89,6 +87,26 @@ class ProfileController extends Controller
 
         if ($request['has_family'] && $request['gender'] == 'male') {
             if ($request->has('wife_id') && count($request->wife_id) > 0) {
+                // delete old families
+                $collectionOld = collect($person->ownFamily->pluck('id'));
+                $collectionNew = collect($request['wife_id']);
+
+                $deleteItems = $collectionOld->diff($collectionNew);
+                // $newItems = $collectionNew->diff($collectionOld);
+                foreach ($deleteItems as $oldFamily) {
+                    $fam = Family::where('id', $oldFamily)->first();
+                    foreach ($fam->members as $famMember) {
+                        $famMember->family_id = null;
+                        $famMember->save();
+                    }
+
+                    if(isset($fam->mother)){
+                        $fam->mother->has_family = 0;
+                        $fam->mother->save();
+                    }
+                    $fam->delete();
+                }
+                // end delete old families
                 foreach ($request->wife_id as $wif) {
                     $partner_person = Person::find($wif);
 
@@ -129,6 +147,8 @@ class ProfileController extends Controller
                                 'gf_family_id' => isset($person->family_id) ? $person->family_id : null,
                             ]);
                         }
+                        $partner_person->has_family = 1;
+                        $partner_person->save();
 
                         $family->children_count = $family->members->count();
                         $family->save();

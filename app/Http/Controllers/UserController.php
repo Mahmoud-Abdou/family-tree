@@ -191,6 +191,23 @@ class UserController extends Controller
             ]);
 
             if($request['has_family'] == 'true' && $request['gender'] == 'male'){
+                $collectionOld = collect($person->ownFamily->pluck('id'));
+                $collectionNew = collect($request['wife_id']);
+
+                $deleteItems = $collectionOld->diff($collectionNew);
+                foreach ($deleteItems as $oldFamily) {
+                    $fam = Family::where('id', $oldFamily)->first();
+                    foreach ($fam->members as $famMember) {
+                        $famMember->family_id = null;
+                        $famMember->save();
+                    }
+                    if(isset($fam->mother)){
+                        $fam->mother->has_family = 0;
+                        $fam->mother->save();
+                    }
+                    $fam->delete();
+                }
+
                 foreach($request['wife_id'] as $row_wife_id){
                     if($row_wife_id == 'add'){
                         $request->validate([
@@ -241,6 +258,24 @@ class UserController extends Controller
                     ]);
                 }
             }
+            elseif($request['gender'] == 'male'){
+                $collectionOld = collect($person->ownFamily->pluck('id'));
+                $collectionNew = [];
+
+                $deleteItems = $collectionOld->diff($collectionNew);
+                foreach ($deleteItems as $oldFamily) {
+                    $fam = Family::where('id', $oldFamily)->first();
+                    foreach ($fam->members as $famMember) {
+                        $famMember->family_id = null;
+                        $famMember->save();
+                    }
+                    if(isset($fam->mother)){
+                        $fam->mother->has_family = 0;
+                        $fam->mother->save();
+                    }
+                    $fam->delete();
+                }
+            }
         }
         else{
             if(!isset($request['no_family_is_alive'])){
@@ -250,7 +285,7 @@ class UserController extends Controller
                 'first_name' => $request->name,
                 'father_name' => $request->father_name,
                 'grand_father_name' => $request->grand_father_name,
-                'has_family' => 1,
+                'has_family' => $request->has_family == 'true',
                 'gender' => 'male',
                 'is_live' => $request->no_family_is_alive == 'off',
                 'death_date' => $request->no_family_death_date,
@@ -328,9 +363,6 @@ class UserController extends Controller
             ->get();
 
         $male = Person::where('gender', 'male')
-            ->where(function ($q) use ($person) {
-                $q->where('has_family', 0)->orWhereIn('id', [$person->id]);
-            })
             ->WhereNotIn('id', $children)
             ->get();
 
@@ -355,47 +387,54 @@ class UserController extends Controller
         if (!isset($person)) {
             return back()->with('error', 'توجد مشكلة في تعديل بيانات الشخص.');
         }
+        if($person->family_id != null){
+            $father = Person::find($request->father_id);
+            $mother = Person::find($request->mother_id);
+            
+            if(isset($father->id) && isset($mother->id)){
+                $MainFamily = Family::where('father_id', $father->id)->where('mother_id', $mother->id)->first();
+                if($MainFamily == null){
+                    return back()->with('error', 'توجد مشكلة في   العائلة.');
+                }
+            }
+            if (!isset($father)) {
+                $father_name = explode(' ', $request->father_id);
+                $father = Person::create([
+                    'first_name' => $father_name[0],
+                    'father_name' => isset($father_name[1]) ? $father_name[1] : '',
+                    'grand_father_name' => isset($father_name[2]) ? $father_name[2] : null,
+                    'surname' => isset($father_name[3]) ? $father_name[3] : null,
+                    'has_family' => 1,
+                    'gender' => 'male',
+                    'is_live' => $request->is_alive == 'off',
+                    'death_date' => null,
+                ]);
+            }
 
-        $father = Person::find($request->father_id);
-        if (!isset($father)) {
-            $father_name = explode(' ', $request->father_id);
-            $father = Person::create([
-                'first_name' => $father_name[0],
-                'father_name' => isset($father_name[1]) ? $father_name[1] : '',
-                'grand_father_name' => isset($father_name[2]) ? $father_name[2] : null,
-                'surname' => isset($father_name[3]) ? $father_name[3] : null,
-                'has_family' => 1,
-                'gender' => 'male',
-                'is_live' => $request->is_alive == 'off',
-                'death_date' => null,
-            ]);
+            if (!isset($mother)) {
+                $mother_name = explode(' ', $request->mother_id);
+                $mother = Person::create([
+                    'first_name' => $mother_name[0],
+                    'father_name' => isset($mother_name[1]) ? $mother_name[1] : '',
+                    'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                    'surname' => isset($mother_name[3]) ? $mother_name[3] : null,
+                    'has_family' => 1,
+                    'gender' => 'female',
+                    'is_live' => $request->is_alive == 'off',
+                    'death_date' => null,
+                ]);
+            }
+            $grandFamily = Family::where('father_id', $father->id)->where('mother_id', $mother->id)->first();
+
+            if (!isset($grandFamily)) {
+                $grandFamily = Family::create([
+                    'name' => ' عائلة ' . $father->first_name,
+                    'father_id' => $father->id,
+                    'mother_id' => $mother->id,
+                    'gf_family_id' => isset($father->family_id) ? $father->family_id : null,
+                ]);
+            }
         }
-
-        $mother = Person::find($request->mother_id);
-        if (!isset($mother)) {
-            $mother_name = explode(' ', $request->mother_id);
-            $mother = Person::create([
-                'first_name' => $mother_name[0],
-                'father_name' => isset($mother_name[1]) ? $mother_name[1] : '',
-                'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
-                'surname' => isset($mother_name[3]) ? $mother_name[3] : null,
-                'has_family' => 1,
-                'gender' => 'male',
-                'is_live' => $request->is_alive == 'off',
-                'death_date' => null,
-            ]);
-        }
-
-        $grandFamily = Family::where('father_id', $father->id)->where('mother_id', $mother->id)->first();
-        if (!isset($grandFamily)) {
-            $grandFamily = Family::create([
-                'name' => ' عائلة ' . $father->first_name,
-                'father_id' => $father->id,
-                'mother_id' => $mother->id,
-                'gf_family_id' => isset($father->family_id) ? $father->family_id : null,
-            ]);
-        }
-
         $request['has_family'] = $request->has('has_family') ? $request->has_family : "false";
 
         if($request['has_family'] == 'true' && $request['gender'] == 'male'){
@@ -405,17 +444,21 @@ class UserController extends Controller
                 $collectionNew = collect($request['wife_id']);
 
                 $deleteItems = $collectionOld->diff($collectionNew);
-//                $newItems = $collectionNew->diff($collectionOld);
+                // $newItems = $collectionNew->diff($collectionOld);
                 foreach ($deleteItems as $oldFamily) {
                     $fam = Family::where('id', $oldFamily)->first();
                     foreach ($fam->members as $famMember) {
                         $famMember->family_id = null;
                         $famMember->save();
                     }
+
+                    if(isset($fam->mother)){
+                        $fam->mother->has_family = 0;
+                        $fam->mother->save();
+                    }
                     $fam->delete();
                 }
                 // end delete old families
-
                 foreach($request['wife_id'] as $row_wife_id){
                     $wife = Person::where('id', $row_wife_id)->first();
                     if($wife == null){
@@ -452,7 +495,25 @@ class UserController extends Controller
                     $family->save();
                 }
             } else {
-//                $wife = null;
+                $collectionOld = collect($person->ownFamily->pluck('id'));
+                $collectionNew = [];
+
+                $deleteItems = $collectionOld->diff($collectionNew);
+                // $newItems = $collectionNew->diff($collectionOld);
+                foreach ($deleteItems as $oldFamily) {
+                    $fam = Family::where('id', $oldFamily)->first();
+                    foreach ($fam->members as $famMember) {
+                        $famMember->family_id = null;
+                        $famMember->save();
+                    }
+
+                    if(isset($fam->mother)){
+                        $fam->mother->has_family = 0;
+                        $fam->mother->save();
+                    }
+                    $fam->delete();
+                }
+                // $wife = null;
                 Family::create([
                     'name' => ' عائلة ' . $person->first_name,
                     'father_id' => $person->id,
@@ -461,10 +522,28 @@ class UserController extends Controller
                 ]);
             }
         }
+        else if($request['gender'] == 'male'){
+            $collectionOld = collect($person->ownFamily->pluck('id'));
+            $collectionNew = [];
+
+            $deleteItems = $collectionOld->diff($collectionNew);
+            foreach ($deleteItems as $oldFamily) {
+                $fam = Family::where('id', $oldFamily)->first();
+                foreach ($fam->members as $famMember) {
+                    $famMember->family_id = null;
+                    $famMember->save();
+                }
+                if(isset($fam->mother)){
+                    $fam->mother->has_family = 0;
+                    $fam->mother->save();
+                }
+                $fam->delete();
+            }
+        }
 
         $person->first_name = $request->first_name;
-        $person->father_name = isset($father) ? $father->first_name : '';
-        $person->grand_father_name = isset($father) ? $father->father_name : '';
+        $person->father_name = isset($father) ? $father->first_name : $request['father_name'];
+        $person->grand_father_name = isset($father) ? $father->father_name : $request['grand_father_name'];
         $person->surname = $request->surname;
         $person->gender = $request->gender;
         $person->has_family = $request->has_family == 'true';
@@ -473,7 +552,7 @@ class UserController extends Controller
         $person->death_place = $request->death_place;
         $person->birth_date = $request->birth_date;
         $person->birth_place = $request->birth_place;
-        $person->family_id = isset($grandFamily) ? $grandFamily->id : '';
+        $person->family_id = isset($grandFamily) ? $grandFamily->id : null;
 
         if ($person->isDirty()) {
             $person->save();
@@ -498,9 +577,27 @@ class UserController extends Controller
             return back()->with('error', 'حدث خطأ!');
         }
 
-        if (auth()->id() == $person->user->id) {
-            return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
+        // if (auth()->id() == $person->user->id) {
+        //     return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
+        // }
+        $collectionOld = collect($person->ownFamily->pluck('id'));
+        $collectionNew = [];
+
+        $deleteItems = $collectionOld->diff($collectionNew);
+        foreach ($deleteItems as $oldFamily) {
+            $fam = Family::where('id', $oldFamily)->first();
+            foreach ($fam->members as $famMember) {
+                $famMember->family_id = null;
+                $famMember->save();
+            }
+
+            if(isset($fam->mother)){
+                $fam->mother->has_family = 0;
+                $fam->mother->save();
+            }
+            $fam->delete();
         }
+
 
         if (isset($person->user)) {
             $person->user->delete();
@@ -874,4 +971,5 @@ class UserController extends Controller
 
         return back()->with('success', 'تم انشاء المستخدم بنجاح');
     }
+
 }
