@@ -390,7 +390,7 @@ class UserController extends Controller
         if($person->family_id != null){
             $father = Person::find($request->father_id);
             $mother = Person::find($request->mother_id);
-            
+
             if(isset($father->id) && isset($mother->id)){
                 $MainFamily = Family::where('father_id', $father->id)->where('mother_id', $mother->id)->first();
                 if($MainFamily == null){
@@ -577,9 +577,9 @@ class UserController extends Controller
             return back()->with('error', 'حدث خطأ!');
         }
 
-        // if (auth()->id() == $person->user->id) {
-        //     return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
-        // }
+         if (auth()->id() == $person->user->id) {
+             return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
+         }
 
         if ($person->has_family) {
             foreach ($person->ownFamily as $f) {
