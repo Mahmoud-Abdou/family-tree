@@ -502,6 +502,18 @@ class UserController extends Controller
             return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
         }
 
+        if ($person->has_family) {
+            foreach ($person->ownFamily as $f) {
+                foreach ($f->members as $m) {
+                    $m->family_id = null;
+                    $m->save();
+                }
+                if (isset($f->mother)) {
+                    $f->mother->delete();
+                }
+                $f->delete();
+            }
+        }
         if (isset($person->user)) {
             $person->user->delete();
         }

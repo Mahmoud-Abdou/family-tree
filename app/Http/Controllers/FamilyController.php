@@ -386,6 +386,15 @@ class FamilyController extends Controller
     public function destroy(Family $family)
     {
         if (isset($family)){
+//            if (isset($family->father)) {
+//                $family->father->delete();
+//            }
+            if (isset($family->mother)) {
+                $family->mother->delete();
+            }
+            foreach ($family->members as $m) {
+                $m->delete();
+            }
             \App\Helpers\AppHelper::AddLog('Family Delete', class_basename($family), $family->id);
             $family->delete();
             return redirect()->route('admin.families.index')->with('success', 'تم حذف الأسرة بنجاح.');
