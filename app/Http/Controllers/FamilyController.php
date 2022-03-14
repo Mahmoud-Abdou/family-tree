@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Models\Family;
 use App\Models\Person;
 use Pricecurrent\LaravelEloquentFilters\EloquentFilters;
@@ -150,8 +151,12 @@ class FamilyController extends Controller
                 $boy = Person::find($children);
 
                 if (isset($boy)) {
-                    $boy->family_id = $family->id;
-                    $boy->save();
+                    if ($boy->id != $father->id) {
+                        $boy->family_id = $family->id;
+                        $boy->father_name = $father->first_name;
+                        $boy->grand_father_name = $father->father_name;
+                        $boy->save();
+                    }
                 } else {
                     Person::create([
                         'first_name' => $children,
@@ -171,8 +176,12 @@ class FamilyController extends Controller
                 $girl = Person::find($children);
 
                 if (isset($girl)) {
-                    $girl->family_id = $family->id;
-                    $girl->save();
+                    if ($girl->id != $mother->id) {
+                        $girl->family_id = $family->id;
+                        $girl->father_name = $father->first_name;
+                        $girl->grand_father_name = $father->father_name;
+                        $girl->save();
+                    }
                 } else {
                     Person::create([
                         'first_name' => $children,
@@ -191,7 +200,7 @@ class FamilyController extends Controller
         $family->children_count = $family->members->count();
         $family->save();
 
-        \App\Helpers\AppHelper::AddLog('Family Create', class_basename($family), $family->id);
+        AppHelper::AddLog('Family Create', class_basename($family), $family->id);
         return redirect()->route('admin.families.index')->with('success', 'تم اضافة أسرة جديدة بنجاح.');
     }
 
@@ -301,10 +310,12 @@ class FamilyController extends Controller
                 $boy = Person::find($children);
 
                 if (isset($boy)) {
-                    $boy->family_id = $family->id;
-                    $boy->father_name = $father->first_name;
-                    $boy->grand_father_name = $father->father_name;
-                    $boy->save();
+                    if ($boy->id != $father->id) {
+                        $boy->family_id = $family->id;
+                        $boy->father_name = $father->first_name;
+                        $boy->grand_father_name = $father->father_name;
+                        $boy->save();
+                    }
                 } else {
                     Person::create([
                         'first_name' => $children,
@@ -336,10 +347,12 @@ class FamilyController extends Controller
                 $girl = Person::find($children);
 
                 if (isset($girl)) {
-                    $girl->family_id = $family->id;
-                    $girl->father_name = $father->first_name;
-                    $girl->grand_father_name = $father->father_name;
-                    $girl->save();
+                    if ($girl->id != $mother->id) {
+                        $girl->family_id = $family->id;
+                        $girl->father_name = $father->first_name;
+                        $girl->grand_father_name = $father->father_name;
+                        $girl->save();
+                    }
                 } else {
                     Person::create([
                         'first_name' => $children,
@@ -373,7 +386,7 @@ class FamilyController extends Controller
         $family->children_count = $family->members->count();
         $family->save();
 
-        \App\Helpers\AppHelper::AddLog('Family Create', class_basename($family), $family->id);
+        AppHelper::AddLog('Family Create', class_basename($family), $family->id);
         return redirect()->route('admin.families.index')->with('success', 'تم تعديل الأسرة بنجاح.');
     }
 
@@ -395,7 +408,7 @@ class FamilyController extends Controller
             foreach ($family->members as $m) {
                 $m->delete();
             }
-            \App\Helpers\AppHelper::AddLog('Family Delete', class_basename($family), $family->id);
+            AppHelper::AddLog('Family Delete', class_basename($family), $family->id);
             $family->delete();
             return redirect()->route('admin.families.index')->with('success', 'تم حذف الأسرة بنجاح.');
         }

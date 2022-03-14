@@ -273,12 +273,17 @@
     }
 
     $("#gender").on('change', function() {
-        if ($(this).val() === 'female'){
-            $("#wifeForm").removeClass('d-block').addClass('d-none');
-            $("#husbandForm").removeClass('d-none').addClass('d-block');
-        } else {
-            $("#husbandForm").removeClass('d-block').addClass('d-none');
-            $("#wifeForm").removeClass('d-none').addClass('d-block');
+        var isChecked = $('#yes_has_family').prop('checked');
+        var isChecked2 = $('#family_yes_has_family').prop('checked');
+
+        if (isChecked || isChecked2) {
+            if ($(this).val() === 'female'){
+                $("#wifeForm").removeClass('d-block').addClass('d-none');
+                $("#husbandForm").removeClass('d-none').addClass('d-block');
+            } else {
+                $("#husbandForm").removeClass('d-block').addClass('d-none');
+                $("#wifeForm").removeClass('d-none').addClass('d-block');
+            }
         }
     });
 

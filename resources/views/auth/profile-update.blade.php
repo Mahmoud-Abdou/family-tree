@@ -414,8 +414,19 @@
         }
 
         $('#female').click(function () {
-            $("#wifeForm").removeClass('d-block').addClass('d-none');
-            $("#husbandForm").removeClass('d-none').addClass('d-block');
+            var isChecked = $('#yes_has_family').prop('checked');
+            if(isChecked) {
+                $("#wifeForm").removeClass('d-block').addClass('d-none');
+                $("#husbandForm").removeClass('d-none').addClass('d-block');
+            }
+        });
+
+        $('#male').click(function () {
+            var isChecked = $('#yes_has_family').prop('checked');
+            if(isChecked) {
+                $("#husbandForm").removeClass('d-block').addClass('d-none');
+                $("#wifeForm").removeClass('d-none').addClass('d-block');
+            }
         });
     </script>
 @endsection

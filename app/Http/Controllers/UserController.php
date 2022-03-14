@@ -577,9 +577,13 @@ class UserController extends Controller
             return back()->with('error', 'حدث خطأ!');
         }
 
-         if (auth()->id() == $person->user->id) {
-             return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
-         }
+        if (isset($person->user)) {
+            if (auth()->id() == $person->user->id) {
+                return back()->with('error', 'لا يمكنك حذف هذا المستخدم!');
+            }
+
+            $person->user->delete();
+        }
 
         if ($person->has_family) {
             foreach ($person->ownFamily as $f) {
@@ -593,9 +597,6 @@ class UserController extends Controller
                 }
                 $f->delete();
             }
-        }
-        if (isset($person->user)) {
-            $person->user->delete();
         }
 
         AppHelper::AddLog('Person Delete', class_basename($person), $person->id);
