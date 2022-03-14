@@ -198,7 +198,8 @@ class Person extends Model
                 if ($num + 1 <= $nameCount) {
                     $fullName .= " {$father->grand_father_name}";
                 }
-                return $fullName;
+
+                $num = $nameCount + 1;
             }
         }
 

@@ -113,7 +113,8 @@
                             <span class="office">${data.wife}</span>
                         </div>--}}
 
-                        <div class="title"><i class="${data.fatherSymbol} float-right"> </i> ${data.name}</div>
+                    <img src="${data.photo}" class="rounded-circle float-left" style="margin-right: -45px;width: 40px;" alt="">
+                    <div class="title"><i class="${data.fatherSymbol} float-right"> </i> ${data.name}</div>
                         <div class="content"> <i class="${data.motherSymbol} float-right"> </i>${data.wife}</div>
                     `;
                 };

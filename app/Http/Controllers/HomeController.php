@@ -6,10 +6,9 @@ use App\Models\News;
 use App\Models\User;
 use App\Models\Family;
 use App\Models\Person;
-
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use function Symfony\Component\String\length;
+//use Illuminate\Database\Eloquent\Collection;
+//use function Symfony\Component\String\length;
 
 class HomeController extends Controller
 {
@@ -61,13 +60,14 @@ class HomeController extends Controller
     public function familyTreeRender(Request $request)
     {
         if($request->ajax()){
-            $FirstOne = \App\Models\Person::where('id', \App\Helpers\AppHelper::GeneralSettings('oldest_person'))->first();
+            $FirstOne = Person::find(\App\Helpers\AppHelper::GeneralSettings('oldest_person'));
+//            $FirstOne = Person::where('id', \App\Helpers\AppHelper::GeneralSettings('oldest_person'))->first();
             if (!isset($FirstOne)) {
-                $FirstOne = \App\Models\Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
+                $FirstOne = Person::where('gender', '=', 'male')->where('birth_date', '<>', null)->orderBy('birth_date', 'ASC')->first();
             }
 
             $main_families = $FirstOne->ownFamily;
-//        $main_families = Family::whereColumn('id', 'gf_family_id')->get();
+//            $main_families = Family::whereColumn('id', 'gf_family_id')->get();
             $families = [];
             foreach($main_families as $main_family){
                 $families[] = $this->familyTreeData($main_family->id);
@@ -77,18 +77,19 @@ class HomeController extends Controller
 
         $pageTitle = 'القائمة الرئيسية';
         $menuTitle = 'شجرة العائلة';
-        $personsCount = \App\Models\Person::all()->count();
-        $familiesCount = \App\Models\Family::all()->count();
+        $personsCount = Person::all()->count();
+        $familiesCount = Family::all()->count();
 
         return view('family-tree-render', compact('menuTitle', 'pageTitle', 'personsCount', 'familiesCount'));
     }
 
     private function getClassesSymbol($person)
     {
-        if(!$person->is_live)
+        if(isset($person->is_live) && !$person->is_live) {
             return 'ri-bookmark-fill';
+        }
 
-        if($person->has_family == 0){
+        if(isset($person->has_family) && !$person->has_family){
             if($person->gender == 'male')
                 return 'ri-men-fill';
             if($person->relation == 'mother')
@@ -97,8 +98,9 @@ class HomeController extends Controller
             return 'ri-women-fill';
         }
 
-        if($person->gender == 'male')
+        if(isset($person->gender) && $person->gender == 'male') {
             return 'ri-user-fill';
+        }
 
         return 'ri-user-smile-fill';
     }
@@ -112,8 +114,8 @@ class HomeController extends Controller
         }
         $father = Person::where('id', $main_family->father_id)->first();
         $mother = Person::where('id', $main_family->mother_id)->first();
-        $father_name = $father == null ?  'غير مسجل' : $father->first_name;
-        $mother_name = $mother == null ?  'غير مسجل' : $mother->first_name;
+        $father_name = $father == null ? '----' : $father->full_name;
+        $mother_name = $mother == null ? '----' : $mother->full_name;
 
         $family_data_array['name'] = $father_name;
         $family_data_array['wife'] = $mother_name;
@@ -123,6 +125,7 @@ class HomeController extends Controller
         $family_data_array['gender'] = $father->gender;
         $family_data_array['fatherSymbol'] = $this->getClassesSymbol($father);
         $family_data_array['motherSymbol'] = $this->getClassesSymbol($mother);
+        $family_data_array['photo'] = $father->photo;
 
 
         $families = Family::where('gf_family_id', $main_family->id)
@@ -132,15 +135,17 @@ class HomeController extends Controller
         $family_noFamily_children = Person::where('family_id', $main_family_id)
             ->where('has_family', 0)
             ->get();
+
         $no_family_children = [];
         foreach($family_noFamily_children as $child){
             $no_family_child['fatherSymbol'] = $this->getClassesSymbol($child);
             $no_family_child['motherSymbol'] = null;
-            $no_family_child['name'] = $child->first_name;
+            $no_family_child['name'] = $child->full_name;
             $no_family_child['wife'] = "";
             $no_family_child['status'] = $child->is_live;
             $no_family_child['status2'] = $child->has_family;
             $no_family_child['gender'] = $child->gender;
+            $no_family_child['photo'] = $child->photo;
             $no_family_child['className'] = $child->is_live ? ($child->gender == 'male' ? 'boy' : 'girl') : 'dead';
             $no_family_child['children'] = [];
             $no_family_children[] = $no_family_child;
