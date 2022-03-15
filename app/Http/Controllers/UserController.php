@@ -392,6 +392,7 @@ class UserController extends Controller
                 if($MainFamily == null){
                     return back()->with('error', 'توجد مشكلة في   العائلة.');
                 }
+                $mother_id = $mother->id;
             }
             if (!isset($father)) {
                 $father_name = explode(' ', $request->father_id);
@@ -408,25 +409,36 @@ class UserController extends Controller
             }
 
             if (!isset($mother)) {
-                $mother_name = explode(' ', $request->mother_id);
-                $mother = Person::create([
-                    'first_name' => $mother_name[0],
-                    'father_name' => isset($mother_name[1]) ? $mother_name[1] : '',
-                    'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
-                    'surname' => isset($mother_name[3]) ? $mother_name[3] : null,
-                    'has_family' => 1,
-                    'gender' => 'female',
-                    'is_live' => $request->is_alive == 'off',
-                    'death_date' => null,
-                ]);
+                if($request->mother_id == 'none'){
+                    $mother_id = null;
+                    if (isset($person->belongsToFamily)) {
+                        $person->belongsToFamily->mother_id = null;
+                        $person->belongsToFamily->save();
+                        
+                    }
+                }
+                else{
+                    $mother_name = explode(' ', $request->mother_id);
+                    $mother = Person::create([
+                        'first_name' => $mother_name[0],
+                        'father_name' => isset($mother_name[1]) ? $mother_name[1] : '',
+                        'grand_father_name' => isset($mother_name[2]) ? $mother_name[2] : null,
+                        'surname' => isset($mother_name[3]) ? $mother_name[3] : null,
+                        'has_family' => 1,
+                        'gender' => 'female',
+                        'is_live' => $request->is_alive == 'off',
+                        'death_date' => null,
+                    ]);
+                    $mother_id = $mother->id;
+                }
             }
-            $grandFamily = Family::where('father_id', $father->id)->where('mother_id', $mother->id)->first();
+            $grandFamily = Family::where('father_id', $father->id)->where('mother_id', $mother_id)->first();
 
             if (!isset($grandFamily)) {
                 $grandFamily = Family::create([
                     'name' => ' عائلة ' . $father->first_name,
                     'father_id' => $father->id,
-                    'mother_id' => $mother->id,
+                    'mother_id' => $mother_id,
                     'gf_family_id' => isset($father->family_id) ? $father->family_id : null,
                 ]);
             }
