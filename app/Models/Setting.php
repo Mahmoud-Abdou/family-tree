@@ -43,17 +43,17 @@ class Setting extends Model
     // accessories
     public function getAppLogoAttribute($logo)
     {
-        return secure_asset($this->photoPath). '/' . $logo;
+        return asset($this->photoPath). '/' . $logo;
     }
 
     public function getAppIconAttribute($icon)
     {
-        return secure_asset($this->photoPath) . '/' . $icon;
+        return asset($this->photoPath) . '/' . $icon;
     }
 
     public function getFamilyTreeImageAttribute($image)
     {
-        return secure_asset($this->photoPath) . '/' . $image;
+        return asset($this->photoPath) . '/' . $image;
     }
 
 }
