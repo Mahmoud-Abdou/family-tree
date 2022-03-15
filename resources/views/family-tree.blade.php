@@ -1,5 +1,5 @@
-@extends('layouts.master')
 
+@extends('layouts.master')
 @section('page-title', $pageTitle)
 
 @section('add-styles')
@@ -95,6 +95,7 @@
 @endsection
 
 @section('content')
+
     <div id="content-page" class="content-page">
         <div class="container-fluid">
 
@@ -110,7 +111,10 @@
                             <a href="{{ route('family.tree.render') }}" class="btn btn-primary rounded-pill float-right"><i class="ri-group-2-line"> </i>النسخة الالكترونية</a>
                         </div>
                         <div class="card-body p-0 m-0">
-                            <img id="familyImg" src="{{ $content }}" class="img-fluid max-width" alt="family tree">
+                        <img id="familyImg" src="{{ $content }}"
+                        data-zoom-image="{{ $content }}"
+                        class="img-fluid max-width"/>
+                            <!-- <img id="familyImg" src="{{ $content }}"  data-zoom-image="{{ $content }}" class="img-fluid max-width" alt="family tree"> -->
                         </div>
                         <div class="card-footer text-muted">
                             <span>آخر تعديل في : </span>
@@ -124,35 +128,61 @@
     </div>
 
     <div id="imageModal" class="modal">
-        <img class="modal-content" id="img01">
+        <!-- <img class="modal-content" id="img01"
+            src="{{ $content }}"
+                        data-zoom-image="{{ $content }}"> -->
+                        <!-- <img id="zoom_mw" src="{{ $content }}"
+                        data-zoom-image="{{ $content }}"
+                        class="img-fluid max-width"/> -->
 {{--        <div id="caption"></div>--}}
     </div>
 @endsection
 
+
+<script>
+    
+</script>
 @section('add-scripts')
+<script type="text/javascript" src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+
     <script>
+        var ez_plus_exist = 1;
         // Get the modal
         var modal = document.getElementById('imageModal');
         // Get the image and insert it inside the modal - use its "alt" text as a caption
         var img = document.getElementById('familyImg');
-        var modalImg = document.getElementById("img01");
-        var captionText = document.getElementById("caption");
+        // var modalImg = document.getElementById("img01");
+        // var captionText = document.getElementById("caption");
         img.onclick = function(){
-            modal.style.display = "block";
-            modalImg.src = this.src;
-            modalImg.alt = this.alt;
-            captionText.innerHTML = this.alt;
+            ez_plus_exist = !ez_plus_exist;
+            if(ez_plus_exist == 1){
+                $('.zoomContainer').remove();
+            }
+            else{
+                $('#familyImg').ezPlus({
+                    scrollZoom: true,
+                    zoomType: 'inner',
+                    cursor: 'crosshair',
+                    // easing: true,
+                });
+            }
+            // alert(ez_plus_exist)
+            // modal.style.display = "block";
+            
+            // modalImg.src = this.src;
+            // modalImg.alt = this.alt;
+            // captionText.innerHTML = this.alt;
         }
 
         // When the user clicks on <span> (x), close the modal
-        modal.onclick = function() {
-            img01.className += " out";
-            setTimeout(function() {
-                modal.style.display = "none";
-                img01.className = "modal-content";
-            }, 400);
+        // modal.onclick = function() {
+        //     img01.className += " out";
+        //     setTimeout(function() {
+        //         modal.style.display = "none";
+        //         img01.className = "modal-content";
+        //     }, 400);
 
-        }
+        // }
 
     </script>
 @endsection
