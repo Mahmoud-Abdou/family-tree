@@ -131,7 +131,7 @@ class FamilyController extends Controller
             $father->save();
         }
 
-        if ($father->wives->contains($mother->id)) {
+        if (isset($mother) && $father->wives->contains($mother->id)) {
             $family = Family::where([['father_id', $father->id], ['mother_id', $mother->id]])->first();
         } else {
             $family = Family::create([

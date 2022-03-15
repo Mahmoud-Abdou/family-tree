@@ -261,19 +261,11 @@ class UserController extends Controller
                 'job' => $request->no_family_job,
             ]);
             if($request->has_family == 'true'){
-                $wife = Person::create([
-                    'first_name' => 'زوجة' . $request->name,
-                    'father_name' => $request->father_name,
-                    'has_family' => 1,
-                    'gender' => 'female',
-                    'is_live' => $request->no_family_is_alive == 'off',
-                    'death_date' => $request->no_family_death_date,
-                ]);
 
                 Family::create([
                     'name' => ' عائلة ' . ($person->first_name),
                     'father_id' => $person->id,
-                    'mother_id' => $wife->id,
+                    'mother_id' => null,
                 ]);
             }
         }
@@ -289,6 +281,10 @@ class UserController extends Controller
      */
     public function show($person_id)
     {
+        $person = Person::where('id', $person_id)->first();
+        if($person == null){
+            return back()->with('error', 'هذا الشخص غير موجود.');
+        }
         $appMenu = config('custom.app_menu');
         $pageTitle = 'لوحة التحكم';
         $person = Person::where('id', $person_id)->first();
